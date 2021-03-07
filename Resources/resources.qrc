@@ -1,0 +1,6 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource>
+        <file>hero_0.png</file>
+        <file>brick.png</file>
+    </qresource>
+</RCC>
