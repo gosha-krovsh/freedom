@@ -1,83 +1,60 @@
 #include "controller.h"
 
-Controller::Controller() : view_(std::make_unique<View>(this)),
-                           model_(std::make_unique<Model>()) {}
+Controller::Controller() : model_(std::make_unique<Model>()),
+                           view_(std::make_unique<View>(this,
+                                                        model_.get())) {}
 
-using Map = std::vector<std::vector<std::vector<Object*>>>;
-const Map& Controller::GetMap() const {
-  return model_->GetMap();
-}
-const Hero& Controller::GetHero() const {
-  return model_->GetHero();
-}
-Hero& Controller::GetHero() {
-  return model_->GetHero();
+void Controller::Tick() {
+  model_->GetHero().Move();
 }
 
-void Controller::UpKeyPressed() {
-  button_states_.up = true;
-  ProcessPressedButtons();
+void Controller::SetControlUpKeyState(bool state) {
+  key_states.up = state;
+  ProcessControlKeyStates();
 }
-void Controller::RightKeyPressed() {
-  button_states_.right = true;
-  ProcessPressedButtons();
+void Controller::SetControlRightKeyState(bool state) {
+  key_states.right = state;
+  ProcessControlKeyStates();
 }
-void Controller::DownKeyPressed() {
-  button_states_.down = true;
-  ProcessPressedButtons();
+void Controller::SetControlDownKeyState(bool state) {
+  key_states.down = state;
+  ProcessControlKeyStates();
 }
-void Controller::LeftKeyPressed() {
-  button_states_.left = true;
-  ProcessPressedButtons();
-}
-
-void Controller::UpKeyRelease() {
-  button_states_.up = false;
-  ProcessPressedButtons();
-}
-void Controller::RightKeyRelease() {
-  button_states_.right = false;
-  ProcessPressedButtons();
-}
-void Controller::DownKeyRelease() {
-  button_states_.down = false;
-  ProcessPressedButtons();
-}
-void Controller::LeftKeyRelease() {
-  button_states_.left = false;
-  ProcessPressedButtons();
+void Controller::SetControlLeftKeyState(bool state) {
+  key_states.left = state;
+  ProcessControlKeyStates();
 }
 
-void Controller::ProcessPressedButtons() {
+void Controller::ProcessControlKeyStates() {
   Hero& hero = model_->GetHero();
 
-  bool up = button_states_.up;
-  bool right = button_states_.right;
-  bool down = button_states_.down;
-  bool left = button_states_.left;
+  bool up = key_states.up;
+  bool right = key_states.right;
+  bool down = key_states.down;
+  bool left = key_states.left;
 
   hero.SetMoving(true);
   if (up && !down) {
     if (right && !left) {
-      hero.SetViewDirection(kUpRight);
+      hero.SetViewDirection(ViewDirection::kUpRight);
     } else if (left && !right) {
-      hero.SetViewDirection(kUpLeft);
+      hero.SetViewDirection(ViewDirection::kUpLeft);
     } else {
-      hero.SetViewDirection(kUp);
+      hero.SetViewDirection(ViewDirection::kUp);
     }
   } else if (down && !up) {
     if (right && !left) {
-      hero.SetViewDirection(kDownRight);
+      hero.SetViewDirection(ViewDirection::kDownRight);
     } else if (left && !right) {
-      hero.SetViewDirection(kDownLeft);
+      hero.SetViewDirection(ViewDirection::kDownLeft);
     } else {
-      hero.SetViewDirection(kDown);
+      hero.SetViewDirection(ViewDirection::kDown);
     }
   } else {
     if (right && !left) {
-      hero.SetViewDirection(kRight);
+      hero.SetViewDirection(ViewDirection::kRight);
     } else if (left && !right) {
-      hero.SetViewDirection(kLeft);
+      hero.SetViewDirection(ViewDirection::kLeft);
     } else {
       hero.SetMoving(false);
     }

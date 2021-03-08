@@ -10,7 +10,7 @@ class Creature : public DynamicObject, public Destroyable {
  public:
   Creature(Coordinates coords, const QPixmap& image, std::string name, int hp);
 
-  std::string GetName() const;
+  const std::string& GetName() const;
 
  private:
   std::string name_;

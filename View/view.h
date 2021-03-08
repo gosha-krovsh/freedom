@@ -5,22 +5,24 @@
 #include <QTimer>
 
 #include "../Controller/abstract_controller.h"
+#include "../Model/model.h"
 
 class View : public QMainWindow {
   Q_OBJECT
 
  public:
-  explicit View(AbstractController* controller);
+  explicit View(AbstractController* controller, Model* model);
 
  private:
   void paintEvent(QPaintEvent*) override;
   void keyPressEvent(QKeyEvent* event) override;
   void keyReleaseEvent(QKeyEvent* event) override;
-  void Tick();
+  void TimerEvent();
 
   QTimer* timer_;
 
   AbstractController* controller_;
+  Model* model_;
 };
 
 #endif  // VIEW_VIEW_H_

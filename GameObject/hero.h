@@ -5,7 +5,8 @@
 
 class Hero : public Creature {
  public:
-  explicit Hero(Coordinates coords, const QPixmap& image);
+  explicit Hero(Coordinates coords,
+                const QPixmap& image = QPixmap(":hero_0.png"));
 
   void OnDead() override;
 };

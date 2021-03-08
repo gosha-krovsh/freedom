@@ -5,7 +5,7 @@
 
 #include "object.h"
 
-enum ViewDirection {
+enum class ViewDirection {
   kUp,
   kUpRight,
   kRight,
@@ -30,7 +30,7 @@ class DynamicObject : public Object {
 
  private:
   double speed_{ constants::kSpeed };
-  ViewDirection view_direction_{kDown };
+  ViewDirection view_direction_{ ViewDirection::kDown };
   bool is_moving_{ false };
 };
 

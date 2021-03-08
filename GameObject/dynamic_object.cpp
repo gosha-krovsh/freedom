@@ -22,49 +22,49 @@ void DynamicObject::Move() {
   }
 
   switch (GetViewDirection()) {
-    case kUp: {
+    case ViewDirection::kUp: {
       SetCoordinates(GetX() - speed_,
                      GetY() - speed_,
                      GetZ());
       break;
     }
-    case kUpRight: {
+    case ViewDirection::kUpRight: {
       SetCoordinates(GetX() - speed_,
                      GetY(),
                      GetZ());
       break;
     }
-    case kRight: {
+    case ViewDirection::kRight: {
       SetCoordinates(GetX() - speed_ / std::sqrt(3),
                      GetY() + speed_ / std::sqrt(3),
                      GetZ());
       break;
     }
-    case kDownRight: {
+    case ViewDirection::kDownRight: {
       SetCoordinates(GetX(),
                      GetY() + speed_,
                      GetZ());
       break;
     }
-    case kDown: {
+    case ViewDirection::kDown: {
       SetCoordinates(GetX() + speed_,
                      GetY() + speed_,
                      GetZ());
       break;
     }
-    case kDownLeft: {
+    case ViewDirection::kDownLeft: {
       SetCoordinates(GetX() + speed_,
                      GetY(),
                      GetZ());
       break;
     }
-    case kLeft: {
+    case ViewDirection::kLeft: {
       SetCoordinates(GetX() + speed_ / std::sqrt(3),
                      GetY() - speed_ / std::sqrt(3),
                      GetZ());
       break;
     }
-    case kUpLeft: {
+    case ViewDirection::kUpLeft: {
       SetCoordinates(GetX(),
                      GetY() - speed_,
                      GetZ());

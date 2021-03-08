@@ -9,6 +9,6 @@ Creature::Creature(Coordinates coords,
                              Destroyable(hp),
                              name_(std::move(name)) {}
 
-std::string Creature::GetName() const {
+const std::string& Creature::GetName() const {
   return name_;
 }

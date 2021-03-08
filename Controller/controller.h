@@ -13,33 +13,26 @@ class Controller : public AbstractController {
  public:
   Controller();
 
-  const Map& GetMap() const override;
-  const Hero& GetHero() const override;
-  Hero& GetHero() override;
+  void Tick() override;
 
-  void UpKeyPressed() override;
-  void RightKeyPressed() override;
-  void DownKeyPressed() override;
-  void LeftKeyPressed() override;
-
-  void UpKeyRelease() override;
-  void RightKeyRelease() override;
-  void DownKeyRelease() override;
-  void LeftKeyRelease() override;
+  void SetControlUpKeyState(bool state) override;
+  void SetControlRightKeyState(bool state) override;
+  void SetControlDownKeyState(bool state) override;
+  void SetControlLeftKeyState(bool state) override;
 
  private:
-  std::unique_ptr<View> view_;
   std::unique_ptr<Model> model_;
+  std::unique_ptr<View> view_;
 
-  struct ButtonPressStates {
+  struct ControlSystemKeyStates {
     bool up{ false };
     bool right{ false };
     bool down{ false };
     bool left{ false };
   };
-  ButtonPressStates button_states_;
+  ControlSystemKeyStates key_states;
 
-  void ProcessPressedButtons();
+  void ProcessControlKeyStates();
 };
 
 #endif  // CONTROLLER_CONTROLLER_H_

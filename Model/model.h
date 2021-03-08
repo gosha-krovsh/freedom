@@ -31,7 +31,7 @@ class Model {
 
   Map map_;
 
-  Hero hero_{ Hero(Coordinates(1, 6, 1), QPixmap(":hero_0.png")) };
+  Hero hero_{Coordinates(1, 6, 1) };
 };
 
 #endif  // MODEL_MODEL_H_

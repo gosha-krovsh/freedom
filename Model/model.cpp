@@ -11,7 +11,7 @@ Model::Model() {
   }
 }
 
-const std::vector<std::vector<std::vector<Object*>>>& Model::GetMap() const {
+const Model::Map& Model::GetMap() const {
   return map_;
 }
 

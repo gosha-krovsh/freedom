@@ -9,6 +9,7 @@
 class Object {
  public:
   explicit Object(Coordinates coords, const QPixmap& image);
+  virtual ~Object() = default;
 
   Coordinates GetCoordinates() const;
   double GetX() const;

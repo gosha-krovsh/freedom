@@ -4,12 +4,12 @@
 struct Coordinates {
   Coordinates(double x, double y, double z);
 
+  double GetIsoX() const;
+  double GetIsoY() const;
+
   double x;
   double y;
   double z;
-
-  double GetIsoX() const;
-  double GetIsoY() const;
 };
 
 #endif  // GAMEOBJECT_COORDINATES_H_
