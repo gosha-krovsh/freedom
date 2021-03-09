@@ -2,17 +2,17 @@
 #define MODEL_CONSTANTS_H_
 
 namespace constants {
-  const int kSizeOfBlock = 140;
-  const double kSpeed = 0.05;
-  const int kHP = 100;
+  constexpr int kSizeOfBlock = 140;
+  constexpr double kSpeed = 0.05;
+  constexpr int kHP = 100;
 
-  const int kHeightOfMap = 2;
-  const int kDepthOfMap = 10;
-  const int kWidthOfMap = 10;
+  constexpr int kHeightOfMap = 2;
+  constexpr int kDepthOfMap = 10;
+  constexpr int kWidthOfMap = 10;
 
-  const int kWindowWidth = 850;
-  const int kWindowHeight = 500;
-  const int kFPS = 60;
+  constexpr int kWindowWidth = 850;
+  constexpr int kWindowHeight = 500;
+  constexpr int kFPS = 60;
 }  // namespace constants
 
 #endif  // MODEL_CONSTANTS_H_
