@@ -1,7 +1,6 @@
-#include <QKeyEvent>
-
 #include "view.h"
-#include "../Model/constants.h"
+
+#include <QKeyEvent>
 
 View::View(AbstractController* controller,
            Model* model) : controller_(controller),
