@@ -5,11 +5,44 @@ DynamicObject::DynamicObject(Coordinates coords, const QPixmap& image)
   is_touchable_ = false;
 }
 
-ViewDirection DynamicObject::GetViewDirection() const {
+DynamicObject::ViewDirection DynamicObject::GetViewDirection() const {
   return view_direction_;
 }
 void DynamicObject::SetViewDirection(ViewDirection view_direction) {
   view_direction_ = view_direction;
+}
+void DynamicObject::SetMovingDirection(MovementCondition condition) {
+  bool up = condition.up;
+  bool right = condition.right;
+  bool down = condition.down;
+  bool left = condition.left;
+
+  SetMoving(true);
+  if (up && !down) {
+    if (right && !left) {
+      SetViewDirection(ViewDirection::kUpRight);
+    } else if (left && !right) {
+      SetViewDirection(ViewDirection::kUpLeft);
+    } else {
+      SetViewDirection(ViewDirection::kUp);
+    }
+  } else if (down && !up) {
+    if (right && !left) {
+      SetViewDirection(ViewDirection::kDownRight);
+    } else if (left && !right) {
+      SetViewDirection(ViewDirection::kDownLeft);
+    } else {
+      SetViewDirection(ViewDirection::kDown);
+    }
+  } else {
+    if (right && !left) {
+      SetViewDirection(ViewDirection::kRight);
+    } else if (left && !right) {
+      SetViewDirection(ViewDirection::kLeft);
+    } else {
+      SetMoving(false);
+    }
+  }
 }
 
 double DynamicObject::GetSpeed() const {

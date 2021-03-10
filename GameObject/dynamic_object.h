@@ -5,23 +5,31 @@
 
 #include "object.h"
 
-enum class ViewDirection {
-  kUp,
-  kUpRight,
-  kRight,
-  kDownRight,
-  kDown,
-  kDownLeft,
-  kLeft,
-  kUpLeft,
-};
-
 class DynamicObject : public Object {
  public:
   explicit DynamicObject(Coordinates coords, const QPixmap& image);
 
+  enum class ViewDirection {
+    kUp,
+    kUpRight,
+    kRight,
+    kDownRight,
+    kDown,
+    kDownLeft,
+    kLeft,
+    kUpLeft,
+  };
+
+  struct MovementCondition {
+    bool up{ false };
+    bool right{ false };
+    bool down{ false };
+    bool left{ false };
+  };
+
   ViewDirection GetViewDirection() const;
   void SetViewDirection(ViewDirection view_direction);
+  void SetMovingDirection(MovementCondition condition);
   double GetSpeed() const;
 
   void Move();
