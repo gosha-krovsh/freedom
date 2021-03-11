@@ -1,9 +1,7 @@
 #include "view.h"
 
-#include <QKeyEvent>
-
 View::View(AbstractController* controller,
-           Model* model) : controller_(controller),
+           std::shared_ptr<Model> model) : controller_(controller),
                            model_(model),
                            timer_(new QTimer(this)) {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);

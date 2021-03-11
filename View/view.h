@@ -1,6 +1,7 @@
 #ifndef VIEW_VIEW_H_
 #define VIEW_VIEW_H_
 
+#include <QKeyEvent>
 #include <QMainWindow>
 #include <QTimer>
 
@@ -11,7 +12,7 @@ class View : public QMainWindow {
   Q_OBJECT
 
  public:
-  explicit View(AbstractController* controller, Model* model);
+  View(AbstractController* controller, std::shared_ptr<Model> model);
 
  private:
   void paintEvent(QPaintEvent*) override;
@@ -22,7 +23,7 @@ class View : public QMainWindow {
   QTimer* timer_;
 
   AbstractController* controller_;
-  Model* model_;
+  std::shared_ptr<Model> model_;
 };
 
 #endif  // VIEW_VIEW_H_

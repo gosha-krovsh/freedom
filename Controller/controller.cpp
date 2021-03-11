@@ -1,8 +1,7 @@
 #include "controller.h"
 
-Controller::Controller() : model_(std::make_unique<Model>()),
-                           view_(std::make_unique<View>(this,
-                                                        model_.get())) {}
+Controller::Controller() : model_(std::make_shared<Model>()),
+                           view_(std::make_unique<View>(this, model_)) {}
 
 void Controller::Tick() {
   model_->GetHero().Move();

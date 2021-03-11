@@ -7,7 +7,7 @@
 
 class DynamicObject : public Object {
  public:
-  explicit DynamicObject(Coordinates coords, const QPixmap& image);
+  DynamicObject(Coordinates coords, const QPixmap& image);
 
   enum class ViewDirection {
     kUp,

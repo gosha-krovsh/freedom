@@ -7,9 +7,9 @@ void Object::Draw(QPainter* painter) const {
   painter->save();
 
   int x =
-      static_cast<int>(coordinates_.GetIsoX() * (constants::kSizeOfBlock / 2.));
+      static_cast<int>(coordinates_.GetIsometricX() * (constants::kSizeOfBlock / 2.));
   int y =
-      static_cast<int>(coordinates_.GetIsoY() * (constants::kSizeOfBlock / 2.));
+      static_cast<int>(coordinates_.GetIsometricY() * (constants::kSizeOfBlock / 2.));
 
   painter->drawPixmap(x, y,
                       constants::kSizeOfBlock,

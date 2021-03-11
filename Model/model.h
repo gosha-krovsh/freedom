@@ -7,11 +7,10 @@
 
 class Model {
  public:
+  using Map = std::vector<std::vector<std::vector<Object*>>>;
+
   Model();
 
-  using Line = std::vector<Object*>;
-  using Layer = std::vector<Line>;
-  using Map = std::vector<Layer>;
   const Map& GetMap() const;
   const Hero& GetHero() const;
   Hero& GetHero();

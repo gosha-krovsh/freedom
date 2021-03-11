@@ -4,8 +4,8 @@
 struct Coordinates {
   Coordinates(double x, double y, double z);
 
-  double GetIsoX() const;
-  double GetIsoY() const;
+  double GetIsometricX() const;
+  double GetIsometricY() const;
 
   double x;
   double y;

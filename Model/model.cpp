@@ -2,9 +2,9 @@
 
 Model::Model() {
   map_ = Map(constants::kHeightOfMap,
-             Layer(constants::kDepthOfMap,
-                   Line(constants::kWidthOfMap,
-                        nullptr)));
+               std::vector<std::vector<Object*>>(constants::kDepthOfMap,
+                 std::vector<Object*>(constants::kWidthOfMap,
+                   nullptr)));
 
   for (auto& object : objects_) {
     map_[object.GetZ()][object.GetY()][object.GetX()] = &object;

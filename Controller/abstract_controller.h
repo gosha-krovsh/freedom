@@ -7,8 +7,6 @@
 
 class AbstractController {
  public:
-  using Map = std::vector<std::vector<std::vector<Object*>>>;
-
   virtual ~AbstractController() = default;
 
   virtual void Tick() = 0;

@@ -12,6 +12,7 @@
 class Controller : public AbstractController {
  public:
   Controller();
+  ~Controller() override = default;
 
   void Tick() override;
 
@@ -21,7 +22,7 @@ class Controller : public AbstractController {
   void SetControlLeftKeyState(bool state) override;
 
  private:
-  std::unique_ptr<Model> model_;
+  std::shared_ptr<Model> model_;
   std::unique_ptr<View> view_;
 
   Hero::MovementCondition movement_condition;

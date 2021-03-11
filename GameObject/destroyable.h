@@ -8,8 +8,8 @@ class Destroyable {
   bool IsDestroyed() const;
   int GetHP() const;
 
-  void IncreaseHP(int hp);
-  void DecreaseHP(int hp);
+  void IncreaseHP(unsigned int hp);
+  void DecreaseHP(unsigned int hp);
 
   virtual void OnDead() = 0;
 

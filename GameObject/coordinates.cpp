@@ -2,10 +2,10 @@
 
 Coordinates::Coordinates(double x, double y, double z) : x(x), y(y), z(z) {}
 
-double Coordinates::GetIsoX() const {
+double Coordinates::GetIsometricX() const {
   return (y - x);
 }
 
-double Coordinates::GetIsoY() const {
+double Coordinates::GetIsometricY() const {
   return (x + y)/2. - z;
 }

@@ -68,8 +68,8 @@ void DynamicObject::Move() {
       break;
     }
     case ViewDirection::kRight: {
-      SetCoordinates(GetX() - speed_ / std::sqrt(3),
-                     GetY() + speed_ / std::sqrt(3),
+      SetCoordinates(GetX() - speed_ * constants::kHorizontalSpeedMultiplier,
+                     GetY() + speed_ * constants::kHorizontalSpeedMultiplier,
                      GetZ());
       break;
     }
@@ -92,8 +92,8 @@ void DynamicObject::Move() {
       break;
     }
     case ViewDirection::kLeft: {
-      SetCoordinates(GetX() + speed_ / std::sqrt(3),
-                     GetY() - speed_ / std::sqrt(3),
+      SetCoordinates(GetX() + speed_ * constants::kHorizontalSpeedMultiplier,
+                     GetY() - speed_ * constants::kHorizontalSpeedMultiplier,
                      GetZ());
       break;
     }
