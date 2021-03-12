@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "../GameObject/hero.h"
+#include "GameObject/hero.h"
 
 class AbstractController {
  public:

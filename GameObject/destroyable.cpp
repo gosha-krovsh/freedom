@@ -10,13 +10,21 @@ bool Destroyable::IsDestroyed() const {
   return (hp_ <= 0);
 }
 
-void Destroyable::IncreaseHP(unsigned int hp) {
+void Destroyable::IncreaseHP(int hp) {
+  if (hp < 0) {
+    return;
+  }
+
   hp_ += hp;
   if (hp_ > max_hp_) {
     hp_ = max_hp_;
   }
 }
-void Destroyable::DecreaseHP(unsigned int hp) {
+void Destroyable::DecreaseHP(int hp) {
+  if (hp < 0) {
+    return;
+  }
+
   hp_ -= hp;
   if (hp_ < 0) {
     hp_ = 0;

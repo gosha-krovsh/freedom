@@ -3,7 +3,7 @@
 
 #include <QPainter>
 
-#include "../Model/constants.h"
+#include "Model/constants.h"
 #include "coordinates.h"
 
 class Object {

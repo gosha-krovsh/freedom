@@ -6,8 +6,8 @@
 
 #include "abstract_controller.h"
 
-#include "../View/view.h"
-#include "../Model/model.h"
+#include "View/view.h"
+#include "Model/model.h"
 
 class Controller : public AbstractController {
  public:
