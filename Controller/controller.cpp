@@ -8,18 +8,25 @@ void Controller::Tick() {
 }
 
 void Controller::SetControlUpKeyState(bool state) {
-  movement_condition.up = state;
-  model_->GetHero().SetMovingDirection(movement_condition);
+  control_key_states_.up = state;
+  UpdateMovingDirection();
 }
 void Controller::SetControlRightKeyState(bool state) {
-  movement_condition.right = state;
-  model_->GetHero().SetMovingDirection(movement_condition);
+  control_key_states_.right = state;
+  UpdateMovingDirection();
 }
 void Controller::SetControlDownKeyState(bool state) {
-  movement_condition.down = state;
-  model_->GetHero().SetMovingDirection(movement_condition);
+  control_key_states_.down = state;
+  UpdateMovingDirection();
 }
 void Controller::SetControlLeftKeyState(bool state) {
-  movement_condition.left = state;
-  model_->GetHero().SetMovingDirection(movement_condition);
+  control_key_states_.left = state;
+  UpdateMovingDirection();
+}
+
+void Controller::UpdateMovingDirection() {
+  model_->GetHero().SetMovingDirection(control_key_states_.left,
+                                       control_key_states_.up,
+                                       control_key_states_.right,
+                                       control_key_states_.down);
 }

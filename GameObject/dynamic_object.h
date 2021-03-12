@@ -20,16 +20,9 @@ class DynamicObject : public Object {
     kUpLeft,
   };
 
-  struct MovementCondition {
-    bool up{ false };
-    bool right{ false };
-    bool down{ false };
-    bool left{ false };
-  };
-
   ViewDirection GetViewDirection() const;
   void SetViewDirection(ViewDirection view_direction);
-  void SetMovingDirection(MovementCondition condition);
+  void SetMovingDirection(bool left, bool up, bool right, bool down);
   double GetSpeed() const;
 
   void Move();

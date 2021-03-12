@@ -7,11 +7,11 @@
 
 class Model {
  public:
-  using Map = std::vector<std::vector<std::vector<Object*>>>;
+  using GameMap = std::vector<std::vector<std::vector<Object*>>>;
 
   Model();
 
-  const Map& GetMap() const;
+  const GameMap& GetMap() const;
   const Hero& GetHero() const;
   Hero& GetHero();
 
@@ -28,7 +28,7 @@ class Model {
     Object(Coordinates(2, 7, 0), QPixmap(":brick.png")),
   };
 
-  Map map_;
+  GameMap map_;
 
   Hero hero_{Coordinates(1, 6, 1) };
 };

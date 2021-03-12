@@ -4,6 +4,7 @@
 #include <QKeyEvent>
 #include <QMainWindow>
 #include <QTimer>
+#include <memory>
 
 #include "../Controller/abstract_controller.h"
 #include "../Model/model.h"

@@ -10,7 +10,7 @@ set(QT_VERSION 5)
 set(REQUIRED_LIBS Core Gui Widgets)
 set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Gui Qt5::Widgets)
 
-#add_subdirectory(Model)
+#include_directories(./Model ./View ./Controller ./GameObject)
 add_executable(${PROJECT_NAME}
         main.cpp
 

@@ -8,15 +8,13 @@ DynamicObject::DynamicObject(Coordinates coords, const QPixmap& image)
 DynamicObject::ViewDirection DynamicObject::GetViewDirection() const {
   return view_direction_;
 }
+
 void DynamicObject::SetViewDirection(ViewDirection view_direction) {
   view_direction_ = view_direction;
 }
-void DynamicObject::SetMovingDirection(MovementCondition condition) {
-  bool up = condition.up;
-  bool right = condition.right;
-  bool down = condition.down;
-  bool left = condition.left;
 
+void DynamicObject::SetMovingDirection(bool left, bool up,
+                                       bool right, bool down) {
   SetMoving(true);
   if (up && !down) {
     if (right && !left) {
@@ -109,6 +107,7 @@ void DynamicObject::Move() {
 bool DynamicObject::IsMoving() const {
   return is_moving_;
 }
+
 void DynamicObject::SetMoving(bool flag) {
   is_moving_ = flag;
 }

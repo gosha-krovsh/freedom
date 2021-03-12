@@ -8,7 +8,7 @@ namespace constants {
   const int kHP = 100;
   const double kSpeed = 0.05;
 
-  // Needed to make |Hero| movement in Right/Left direction more realistic, in
+  // Needed to make |Hero| movement in Right/Left direction more realistic in
   // isometric view.
   const double kHorizontalSpeedMultiplier = 1 / std::sqrt(3);
 

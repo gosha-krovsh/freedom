@@ -1,8 +1,8 @@
 #include "model.h"
 
 Model::Model() {
-  map_ = Map(constants::kHeightOfMap,
-               std::vector<std::vector<Object*>>(constants::kDepthOfMap,
+  map_ = GameMap(constants::kHeightOfMap,
+                 std::vector<std::vector<Object*>>(constants::kDepthOfMap,
                  std::vector<Object*>(constants::kWidthOfMap,
                    nullptr)));
 
@@ -11,7 +11,7 @@ Model::Model() {
   }
 }
 
-const Model::Map& Model::GetMap() const {
+const Model::GameMap& Model::GetMap() const {
   return map_;
 }
 

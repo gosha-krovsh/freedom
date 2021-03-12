@@ -22,10 +22,19 @@ class Controller : public AbstractController {
   void SetControlLeftKeyState(bool state) override;
 
  private:
+  struct ControlKeyStates {
+    bool up{false};
+    bool right{false};
+    bool down{false};
+    bool left{false};
+  };
+
+  void UpdateMovingDirection();
+
   std::shared_ptr<Model> model_;
   std::unique_ptr<View> view_;
 
-  Hero::MovementCondition movement_condition;
+  ControlKeyStates control_key_states_;
 };
 
 #endif  // CONTROLLER_CONTROLLER_H_
