@@ -6,10 +6,10 @@ Object::Object(Coordinates coords, const QPixmap& image) : coordinates_(coords),
 void Object::Draw(QPainter* painter) const {
   painter->save();
 
-  int x =
-      static_cast<int>(coordinates_.GetIsometricX() * (constants::kSizeOfBlock / 2.));
-  int y =
-      static_cast<int>(coordinates_.GetIsometricY() * (constants::kSizeOfBlock / 2.));
+  int x = static_cast<int>(coordinates_.GetIsometricX() *
+                           (constants::kSizeOfBlock / 2.));
+  int y = static_cast<int>(coordinates_.GetIsometricY() *
+                           (constants::kSizeOfBlock / 2.));
 
   painter->drawPixmap(x, y,
                       constants::kSizeOfBlock,
