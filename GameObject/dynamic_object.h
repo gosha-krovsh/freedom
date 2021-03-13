@@ -23,7 +23,11 @@ class DynamicObject : public Object {
   ViewDirection GetViewDirection() const;
   void SetViewDirection(ViewDirection view_direction);
   void SetMovingDirection(bool left, bool up, bool right, bool down);
+  Coordinates GetSpeedMultipliers() const;
   double GetSpeed() const;
+
+
+  static ViewDirection ConvertVectorToViewDirection(int h, int v);
 
   void Move();
   bool IsMoving() const;

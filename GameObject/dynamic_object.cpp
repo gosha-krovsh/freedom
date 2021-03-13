@@ -15,93 +15,45 @@ void DynamicObject::SetViewDirection(ViewDirection view_direction) {
 
 void DynamicObject::SetMovingDirection(bool left, bool up,
                                        bool right, bool down) {
-  SetMoving(true);
-  if (up && !down) {
-    if (right && !left) {
-      SetViewDirection(ViewDirection::kUpRight);
-    } else if (left && !right) {
-      SetViewDirection(ViewDirection::kUpLeft);
-    } else {
-      SetViewDirection(ViewDirection::kUp);
-    }
-  } else if (down && !up) {
-    if (right && !left) {
-      SetViewDirection(ViewDirection::kDownRight);
-    } else if (left && !right) {
-      SetViewDirection(ViewDirection::kDownLeft);
-    } else {
-      SetViewDirection(ViewDirection::kDown);
-    }
-  } else {
-    if (right && !left) {
-      SetViewDirection(ViewDirection::kRight);
-    } else if (left && !right) {
-      SetViewDirection(ViewDirection::kLeft);
-    } else {
-      SetMoving(false);
-    }
-  }
+  int h = (right ? 1 : 0) - (left ? 1 : 0);
+  int v = (up ? 1 : 0) - (down ? 1 : 0);
+
+  SetViewDirection(ConvertVectorToViewDirection(h, v));
+  SetMoving(std::abs(h) + std::abs(v) > 0);
 }
 
 double DynamicObject::GetSpeed() const {
   return speed_;
 }
 
+Coordinates DynamicObject::GetSpeedMultipliers() const {
+  switch (GetViewDirection()) {
+    case ViewDirection::kUp: return Coordinates({-1, -1, 0});
+    case ViewDirection::kUpRight: return Coordinates({-1, 0, 0});
+    case ViewDirection::kRight: return Coordinates({
+     -constants::kHorizontalSpeedMultiplier,
+      constants::kHorizontalSpeedMultiplier,
+      0});
+    case ViewDirection::kDownRight: return Coordinates({0, 1, 0});
+    case ViewDirection::kDown: return Coordinates({1, 1, 0});
+    case ViewDirection::kDownLeft: return Coordinates({1, 0, 0});
+    case ViewDirection::kLeft: return Coordinates({
+      constants::kHorizontalSpeedMultiplier,
+     -constants::kHorizontalSpeedMultiplier,
+      0});
+    case ViewDirection::kUpLeft: return Coordinates({0, -1, 0});
+  }
+}
+
+
 void DynamicObject::Move() {
   if (!IsMoving()) {
     return;
   }
 
-  switch (GetViewDirection()) {
-    case ViewDirection::kUp: {
-      SetCoordinates(GetX() - speed_,
-                     GetY() - speed_,
-                     GetZ());
-      break;
-    }
-    case ViewDirection::kUpRight: {
-      SetCoordinates(GetX() - speed_,
-                     GetY(),
-                     GetZ());
-      break;
-    }
-    case ViewDirection::kRight: {
-      SetCoordinates(GetX() - speed_ * constants::kHorizontalSpeedMultiplier,
-                     GetY() + speed_ * constants::kHorizontalSpeedMultiplier,
-                     GetZ());
-      break;
-    }
-    case ViewDirection::kDownRight: {
-      SetCoordinates(GetX(),
-                     GetY() + speed_,
-                     GetZ());
-      break;
-    }
-    case ViewDirection::kDown: {
-      SetCoordinates(GetX() + speed_,
-                     GetY() + speed_,
-                     GetZ());
-      break;
-    }
-    case ViewDirection::kDownLeft: {
-      SetCoordinates(GetX() + speed_,
-                     GetY(),
-                     GetZ());
-      break;
-    }
-    case ViewDirection::kLeft: {
-      SetCoordinates(GetX() + speed_ * constants::kHorizontalSpeedMultiplier,
-                     GetY() - speed_ * constants::kHorizontalSpeedMultiplier,
-                     GetZ());
-      break;
-    }
-    case ViewDirection::kUpLeft: {
-      SetCoordinates(GetX(),
-                     GetY() - speed_,
-                     GetZ());
-      break;
-    }
-  }
+  SetCoordinates(GetX() + speed_ * GetSpeedMultipliers().x,
+                 GetY() + speed_ * GetSpeedMultipliers().y,
+                 GetZ());
 }
 
 bool DynamicObject::IsMoving() const {
@@ -110,4 +62,32 @@ bool DynamicObject::IsMoving() const {
 
 void DynamicObject::SetMoving(bool flag) {
   is_moving_ = flag;
+}
+
+DynamicObject::ViewDirection
+
+DynamicObject::ConvertVectorToViewDirection(int h, int v) {
+  if (v > 0) {
+    if (h > 0) {
+      return ViewDirection::kUpRight;
+    } else if (h < 0) {
+      return ViewDirection::kUpLeft;
+    } else {
+      return ViewDirection::kUp;
+    }
+  } else if (v < 0) {
+    if (h > 0) {
+      return ViewDirection::kDownRight;
+    } else if (h < 0) {
+      return ViewDirection::kDownLeft;
+    } else {
+      return ViewDirection::kDown;
+    }
+  } else {
+    if (h > 0) {
+      return ViewDirection::kRight;
+    } else if (h < 0) {
+      return ViewDirection::kLeft;
+    }
+  }
 }
