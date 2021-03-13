@@ -12,3 +12,7 @@ Creature::Creature(Coordinates coords,
 const QString& Creature::GetName() const {
   return name_;
 }
+
+void Creature::Tick(int current_tick) {
+  DynamicObject::Tick(current_tick);
+}

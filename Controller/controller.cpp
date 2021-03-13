@@ -1,10 +1,12 @@
 #include "controller.h"
 
 Controller::Controller() : model_(std::make_shared<Model>()),
-                           view_(std::make_unique<View>(this, model_)) {}
+                           view_(std::make_unique<View>(this, model_)),
+                           current_tick_(0) {}
 
 void Controller::Tick() {
-  model_->GetHero().Move();
+  model_->GetHero().Tick(current_tick_);
+  current_tick_++;
 }
 
 void Controller::SetControlUpKeyState(bool state) {

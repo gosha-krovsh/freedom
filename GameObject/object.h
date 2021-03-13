@@ -22,6 +22,8 @@ class Object {
 
   void Draw(QPainter* painter) const;
 
+  virtual void Tick(int current_time);
+
  protected:
   bool is_touchable_{ true };
 

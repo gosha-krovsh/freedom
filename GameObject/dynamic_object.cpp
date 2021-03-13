@@ -65,7 +65,6 @@ void DynamicObject::SetMoving(bool flag) {
 }
 
 DynamicObject::ViewDirection
-
 DynamicObject::ConvertVectorToViewDirection(int h, int v) {
   if (v > 0) {
     if (h > 0) {
@@ -90,4 +89,11 @@ DynamicObject::ConvertVectorToViewDirection(int h, int v) {
       return ViewDirection::kLeft;
     }
   }
+
+  return view_direction_;
+}
+
+void DynamicObject::Tick(int current_tick) {
+  Object::Tick(current_tick);
+  Move();
 }

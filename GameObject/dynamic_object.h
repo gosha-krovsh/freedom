@@ -27,11 +27,13 @@ class DynamicObject : public Object {
   double GetSpeed() const;
 
 
-  static ViewDirection ConvertVectorToViewDirection(int h, int v);
+  ViewDirection ConvertVectorToViewDirection(int h, int v);
 
   void Move();
   bool IsMoving() const;
   void SetMoving(bool flag);
+
+  void Tick(int current_tick) override;
 
  private:
   double speed_{ constants::kSpeed };

@@ -42,3 +42,5 @@ void Object::SetCoordinates(double x, double y, double z) {
 bool Object::IsTouchable() const {
   return is_touchable_;
 }
+
+void Object::Tick(int) {}

@@ -35,6 +35,8 @@ class Controller : public AbstractController {
   std::unique_ptr<View> view_;
 
   ControlKeyStates control_key_states_;
+
+  int current_tick_;
 };
 
 #endif  // CONTROLLER_CONTROLLER_H_

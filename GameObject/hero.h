@@ -8,6 +8,8 @@ class Hero : public Creature {
   explicit Hero(Coordinates coords,
                 const QPixmap& image = QPixmap(":hero_0.png"));
 
+  void Tick(int current_tick) override;
+
   void OnDead() override;
 };
 

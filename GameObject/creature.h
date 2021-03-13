@@ -12,6 +12,8 @@ class Creature : public DynamicObject, public Destroyable {
 
   const QString& GetName() const;
 
+  void Tick(int current_tick) override;
+
  private:
   QString name_;
 };
