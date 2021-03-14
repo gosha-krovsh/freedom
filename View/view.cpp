@@ -7,7 +7,7 @@ View::View(AbstractController* controller,
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
 
   connect(timer_, &QTimer::timeout, this, &View::TimerEvent);
-  timer_->start(1000/constants::kFPS);
+  timer_->start(1000 / constants::kFPS);
 
   show();
 }

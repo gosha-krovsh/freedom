@@ -8,21 +8,20 @@
 
 class Object {
  public:
-  Object(Coordinates coords, const QPixmap& image);
+  Object(const Coordinates& coords, const QPixmap& image);
   virtual ~Object() = default;
+
+  virtual void Tick(int current_time);
 
   Coordinates GetCoordinates() const;
   double GetX() const;
   double GetY() const;
   double GetZ() const;
   void SetCoordinates(Coordinates coords);
-  void SetCoordinates(double x, double y, double z);
 
   bool IsTouchable() const;
 
   void Draw(QPainter* painter) const;
-
-  virtual void Tick(int current_time);
 
  protected:
   bool is_touchable_{ true };

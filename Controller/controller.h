@@ -20,6 +20,7 @@ class Controller : public AbstractController {
   void SetControlRightKeyState(bool state) override;
   void SetControlDownKeyState(bool state) override;
   void SetControlLeftKeyState(bool state) override;
+  void UpdateHeroMovingDirection();
 
  private:
   struct ControlKeyStates {
@@ -29,13 +30,11 @@ class Controller : public AbstractController {
     bool left{false};
   };
 
-  void UpdateMovingDirection();
-
+ private:
   std::shared_ptr<Model> model_;
   std::unique_ptr<View> view_;
 
   ControlKeyStates control_key_states_;
-
   int current_tick_;
 };
 

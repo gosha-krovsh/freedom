@@ -7,8 +7,6 @@
 
 class DynamicObject : public Object {
  public:
-  DynamicObject(Coordinates coords, const QPixmap& image);
-
   enum class ViewDirection {
     kUp,
     kUpRight,
@@ -20,25 +18,27 @@ class DynamicObject : public Object {
     kUpLeft,
   };
 
-  ViewDirection GetViewDirection() const;
-  void SetViewDirection(ViewDirection view_direction);
-  void SetMovingDirection(bool left, bool up, bool right, bool down);
-  Coordinates GetSpeedMultipliers() const;
-  double GetSpeed() const;
-
-
-  ViewDirection ConvertVectorToViewDirection(int h, int v);
-
-  void Move();
-  bool IsMoving() const;
-  void SetMoving(bool flag);
+ public:
+  DynamicObject(const Coordinates& coords, const QPixmap& image);
 
   void Tick(int current_tick) override;
 
+  ViewDirection GetViewDirection() const;
+  void SetMovingDirection(bool left, bool up, bool right, bool down);
+
+
  private:
-  double speed_{ constants::kSpeed };
-  ViewDirection view_direction_{ ViewDirection::kDown };
-  bool is_moving_{ false };
+  bool IsMoving() const;
+  void SetMoving(bool flag);
+  void SetViewDirection(ViewDirection view_direction);
+  void SetViewDirection(int h, int v);
+  Coordinates GetSpeedVector() const;
+  void Move();
+
+ private:
+  bool is_moving_{false};
+  ViewDirection view_direction_{ViewDirection::kDown};
+  double speed_{constants::kSpeed};
 };
 
 #endif  // GAMEOBJECT_DYNAMIC_OBJECT_H_

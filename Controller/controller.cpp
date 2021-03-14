@@ -6,27 +6,26 @@ Controller::Controller() : model_(std::make_shared<Model>()),
 
 void Controller::Tick() {
   model_->GetHero().Tick(current_tick_);
-  current_tick_++;
+  ++current_tick_;
 }
 
 void Controller::SetControlUpKeyState(bool state) {
   control_key_states_.up = state;
-  UpdateMovingDirection();
+  UpdateHeroMovingDirection();
 }
 void Controller::SetControlRightKeyState(bool state) {
   control_key_states_.right = state;
-  UpdateMovingDirection();
+  UpdateHeroMovingDirection();
 }
 void Controller::SetControlDownKeyState(bool state) {
   control_key_states_.down = state;
-  UpdateMovingDirection();
+  UpdateHeroMovingDirection();
 }
 void Controller::SetControlLeftKeyState(bool state) {
   control_key_states_.left = state;
-  UpdateMovingDirection();
+  UpdateHeroMovingDirection();
 }
-
-void Controller::UpdateMovingDirection() {
+void Controller::UpdateHeroMovingDirection() {
   model_->GetHero().SetMovingDirection(control_key_states_.left,
                                        control_key_states_.up,
                                        control_key_states_.right,

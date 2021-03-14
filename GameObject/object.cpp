@@ -1,7 +1,9 @@
 #include "object.h"
 
-Object::Object(Coordinates coords, const QPixmap& image) : coordinates_(coords),
-                                                           image_(image) {}
+Object::Object(const Coordinates& coords, const QPixmap& image) :
+    coordinates_(coords), image_(image) {}
+
+void Object::Tick(int) {}
 
 void Object::Draw(QPainter* painter) const {
   painter->save();
@@ -35,12 +37,7 @@ double Object::GetZ() const {
 void Object::SetCoordinates(Coordinates coords) {
   coordinates_ = coords;
 }
-void Object::SetCoordinates(double x, double y, double z) {
-  SetCoordinates(Coordinates(x, y, z));
-}
 
 bool Object::IsTouchable() const {
   return is_touchable_;
 }
-
-void Object::Tick(int) {}

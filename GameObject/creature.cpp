@@ -2,7 +2,7 @@
 
 #include <utility>
 
-Creature::Creature(Coordinates coords,
+Creature::Creature(const Coordinates& coords,
                    const QPixmap& image,
                    QString name,
                    int hp) : DynamicObject(coords, image),
