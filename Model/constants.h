@@ -8,9 +8,9 @@ namespace constants {
   const int kHP = 100;
   const double kSpeed = 0.05;
 
-  // Needed to make |Hero| movement in Right/Left direction more realistic in
-  // isometric view.
-  const double kHorizontalSpeedMultiplier = 1 / std::sqrt(3);
+  // Needed to make |DynamicObject| movement in Right/Left direction more
+  // realistic in isometric view.
+  const double kIsometricSpeedCoefficient = 1 / std::sqrt(3);
 
   const int kHeightOfMap = 2;
   const int kDepthOfMap = 10;

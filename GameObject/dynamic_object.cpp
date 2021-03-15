@@ -56,14 +56,14 @@ void DynamicObject::SetMovingDirection(bool left, bool up,
 Coordinates DynamicObject::GetSpeedVector() const {
   switch (GetViewDirection()) {
     case ViewDirection::kLeft: return Coordinates({
-      constants::kHorizontalSpeedMultiplier,
-      -constants::kHorizontalSpeedMultiplier});
+      constants::kIsometricSpeedCoefficient,
+      -constants::kIsometricSpeedCoefficient});
     case ViewDirection::kUpLeft: return Coordinates({0, -1});
     case ViewDirection::kUp: return Coordinates({-1, -1});
     case ViewDirection::kUpRight: return Coordinates({-1, 0});
     case ViewDirection::kRight: return Coordinates({
-      -constants::kHorizontalSpeedMultiplier,
-      constants::kHorizontalSpeedMultiplier});
+      -constants::kIsometricSpeedCoefficient,
+      constants::kIsometricSpeedCoefficient});
     case ViewDirection::kDownRight: return Coordinates({0, 1});
     case ViewDirection::kDown: return Coordinates({1, 1});
     case ViewDirection::kDownLeft: return Coordinates({1, 0});

@@ -16,20 +16,8 @@ class Model {
   Hero& GetHero();
 
  private:
-  std::vector<Object> objects_ {
-    Object(Coordinates(0, 5, 0), QPixmap(":brick.png")),
-    Object(Coordinates(1, 5, 0), QPixmap(":brick.png")),
-    Object(Coordinates(2, 5, 0), QPixmap(":brick.png")),
-    Object(Coordinates(0, 6, 0), QPixmap(":brick.png")),
-    Object(Coordinates(1, 6, 0), QPixmap(":brick.png")),
-    Object(Coordinates(2, 6, 0), QPixmap(":brick.png")),
-    Object(Coordinates(0, 7, 0), QPixmap(":brick.png")),
-    Object(Coordinates(1, 7, 0), QPixmap(":brick.png")),
-    Object(Coordinates(2, 7, 0), QPixmap(":brick.png")),
-  };
-
+  std::vector<Object> objects_;
   GameMap map_;
-
   Hero hero_{Coordinates(1, 6, 1) };
 };
 
