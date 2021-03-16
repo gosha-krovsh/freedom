@@ -10,7 +10,26 @@ set(QT_VERSION 5)
 set(REQUIRED_LIBS Core Gui Widgets)
 set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Gui Qt5::Widgets)
 
-add_executable(${PROJECT_NAME} main.cpp)
+include_directories(./)
+
+add_executable(${PROJECT_NAME}
+        main.cpp
+
+        Resources/resources.qrc
+
+        Model/model.cpp
+
+        View/view.cpp
+
+        Controller/controller.cpp
+
+        GameObject/coordinates.cpp
+        GameObject/object.cpp
+        GameObject/dynamic_object.cpp
+        GameObject/destroyable.cpp
+        GameObject/creature.cpp
+        GameObject/hero.cpp
+)
 
 if (NOT CMAKE_PREFIX_PATH)
     message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "
