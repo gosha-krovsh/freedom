@@ -18,69 +18,48 @@ void DynamicObject::SetViewDirection(ViewDirection view_direction) {
   view_direction_ = view_direction;
 }
 
-void DynamicObject::SetViewDirection(int h, int v) {
-  if (v > 0) {
-    if (h > 0) {
-      SetViewDirection(ViewDirection::kUpRight);
-    } else if (h < 0) {
-      SetViewDirection(ViewDirection::kUpLeft);
-    } else {
-      SetViewDirection(ViewDirection::kUp);
-    }
-  } else if (v < 0) {
-    if (h > 0) {
-      SetViewDirection(ViewDirection::kDownRight);
-    } else if (h < 0) {
-      SetViewDirection(ViewDirection::kDownLeft);
-    } else {
+void DynamicObject::SetViewDirection(Coordinates speed) {
+  if (speed.x > 0) {
+    if (speed.y > 0) {
       SetViewDirection(ViewDirection::kDown);
+    } else if (speed.y < 0) {
+      SetViewDirection(ViewDirection::kLeft);
+    } else {
+      SetViewDirection(ViewDirection::kDownLeft);
+    }
+  } else if (speed.x < 0) {
+    if (speed.y > 0) {
+      SetViewDirection(ViewDirection::kRight);
+    } else if (speed.y < 0) {
+      SetViewDirection(ViewDirection::kUp);
+    } else {
+      SetViewDirection(ViewDirection::kUpRight);
     }
   } else {
-    if (h > 0) {
-      SetViewDirection(ViewDirection::kRight);
-    } else if (h < 0) {
-      SetViewDirection(ViewDirection::kLeft);
+    if (speed.y > 0) {
+      SetViewDirection(ViewDirection::kDownRight);
+    } else if (speed.y < 0) {
+      SetViewDirection(ViewDirection::kUpLeft);
     }
   }
 }
 
-void DynamicObject::SetMovingDirection(bool left, bool up,
-                                       bool right, bool down) {
-  int h = (right ? 1 : 0) - (left ? 1 : 0);
-  int v = (up ? 1 : 0) - (down ? 1 : 0);
-
-  SetMoving(h != 0 || v != 0);
-  SetViewDirection(h, v);
+void DynamicObject::UpdateMoving(bool left, bool up, bool right, bool down) {
+  double h = (right ? 1 : 0) - (left ? 1 : 0);
+  double v = (up ? 1 : 0) - (down ? 1 : 0);
+  SetSpeedVector(Coordinates{h, v});
+  SetViewDirection(speed_vector);
 }
 
 Coordinates DynamicObject::GetSpeedVector() const {
-  switch (GetViewDirection()) {
-    case ViewDirection::kLeft: return Coordinates({
-      constants::kIsometricSpeedCoefficient,
-      -constants::kIsometricSpeedCoefficient});
-    case ViewDirection::kUpLeft: return Coordinates({0, -1});
-    case ViewDirection::kUp: return Coordinates({-1, -1});
-    case ViewDirection::kUpRight: return Coordinates({-1, 0});
-    case ViewDirection::kRight: return Coordinates({
-      -constants::kIsometricSpeedCoefficient,
-      constants::kIsometricSpeedCoefficient});
-    case ViewDirection::kDownRight: return Coordinates({0, 1});
-    case ViewDirection::kDown: return Coordinates({1, 1});
-    case ViewDirection::kDownLeft: return Coordinates({1, 0});
-  }
+  // TODO
+  // rotate, ClampMagnitude, if r/l => add
 }
 
 void DynamicObject::Move() {
-  if (!IsMoving()) {
-    return;
-  }
   SetCoordinates(GetCoordinates() + GetSpeedVector() * speed_);
 }
 
-bool DynamicObject::IsMoving() const {
-  return is_moving_;
-}
-
-void DynamicObject::SetMoving(bool flag) {
-  is_moving_ = flag;
+void DynamicObject::SetSpeedVector(Coordinates coords) {
+  speed_vector = coords;
 }

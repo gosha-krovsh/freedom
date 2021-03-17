@@ -71,3 +71,15 @@ Coordinates operator/(double lhs, Coordinates rhs) {
   rhs /= lhs;
   return rhs;
 }
+
+double Coordinates::GetLength() const {
+  return std::sqrt(x * x + y * y + z * z);
+}
+
+bool Coordinates::operator==(const Coordinates& rhs) const {
+  return ((x == rhs.x) && (y == rhs.y) && (z == rhs.z));
+}
+
+bool Coordinates::operator!=(const Coordinates& rhs) const {
+  return !(*this == rhs);
+}

@@ -24,21 +24,22 @@ class DynamicObject : public Object {
   void Tick(int current_tick) override;
 
   ViewDirection GetViewDirection() const;
-  void SetMovingDirection(bool left, bool up, bool right, bool down);
+
+  void UpdateMoving(bool left, bool up, bool right, bool down);
 
 
  private:
-  bool IsMoving() const;
-  void SetMoving(bool flag);
   void SetViewDirection(ViewDirection view_direction);
-  void SetViewDirection(int h, int v);
+  void SetViewDirection(Coordinates speed_vector);
+
+  void SetSpeedVector(Coordinates coords);
   Coordinates GetSpeedVector() const;
   void Move();
 
  private:
-  bool is_moving_{false};
-  ViewDirection view_direction_{ViewDirection::kDown};
   double speed_{constants::kSpeed};
+  Coordinates speed_vector{0, 0};
+  ViewDirection view_direction_{ViewDirection::kDown};
 };
 
 #endif  // GAMEOBJECT_DYNAMIC_OBJECT_H_
