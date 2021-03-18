@@ -9,8 +9,8 @@ class Point {
  public:
   Point(double x, double y, double z = 0);
 
-  // Transform isometric point to normalised cartesian point.
-  static Point FromIsometric(const Point& iso_point);
+  // Transform point from users screen to Cartesian point.
+  static Point FromScreenPoint(const Point& screen_point);
 
   double GetIsometricX() const;
   double GetIsometricY() const;

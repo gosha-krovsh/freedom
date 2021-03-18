@@ -29,8 +29,8 @@ class DynamicObject : public Object {
 
 
  private:
-  void UpdateSpeedVector(const Point& iso_vector);
-  void UpdateViewDirection(const Point& iso_vector);
+  void UpdateSpeedVector(const Point& screen_vector);
+  void UpdateViewDirection(const Point& screen_vector);
   void Move();
 
  private:

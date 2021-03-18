@@ -17,26 +17,28 @@ DynamicObject::ViewDirection DynamicObject::GetViewDirection() const {
 void DynamicObject::UpdateMovement(bool left, bool up, bool right, bool down) {
   double hor = (right ? 1 : 0) - (left ? 1 : 0);
   double vert = (up ? 1 : 0) - (down ? 1 : 0);
-  Point iso_vector{hor, vert};
-  UpdateSpeedVector(iso_vector);
-  UpdateViewDirection(iso_vector);
+  Point screen_vector{hor, vert};
+  UpdateSpeedVector(screen_vector);
+  UpdateViewDirection(screen_vector);
 }
 
-void DynamicObject::UpdateSpeedVector(const Point& iso_vector) {
-  speed_vector_ = Point::FromIsometric(iso_vector);
-  if (iso_vector.y == 0) {  // horizontal movement
+void DynamicObject::UpdateSpeedVector(const Point& screen_vector) {
+  speed_vector_ = Point::FromScreenPoint(screen_vector);
+  speed_vector_.Normalize();
+  if (screen_vector.y == 0) {  // horizontal movement
     speed_vector_ *= constants::kIsometricSpeedCoefficient;
-  } else if (iso_vector.x != 0 && iso_vector.y != 0) {  // diagonal movement
+  } else if (screen_vector.x != 0 &&
+             screen_vector.y != 0) {  // diagonal movement
     speed_vector_ /= std::sqrt(2);
   }
 }
 
-void DynamicObject::UpdateViewDirection(const Point& iso_vector) {
-  if (iso_vector.IsNull()) {
+void DynamicObject::UpdateViewDirection(const Point& screen_vector) {
+  if (screen_vector.IsNull()) {
     return;
   }
   view_direction_ = static_cast<ViewDirection>(
-                      3 * (iso_vector.x + 1) + (iso_vector.y + 1));
+                      3 * (screen_vector.x + 1) + (screen_vector.y + 1));
 }
 
 void DynamicObject::Move() {
