@@ -2,8 +2,7 @@
 
 Point::Point(double x, double y, double z) : x(x), y(y), z(z) {}
 
-Point Point::FromIsometric(
-    const Point& iso_point) {
+Point Point::FromIsometric(const Point& iso_point) {
   Point new_coords{iso_point};
   new_coords.Rotate(-135);
   new_coords.Normalize();

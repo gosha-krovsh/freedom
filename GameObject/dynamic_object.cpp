@@ -15,13 +15,14 @@ DynamicObject::ViewDirection DynamicObject::GetViewDirection() const {
 }
 
 void DynamicObject::UpdateMovement(bool left, bool up, bool right, bool down) {
-  double h = (right ? 1 : 0) - (left ? 1 : 0);
-  double v = (up ? 1 : 0) - (down ? 1 : 0);
-  UpdateSpeedVector({h, v});
-  UpdateViewDirection();
+  double hor = (right ? 1 : 0) - (left ? 1 : 0);
+  double vert = (up ? 1 : 0) - (down ? 1 : 0);
+  Point iso_vector{hor, vert};
+  UpdateSpeedVector(iso_vector);
+  UpdateViewDirection(iso_vector);
 }
 
-void DynamicObject::UpdateSpeedVector(Point iso_vector) {
+void DynamicObject::UpdateSpeedVector(const Point& iso_vector) {
   speed_vector_ = Point::FromIsometric(iso_vector);
   if (iso_vector.y == 0) {  // horizontal movement
     speed_vector_ *= constants::kIsometricSpeedCoefficient;
@@ -30,30 +31,12 @@ void DynamicObject::UpdateSpeedVector(Point iso_vector) {
   }
 }
 
-void DynamicObject::UpdateViewDirection() {
-  if (speed_vector_.x > 0) {
-    if (speed_vector_.y > 0) {
-      view_direction_ = ViewDirection::kDown;
-    } else if (speed_vector_.y < 0) {
-      view_direction_ = ViewDirection::kLeft;
-    } else {
-      view_direction_ = ViewDirection::kDownLeft;
-    }
-  } else if (speed_vector_.x < 0) {
-    if (speed_vector_.y > 0) {
-      view_direction_ = ViewDirection::kRight;
-    } else if (speed_vector_.y < 0) {
-      view_direction_ = ViewDirection::kUp;
-    } else {
-      view_direction_ = ViewDirection::kUpRight;
-    }
-  } else {
-    if (speed_vector_.y > 0) {
-      view_direction_ = ViewDirection::kDownRight;
-    } else if (speed_vector_.y < 0) {
-      view_direction_ = ViewDirection::kUpLeft;
-    }
+void DynamicObject::UpdateViewDirection(const Point& iso_vector) {
+  if (iso_vector.IsNull()) {
+    return;
   }
+  view_direction_ = static_cast<ViewDirection>(
+                      3 * (iso_vector.x + 1) + (iso_vector.y + 1));
 }
 
 void DynamicObject::Move() {

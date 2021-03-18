@@ -17,12 +17,14 @@ class Point {
 
   // Returns |true| if the point has (0, 0, 0) coordinates.
   bool IsNull() const;
+
+  // Returns the length of the vector.
   double GetMagnitude() const;
 
-  // Makes point have a magnitude of |new_magnitude|.
+  // Makes vector have a magnitude of |new_magnitude|.
   void ClampMagnitude(double new_magnitude);
 
-  // Makes point have a magnitude of 1.
+  // Makes vector have a magnitude of 1.
   void Normalize();
 
   // Rotates the coordinates in the XY-plane through an |angle| in degrees

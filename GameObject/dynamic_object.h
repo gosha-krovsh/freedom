@@ -7,15 +7,16 @@
 
 class DynamicObject : public Object {
  public:
+  // The order is important for |UpdateViewDirection()|.
   enum class ViewDirection {
-    kRight,
-    kUpRight,
-    kUp,
-    kUpLeft,
-    kLeft,
-    kDownLeft,
-    kDownRight,
-    kDown,
+    kDownLeft = 0,
+    kLeft = 1,
+    kUpLeft = 2,
+    kDown = 3,
+    kUp = 5,
+    kDownRight = 6,
+    kRight = 7,
+    kUpRight = 8,
   };
 
  public:
@@ -23,13 +24,13 @@ class DynamicObject : public Object {
 
   void Tick(int current_tick) override;
 
-  ViewDirection GetViewDirection() const;
   void UpdateMovement(bool left, bool up, bool right, bool down);
+  ViewDirection GetViewDirection() const;
 
 
  private:
-  void UpdateSpeedVector(Point iso_vector);
-  void UpdateViewDirection();
+  void UpdateSpeedVector(const Point& iso_vector);
+  void UpdateViewDirection(const Point& iso_vector);
   void Move();
 
  private:
