@@ -1,3 +1,4 @@
+#include <iostream>
 #include "view.h"
 
 View::View(AbstractController* controller,
@@ -81,5 +82,14 @@ void View::keyReleaseEvent(QKeyEvent* event) {
       controller_->SetControlLeftKeyState(false);
       break;
     }
+  }
+}
+
+void View::changeEvent(QEvent* event) {
+  if(event->type() == QEvent::ActivationChange && !isActiveWindow()) {
+    controller_->SetControlUpKeyState(false);
+    controller_->SetControlRightKeyState(false);
+    controller_->SetControlDownKeyState(false);
+    controller_->SetControlLeftKeyState(false);
   }
 }

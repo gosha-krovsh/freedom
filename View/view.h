@@ -17,12 +17,13 @@ class View : public QMainWindow {
 
  private:
   void paintEvent(QPaintEvent*) override;
-  void keyPressEvent(QKeyEvent* event) override;
-  void keyReleaseEvent(QKeyEvent* event) override;
+  void keyPressEvent(QKeyEvent*) override;
+  void keyReleaseEvent(QKeyEvent*) override;
+  void changeEvent(QEvent*) override;
   void TimerEvent();
 
+ private:
   QTimer* timer_;
-
   AbstractController* controller_;
   std::shared_ptr<Model> model_;
 };
