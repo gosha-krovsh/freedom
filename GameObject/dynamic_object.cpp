@@ -1,6 +1,6 @@
 #include "dynamic_object.h"
 
-DynamicObject::DynamicObject(const Coordinates& coords, const QPixmap& image) :
+DynamicObject::DynamicObject(const Point& coords, const QPixmap& image) :
     Object(coords, image) {
   is_touchable_ = false;
 }
@@ -14,52 +14,48 @@ DynamicObject::ViewDirection DynamicObject::GetViewDirection() const {
   return view_direction_;
 }
 
-void DynamicObject::SetViewDirection(ViewDirection view_direction) {
-  view_direction_ = view_direction;
+void DynamicObject::UpdateMovement(bool left, bool up, bool right, bool down) {
+  double h = (right ? 1 : 0) - (left ? 1 : 0);
+  double v = (up ? 1 : 0) - (down ? 1 : 0);
+  UpdateSpeedVector({h, v});
+  UpdateViewDirection();
 }
 
-void DynamicObject::SetViewDirection(Coordinates speed) {
-  if (speed.x > 0) {
-    if (speed.y > 0) {
-      SetViewDirection(ViewDirection::kDown);
-    } else if (speed.y < 0) {
-      SetViewDirection(ViewDirection::kLeft);
+void DynamicObject::UpdateSpeedVector(Point iso_vector) {
+  speed_vector_ = Point::FromIsometric(iso_vector);
+  if (iso_vector.y == 0) {  // horizontal movement
+    speed_vector_ *= constants::kIsometricSpeedCoefficient;
+  } else if (iso_vector.x != 0 && iso_vector.y != 0) {  // diagonal movement
+    speed_vector_ /= std::sqrt(2);
+  }
+}
+
+void DynamicObject::UpdateViewDirection() {
+  if (speed_vector_.x > 0) {
+    if (speed_vector_.y > 0) {
+      view_direction_ = ViewDirection::kDown;
+    } else if (speed_vector_.y < 0) {
+      view_direction_ = ViewDirection::kLeft;
     } else {
-      SetViewDirection(ViewDirection::kDownLeft);
+      view_direction_ = ViewDirection::kDownLeft;
     }
-  } else if (speed.x < 0) {
-    if (speed.y > 0) {
-      SetViewDirection(ViewDirection::kRight);
-    } else if (speed.y < 0) {
-      SetViewDirection(ViewDirection::kUp);
+  } else if (speed_vector_.x < 0) {
+    if (speed_vector_.y > 0) {
+      view_direction_ = ViewDirection::kRight;
+    } else if (speed_vector_.y < 0) {
+      view_direction_ = ViewDirection::kUp;
     } else {
-      SetViewDirection(ViewDirection::kUpRight);
+      view_direction_ = ViewDirection::kUpRight;
     }
   } else {
-    if (speed.y > 0) {
-      SetViewDirection(ViewDirection::kDownRight);
-    } else if (speed.y < 0) {
-      SetViewDirection(ViewDirection::kUpLeft);
+    if (speed_vector_.y > 0) {
+      view_direction_ = ViewDirection::kDownRight;
+    } else if (speed_vector_.y < 0) {
+      view_direction_ = ViewDirection::kUpLeft;
     }
   }
 }
 
-void DynamicObject::UpdateMoving(bool left, bool up, bool right, bool down) {
-  double h = (right ? 1 : 0) - (left ? 1 : 0);
-  double v = (up ? 1 : 0) - (down ? 1 : 0);
-  SetSpeedVector(Coordinates{h, v});
-  SetViewDirection(speed_vector);
-}
-
-Coordinates DynamicObject::GetSpeedVector() const {
-  // TODO
-  // rotate, ClampMagnitude, if r/l => add
-}
-
 void DynamicObject::Move() {
-  SetCoordinates(GetCoordinates() + GetSpeedVector() * speed_);
-}
-
-void DynamicObject::SetSpeedVector(Coordinates coords) {
-  speed_vector = coords;
+  SetCoordinates(GetCoordinates() + speed_vector_ * speed_value_);
 }

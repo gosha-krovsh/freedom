@@ -2,15 +2,15 @@
 
 Model::Model() {
   objects_ = {
-      Object(Coordinates(0, 5, 0), QPixmap(":brick.png")),
-      Object(Coordinates(1, 5, 0), QPixmap(":brick.png")),
-      Object(Coordinates(2, 5, 0), QPixmap(":brick.png")),
-      Object(Coordinates(0, 6, 0), QPixmap(":brick.png")),
-      Object(Coordinates(1, 6, 0), QPixmap(":brick.png")),
-      Object(Coordinates(2, 6, 0), QPixmap(":brick.png")),
-      Object(Coordinates(0, 7, 0), QPixmap(":brick.png")),
-      Object(Coordinates(1, 7, 0), QPixmap(":brick.png")),
-      Object(Coordinates(2, 7, 0), QPixmap(":brick.png"))
+      Object(Point(0, 5, 0), QPixmap(":brick.png")),
+      Object(Point(1, 5, 0), QPixmap(":brick.png")),
+      Object(Point(2, 5, 0), QPixmap(":brick.png")),
+      Object(Point(0, 6, 0), QPixmap(":brick.png")),
+      Object(Point(1, 6, 0), QPixmap(":brick.png")),
+      Object(Point(2, 6, 0), QPixmap(":brick.png")),
+      Object(Point(0, 7, 0), QPixmap(":brick.png")),
+      Object(Point(1, 7, 0), QPixmap(":brick.png")),
+      Object(Point(2, 7, 0), QPixmap(":brick.png"))
   };
   map_ = GameMap(constants::kHeightOfMap,
                  std::vector<std::vector<Object*>>(constants::kDepthOfMap,

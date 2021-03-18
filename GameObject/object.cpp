@@ -1,6 +1,6 @@
 #include "object.h"
 
-Object::Object(const Coordinates& coords, const QPixmap& image) :
+Object::Object(const Point& coords, const QPixmap& image) :
     coordinates_(coords), image_(image) {}
 
 void Object::Tick(int) {}
@@ -21,7 +21,7 @@ void Object::Draw(QPainter* painter) const {
   painter->restore();
 }
 
-Coordinates Object::GetCoordinates() const {
+Point Object::GetCoordinates() const {
   return coordinates_;
 }
 double Object::GetX() const {
@@ -34,7 +34,7 @@ double Object::GetZ() const {
   return GetCoordinates().z;
 }
 
-void Object::SetCoordinates(Coordinates coords) {
+void Object::SetCoordinates(Point coords) {
   coordinates_ = coords;
 }
 

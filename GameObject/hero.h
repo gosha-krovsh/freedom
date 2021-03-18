@@ -5,7 +5,7 @@
 
 class Hero : public Creature {
  public:
-  explicit Hero(Coordinates coords,
+  explicit Hero(Point coords,
                 const QPixmap& image = QPixmap(":hero_0.png"));
 
   void Tick(int current_tick) override;

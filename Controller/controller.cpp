@@ -26,8 +26,8 @@ void Controller::SetControlLeftKeyState(bool state) {
   UpdateHeroMovingDirection();
 }
 void Controller::UpdateHeroMovingDirection() {
-  model_->GetHero().UpdateMoving(control_key_states_.left,
-                                 control_key_states_.up,
-                                 control_key_states_.right,
-                                 control_key_states_.down);
+  model_->GetHero().UpdateMovement(control_key_states_.left,
+                                   control_key_states_.up,
+                                   control_key_states_.right,
+                                   control_key_states_.down);
 }
