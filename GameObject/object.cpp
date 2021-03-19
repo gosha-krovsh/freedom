@@ -34,7 +34,7 @@ double Object::GetZ() const {
   return GetCoordinates().z;
 }
 
-void Object::SetCoordinates(Point coords) {
+void Object::SetCoordinates(const Point& coords) {
   coordinates_ = coords;
 }
 

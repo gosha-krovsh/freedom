@@ -17,14 +17,14 @@ class Object {
   double GetX() const;
   double GetY() const;
   double GetZ() const;
-  void SetCoordinates(Point coords);
+  void SetCoordinates(const Point& coords);
 
   bool IsTouchable() const;
 
   void Draw(QPainter* painter) const;
 
  protected:
-  bool is_touchable_{ true };
+  bool is_touchable_{true};
 
  private:
   Point coordinates_;
