@@ -15,9 +15,9 @@ DynamicObject::ViewDirection DynamicObject::GetViewDirection() const {
 }
 
 void DynamicObject::UpdateMovement(bool left, bool up, bool right, bool down) {
-  double hor = (right ? 1 : 0) - (left ? 1 : 0);
-  double vert = (up ? 1 : 0) - (down ? 1 : 0);
-  Point screen_vector{hor, vert};
+  double x = (right ? 1 : 0) - (left ? 1 : 0);
+  double y = (up ? 1 : 0) - (down ? 1 : 0);
+  Point screen_vector{x, y};
   UpdateSpeedVector(screen_vector);
   UpdateViewDirection(screen_vector);
 }
@@ -25,6 +25,9 @@ void DynamicObject::UpdateMovement(bool left, bool up, bool right, bool down) {
 void DynamicObject::UpdateSpeedVector(const Point& screen_vector) {
   speed_vector_ = Point::FromScreenPoint(screen_vector);
   speed_vector_.Normalize();
+
+  // Making movement more realistic in isometric world: equal displacement in
+  // isometric view in all directions, except horizontal (a slow down here)
   if (screen_vector.y == 0) {  // horizontal movement
     speed_vector_ *= constants::kIsometricSpeedCoefficient;
   } else if (screen_vector.x != 0 &&
