@@ -106,7 +106,9 @@ Point operator/(double lhs, Point rhs) {
 }
 
 bool Point::operator==(const Point& rhs) const {
-  return ((x == rhs.x) && (y == rhs.y) && (z == rhs.z));
+  return (std::abs(x - rhs.x) < constants::kEps &&
+          std::abs(y - rhs.y) < constants::kEps &&
+          std::abs(z - rhs.z) < constants::kEps);
 }
 
 bool Point::operator!=(const Point& rhs) const {

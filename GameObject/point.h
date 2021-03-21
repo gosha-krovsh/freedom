@@ -2,6 +2,7 @@
 #define GAMEOBJECT_POINT_H_
 
 #include <cmath>
+#include "Model/constants.h"
 
 // Representation of 3D point in Cartesian coordinate system.
 // It also can be used as a vector with the beginning at the origin.

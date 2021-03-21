@@ -4,6 +4,7 @@
 #include <cmath>
 
 namespace constants {
+  const double kEps = 1e-7;
   const int kSizeOfBlock = 140;
   const int kHP = 100;
   const double kSpeed = 0.08;

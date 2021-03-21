@@ -24,16 +24,16 @@ class DynamicObject : public Object {
 
   void Tick(int current_tick) override;
 
-  void UpdateMovement(bool left, bool up, bool right, bool down);
   ViewDirection GetViewDirection() const;
 
 
- private:
-  void UpdateSpeedVector(const Point& screen_vector);
+ protected:
   void UpdateViewDirection(const Point& screen_vector);
-  void Move();
 
  private:
+  void Move();
+
+ protected:
   double speed_value_{constants::kSpeed};
   Point speed_vector_{0, 0};
   ViewDirection view_direction_{ViewDirection::kDown};
