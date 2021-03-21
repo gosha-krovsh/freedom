@@ -14,12 +14,30 @@ DynamicObject::ViewDirection DynamicObject::GetViewDirection() const {
   return view_direction_;
 }
 
-void DynamicObject::UpdateViewDirection(const Point& screen_vector) {
-  if (screen_vector.IsNull()) {
-    return;
+void DynamicObject::UpdateViewDirection() {
+  if (speed_vector_.x >= constants::kEps) {
+    if (speed_vector_.y >= constants::kEps) {
+      view_direction_ = ViewDirection::kDown;
+    } else if (speed_vector_.y <= constants::kEps) {
+      view_direction_ = ViewDirection::kLeft;
+    } else {
+      view_direction_ = ViewDirection::kDownLeft;
+    }
+  } else if (speed_vector_.x <= constants::kEps) {
+    if (speed_vector_.y >= constants::kEps) {
+      view_direction_ = ViewDirection::kRight;
+    } else if (speed_vector_.y <= constants::kEps) {
+      view_direction_ = ViewDirection::kUp;
+    } else {
+      view_direction_ = ViewDirection::kUpRight;
+    }
+  } else {
+    if (speed_vector_.y >= constants::kEps) {
+      view_direction_ = ViewDirection::kDownRight;
+    } else if (speed_vector_.y <= constants::kEps) {
+      view_direction_ = ViewDirection::kUpLeft;
+    }
   }
-  view_direction_ = static_cast<ViewDirection>(
-                      3 * (screen_vector.x + 1) + (screen_vector.y + 1));
 }
 
 void DynamicObject::Move() {

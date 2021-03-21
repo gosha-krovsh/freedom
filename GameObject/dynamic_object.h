@@ -7,16 +7,15 @@
 
 class DynamicObject : public Object {
  public:
-  // The order is important for |UpdateViewDirection()|.
   enum class ViewDirection {
-    kDownLeft = 0,
-    kLeft = 1,
-    kUpLeft = 2,
-    kDown = 3,
-    kUp = 5,
-    kDownRight = 6,
-    kRight = 7,
-    kUpRight = 8,
+    kLeft,
+    kUpLeft,
+    kUp,
+    kUpRight,
+    kRight,
+    kDownRight,
+    kDown,
+    kDownLeft
   };
 
  public:
@@ -28,7 +27,7 @@ class DynamicObject : public Object {
 
 
  protected:
-  void UpdateViewDirection(const Point& screen_vector);
+  void UpdateViewDirection();
 
  private:
   void Move();

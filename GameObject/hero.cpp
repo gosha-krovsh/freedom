@@ -12,7 +12,7 @@ void Hero::UpdateMovement(bool left, bool up, bool right, bool down) {
   double y = (up ? 1 : 0) - (down ? 1 : 0);
   Point screen_vector{x, y};
   UpdateSpeedVector(screen_vector);
-  UpdateViewDirection(screen_vector);
+  UpdateViewDirection();
 }
 
 void Hero::UpdateSpeedVector(const Point& screen_vector) {
