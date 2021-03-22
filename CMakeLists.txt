@@ -23,7 +23,7 @@ add_executable(${PROJECT_NAME}
 
         Controller/controller.cpp
 
-        GameObject/coordinates.cpp
+        GameObject/point.cpp
         GameObject/object.cpp
         GameObject/dynamic_object.cpp
         GameObject/destroyable.cpp

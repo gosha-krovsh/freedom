@@ -4,9 +4,10 @@
 #include <cmath>
 
 namespace constants {
+  const double kEps = 1e-7;
   const int kSizeOfBlock = 140;
   const int kHP = 100;
-  const double kSpeed = 0.05;
+  const double kSpeed = 0.08;
 
   // Needed to make |DynamicObject| movement in Right/Left direction more
   // realistic in isometric view.

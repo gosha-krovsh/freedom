@@ -83,3 +83,12 @@ void View::keyReleaseEvent(QKeyEvent* event) {
     }
   }
 }
+
+void View::changeEvent(QEvent* event) {
+  if (event->type() == QEvent::ActivationChange && !isActiveWindow()) {
+    controller_->SetControlUpKeyState(false);
+    controller_->SetControlRightKeyState(false);
+    controller_->SetControlDownKeyState(false);
+    controller_->SetControlLeftKeyState(false);
+  }
+}

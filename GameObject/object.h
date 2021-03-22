@@ -4,30 +4,30 @@
 #include <QPainter>
 
 #include "Model/constants.h"
-#include "coordinates.h"
+#include "point.h"
 
 class Object {
  public:
-  Object(const Coordinates& coords, const QPixmap& image);
+  Object(const Point& coords, const QPixmap& image);
   virtual ~Object() = default;
 
   virtual void Tick(int current_time);
 
-  Coordinates GetCoordinates() const;
+  Point GetCoordinates() const;
   double GetX() const;
   double GetY() const;
   double GetZ() const;
-  void SetCoordinates(Coordinates coords);
+  void SetCoordinates(const Point& coords);
 
   bool IsTouchable() const;
 
   void Draw(QPainter* painter) const;
 
  protected:
-  bool is_touchable_{ true };
+  bool is_touchable_{true};
 
  private:
-  Coordinates coordinates_;
+  Point coordinates_;
   QPixmap image_;
 };
 
