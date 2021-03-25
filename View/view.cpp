@@ -15,18 +15,23 @@ View::View(AbstractController* controller,
 void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
 
+  const Hero& hero = model_->GetHero();
   const auto& map = model_->GetMap();
-  for (int z = map.size() - 1; z >= 0; --z) {
+  for (int z = 0; z < map.size(); ++z) {
     for (int y = 0; y < map[z].size(); ++y) {
       for (int x = 0; x < map[z][y].size(); ++x) {
         if (map[z][y][x]) {
           map[z][y][x]->Draw(&painter);
         }
+
+        if (x - 0.5 <= hero.GetX() && hero.GetX() < x + 0.5 &&
+            y - 0.5 <= hero.GetY() && hero.GetY() < y + 0.5 &&
+            z == hero.GetZ()) {
+          hero.Draw(&painter);
+        }
       }
     }
   }
-
-  model_->GetHero().Draw(&painter);
 }
 
 void View::TimerEvent() {
