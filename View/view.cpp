@@ -24,8 +24,8 @@ void View::paintEvent(QPaintEvent*) {
           map[z][y][x]->Draw(&painter);
         }
 
-        if (x - 0.5 <= hero.GetX() && hero.GetX() < x + 0.5 &&
-            y - 0.5 <= hero.GetY() && hero.GetY() < y + 0.5 &&
+        if (std::abs(hero.GetX() - x) < 0.5 &&
+            std::abs(hero.GetY() - y) < 0.5 &&
             z == hero.GetZ()) {
           hero.Draw(&painter);
         }

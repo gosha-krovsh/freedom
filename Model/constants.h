@@ -15,6 +15,8 @@ namespace constants {
 
   // Needed to detect collision from correct side
   const double kOffsetForCollisionDetection = 0.15;
+  // Needed to prevent getting stuck at the joints of the blocks
+  const double kMaxSumOfDeltas = 2 * (1 - kOffsetForCollisionDetection * 2 / 3);
 
   const int kHeightOfMap = 2;
   const int kDepthOfMap = 10;
