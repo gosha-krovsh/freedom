@@ -18,6 +18,9 @@ class Object {
   double GetY() const;
   double GetZ() const;
   void SetCoordinates(const Point& coords);
+  void SetX(double x);
+  void SetY(double y);
+  void SetZ(double z);
 
   bool IsTouchable() const;
 

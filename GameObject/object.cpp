@@ -37,6 +37,15 @@ double Object::GetZ() const {
 void Object::SetCoordinates(const Point& coords) {
   coordinates_ = coords;
 }
+void Object::SetX(double x) {
+  coordinates_.x = x;
+}
+void Object::SetY(double y) {
+  coordinates_.y = y;
+}
+void Object::SetZ(double z) {
+  coordinates_.z = z;
+}
 
 bool Object::IsTouchable() const {
   return is_touchable_;

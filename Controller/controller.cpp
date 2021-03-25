@@ -6,7 +6,44 @@ Controller::Controller() : model_(std::make_shared<Model>()),
 
 void Controller::Tick() {
   model_->GetHero().Tick(current_tick_);
+  CheckHeroCollision();
+
   ++current_tick_;
+}
+
+void Controller::CheckHeroCollision() {
+  Hero& hero = model_->GetHero();
+
+  int rounded_x = std::floor(hero.GetX());
+  int rounded_y = std::floor(hero.GetY());
+
+  // Check 4 blocks, which |Hero| can collide
+  for (int block_x = rounded_x; block_x <= rounded_x + 1; ++block_x) {
+    for (int block_y = rounded_y; block_y <= rounded_y + 1; ++block_y) {
+      Object* block = model_->GetMap()[hero.GetZ()][block_y][block_x];
+      if (block && block->IsTouchable()) {
+        double delta_x = hero.GetX() - block_x;
+        double delta_y = hero.GetY() - block_y;
+
+        // Collision check
+        if (std::abs(delta_x) + std::abs(delta_y) < 1.8 &&
+            std::abs(delta_x) < 1. && std::abs(delta_y) < 1.) {
+          // First condition is needed to prevent
+          // getting stuck at the joints of the blocks
+
+          if (delta_x > 1. - constants::kOffsetForCollisionDetection) {
+            model_->GetHero().SetX(block_x + 1.);
+          } else if (delta_x < constants::kOffsetForCollisionDetection - 1.) {
+            model_->GetHero().SetX(block_x - 1.);
+          } else if (delta_y > 1. - constants::kOffsetForCollisionDetection) {
+            model_->GetHero().SetY(block_y + 1.);
+          } else if (delta_y < constants::kOffsetForCollisionDetection - 1.) {
+            model_->GetHero().SetY(block_y - 1.);
+          }
+        }
+      }
+    }
+  }
 }
 
 void Controller::SetControlUpKeyState(bool state) {
