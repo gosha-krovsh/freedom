@@ -20,7 +20,9 @@ void Controller::CheckHeroCollision() {
   // Check 4 blocks, which |Hero| can collide
   for (int block_x = rounded_x; block_x <= rounded_x + 1; ++block_x) {
     for (int block_y = rounded_y; block_y <= rounded_y + 1; ++block_y) {
-      const Object* block = model_->GetMap()[hero.GetZ()][block_y][block_x];
+      const Object* block = model_->GetMap()[std::round(hero.GetZ())]
+                                            [block_y]
+                                            [block_x];
       if (!block || !block->IsTouchable()) {
         continue;
       }
