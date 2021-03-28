@@ -13,6 +13,11 @@ namespace constants {
   // realistic in isometric view.
   const double kIsometricSpeedCoefficient = 1 / std::sqrt(3);
 
+  // Needed to detect collision from correct side
+  const double kOffsetForCollisionDetection = 0.15;
+  // Needed to prevent getting stuck at the joints of the blocks
+  const double kMaxSumOfDeltas = 2 * (1 - kOffsetForCollisionDetection * 2 / 3);
+
   const int kHeightOfMap = 2;
   const int kDepthOfMap = 10;
   const int kWidthOfMap = 10;
