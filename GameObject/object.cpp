@@ -33,6 +33,15 @@ double Object::GetY() const {
 double Object::GetZ() const {
   return GetCoordinates().z;
 }
+int Object::GetRoundedX() const {
+  return static_cast<int>(std::round(GetX()));
+}
+int Object::GetRoundedY() const {
+  return static_cast<int>(std::round(GetY()));
+}
+int Object::GetRoundedZ() const {
+  return static_cast<int>(std::round(GetZ()));
+}
 
 void Object::SetCoordinates(const Point& coords) {
   coordinates_ = coords;

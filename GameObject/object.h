@@ -17,6 +17,9 @@ class Object {
   double GetX() const;
   double GetY() const;
   double GetZ() const;
+  int GetRoundedX() const;
+  int GetRoundedY() const;
+  int GetRoundedZ() const;
   void SetCoordinates(const Point& coords);
   void SetX(double x);
   void SetY(double y);
