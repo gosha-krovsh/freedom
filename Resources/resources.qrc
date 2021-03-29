@@ -2,5 +2,6 @@
     <qresource>
         <file>hero_0.png</file>
         <file>brick.png</file>
+        <file>schedule.json</file>
     </qresource>
 </RCC>

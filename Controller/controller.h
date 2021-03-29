@@ -5,6 +5,8 @@
 #include <vector>
 
 #include "abstract_controller.h"
+#include "actions_controller.h"
+#include "data_controller.h"
 
 #include "View/view.h"
 #include "Model/model.h"
@@ -33,6 +35,9 @@ class Controller : public AbstractController {
  private:
   std::shared_ptr<Model> model_;
   std::unique_ptr<View> view_;
+
+  std::unique_ptr<ActionsController> actions_controller_;
+  std::unique_ptr<DataController> data_controller_;
 
   ControlKeyStates control_key_states_;
   int current_tick_;

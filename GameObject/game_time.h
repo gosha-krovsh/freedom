@@ -1,0 +1,31 @@
+#ifndef TIME_H_
+#define TIME_H_
+
+#include <string>
+
+class Time {
+ public:
+  Time() = default;
+  explicit Time(const Time&);
+  explicit Time(const std::string& str_time);  // Format HH:MM
+  Time(int hours, int minutes);
+
+  Time& operator=(const Time& time) = default;
+
+  void AddMinutes(int minutes);
+
+  int GetMinutes() const;
+  int GetHours() const;
+  std::string GetTime() const;
+
+  bool operator==(const Time&) const;
+  bool operator<(const Time&) const;
+
+  std::string ToString() const;  // Fromat HH:MM
+ private:
+
+  int minutes_ = 0;
+  int hours_ = 0;
+};
+
+#endif  // TIME_H_
