@@ -33,6 +33,9 @@ class Controller : public AbstractController {
   };
 
  private:
+  void CheckHeroCollision();
+
+ private:
   std::shared_ptr<Model> model_;
   std::unique_ptr<View> view_;
 
