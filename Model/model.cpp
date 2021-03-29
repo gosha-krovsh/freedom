@@ -2,16 +2,28 @@
 
 Model::Model() {
   objects_ = {
+      Object(Point(0, 8, 0), QPixmap(":brick.png")),
+      Object(Point(0, 7, 0), QPixmap(":brick.png")),
+      Object(Point(0, 6, 0), QPixmap(":brick.png")),
+      Object(Point(0, 5, 0), QPixmap(":brick.png")),
       Object(Point(0, 8, 1), QPixmap(":brick.png")),
       Object(Point(0, 7, 1), QPixmap(":brick.png")),
       Object(Point(0, 6, 1), QPixmap(":brick.png")),
       Object(Point(0, 5, 1), QPixmap(":brick.png")),
 
+
+      Object(Point(4, 8, 0), QPixmap(":brick.png")),
+      Object(Point(4, 7, 0), QPixmap(":brick.png")),
+      Object(Point(4, 6, 0), QPixmap(":brick.png")),
+      Object(Point(4, 5, 0), QPixmap(":brick.png")),
       Object(Point(4, 8, 1), QPixmap(":brick.png")),
       Object(Point(4, 7, 1), QPixmap(":brick.png")),
       Object(Point(4, 6, 1), QPixmap(":brick.png")),
       Object(Point(4, 5, 1), QPixmap(":brick.png")),
 
+      Object(Point(1, 8, 0), QPixmap(":brick.png")),
+      Object(Point(2, 8, 0), QPixmap(":brick.png")),
+      Object(Point(3, 8, 0), QPixmap(":brick.png")),
       Object(Point(1, 8, 1), QPixmap(":brick.png")),
       Object(Point(2, 8, 1), QPixmap(":brick.png")),
       Object(Point(3, 8, 1), QPixmap(":brick.png")),

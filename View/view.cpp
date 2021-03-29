@@ -1,3 +1,4 @@
+#include <iostream>
 #include "view.h"
 
 View::View(AbstractController* controller,
@@ -17,11 +18,50 @@ void View::paintEvent(QPaintEvent*) {
 
   const Hero& hero = model_->GetHero();
   const auto& map = model_->GetMap();
+
+  std::vector<const Object*> transparent_blocks;
+  if (hero.GetFlooredY() + 1 < map[hero.GetRoundedZ()].size() &&
+      hero.GetFlooredX() + 1 < map[hero.GetRoundedZ()][hero.GetFlooredY() + 1].size()) {
+    const Object* main_overlapping_block =
+        map[hero.GetRoundedZ()][hero.GetFlooredY() + 1][hero.GetFlooredX() + 1];
+    if (main_overlapping_block) {
+      transparent_blocks.push_back(main_overlapping_block);
+      // в классе map сделать метод GetWallByItsBlock() (нужно влево-вправо и вверх!)
+      int curr_y = main_overlapping_block->GetRoundedY() - 1;
+      while (curr_y >= 0 &&
+          map[main_overlapping_block->GetRoundedZ()]
+          [curr_y]
+          [main_overlapping_block->GetRoundedX()]) {
+        transparent_blocks.push_back(map[main_overlapping_block->GetRoundedZ()]
+                                     [curr_y]
+                                     [main_overlapping_block->GetRoundedX()]);
+        --curr_y;
+      }
+
+      int curr_x = main_overlapping_block->GetRoundedX() - 1;
+      while (curr_x >= 0 &&
+          map[main_overlapping_block->GetRoundedZ()]
+          [main_overlapping_block->GetRoundedY()]
+          [curr_x]) {
+        transparent_blocks.push_back(map[main_overlapping_block->GetRoundedZ()]
+                                     [main_overlapping_block->GetRoundedY()]
+                                     [curr_x]);
+        --curr_x;
+      }
+    }
+  }
+
+
   for (int z = 0; z < map.size(); ++z) {
     for (int y = 0; y < map[z].size(); ++y) {
       for (int x = 0; x < map[z][y].size(); ++x) {
         if (map[z][y][x]) {
+          if (std::find(transparent_blocks.begin(), transparent_blocks.end(),
+                        map[z][y][x]) != transparent_blocks.end()) {
+            painter.setOpacity(0.1);
+          }
           map[z][y][x]->Draw(&painter);
+          painter.setOpacity(1);
         }
 
         if (hero.GetRoundedX() == x &&

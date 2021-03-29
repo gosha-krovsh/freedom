@@ -59,3 +59,11 @@ void Object::SetZ(double z) {
 bool Object::IsTouchable() const {
   return is_touchable_;
 }
+
+int Object::GetFlooredX() const {
+  return static_cast<int>(std::floor(GetX()));
+}
+
+int Object::GetFlooredY() const {
+  return static_cast<int>(std::floor(GetY()));
+}

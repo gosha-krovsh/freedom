@@ -8,6 +8,7 @@
 
 #include "Controller/abstract_controller.h"
 #include "Model/model.h"
+#include "GameObject/object.h"
 
 class View : public QMainWindow {
   Q_OBJECT
