@@ -2,6 +2,7 @@
 #define GAMEOBJECT_SCHEDULE_H_
 
 #include <map>
+#include <utility>
 #include <vector>
 #include "action.h"
 #include "game_time.h"

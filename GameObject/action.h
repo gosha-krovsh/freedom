@@ -1,7 +1,8 @@
-#ifndef GAMEOBJECT_ACTION_METHOD_H_
-#define GAMEOBJECT_ACTION_METHOD_H_
+#ifndef GAMEOBJECT_ACTION_H_
+#define GAMEOBJECT_ACTION_H_
 
 #include <string>
+#include <utility>
 #include <vector>
 
 class Action {
@@ -26,4 +27,4 @@ class Action {
   std::vector<std::string> parametres_;
 };
 
-#endif  // GAMEOBJECT_ACTION_METHOD_H_
+#endif  // GAMEOBJECT_ACTION_H_

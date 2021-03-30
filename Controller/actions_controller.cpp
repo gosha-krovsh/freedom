@@ -1,7 +1,7 @@
 #include "actions_controller.h"
 
 ActionsController::ActionsController(std::shared_ptr<Model> model) :
-    model_(std::move(model)) {};
+    model_(std::move(model)) {}
 
 void ActionsController::Call(const std::vector<Action>& command) {
   for (const auto& method_to_call : command) {
