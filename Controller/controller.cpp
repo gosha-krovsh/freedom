@@ -11,9 +11,9 @@ void Controller::Tick() {
   data_controller_->Tick(current_tick_);
   model_->GetHero().Tick(current_tick_);
 
-  if (current_tick_ % constants::kTicksInMinute == 0) {
-    actions_controller_->Tick();
+  if (current_tick_ % constants::kTicksInMinute == 0 && current_tick_ != 0) {
     model_->GetTime().AddMinutes(1);
+    actions_controller_->Tick();
   }
   CheckHeroCollision();
 
