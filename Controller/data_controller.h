@@ -1,5 +1,5 @@
-#ifndef DATA_CONTROLLER_H_
-#define DATA_CONTROLLER_H_
+#ifndef CONTROLLER_DATA_CONTROLLER_H_
+#define CONTROLLER_DATA_CONTROLLER_H_
 
 #include <QFile>
 #include <QJsonDocument>
@@ -7,10 +7,12 @@
 #include <QJsonArray>
 
 #include <map>
-#include <vector>
 #include <memory>
+#include <string>
+#include <vector>
+#include <utility>
 
-#include "GameObject/encrypted_method.h"
+#include "GameObject/action.h"
 #include "GameObject/game_time.h"
 
 #include "Model/model.h"
@@ -19,15 +21,12 @@ class DataController {
  public:
   explicit DataController(std::shared_ptr<Model> model);
 
-  static std::map<Time, std::vector<EncryptedMethod>> ParseShedule();
+  static std::map<Time, std::vector<Action>> ParseSchedule();
 
   void Tick(int current_tick);
 
  private:
-  static int GetMethodId (std::string name);
-  static bool Equals (const std::string& lhs, const std::string& rhs);
-
   std::shared_ptr<Model> model_;
 };
 
-#endif  // DATA_CONTROLLER_H_
+#endif  // CONTROLLER_DATA_CONTROLLER_H_

@@ -1,8 +1,8 @@
 {
   "8:32": [
     {
-      "name": "Move",
-      "commands": [
+      "action": "Move",
+      "arguments": [
         "Hero",
         "2",
         "2",
@@ -12,8 +12,8 @@
   ],
   "10:00": [
     {
-      "name": "Move",
-      "commands": [
+      "action": "Move",
+      "arguments": [
         "Hero",
         "3",
         "3",

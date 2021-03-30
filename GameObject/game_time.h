@@ -1,12 +1,12 @@
-#ifndef TIME_H_
-#define TIME_H_
+#ifndef GAMEOBJECT_GAME_TIME_H_
+#define GAMEOBJECT_GAME_TIME_H_
 
 #include <string>
 
 class Time {
  public:
   Time() = default;
-  explicit Time(const Time&);
+  Time(const Time&) = default;
   explicit Time(const std::string& str_time);  // Format HH:MM
   Time(int hours, int minutes);
 
@@ -16,16 +16,19 @@ class Time {
 
   int GetMinutes() const;
   int GetHours() const;
-  std::string GetTime() const;
 
   bool operator==(const Time&) const;
+  bool operator!=(const Time&) const;
   bool operator<(const Time&) const;
+  bool operator<=(const Time&) const;
+  bool operator>(const Time&) const;
+  bool operator>=(const Time&) const;
 
   std::string ToString() const;  // Fromat HH:MM
- private:
 
+ private:
   int minutes_ = 0;
   int hours_ = 0;
 };
 
-#endif  // TIME_H_
+#endif  // GAMEOBJECT_GAME_TIME_H_

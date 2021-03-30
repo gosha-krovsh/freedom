@@ -1,9 +1,10 @@
 #ifndef MODEL_MODEL_H_
 #define MODEL_MODEL_H_
 
+#include <map>
 #include <vector>
 
-#include <GameObject/encrypted_method.h>
+#include <GameObject/action.h>
 #include "GameObject/hero.h"
 #include "GameObject/schedule.h"
 
@@ -11,14 +12,15 @@ class Model {
  public:
   using GameMap = std::vector<std::vector<std::vector<Object*>>>;
 
-  explicit Model(const std::map<Time, std::vector<EncryptedMethod>>& actions);
+  explicit Model(const std::map<Time, std::vector<Action>>& actions);
 
   const GameMap& GetMap() const;
   const Hero& GetHero() const;
   Hero& GetHero();
-  const Schedule& GetShedule() const;
+  const Schedule& GetSchedule() const;
 
   Time& GetTime();
+  const Time& GetTime() const;
 
  private:
   std::vector<Object> objects_;

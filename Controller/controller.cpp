@@ -1,7 +1,7 @@
 #include "controller.h"
 
 Controller::Controller()
-    : model_(std::make_shared<Model>(DataController::ParseShedule())),
+    : model_(std::make_shared<Model>(DataController::ParseSchedule())),
       view_(std::make_unique<View>(this, model_)),
       actions_controller_(std::make_unique<ActionsController>(model_)),
       data_controller_(std::make_unique<DataController>(model_)),
@@ -15,7 +15,6 @@ void Controller::Tick() {
     actions_controller_->Tick();
     model_->GetTime().AddMinutes(1);
   }
-  
   CheckHeroCollision();
 
   ++current_tick_;

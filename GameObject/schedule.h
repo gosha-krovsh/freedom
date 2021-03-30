@@ -1,23 +1,22 @@
-#ifndef SCHEDULE_H_
-#define SCHEDULE_H_
+#ifndef GAMEOBJECT_SCHEDULE_H_
+#define GAMEOBJECT_SCHEDULE_H_
 
 #include <map>
 #include <vector>
-#include "encrypted_method.h"
+#include "action.h"
 #include "game_time.h"
 
 class Schedule {
  public:
-  explicit Schedule(
-      const std::map<Time, std::vector<EncryptedMethod>>& calendar);
+  explicit Schedule(std::map<Time, std::vector<Action>>);
 
-  void SetShedule(const std::map<Time,
-                  std::vector<EncryptedMethod>>& shedule_commands);
+  void SetSchedule(const std::map<Time,
+                                  std::vector<Action>>& schedule_commands);
 
-  std::vector<EncryptedMethod> GetNextAction(const Time& time) const;
+  std::vector<Action> GetActionByTime(const Time& time) const;
   bool IsNextActionAvailable(const Time& time) const;
  private:
-  std::map<Time, std::vector<EncryptedMethod>> shedule_commands_;
+  std::map<Time, std::vector<Action>> schedule_commands_;
 };
 
-#endif  // SCHEDULE_H_
+#endif  // GAMEOBJECT_SCHEDULE_H_

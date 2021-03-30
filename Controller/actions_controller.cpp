@@ -1,32 +1,29 @@
 #include "actions_controller.h"
-#include <QDebug>
-#include <utility>
 
-ActionsController::ActionsController(std::shared_ptr<Model> model) {
-  model_ = std::move(model);
-}
+ActionsController::ActionsController(std::shared_ptr<Model> model) :
+    model_(std::move(model)) {};
 
-void ActionsController::Call(std::vector<EncryptedMethod> command) {
+void ActionsController::Call(const std::vector<Action>& command) {
   for (const auto& method_to_call : command) {
-    switch (static_cast<EncryptedMethod::MethodId>(method_to_call.id)) {
-      case EncryptedMethod::MethodId::kMove: {
-        Move(method_to_call.parameters.at(0),
-             Point(
-                 std::stoi(method_to_call.parameters.at(1)),
-                 std::stoi(method_to_call.parameters.at(2)),
-                 std::stoi(method_to_call.parameters.at(3))));
+    switch (static_cast<Action::ActionType>(method_to_call.GetId())) {
+      case Action::ActionType::kMove: {
+        Move(method_to_call.GetParametres().at(0),
+             Point(std::stoi(method_to_call.GetParametres().at(1)),
+                   std::stoi(method_to_call.GetParametres().at(2)),
+                   std::stoi(method_to_call.GetParametres().at(3))));
         break;
       }
-      default: {
+      case Action::ActionType::kWrongArg: {
         qDebug() << "Wrong Action";
+        break;
       }
     }
   }
 }
 
 void ActionsController::Tick() {
-  if (model_->GetShedule().IsNextActionAvailable(model_->GetTime())) {
-    Call(model_->GetShedule().GetNextAction(model_->GetTime()));
+  if (model_->GetSchedule().IsNextActionAvailable(model_->GetTime())) {
+    Call(model_->GetSchedule().GetActionByTime(model_->GetTime()));
   }
 }
 

@@ -1,8 +1,8 @@
 #include "model.h"
 
-Model::Model(const std::map<Time, std::vector<EncryptedMethod>>& actions) :
+Model::Model(const std::map<Time, std::vector<Action>>& actions) :
   time_(Time(8, 30)),
-  schedule_(actions){
+  schedule_(actions) {
   objects_ = {
       Object(Point(0, 8, 1), QPixmap(":brick.png")),
       Object(Point(0, 7, 1), QPixmap(":brick.png")),
@@ -52,11 +52,15 @@ Hero& Model::GetHero() {
   return hero_;
 }
 
-const Schedule& Model::GetShedule() const {
+const Schedule& Model::GetSchedule() const {
   return schedule_;
 }
 
 Time& Model::GetTime() {
+  return time_;
+}
+
+const Time& Model::GetTime() const {
   return time_;
 }
 

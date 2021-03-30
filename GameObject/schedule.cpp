@@ -1,23 +1,18 @@
 #include "schedule.h"
 
-Schedule::Schedule(
-    const std::map<Time, std::vector<EncryptedMethod>>& calendar):
-    shedule_commands_(calendar) {}
+Schedule::Schedule(std::map<Time, std::vector<Action>> commands) :
+    schedule_commands_(std::move(commands)) {}
 
 bool Schedule::IsNextActionAvailable(const Time& time) const {
-  if (shedule_commands_.find(time) != shedule_commands_.end()) {
-    return true;
-  }
-
-  return false;
+  return schedule_commands_.find(time) != schedule_commands_.end();
 }
 
-std::vector<EncryptedMethod> Schedule::GetNextAction(const Time& time) const {
-  return shedule_commands_.at(time);
+std::vector<Action> Schedule::GetActionByTime(const Time& time) const {
+  return schedule_commands_.at(time);
 }
 
-void Schedule::SetShedule(const std::map<Time,
-                          std::vector<EncryptedMethod>>& shedule_commands) {
-  shedule_commands_ = shedule_commands;
+void Schedule::SetSchedule(const std::map<Time,
+                           std::vector<Action>>& schedule_commands) {
+  schedule_commands_ = schedule_commands;
 }
 
