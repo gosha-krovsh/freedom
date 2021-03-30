@@ -2,13 +2,12 @@
 #define MODEL_MODEL_H_
 
 #include <vector>
+#include <GameObject/game_map.h>
 
 #include "GameObject/hero.h"
 
 class Model {
  public:
-  using GameMap = std::vector<std::vector<std::vector<Object*>>>;
-
   Model();
 
   const GameMap& GetMap() const;
@@ -18,7 +17,7 @@ class Model {
  private:
   std::vector<Object> objects_;
   GameMap map_;
-  Hero hero_{Point(1, 6, 1) };
+  Hero hero_{Point(1, 6, 1)};
 };
 
 #endif  // MODEL_MODEL_H_

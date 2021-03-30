@@ -1,9 +1,10 @@
 #include <iostream>
+#include <utility>
 #include "view.h"
 
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model) : controller_(controller),
-                           model_(model),
+                           model_(std::move(model)),
                            timer_(new QTimer(this)) {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
 
@@ -17,50 +18,24 @@ void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
 
   const Hero& hero = model_->GetHero();
-  const auto& map = model_->GetMap();
+  const GameMap& map = model_->GetMap();
 
-  std::vector<const Object*> transparent_blocks;
-  if (hero.GetFlooredY() + 1 < map[hero.GetRoundedZ()].size() &&
-      hero.GetFlooredX() + 1 < map[hero.GetRoundedZ()][hero.GetFlooredY() + 1].size()) {
-    const Object* main_overlapping_block =
-        map[hero.GetRoundedZ()][hero.GetFlooredY() + 1][hero.GetFlooredX() + 1];
-    if (main_overlapping_block) {
-      transparent_blocks.push_back(main_overlapping_block);
-      // в классе map сделать метод GetWallByItsBlock() (нужно влево-вправо и вверх!)
-      int curr_y = main_overlapping_block->GetRoundedY() - 1;
-      while (curr_y >= 0 &&
-          map[main_overlapping_block->GetRoundedZ()]
-          [curr_y]
-          [main_overlapping_block->GetRoundedX()]) {
-        transparent_blocks.push_back(map[main_overlapping_block->GetRoundedZ()]
-                                     [curr_y]
-                                     [main_overlapping_block->GetRoundedX()]);
-        --curr_y;
-      }
+  std::vector<const Object*> transparent_blocks{
+      map.GetCorner(hero.GetRoundedX() + 1, hero.GetRoundedY() + 1)
+  };
+  // insert same with +2
 
-      int curr_x = main_overlapping_block->GetRoundedX() - 1;
-      while (curr_x >= 0 &&
-          map[main_overlapping_block->GetRoundedZ()]
-          [main_overlapping_block->GetRoundedY()]
-          [curr_x]) {
-        transparent_blocks.push_back(map[main_overlapping_block->GetRoundedZ()]
-                                     [main_overlapping_block->GetRoundedY()]
-                                     [curr_x]);
-        --curr_x;
-      }
-    }
-  }
-
-
-  for (int z = 0; z < map.size(); ++z) {
-    for (int y = 0; y < map[z].size(); ++y) {
-      for (int x = 0; x < map[z][y].size(); ++x) {
-        if (map[z][y][x]) {
+  for (int z = 0; z < map.GetZSize(); ++z) {
+    for (int y = 0; y < map.GetYSize(); ++y) {
+      for (int x = 0; x < map.GetXSize(); ++x) {
+        auto curr_block = map.GetBlock(x, y, z);
+        if (curr_block) {
+          // мб стоит как-то отсортировать и тут за nlogn вместо n^2
           if (std::find(transparent_blocks.begin(), transparent_blocks.end(),
-                        map[z][y][x]) != transparent_blocks.end()) {
-            painter.setOpacity(0.1);
+                        curr_block) != transparent_blocks.end()) {
+            painter.setOpacity(0.2);
           }
-          map[z][y][x]->Draw(&painter);
+          curr_block->Draw(&painter);
           painter.setOpacity(1);
         }
 

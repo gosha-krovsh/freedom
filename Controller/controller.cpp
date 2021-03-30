@@ -20,9 +20,8 @@ void Controller::CheckHeroCollision() {
   // Check 4 blocks, which |Hero| can collide
   for (int block_x = floored_x; block_x <= floored_x + 1; ++block_x) {
     for (int block_y = floored_y; block_y <= floored_y + 1; ++block_y) {
-      const Object* block = model_->GetMap()[hero.GetRoundedZ()]
-                                            [block_y]
-                                            [block_x];
+      auto block = model_->GetMap().GetBlock(block_x, block_y,
+                                             hero.GetRoundedZ());
       if (block == nullptr || !block->IsTouchable()) {
         continue;
       }
