@@ -2,8 +2,8 @@
 
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model) : controller_(controller),
-                           model_(model),
-                           timer_(new QTimer(this)) {
+                                           model_(model),
+                                           timer_(new QTimer(this)) {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
 
   connect(timer_, &QTimer::timeout, this, &View::TimerEvent);
@@ -16,6 +16,17 @@ void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
 
   const Hero& hero = model_->GetHero();
+
+  double x_camera_offset = width() / 2.;
+  double y_camera_offset = height() / 2.;
+  x_camera_offset -= (hero.GetCoordinates().GetIsometricX() + 1)
+      * (constants::kSizeOfBlock / 2.);
+  y_camera_offset -= (hero.GetCoordinates().GetIsometricY() + 1)
+      * (constants::kSizeOfBlock / 2.);
+
+  // Make camera follow |Hero|
+  painter.translate(x_camera_offset, y_camera_offset);
+
   const auto& map = model_->GetMap();
   for (int z = 0; z < map.size(); ++z) {
     for (int y = 0; y < map[z].size(); ++y) {
