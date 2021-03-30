@@ -23,7 +23,7 @@ void DynamicObject::UpdateViewDirection() {
     } else {
       view_direction_ = ViewDirection::kDownLeft;
     }
-  } else if (speed_vector_.x <= constants::kEps) {
+  } else if (speed_vector_.x <= -constants::kEps) {
     if (speed_vector_.y >= constants::kEps) {
       view_direction_ = ViewDirection::kRight;
     } else if (speed_vector_.y <= -constants::kEps) {
