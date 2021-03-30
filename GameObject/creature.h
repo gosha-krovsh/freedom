@@ -4,12 +4,13 @@
 #include <QString>
 
 #include "dynamic_object.h"
+#include "animated_object.h"
 #include "destroyable.h"
 
-class Creature : public DynamicObject, public Destroyable {
+class Creature : public DynamicObject, public Destroyable,
+                 public AnimatedObject<DynamicObject::State> {
  public:
-  Creature(const Point& coords, const QPixmap& image, QString name,
-           int hp);
+  Creature(const Point& coords, QString name, int hp);
 
   const QString& GetName() const;
 

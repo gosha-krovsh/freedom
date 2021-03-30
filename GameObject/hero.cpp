@@ -1,7 +1,7 @@
 #include "hero.h"
 
-Hero::Hero(const Point& coords, const QPixmap& image)
-  : Creature(coords, image, "", constants::kHP) {}
+Hero::Hero(const Point& coords)
+  : Creature(coords, "Hero", constants::kHP) {}
 
 void Hero::Tick(int current_tick) {
   Creature::Tick(current_tick);
@@ -13,22 +13,25 @@ void Hero::UpdateMovement(bool left, bool up, bool right, bool down) {
   Point screen_vector{x, y};
   UpdateSpeedVector(screen_vector);
   UpdateViewDirection();
+  SetStateForAnimation(State(action_, view_direction_));
 }
 
 void Hero::UpdateSpeedVector(const Point& screen_vector) {
-  speed_vector_ = Point::FromScreenPoint(screen_vector);
-  speed_vector_.Normalize();
+  Point speed_vector = Point::FromScreenPoint(screen_vector);
+  speed_vector.Normalize();
 
   // Making movement more realistic in isometric world: equal displacement in
   // isometric view in all directions, except horizontal (a slow down here)
   if (std::abs(screen_vector.y) < constants::kEps) {
     // horizontal movement
-    speed_vector_ *= constants::kIsometricSpeedCoefficient;
+    speed_vector *= constants::kIsometricSpeedCoefficient;
   } else if (std::abs(screen_vector.x) >= constants::kEps &&
       std::abs(screen_vector.y) >= constants::kEps) {
     // diagonal movement
-    speed_vector_ /= std::sqrt(2);
+    speed_vector /= std::sqrt(2);
   }
+
+  SetSpeedVector(speed_vector);
 }
 
 void Hero::OnDead() {}

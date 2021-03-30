@@ -8,7 +8,7 @@
 
 class Object {
  public:
-  Object(const Point& coords, const QPixmap& image);
+  explicit Object(const Point& coords, QPixmap* image = nullptr);
   virtual ~Object() = default;
 
   virtual void Tick(int current_time);
@@ -31,10 +31,10 @@ class Object {
 
  protected:
   bool is_touchable_{true};
+  QPixmap* image_;
 
  private:
   Point coordinates_;
-  QPixmap image_;
 };
 
 #endif  // GAMEOBJECT_OBJECT_H_

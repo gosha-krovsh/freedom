@@ -1,6 +1,7 @@
 #ifndef GAMEOBJECT_DYNAMIC_OBJECT_H_
 #define GAMEOBJECT_DYNAMIC_OBJECT_H_
 
+#include <utility>
 #include <cmath>
 
 #include "object.h"
@@ -17,14 +18,20 @@ class DynamicObject : public Object {
     kDown,
     kDownLeft
   };
+  enum class Action {
+    Idle,
+    Run,
+    Fight
+  };
+  using State = std::pair<Action, ViewDirection>;
 
  public:
-  DynamicObject(const Point& coords, const QPixmap& image);
+  explicit DynamicObject(const Point& coords);
 
   void Tick(int current_tick) override;
 
   ViewDirection GetViewDirection() const;
-
+  void SetSpeedVector(const Point& speed_vector);
 
  protected:
   void UpdateViewDirection();
@@ -36,6 +43,7 @@ class DynamicObject : public Object {
   double speed_value_{constants::kSpeed};
   Point speed_vector_{0, 0};
   ViewDirection view_direction_{ViewDirection::kDown};
+  Action action_{Action::Idle};
 };
 
 #endif  // GAMEOBJECT_DYNAMIC_OBJECT_H_

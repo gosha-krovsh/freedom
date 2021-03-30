@@ -1,6 +1,7 @@
 #ifndef MODEL_MODEL_H_
 #define MODEL_MODEL_H_
 
+#include <memory>
 #include <vector>
 
 #include "GameObject/hero.h"
@@ -18,7 +19,10 @@ class Model {
  private:
   std::vector<Object> objects_;
   GameMap map_;
-  Hero hero_{Point(1, 6, 1) };
+  Hero hero_{Point(1, 6, 1)};
+
+  std::unique_ptr<QPixmap>
+      brick_image = std::make_unique<QPixmap>(":brick.png");
 };
 
 #endif  // MODEL_MODEL_H_

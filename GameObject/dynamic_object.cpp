@@ -1,7 +1,6 @@
 #include "dynamic_object.h"
 
-DynamicObject::DynamicObject(const Point& coords, const QPixmap& image) :
-    Object(coords, image) {
+DynamicObject::DynamicObject(const Point& coords) : Object(coords) {
   is_touchable_ = false;
 }
 
@@ -42,4 +41,13 @@ void DynamicObject::UpdateViewDirection() {
 
 void DynamicObject::Move() {
   SetCoordinates(GetCoordinates() + speed_vector_ * speed_value_);
+}
+
+void DynamicObject::SetSpeedVector(const Point& speed_vector) {
+  speed_vector_ = speed_vector;
+  if (speed_vector_.IsNull()) {
+    action_ = Action::Idle;
+  } else {
+    action_ = Action::Run;
+  }
 }

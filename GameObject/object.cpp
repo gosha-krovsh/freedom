@@ -1,11 +1,14 @@
 #include "object.h"
 
-Object::Object(const Point& coords, const QPixmap& image) :
-    coordinates_(coords), image_(image) {}
+Object::Object(const Point& coords, QPixmap* image) : coordinates_(coords),
+                                                      image_(image) {}
 
 void Object::Tick(int) {}
 
 void Object::Draw(QPainter* painter) const {
+  if (image_ == nullptr) {
+    return;
+  }
   painter->save();
 
   int x = static_cast<int>(coordinates_.GetIsometricX() *
@@ -16,7 +19,7 @@ void Object::Draw(QPainter* painter) const {
   painter->drawPixmap(x, y,
                       constants::kSizeOfBlock,
                       constants::kSizeOfBlock,
-                      image_);
+                      *image_);
 
   painter->restore();
 }
