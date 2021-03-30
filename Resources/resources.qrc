@@ -1,6 +1,30 @@
 <!DOCTYPE RCC><RCC version="1.0">
     <qresource>
-        <file>hero_0.png</file>
+        <file>Hero_0.png</file>
+        <file>Hero_45.png</file>
+        <file>Hero_90.png</file>
+        <file>Hero_135.png</file>
+        <file>Hero_180.png</file>
+        <file>Hero_225.png</file>
+        <file>Hero_270.png</file>
+        <file>Hero_315.png</file>
+        <file>Hero_0_run_1.png</file>
+        <file>Hero_45_run_1.png</file>
+        <file>Hero_90_run_1.png</file>
+        <file>Hero_135_run_1.png</file>
+        <file>Hero_180_run_1.png</file>
+        <file>Hero_225_run_1.png</file>
+        <file>Hero_270_run_1.png</file>
+        <file>Hero_315_run_1.png</file>
+        <file>Hero_0_run_2.png</file>
+        <file>Hero_45_run_2.png</file>
+        <file>Hero_90_run_2.png</file>
+        <file>Hero_135_run_2.png</file>
+        <file>Hero_180_run_2.png</file>
+        <file>Hero_225_run_2.png</file>
+        <file>Hero_270_run_2.png</file>
+        <file>Hero_315_run_2.png</file>
+
         <file>brick.png</file>
     </qresource>
 </RCC>
