@@ -18,10 +18,6 @@ namespace constants {
   // Needed to prevent getting stuck at the joints of the blocks
   const double kMaxSumOfDeltas = 2 * (1 - kOffsetForCollisionDetection * 2 / 3);
 
-  // Maximum distance from the block, that Hero is looking at, to the block,
-  // that will be transparent.
-  const int kMaxTransparencyDistance = 1;
-
   const int kMapMaxZ = 4;
   const int kMapMaxY = 40;
   const int kMapMaxX = 40;

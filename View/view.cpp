@@ -23,6 +23,9 @@ void View::paintEvent(QPaintEvent*) {
   std::vector<const Object*> transparent_blocks{
       map.GetCorner(hero.GetRoundedX() + 1, hero.GetRoundedY() + 1)
   };
+  auto corner2{map.GetCorner(hero.GetRoundedX() + 2, hero.GetRoundedY() + 2)};
+  transparent_blocks.insert(transparent_blocks.end(),
+                            corner2.begin(), corner2.end());
   // insert same with +2
 
   for (int z = 0; z < map.GetZSize(); ++z) {
@@ -30,7 +33,7 @@ void View::paintEvent(QPaintEvent*) {
       for (int x = 0; x < map.GetXSize(); ++x) {
         auto curr_block = map.GetBlock(x, y, z);
         if (curr_block) {
-          // мб стоит как-то отсортировать и тут за nlogn вместо n^2
+          // maybe it can be done faster, if sort it somehow
           if (std::find(transparent_blocks.begin(), transparent_blocks.end(),
                         curr_block) != transparent_blocks.end()) {
             painter.setOpacity(0.2);
