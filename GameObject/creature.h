@@ -9,15 +9,18 @@
 #include "animated_object.h"
 #include "destroyable.h"
 
-enum class Action {
-  Idle,
-  Run,
-};
-using State = std::pair<Action, DynamicObject::ViewDirection>;
+namespace {
+  enum class Action {
+    kIdle,
+    kRun,
+  };
+  using State = std::pair<Action, DynamicObject::ViewDirection>;
+}  // anonymous namespace
 
 class Creature : public DynamicObject, public Destroyable,
- public AnimatedObject<State> {
+                 public AnimatedObject<State> {
  public:
+  using Action = Action;
   Creature(const Point& coords, QString name, int hp);
 
   const QString& GetName() const;
@@ -26,7 +29,7 @@ class Creature : public DynamicObject, public Destroyable,
   void Tick(int current_tick) override;
 
  protected:
-  Action action_{Action::Idle};
+  Action action_{Action::kIdle};
 
  private:
   QString name_;
