@@ -40,7 +40,7 @@ class AnimatedObject {
 
  private:
   int GetIndexOfCurrentFrame() {
-    return counter_ / constants::kDurationOfOneFrame;
+    return counter_ / constants::kDurationOfOneAnimationFrameInTicks;
   }
 
  private:

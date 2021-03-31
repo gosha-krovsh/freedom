@@ -18,12 +18,6 @@ class DynamicObject : public Object {
     kDown,
     kDownLeft
   };
-  enum class Action {
-    Idle,
-    Run,
-    Fight
-  };
-  using State = std::pair<Action, ViewDirection>;
 
  public:
   explicit DynamicObject(const Point& coords);
@@ -31,7 +25,7 @@ class DynamicObject : public Object {
   void Tick(int current_tick) override;
 
   ViewDirection GetViewDirection() const;
-  void SetSpeedVector(const Point& speed_vector);
+  virtual void SetSpeedVector(const Point& speed_vector);
 
  protected:
   void UpdateViewDirection();
@@ -43,7 +37,6 @@ class DynamicObject : public Object {
   double speed_value_{constants::kSpeed};
   Point speed_vector_{0, 0};
   ViewDirection view_direction_{ViewDirection::kDown};
-  Action action_{Action::Idle};
 };
 
 #endif  // GAMEOBJECT_DYNAMIC_OBJECT_H_

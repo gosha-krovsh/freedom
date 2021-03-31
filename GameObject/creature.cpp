@@ -4,8 +4,7 @@
 
 Creature::Creature(const Point& coords, QString name, int hp)
     : DynamicObject(coords), Destroyable(hp),
-      AnimatedObject<DynamicObject::State>(&image_,
-                                           State(action_, view_direction_)),
+      AnimatedObject<State>(&image_, State(Action::Idle, view_direction_)),
       name_(std::move(name)) {
   for (int i = 0; i < 8; ++i) {
     auto view_direction = static_cast<ViewDirection>(i);
@@ -27,4 +26,13 @@ const QString& Creature::GetName() const {
 void Creature::Tick(int current_tick) {
   DynamicObject::Tick(current_tick);
   AnimatedObject::Tick(current_tick);
+}
+
+void Creature::SetSpeedVector(const Point& speed_vector) {
+  DynamicObject::SetSpeedVector(speed_vector);
+  if (speed_vector_.IsNull()) {
+    action_ = Action::Idle;
+  } else {
+    action_ = Action::Run;
+  }
 }

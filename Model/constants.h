@@ -9,7 +9,7 @@ namespace constants {
   const int kHP = 100;
   const double kSpeed = 0.05;
 
-  const int kDurationOfOneFrame = 15;
+  const int kDurationOfOneAnimationFrameInTicks = 15;
 
   // Needed to make |DynamicObject| movement in Right/Left direction more
   // realistic in isometric view.

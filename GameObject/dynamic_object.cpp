@@ -45,9 +45,4 @@ void DynamicObject::Move() {
 
 void DynamicObject::SetSpeedVector(const Point& speed_vector) {
   speed_vector_ = speed_vector;
-  if (speed_vector_.IsNull()) {
-    action_ = Action::Idle;
-  } else {
-    action_ = Action::Run;
-  }
 }
