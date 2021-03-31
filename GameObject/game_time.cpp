@@ -35,7 +35,7 @@ std::string Time::ToString() const {
 }
 
 bool Time::operator==(const Time& time) const {
-  return hours_ == time.hours_ && minutes_ == time.minutes_;
+  return (hours_ == time.hours_) && (minutes_ == time.minutes_);
 }
 
 bool Time::operator!=(const Time& time) const {
@@ -44,7 +44,7 @@ bool Time::operator!=(const Time& time) const {
 
 bool Time::operator<(const Time& time) const {
   if (hours_ < time.hours_ ||
-      hours_ == time.hours_ && minutes_ < time.minutes_) {
+      (hours_ == time.hours_) && (minutes_ < time.minutes_)) {
     return true;
   }
   return false;

@@ -1,8 +1,7 @@
 #include "data_controller.h"
 
-DataController::DataController(std::shared_ptr<Model> model) {
-  model_ = std::move(model);
-}
+DataController::DataController(std::shared_ptr<Model> model) :
+    model_(std::move(model)) {}
 
 // Parses schedule.json
 // schedule.json structure:
@@ -21,7 +20,7 @@ std::map<Time, std::vector<Action>> DataController::ParseSchedule() {
   QFile file(":schedule.json");
   file.open(QIODevice::ReadOnly | QIODevice::Text);
 
-  QJsonDocument document = QJsonDocument::fromJson(QByteArray(file.readAll()));
+  QJsonDocument document = QJsonDocument::fromJson(file.readAll());
   QJsonObject jschedule_obj = document.object();
 
   std::map<Time, std::vector<Action>> schedule;
