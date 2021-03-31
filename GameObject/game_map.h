@@ -1,5 +1,5 @@
-#ifndef GAME_MAP_H_
-#define GAME_MAP_H_
+#ifndef GAMEOBJECT_GAME_MAP_H_
+#define GAMEOBJECT_GAME_MAP_H_
 
 #include <vector>
 #include <unordered_set>
@@ -18,8 +18,8 @@ class GameMap {
   const Object* GetBlock(int x, int y, int z) const;
 
   // Returns blocks, which should be transparent, by hero (x, y) coordinates.
-  // These blocks include all corners on distance from 1 to |kBlockTransparencyDistance|
-  // blocks.
+  // These blocks include all corners at distance from 1 to
+  // |kBlockTransparencyDistance| blocks from the |Hero|.
   std::unordered_set<const Object*>
       GetTransparentBlocks(int hero_x, int hero_y) const;
 
@@ -51,4 +51,4 @@ class GameMap {
   int hero_z_{1};
 };
 
-#endif  // GAME_MAP_H_
+#endif  // GAMEOBJECT_GAME_MAP_H_

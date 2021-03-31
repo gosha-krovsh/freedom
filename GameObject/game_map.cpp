@@ -55,7 +55,7 @@ std::unordered_set<const Object*> GameMap::GetCorner(int x, int y) const {
     } else if (GetBlock(x - 1, y, hero_z_)) {
       auto right_wall = GetRightWall(x - 1, y);
       result.insert(right_wall.begin(), right_wall.end());
-    } // else: result is empty
+    }  // else: result is empty
     return result;
   }
 

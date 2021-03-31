@@ -1,7 +1,6 @@
 #include "model.h"
 
 Model::Model() {
-  // TODO: parse objects from json map.
   objects_.insert(objects_.end(), {
       // The floor is white. It's easier to orientate in space then.
       Object(Point(0, 5, 1), QPixmap(":brick.png")),

@@ -1,5 +1,3 @@
-#include <iostream>
-#include <utility>
 #include "view.h"
 
 View::View(AbstractController* controller,
