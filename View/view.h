@@ -22,6 +22,8 @@ class View : public QMainWindow {
   void changeEvent(QEvent*) override;
   void TimerEvent();
 
+  void CenterCameraOnHero(QPainter* camera) const;
+
  private:
   QTimer* timer_;
   AbstractController* controller_;
