@@ -14,19 +14,9 @@ View::View(AbstractController* controller,
 
 void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
+  CenterCameraOnHero(&painter);
 
   const Hero& hero = model_->GetHero();
-
-  double x_camera_offset = width() / 2.;
-  double y_camera_offset = height() / 2.;
-  x_camera_offset -= (hero.GetCoordinates().GetIsometricX() + 1)
-      * (constants::kSizeOfBlock / 2.);
-  y_camera_offset -= (hero.GetCoordinates().GetIsometricY() + 1)
-      * (constants::kSizeOfBlock / 2.);
-
-  // Make camera follow |Hero|
-  painter.translate(x_camera_offset, y_camera_offset);
-
   const auto& map = model_->GetMap();
   for (int z = 0; z < map.size(); ++z) {
     for (int y = 0; y < map[z].size(); ++y) {
@@ -43,6 +33,21 @@ void View::paintEvent(QPaintEvent*) {
       }
     }
   }
+}
+
+void View::CenterCameraOnHero(QPainter* camera) const {
+  // Get center of screen
+  double x_camera_offset = width() / 2.;
+  double y_camera_offset = height() / 2.;
+
+  // Center camera on center of |Hero|
+  x_camera_offset -= (model_->GetHero().GetCoordinates().GetIsometricX() + 1)
+      * (constants::kSizeOfBlock / 2.);
+  y_camera_offset -= (model_->GetHero().GetCoordinates().GetIsometricY() + 1)
+      * (constants::kSizeOfBlock / 2.);
+
+  // Make camera follow |Hero|
+  camera->translate(x_camera_offset, y_camera_offset);
 }
 
 void View::TimerEvent() {
