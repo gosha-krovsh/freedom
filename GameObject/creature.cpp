@@ -6,7 +6,7 @@ Creature::Creature(const Point& coords, QString name, int hp)
     : DynamicObject(coords), Destroyable(hp),
       AnimatedObject<State>(&image_, State(Action::Idle, view_direction_)),
       name_(std::move(name)) {
-  for (int i = 0; i < 8; ++i) {
+  for (int i = 0; i < constants::kNumberOfViewDirections; ++i) {
     auto view_direction = static_cast<ViewDirection>(i);
     QString image_name = name_ + "_" + QString::number(i * 45);
 
