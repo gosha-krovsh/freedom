@@ -10,17 +10,17 @@
 #include "destroyable.h"
 
 namespace {
-  enum class Action {
+  enum class CreatureAction {
     kIdle,
     kRun,
   };
-  using State = std::pair<Action, DynamicObject::ViewDirection>;
+  using State = std::pair<CreatureAction, DynamicObject::ViewDirection>;
 }  // anonymous namespace
 
 class Creature : public DynamicObject, public Destroyable,
                  public AnimatedObject<State> {
  public:
-  using Action = Action;
+  using Action = CreatureAction;
   Creature(const Point& coords, QString name, int hp);
 
   const QString& GetName() const;
