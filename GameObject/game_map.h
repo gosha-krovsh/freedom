@@ -9,7 +9,7 @@
 class GameMap {
  public:
   GameMap() = default;
-  explicit GameMap(std::vector<Object>* objects);
+  GameMap(std::vector<Object>* objects, int hero_z);
 
   int GetXSize() const;
   int GetYSize() const;
@@ -17,17 +17,23 @@ class GameMap {
 
   const Object* GetBlock(int x, int y, int z) const;
 
-  // Returns together left and(or) right walls of (x, y) blocks.
-  std::unordered_set<const Object*> GetCorner(int x, int y) const;
+  // Returns blocks, which should be transparent, by hero (x, y) coordinates.
+  // These blocks include all corners on distance from 1 to |kBlockTransparencyDistance|
+  // blocks.
+  std::unordered_set<const Object*>
+      GetTransparentBlocks(int hero_x, int hero_y) const;
 
  private:
+  // Returns together left and(or) right walls of (x, y) block.
+  std::unordered_set<const Object*> GetCorner(int x, int y) const;
+
   // Returns the left (i.e. going in |y| direction) wall of blocks, where
   // (x, y) is situated.
-  std::unordered_set<const Object*> GetLeftWall(int x, int y) const;
+  std::vector<const Object*> GetLeftWall(int x, int y) const;
 
   // Returns the right (i.e. going in |x| direction) wall of blocks, where
   // (x, y) is situated.
-  std::unordered_set<const Object*> GetRightWall(int x, int y) const;
+  std::vector<const Object*> GetRightWall(int x, int y) const;
 
   // Returns true, if when going in (prev_x, prev_y)->(x, y) direction
   // (on any height) the orthogonal line of block crosses our direction in
@@ -42,6 +48,7 @@ class GameMap {
 
  private:
   std::vector<std::vector<std::vector<Object*>>> map_;
+  int hero_z_{1};
 };
 
 #endif  // GAME_MAP_H_

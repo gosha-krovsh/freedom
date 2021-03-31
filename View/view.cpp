@@ -19,12 +19,8 @@ void View::paintEvent(QPaintEvent*) {
 
   const Hero& hero = model_->GetHero();
   const GameMap& map = model_->GetMap();
-
   std::unordered_set<const Object*> transparent_blocks{
-      map.GetCorner(hero.GetRoundedX() + 1, hero.GetRoundedY() + 1)
-  };
-  auto corner2{map.GetCorner(hero.GetRoundedX() + 2, hero.GetRoundedY() + 2)};
-  transparent_blocks.insert(corner2.begin(), corner2.end());
+    map.GetTransparentBlocks(hero.GetRoundedX(), hero.GetRoundedY())};
 
   for (int z = 0; z < map.GetZSize(); ++z) {
     for (int y = 0; y < map.GetYSize(); ++y) {
@@ -32,7 +28,7 @@ void View::paintEvent(QPaintEvent*) {
         auto curr_block = map.GetBlock(x, y, z);
         if (curr_block) {
           if (transparent_blocks.find(curr_block) != transparent_blocks.end()) {
-            painter.setOpacity(0.2);
+            painter.setOpacity(constants::kBlockOpacity);
           }
           curr_block->Draw(&painter);
           painter.setOpacity(1);

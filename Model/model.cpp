@@ -1,13 +1,9 @@
 #include "model.h"
 
 Model::Model() {
-  // Generating floor
-  // for (int x = 0; x < constants::kMapMaxX; ++x) {
-  //   for (int y = 0; y < constants::kMapMaxY; ++y) {
-  //     objects_.emplace_back(Point(x, y, 0), QPixmap(":brick.png"));
-  //   }
-  // }
+  // TODO: parse objects from json map.
   objects_.insert(objects_.end(), {
+      // The floor is white. It's easier to orientate in space then.
       Object(Point(0, 5, 1), QPixmap(":brick.png")),
       Object(Point(0, 6, 1), QPixmap(":brick.png")),
       Object(Point(0, 7, 1), QPixmap(":brick.png")),
@@ -93,7 +89,7 @@ Model::Model() {
       Object(Point(4, 8, 2), QPixmap(":brick.png")),
   });
 
-  map_ = GameMap(&objects_);
+  map_ = GameMap(&objects_, hero_.GetRoundedZ());
 }
 
 const GameMap& Model::GetMap() const {

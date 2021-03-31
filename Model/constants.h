@@ -9,6 +9,9 @@ namespace constants {
   const int kHP = 100;
   const double kSpeed = 0.08;
 
+  // The opacity of the block, when it's considered transparent.
+  const double kBlockOpacity = 0.15;
+
   // Needed to make |DynamicObject| movement in Right/Left direction more
   // realistic in isometric view.
   const double kIsometricSpeedCoefficient = 1 / std::sqrt(3);
@@ -18,9 +21,14 @@ namespace constants {
   // Needed to prevent getting stuck at the joints of the blocks
   const double kMaxSumOfDeltas = 2 * (1 - kOffsetForCollisionDetection * 2 / 3);
 
-  const int kMapMaxZ = 4;
-  const int kMapMaxY = 40;
-  const int kMapMaxX = 40;
+  // Influence on the distance from |Hero|, on which the column of blocks will
+  // be made transparent. Maybe in future it would be more correct to make walls
+  // height not exceed this value.
+  const int kBlockTransparencyDistance = 2;
+
+  const int kMapSizeZ = 3;
+  const int kMapSizeY = 40;
+  const int kMapSizeX = 40;
 
   const int kWindowWidth = 850;
   const int kWindowHeight = 500;
