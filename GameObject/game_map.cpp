@@ -33,7 +33,7 @@ const Object* GameMap::GetBlock(int x, int y, int z) const {
   return map_[z][y][x];
 }
 
-std::vector<const Object*> GameMap::GetCorner(int x, int y) const {
+std::unordered_set<const Object*> GameMap::GetCorner(int x, int y) const {
   // When there is a hall in the wall, we should consider only one wall
   if (!GetBlock(x, y, 1)) {
     if (GetBlock(x, y - 1, 1)) {
@@ -41,24 +41,23 @@ std::vector<const Object*> GameMap::GetCorner(int x, int y) const {
     } else if (GetBlock(x - 1, y, 1)) {
       return GetRightWall(x - 1, y);
     } else {
-      return std::vector<const Object*>();
+      return std::unordered_set<const Object*>();
     }
   }
 
-  std::vector<const Object*> result{GetLeftWall(x, y - 1)};
+  std::unordered_set<const Object*> result{GetLeftWall(x, y - 1)};
   auto right_wall{GetRightWall(x - 1, y)};
-  result.insert(result.end(), right_wall.begin(), right_wall.end());
+  result.insert(right_wall.begin(), right_wall.end());
 
   // If Hero is standing right inside the corner, than 2 walls will be in the
   // |result|, but this column, that connects left and right wall - won't.
-  // So we need to add it. In other cases, this code will make duplicates of
-  // one of the column.
+  // So we need to add it.
   auto current_column{GetWallColumn(x, y)};
-  result.insert(result.end(), current_column.begin(), current_column.end());
+  result.insert(current_column.begin(), current_column.end());
   return result;
 }
 
-std::vector<const Object*> GameMap::GetLeftWall(int x, int y) const {
+std::unordered_set<const Object*> GameMap::GetLeftWall(int x, int y) const {
   int y_begin = y;
   while (y_begin > 0 &&
         !IsBlockIntersection(x, y_begin - 1, x, y_begin)) {
@@ -71,15 +70,15 @@ std::vector<const Object*> GameMap::GetLeftWall(int x, int y) const {
     ++y_end;
   }
 
-  std::vector<const Object*> result;
+  std::unordered_set<const Object*> result;
   for (int curr_y = y_begin; curr_y <= y_end; ++curr_y) {
     auto column = GetWallColumn(x, curr_y);
-    result.insert(result.end(), column.begin(), column.end());
+    result.insert(column.begin(), column.end());
   }
   return result;
 }
 
-std::vector<const Object*> GameMap::GetRightWall(int x, int y) const {
+std::unordered_set<const Object*> GameMap::GetRightWall(int x, int y) const {
   int x_begin = x;
   while (x_begin > 0 &&
         !IsBlockIntersection(x_begin - 1, y, x_begin, y)) {
@@ -92,10 +91,10 @@ std::vector<const Object*> GameMap::GetRightWall(int x, int y) const {
     ++x_end;
   }
 
-  std::vector<const Object*> result;
+  std::unordered_set<const Object*> result;
   for (int curr_x = x_begin; curr_x <= x_end; ++curr_x) {
     auto column = GetWallColumn(curr_x, y);
-    result.insert(result.end(), column.begin(), column.end());
+    result.insert(column.begin(), column.end());
   }
   return result;
 }

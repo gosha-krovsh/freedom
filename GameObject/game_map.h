@@ -2,6 +2,7 @@
 #define GAME_MAP_H_
 
 #include <vector>
+#include <unordered_set>
 
 #include "object.h"
 
@@ -17,16 +18,16 @@ class GameMap {
   const Object* GetBlock(int x, int y, int z) const;
 
   // Returns together left and(or) right walls of (x, y) blocks.
-  std::vector<const Object*> GetCorner(int x, int y) const;
+  std::unordered_set<const Object*> GetCorner(int x, int y) const;
 
  private:
   // Returns the left (i.e. going in |y| direction) wall of blocks, where
   // (x, y) is situated.
-  std::vector<const Object*> GetLeftWall(int x, int y) const;
+  std::unordered_set<const Object*> GetLeftWall(int x, int y) const;
 
   // Returns the right (i.e. going in |x| direction) wall of blocks, where
   // (x, y) is situated.
-  std::vector<const Object*> GetRightWall(int x, int y) const;
+  std::unordered_set<const Object*> GetRightWall(int x, int y) const;
 
   // Returns true, if when going in (prev_x, prev_y)->(x, y) direction
   // (on any height) the orthogonal line of block crosses our direction in

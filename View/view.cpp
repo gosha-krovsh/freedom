@@ -20,22 +20,18 @@ void View::paintEvent(QPaintEvent*) {
   const Hero& hero = model_->GetHero();
   const GameMap& map = model_->GetMap();
 
-  std::vector<const Object*> transparent_blocks{
+  std::unordered_set<const Object*> transparent_blocks{
       map.GetCorner(hero.GetRoundedX() + 1, hero.GetRoundedY() + 1)
   };
   auto corner2{map.GetCorner(hero.GetRoundedX() + 2, hero.GetRoundedY() + 2)};
-  transparent_blocks.insert(transparent_blocks.end(),
-                            corner2.begin(), corner2.end());
-  // insert same with +2
+  transparent_blocks.insert(corner2.begin(), corner2.end());
 
   for (int z = 0; z < map.GetZSize(); ++z) {
     for (int y = 0; y < map.GetYSize(); ++y) {
       for (int x = 0; x < map.GetXSize(); ++x) {
         auto curr_block = map.GetBlock(x, y, z);
         if (curr_block) {
-          // maybe it can be done faster, if sort it somehow
-          if (std::find(transparent_blocks.begin(), transparent_blocks.end(),
-                        curr_block) != transparent_blocks.end()) {
+          if (transparent_blocks.find(curr_block) != transparent_blocks.end()) {
             painter.setOpacity(0.2);
           }
           curr_block->Draw(&painter);
