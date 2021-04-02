@@ -2,8 +2,8 @@
 
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model) : controller_(controller),
-                           model_(std::move(model)),
-                           timer_(new QTimer(this)) {
+                                           model_(std::move(model)),
+                                           timer_(new QTimer(this)) {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
 
   connect(timer_, &QTimer::timeout, this, &View::TimerEvent);
@@ -14,6 +14,7 @@ View::View(AbstractController* controller,
 
 void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
+  CenterCameraOnHero(&painter);
 
   const Hero& hero = model_->GetHero();
   const GameMap& map = model_->GetMap();
@@ -40,6 +41,21 @@ void View::paintEvent(QPaintEvent*) {
       }
     }
   }
+}
+
+void View::CenterCameraOnHero(QPainter* camera) const {
+  // Get center of screen
+  double x_camera_offset = width() / 2.;
+  double y_camera_offset = height() / 2.;
+
+  // Center camera on center of |Hero|
+  x_camera_offset -= (model_->GetHero().GetCoordinates().GetIsometricX() + 1)
+      * (constants::kSizeOfBlock / 2.);
+  y_camera_offset -= (model_->GetHero().GetCoordinates().GetIsometricY() + 1)
+      * (constants::kSizeOfBlock / 2.);
+
+  // Make camera follow |Hero|
+  camera->translate(x_camera_offset, y_camera_offset);
 }
 
 void View::TimerEvent() {
