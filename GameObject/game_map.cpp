@@ -1,11 +1,6 @@
 #include "game_map.h"
 
-GameMap::GameMap(std::vector<Object>* objects, int hero_z) :
-    map_(std::vector<std::vector<std::vector<Object*>>>(
-        constants::kMapSizeZ, std::vector<std::vector<Object*>>(
-            constants::kMapSizeY, std::vector<Object*>(
-                constants::kMapSizeX, nullptr)))),
-    hero_z_(hero_z) {
+GameMap::GameMap(std::vector<Object>* objects, int hero_z) : hero_z_(hero_z) {
   for (auto& object : *objects) {
     map_[object.GetRoundedZ()]
         [object.GetRoundedY()]

@@ -14,8 +14,8 @@ void Controller::Tick() {
 void Controller::CheckHeroCollision() {
   Hero& hero = model_->GetHero();
 
-  int floored_x = std::floor(hero.GetX());
-  int floored_y = std::floor(hero.GetY());
+  int floored_x = hero.GetFlooredX();
+  int floored_y = hero.GetFlooredY();
 
   // Check 4 blocks, which |Hero| can collide
   for (int block_x = floored_x; block_x <= floored_x + 1; ++block_x) {

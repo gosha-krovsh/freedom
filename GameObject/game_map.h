@@ -47,7 +47,11 @@ class GameMap {
   std::vector<const Object*> GetWallColumn(int x, int y) const;
 
  private:
-  std::vector<std::vector<std::vector<Object*>>> map_;
+  std::vector<std::vector<std::vector<Object*>>>
+      map_{std::vector<std::vector<std::vector<Object*>>>(
+           constants::kMapSizeZ, std::vector<std::vector<Object*>>(
+           constants::kMapSizeY, std::vector<Object*>(
+           constants::kMapSizeX, nullptr)))};
   int hero_z_{1};
 };
 

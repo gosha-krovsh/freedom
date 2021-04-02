@@ -2,8 +2,8 @@
 #define MODEL_MODEL_H_
 
 #include <vector>
-#include <GameObject/game_map.h>
 
+#include "GameObject/game_map.h"
 #include "GameObject/hero.h"
 
 class Model {
