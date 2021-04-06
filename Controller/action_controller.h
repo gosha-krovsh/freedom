@@ -12,9 +12,9 @@
 #include "Model/model.h"
 #include "GameObject/point.h"
 
-class ActionsController {
+class ActionController {
  public:
-  explicit ActionsController(std::shared_ptr<Model> model);
+  explicit ActionController(std::shared_ptr<Model> model);
   void Call(const std::vector<Action>& command);
   void Tick();
 

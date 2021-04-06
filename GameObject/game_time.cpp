@@ -5,21 +5,15 @@ Time::Time(const std::string& str_time) {
   if (position != std::string::npos) {
     hours_ = std::stoi(str_time.substr(0, position));
     minutes_ = std::stoi(str_time.substr(position + 1,
-                         str_time.length() - position - 1));
+                                         str_time.length() - position - 1));
   }
 }
 
 Time::Time(int hours, int minutes) : hours_(hours), minutes_(minutes) {}
 
 void Time::AddMinutes(int minutes) {
-  minutes_ += minutes % 60;
-  hours_ += minutes / 60;
-
-  if (minutes_ >= 60) {
-    ++hours_;
-  }
-
-  hours_ %= 24;
+  hours_ = (hours_ + (minutes + minutes_) / 60) % 24;
+  minutes_ = (minutes_ + minutes) % 60;
 }
 
 int Time::GetMinutes() const {
@@ -43,11 +37,8 @@ bool Time::operator!=(const Time& time) const {
 }
 
 bool Time::operator<(const Time& time) const {
-  if (hours_ < time.hours_ ||
-      (hours_ == time.hours_) && (minutes_ < time.minutes_)) {
-    return true;
-  }
-  return false;
+  return hours_ < time.hours_ ||
+      (hours_ == time.hours_ && minutes_ < time.minutes_);
 }
 
 bool Time::operator>=(const Time& time) const {

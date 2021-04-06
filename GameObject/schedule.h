@@ -16,6 +16,7 @@ class Schedule {
 
   std::vector<Action> GetActionByTime(const Time& time) const;
   bool IsNextActionAvailable(const Time& time) const;
+
  private:
   std::map<Time, std::vector<Action>> schedule_commands_;
 };

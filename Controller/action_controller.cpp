@@ -1,9 +1,9 @@
-#include "actions_controller.h"
+#include "action_controller.h"
 
-ActionsController::ActionsController(std::shared_ptr<Model> model) :
+ActionController::ActionController(std::shared_ptr<Model> model) :
     model_(std::move(model)) {}
 
-void ActionsController::Call(const std::vector<Action>& command) {
+void ActionController::Call(const std::vector<Action>& command) {
   for (const auto& method_to_call : command) {
     switch (static_cast<Action::ActionType>(method_to_call.GetId())) {
       case Action::ActionType::kMove: {
@@ -21,16 +21,16 @@ void ActionsController::Call(const std::vector<Action>& command) {
   }
 }
 
-void ActionsController::Tick() {
+void ActionController::Tick() {
   if (model_->GetSchedule().IsNextActionAvailable(model_->GetTime())) {
     Call(model_->GetSchedule().GetActionByTime(model_->GetTime()));
   }
 }
 
 // All Implementation-defined methods
-void ActionsController::Move(const std::string& bot_name, const Point& place) {
+// todo: bots
+void ActionController::Move(const std::string& bot_name, const Point& place) {
   if (bot_name == "Hero") {
     model_->GetHero().SetCoordinates(place);
   }
 }
-// ----------------------------------

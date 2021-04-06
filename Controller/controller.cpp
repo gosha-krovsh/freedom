@@ -3,7 +3,7 @@
 Controller::Controller()
     : model_(std::make_shared<Model>(DataController::ParseSchedule())),
       view_(std::make_unique<View>(this, model_)),
-      actions_controller_(std::make_unique<ActionsController>(model_)),
+      actions_controller_(std::make_unique<ActionController>(model_)),
       data_controller_(std::make_unique<DataController>(model_)),
       current_tick_(0) {}
 

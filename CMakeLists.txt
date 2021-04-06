@@ -22,7 +22,7 @@ add_executable(${PROJECT_NAME}
         View/view.cpp
 
         Controller/controller.cpp
-        Controller/actions_controller.cpp
+        Controller/action_controller.cpp
         Controller/data_controller.cpp
 
         GameObject/point.cpp
