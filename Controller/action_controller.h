@@ -1,5 +1,5 @@
-#ifndef CONTROLLER_ACTIONS_CONTROLLER_H_
-#define CONTROLLER_ACTIONS_CONTROLLER_H_
+#ifndef CONTROLLER_ACTION_CONTROLLER_H_
+#define CONTROLLER_ACTION_CONTROLLER_H_
 
 #include <QDebug>
 
@@ -26,4 +26,4 @@ class ActionController {
   std::shared_ptr<Model> model_;
 };
 
-#endif  // CONTROLLER_ACTIONS_CONTROLLER_H_
+#endif  // CONTROLLER_ACTION_CONTROLLER_H_
