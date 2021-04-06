@@ -4,6 +4,7 @@
 #include <QString>
 
 #include <utility>
+#include <memory>
 
 #include "dynamic_object.h"
 #include "animated_object.h"
@@ -32,6 +33,8 @@ class Creature : public DynamicObject, public Destroyable,
   Action action_{Action::kIdle};
 
  private:
+  void SetImage(std::shared_ptr<QPixmap> new_image) override;
+
   QString name_;
 };
 

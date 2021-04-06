@@ -1,7 +1,10 @@
 #include "object.h"
 
-Object::Object(const Point& coords, QPixmap* image) : coordinates_(coords),
-                                                      image_(image) {}
+#include <utility>
+#include <memory>
+
+Object::Object(const Point& coords, std::shared_ptr<QPixmap> image)
+  : coordinates_(coords), image_(std::move(image)) {}
 
 void Object::Tick(int) {}
 

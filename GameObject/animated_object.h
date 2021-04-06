@@ -13,14 +13,13 @@
 template<class State>
 class AnimatedObject {
  public:
-  AnimatedObject(QPixmap** image, State state) : current_image_(image),
-                                                 state_(state) {}
+  explicit AnimatedObject(State state) : state_(state) {}
   void Tick(int) {
     if (GetIndexOfCurrentFrame() >= images_[state_].size()) {
       counter_ = 0;
     }
 
-    *current_image_ = images_[state_][GetIndexOfCurrentFrame()].get();
+    SetImage(images_[state_][GetIndexOfCurrentFrame()]);
 
     counter_++;
   }
@@ -42,11 +41,11 @@ class AnimatedObject {
   int GetIndexOfCurrentFrame() {
     return counter_ / constants::kDurationOfOneAnimationFrameInTicks;
   }
+  virtual void SetImage(std::shared_ptr<QPixmap> new_image) = 0;
 
  private:
   int counter_{0};
-  QPixmap** current_image_;
-  std::map<State, std::vector<std::unique_ptr<QPixmap>>> images_;
+  std::map<State, std::vector<std::shared_ptr<QPixmap>>> images_;
   State state_;
 };
 

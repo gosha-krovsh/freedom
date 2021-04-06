@@ -1,10 +1,11 @@
 #include "creature.h"
 
 #include <utility>
+#include <memory>
 
 Creature::Creature(const Point& coords, QString name, int hp)
     : DynamicObject(coords), Destroyable(hp),
-      AnimatedObject<State>(&image_, State(Action::kIdle, view_direction_)),
+      AnimatedObject<State>(State(Action::kIdle, view_direction_)),
       name_(std::move(name)) {
   for (int i = 0; i < constants::kNumberOfViewDirections; ++i) {
     auto view_direction = static_cast<ViewDirection>(i);
@@ -35,4 +36,8 @@ void Creature::SetSpeedVector(const Point& speed_vector) {
   } else {
     action_ = Action::kRun;
   }
+}
+
+void Creature::SetImage(std::shared_ptr<QPixmap> new_image) {
+  image_ = new_image;
 }

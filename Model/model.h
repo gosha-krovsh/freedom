@@ -21,8 +21,8 @@ class Model {
   GameMap map_;
   Hero hero_{Point(1, 6, 1)};
 
-  std::unique_ptr<QPixmap>
-      brick_image = std::make_unique<QPixmap>(":brick.png");
+  std::shared_ptr<QPixmap>
+      brick_image = std::make_shared<QPixmap>(":brick.png");
 };
 
 #endif  // MODEL_MODEL_H_

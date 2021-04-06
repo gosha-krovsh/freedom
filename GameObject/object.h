@@ -3,12 +3,15 @@
 
 #include <QPainter>
 
+#include <memory>
+
 #include "Model/constants.h"
 #include "point.h"
 
 class Object {
  public:
-  explicit Object(const Point& coords, QPixmap* image = nullptr);
+  explicit Object(const Point& coords,
+                  std::shared_ptr<QPixmap> image = std::shared_ptr<QPixmap>());
   virtual ~Object() = default;
 
   virtual void Tick(int current_time);
@@ -31,7 +34,7 @@ class Object {
 
  protected:
   bool is_touchable_{true};
-  QPixmap* image_;
+  std::shared_ptr<QPixmap> image_;
 
  private:
   Point coordinates_;
