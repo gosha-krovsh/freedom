@@ -3,9 +3,9 @@
 DataController::DataController(std::shared_ptr<Model> model) :
     model_(std::move(model)) {}
 
-// Parses schedule.json
-// schedule.json structure:
-/* [
+/* Parses schedule.json
+ * schedule.json structure:
+ * [
  * [8, 32, [
  *  {
  *    "action" : "MethodsName",
@@ -41,7 +41,7 @@ Schedule DataController::ParseSchedule() {
         parametres.push_back(str);
       }
 
-      Action action{std::move(name), std::move(parametres)};
+      Action action{name, std::move(parametres)};
       actions.push_back(action);
     }
 

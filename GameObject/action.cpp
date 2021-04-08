@@ -1,28 +1,23 @@
 #include "action.h"
 
-Action::Action(std::string name, std::vector<std::string> parametres) :
-    name_(std::move(name)),
-    id_(SetId(name_)),
+Action::Action(const std::string& name, std::vector<std::string> parametres) :
+    action_type_(ChooseActionType(name)),
     parametres_(std::move(parametres)) {}
 
-std::string Action::GetName() const {
-  return name_;
-}
-
-int Action::GetId() const {
-  return id_;
+Action::ActionType Action::GetActionType() const {
+  return action_type_;
 }
 
 std::vector<std::string> Action::GetParametres() const {
   return parametres_;
 }
 
-int Action::SetId(const std::string& name) {
+Action::ActionType Action::ChooseActionType(const std::string& name) {
   if (Equals(name, "move")) {
-    return 1;
+    return kMove;
   }
 
-  return 0;
+  return kWrongArg;
 }
 
 bool Action::Equals(const std::string& lhs, const std::string& rhs) {

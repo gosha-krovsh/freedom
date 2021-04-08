@@ -5,7 +5,7 @@ ActionController::ActionController(std::shared_ptr<Model> model) :
 
 void ActionController::Call(const std::vector<Action>& command) {
   for (const auto& method_to_call : command) {
-    switch (static_cast<Action::ActionType>(method_to_call.GetId())) {
+    switch (method_to_call.GetActionType()) {
       case Action::ActionType::kMove: {
         Move(method_to_call.GetParametres().at(0),
              std::stoi(method_to_call.GetParametres().at(1)),
