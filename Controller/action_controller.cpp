@@ -22,7 +22,7 @@ void ActionController::Call(const std::vector<Action>& command) {
   }
 }
 
-void ActionController::Tick() {
+void ActionController::Tick(int) {
   if (model_->GetSchedule().IsNextActionAvailable(model_->GetTime())) {
     Call(model_->GetSchedule().GetActionByTime(model_->GetTime()));
   }
