@@ -13,7 +13,6 @@ void Hero::UpdateMovement(bool left, bool up, bool right, bool down) {
   Point screen_vector{x, y};
   UpdateSpeedVector(screen_vector);
   UpdateViewDirection();
-  SetStateForAnimation(State(action_, view_direction_));
 }
 
 void Hero::UpdateSpeedVector(const Point& screen_vector) {

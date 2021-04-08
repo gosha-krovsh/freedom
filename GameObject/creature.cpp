@@ -5,18 +5,18 @@
 
 Creature::Creature(const Point& coords, QString name, int hp)
     : DynamicObject(coords), Destroyable(hp),
-      AnimatedObject<State>(State(Action::kIdle, view_direction_)),
       name_(std::move(name)) {
   for (int i = 0; i < constants::kNumberOfViewDirections; ++i) {
     auto view_direction = static_cast<ViewDirection>(i);
     QString image_name = name_ + "_" + QString::number(i * 45);
 
-    AssignStateToAnimation(State(Action::kRun, view_direction),
-                           {image_name,
-                            image_name + "_run_1",
-                            image_name,
-                            image_name + "_run_2"});
-    AssignStateToAnimation(State(Action::kIdle, view_direction), {image_name});
+    animator_.AssignStateToAnimation(State(Action::kRun, view_direction),
+                                     {image_name,
+                                      image_name + "_run_1",
+                                      image_name,
+                                      image_name + "_run_2"});
+    animator_.AssignStateToAnimation(State(Action::kIdle, view_direction),
+                                     {image_name});
   }
 }
 
@@ -25,8 +25,10 @@ const QString& Creature::GetName() const {
 }
 
 void Creature::Tick(int current_tick) {
+  image_ = animator_.GetImageByState(GetState());
+
   DynamicObject::Tick(current_tick);
-  AnimatedObject::Tick(current_tick);
+  animator_.Tick(current_tick);
 }
 
 void Creature::SetSpeedVector(const Point& speed_vector) {
@@ -36,8 +38,4 @@ void Creature::SetSpeedVector(const Point& speed_vector) {
   } else {
     action_ = Action::kRun;
   }
-}
-
-void Creature::SetImage(std::shared_ptr<QPixmap> new_image) {
-  image_ = new_image;
 }

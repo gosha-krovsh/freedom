@@ -7,21 +7,17 @@
 #include <memory>
 
 #include "dynamic_object.h"
-#include "animated_object.h"
+#include "animator.h"
 #include "destroyable.h"
 
-namespace {
-  enum class CreatureAction {
+class Creature : public DynamicObject, public Destroyable {
+ public:
+  enum class Action {
     kIdle,
     kRun,
   };
-  using State = std::pair<CreatureAction, DynamicObject::ViewDirection>;
-}  // anonymous namespace
+  using State = std::pair<Action, DynamicObject::ViewDirection>;
 
-class Creature : public DynamicObject, public Destroyable,
-                 public AnimatedObject<State> {
- public:
-  using Action = CreatureAction;
   Creature(const Point& coords, QString name, int hp);
 
   const QString& GetName() const;
@@ -33,9 +29,13 @@ class Creature : public DynamicObject, public Destroyable,
   Action action_{Action::kIdle};
 
  private:
-  void SetImage(std::shared_ptr<QPixmap> new_image) override;
+  State GetState() const {
+    return State(action_, view_direction_);
+  }
 
+ private:
   QString name_;
+  Animator<State> animator_{State(Action::kIdle, ViewDirection::kDown)};
 };
 
 #endif  // GAMEOBJECT_CREATURE_H_
