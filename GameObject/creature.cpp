@@ -28,7 +28,7 @@ void Creature::Tick(int current_tick) {
   image_ = animator_.GetImageByState(GetState());
 
   DynamicObject::Tick(current_tick);
-  animator_.Tick(current_tick);
+  animator_.Tick();
 }
 
 void Creature::SetSpeedVector(const Point& speed_vector) {
@@ -38,4 +38,8 @@ void Creature::SetSpeedVector(const Point& speed_vector) {
   } else {
     action_ = Action::kRun;
   }
+}
+
+Creature::State Creature::GetState() const {
+  return State(action_, view_direction_);
 }

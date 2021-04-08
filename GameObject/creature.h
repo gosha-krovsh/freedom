@@ -29,13 +29,11 @@ class Creature : public DynamicObject, public Destroyable {
   Action action_{Action::kIdle};
 
  private:
-  State GetState() const {
-    return State(action_, view_direction_);
-  }
+  State GetState() const;
 
  private:
   QString name_;
-  Animator<State> animator_{State(Action::kIdle, ViewDirection::kDown)};
+  Animator<State> animator_{GetState()};
 };
 
 #endif  // GAMEOBJECT_CREATURE_H_
