@@ -6,7 +6,6 @@
 class Time {
  public:
   Time() = default;
-  explicit Time(const std::string& str_time);  // Format HH:MM
   Time(int hours, int minutes);
 
   Time& operator=(const Time& time) = default;

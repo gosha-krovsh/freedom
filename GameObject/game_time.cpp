@@ -1,14 +1,5 @@
 #include "game_time.h"
 
-Time::Time(const std::string& str_time) {
-  int position = str_time.find(':');
-  if (position != std::string::npos) {
-    hours_ = std::stoi(str_time.substr(0, position));
-    minutes_ = std::stoi(str_time.substr(position + 1,
-                                         str_time.length() - position - 1));
-  }
-}
-
 Time::Time(int hours, int minutes) : hours_(hours), minutes_(minutes) {}
 
 void Time::AddMinutes(int minutes) {
