@@ -1,8 +1,8 @@
 #include "model.h"
 
-Model::Model(const std::map<Time, std::vector<Action>>& actions) :
+Model::Model(Schedule schedule) :
   time_(Time(8, 30)),
-  schedule_(actions) {
+  schedule_(std::move(schedule)) {
   objects_ = {
       Object(Point(0, 8, 1), QPixmap(":brick.png")),
       Object(Point(0, 7, 1), QPixmap(":brick.png")),

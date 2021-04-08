@@ -18,9 +18,9 @@ class ActionController {
   void Call(const std::vector<Action>& command);
   void Tick();
 
-  // All Implementation-defined methods
+  // Methods for actions
  private:
-  void Move(const std::string& bot_name, const Point& place);
+  void Move(const std::string& creature, int id, const Point& place);
 
  private:
   std::shared_ptr<Model> model_;

@@ -12,7 +12,7 @@ class Model {
  public:
   using GameMap = std::vector<std::vector<std::vector<Object*>>>;
 
-  explicit Model(const std::map<Time, std::vector<Action>>& actions);
+  explicit Model(Schedule schedule);
 
   const GameMap& GetMap() const;
   const Hero& GetHero() const;

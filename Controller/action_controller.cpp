@@ -8,9 +8,10 @@ void ActionController::Call(const std::vector<Action>& command) {
     switch (static_cast<Action::ActionType>(method_to_call.GetId())) {
       case Action::ActionType::kMove: {
         Move(method_to_call.GetParametres().at(0),
-             Point(std::stoi(method_to_call.GetParametres().at(1)),
-                   std::stoi(method_to_call.GetParametres().at(2)),
-                   std::stoi(method_to_call.GetParametres().at(3))));
+             std::stoi(method_to_call.GetParametres().at(1)),
+             Point(std::stoi(method_to_call.GetParametres().at(2)),
+                   std::stoi(method_to_call.GetParametres().at(3)),
+                   std::stoi(method_to_call.GetParametres().at(4))));
         break;
       }
       case Action::ActionType::kWrongArg: {
@@ -27,10 +28,10 @@ void ActionController::Tick() {
   }
 }
 
-// All Implementation-defined methods
-// todo: bots
-void ActionController::Move(const std::string& bot_name, const Point& place) {
-  if (bot_name == "Hero") {
+void ActionController::Move(const std::string& creature,
+                            int id, const Point& place) {
+  if (creature == "Hero") {
     model_->GetHero().SetCoordinates(place);
   }
+  // todo: bots
 }

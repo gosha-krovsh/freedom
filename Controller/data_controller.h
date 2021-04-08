@@ -14,6 +14,7 @@
 
 #include "GameObject/action.h"
 #include "GameObject/game_time.h"
+#include "GameObject/schedule.h"
 
 #include "Model/model.h"
 
@@ -21,7 +22,7 @@ class DataController {
  public:
   explicit DataController(std::shared_ptr<Model> model);
 
-  static std::map<Time, std::vector<Action>> ParseSchedule();
+  static Schedule ParseSchedule();
 
   void Tick(int current_tick);
 

@@ -1,7 +1,8 @@
 #include "controller.h"
 
 Controller::Controller()
-    : model_(std::make_shared<Model>(DataController::ParseSchedule())),
+    : model_(std::make_shared<Model>(
+        std::move(DataController::ParseSchedule()))),
       view_(std::make_unique<View>(this, model_)),
       actions_controller_(std::make_unique<ActionController>(model_)),
       data_controller_(std::make_unique<DataController>(model_)),
@@ -30,8 +31,8 @@ void Controller::CheckHeroCollision() {
   for (int block_x = floored_x; block_x <= floored_x + 1; ++block_x) {
     for (int block_y = floored_y; block_y <= floored_y + 1; ++block_y) {
       const Object* block = model_->GetMap()[hero.GetRoundedZ()]
-                                            [block_y]
-                                            [block_x];
+      [block_y]
+      [block_x];
       if (block == nullptr || !block->IsTouchable()) {
         continue;
       }

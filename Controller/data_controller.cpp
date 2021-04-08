@@ -5,28 +5,29 @@ DataController::DataController(std::shared_ptr<Model> model) :
 
 // Parses schedule.json
 // schedule.json structure:
-/* {
- * "HH::MM" [
+/* [
+ * [8, 32, [
  *  {
  *    "action" : "MethodsName",
  *    "arguments": ["", "", ""]
  *  },
  *  ...
- * ],
+ * ]],
  * ...
- * }
+ * ]
  * */
-std::map<Time, std::vector<Action>> DataController::ParseSchedule() {
+Schedule DataController::ParseSchedule() {
   QFile file(":schedule.json");
   file.open(QIODevice::ReadOnly | QIODevice::Text);
 
   QJsonDocument document = QJsonDocument::fromJson(file.readAll());
-  QJsonObject jschedule_obj = document.object();
+  QJsonArray jschedule_array = document.array();
 
   std::map<Time, std::vector<Action>> schedule;
 
-  for (const auto& time_obj : jschedule_obj.keys()) {
-    QJsonArray methods_array = jschedule_obj.value(time_obj).toArray();
+  for (const auto& time : jschedule_array) {
+    QJsonArray time_array = time.toArray();
+    QJsonArray methods_array = time_array.at(2).toArray();
 
     std::vector<Action> actions;
     for (const auto& element : methods_array) {
@@ -44,10 +45,11 @@ std::map<Time, std::vector<Action>> DataController::ParseSchedule() {
       actions.push_back(action);
     }
 
-    schedule[Time(time_obj.toStdString())] = actions;
+    schedule[Time(time_array.at(0).toInt(0),
+                  time_array.at(1).toInt(0))] = actions;
   }
 
-  return schedule;
+  return Schedule(schedule);
 }
 
 void DataController::Tick(int) {}
