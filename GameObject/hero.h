@@ -9,6 +9,7 @@ class Hero : public Creature {
 
   void Tick(int current_tick) override;
   void UpdateMovement(bool left, bool up, bool right, bool down);
+  Point GetViewVector() const;
   void OnDead() override;
 
  private:

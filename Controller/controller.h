@@ -16,6 +16,8 @@ class Controller : public AbstractController {
 
   void Tick() override;
 
+  void HeroAttack() override;
+
   void SetControlUpKeyState(bool state) override;
   void SetControlRightKeyState(bool state) override;
   void SetControlDownKeyState(bool state) override;

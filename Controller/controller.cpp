@@ -8,6 +8,10 @@ void Controller::Tick() {
   model_->GetHero().Tick(current_tick_);
   CheckHeroCollision();
 
+  for (auto& object : model_->GetObjects()) {
+    object->Tick(current_tick_);
+  }
+
   ++current_tick_;
 }
 
@@ -40,6 +44,47 @@ void Controller::CheckHeroCollision() {
           hero.SetY(block_y - 1);
         }
       }
+    }
+  }
+}
+
+void Controller::HeroAttack() {
+  Hero& hero = model_->GetHero();
+
+  Point view_vector = hero.GetViewVector() * constants::kSpeed;
+  double new_hero_x = hero.GetX() + view_vector.x;
+  double new_hero_y = hero.GetY() + view_vector.y;
+
+  double min_distance_in_square = (1 + constants::kSpeed) *
+                                  (1 + constants::kSpeed);
+  Destroyable* nearest_block{};
+
+  int floored_x = std::floor(hero.GetX());
+  int floored_y = std::floor(hero.GetY());
+  auto map = model_->GetMap();
+  for (int x = floored_x - 1; x <= floored_x + 2; ++x) {
+    for (int y = floored_y - 1; y <= floored_y + 2; ++y) {
+      auto block = dynamic_cast<Destroyable*>(map[hero.GetRoundedZ()][y][x]);
+
+      if (block && !block->IsDestroyed()) {
+        double distance_in_square = (new_hero_x - x) * (new_hero_x - x) +
+                                    (new_hero_y - y) * (new_hero_y - y);
+        if (distance_in_square < min_distance_in_square + constants::kEps) {
+          min_distance_in_square = distance_in_square;
+          nearest_block = block;
+        }
+      }
+    }
+  }
+
+  if (nearest_block) {
+    nearest_block->DecreaseHP(constants::kAttack);
+
+    auto* wall = dynamic_cast<Wall*>(nearest_block);
+    if (wall) {
+      Point direction_of_shake{wall->GetRoundedX() - hero.GetRoundedX(),
+                               wall->GetRoundedY() - hero.GetRoundedY()};
+      wall->Shake(direction_of_shake);
     }
   }
 }

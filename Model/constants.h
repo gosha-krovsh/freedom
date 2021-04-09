@@ -8,9 +8,12 @@ namespace constants {
   const double kEps = 1e-7;
   const int kSizeOfBlock = 140;
   const int kHP = 100;
+  const int kAttack = 25;
   const double kSpeed = 0.05;
 
   const int kDurationOfOneAnimationFrameInTicks = 15;
+  const int kDurationOfShakingInTicks = 10;
+  const double kShakeAmplitude = 1./100;
 
   // Needed to make |DynamicObject| movement in Right/Left direction more
   // realistic in isometric view.
