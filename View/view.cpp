@@ -1,9 +1,9 @@
 #include "view.h"
 
 View::View(AbstractController* controller,
-           std::shared_ptr<Model> model) : controller_(controller),
-                                           model_(model),
-                                           timer_(new QTimer(this)) {
+           const std::shared_ptr<Model>& model) : controller_(controller),
+                                                  model_(model),
+                                                  timer_(new QTimer(this)) {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
 
   connect(timer_, &QTimer::timeout, this, &View::TimerEvent);

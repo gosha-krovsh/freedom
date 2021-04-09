@@ -22,6 +22,8 @@ add_executable(${PROJECT_NAME}
         View/view.cpp
 
         Controller/controller.cpp
+        Controller/action_controller.cpp
+        Controller/data_controller.cpp
 
         GameObject/point.cpp
         GameObject/object.cpp
@@ -29,7 +31,9 @@ add_executable(${PROJECT_NAME}
         GameObject/destroyable.cpp
         GameObject/creature.cpp
         GameObject/hero.cpp
-)
+        GameObject/game_time.cpp
+        GameObject/schedule.cpp
+        GameObject/action.cpp)
 
 if (NOT CMAKE_PREFIX_PATH)
     message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "

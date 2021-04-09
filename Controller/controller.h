@@ -2,9 +2,12 @@
 #define CONTROLLER_CONTROLLER_H_
 
 #include <memory>
+#include <utility>
 #include <vector>
 
 #include "abstract_controller.h"
+#include "action_controller.h"
+#include "data_controller.h"
 
 #include "View/view.h"
 #include "Model/model.h"
@@ -36,6 +39,9 @@ class Controller : public AbstractController {
  private:
   std::shared_ptr<Model> model_;
   std::unique_ptr<View> view_;
+
+  std::unique_ptr<ActionController> actions_controller_;
+  std::unique_ptr<DataController> data_controller_;
 
   ControlKeyStates control_key_states_;
   int current_tick_;
