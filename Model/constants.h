@@ -4,10 +4,13 @@
 #include <cmath>
 
 namespace constants {
+  const int kNumberOfViewDirections = 8;
   const double kEps = 1e-7;
   const int kSizeOfBlock = 140;
   const int kHP = 100;
-  const double kSpeed = 0.08;
+  const double kSpeed = 0.05;
+
+  const int kDurationOfOneAnimationFrameInTicks = 15;
 
   // The opacity of the block, when it's considered transparent.
   const double kBlockOpacity = 0.15;
@@ -33,6 +36,8 @@ namespace constants {
   const int kWindowWidth = 850;
   const int kWindowHeight = 500;
   const int kFPS = 60;
+
+  const int kTicksInMinute = 300;
 }  // namespace constants
 
 #endif  // MODEL_CONSTANTS_H_

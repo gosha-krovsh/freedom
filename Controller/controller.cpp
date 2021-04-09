@@ -1,11 +1,20 @@
 #include "controller.h"
 
-Controller::Controller() : model_(std::make_shared<Model>()),
-                           view_(std::make_unique<View>(this, model_)),
-                           current_tick_(0) {}
+Controller::Controller()
+    : model_(std::make_shared<Model>(DataController::ParseSchedule())),
+      view_(std::make_unique<View>(this, model_)),
+      actions_controller_(std::make_unique<ActionController>(model_)),
+      data_controller_(std::make_unique<DataController>(model_)),
+      current_tick_(0) {}
 
 void Controller::Tick() {
+  data_controller_->Tick(current_tick_);
   model_->GetHero().Tick(current_tick_);
+
+  if (current_tick_ % constants::kTicksInMinute == 0 && current_tick_ != 0) {
+    model_->GetTime().AddMinutes(1);
+    actions_controller_->Tick(current_tick_);
+  }
   CheckHeroCollision();
 
   ++current_tick_;

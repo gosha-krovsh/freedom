@@ -16,7 +16,7 @@ class View : public QMainWindow {
   Q_OBJECT
 
  public:
-  View(AbstractController* controller, std::shared_ptr<Model> model);
+  View(AbstractController* controller, const std::shared_ptr<Model>& model);
 
  private:
   void paintEvent(QPaintEvent*) override;

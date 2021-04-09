@@ -1,6 +1,8 @@
 #include "model.h"
 
-Model::Model() {
+Model::Model(const Schedule& schedule) :
+    time_(Time(8, 30)),
+    schedule_(schedule) {
   objects_.insert(objects_.end(), {
       // The floor is white. It's easier to orientate in space then.
       Object(Point(0, 5, 1), QPixmap(":brick.png")),
@@ -100,5 +102,17 @@ const Hero& Model::GetHero() const {
 }
 Hero& Model::GetHero() {
   return hero_;
+}
+
+const Schedule& Model::GetSchedule() const {
+  return schedule_;
+}
+
+Time& Model::GetTime() {
+  return time_;
+}
+
+const Time& Model::GetTime() const {
+  return time_;
 }
 
