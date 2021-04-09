@@ -2,8 +2,8 @@
 #define MODEL_MODEL_H_
 
 #include <map>
-#include <utility>
 #include <memory>
+#include <utility>
 #include <vector>
 
 #include <GameObject/action.h>
@@ -34,7 +34,6 @@ class Model {
 
   std::shared_ptr<QPixmap>
       brick_image = std::make_shared<QPixmap>(":brick.png");
-
 };
 
 #endif  // MODEL_MODEL_H_

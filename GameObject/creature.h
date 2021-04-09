@@ -6,8 +6,8 @@
 #include <utility>
 #include <memory>
 
-#include "animator.h"
 #include "dynamic_object.h"
+#include "animator.h"
 #include "destroyable.h"
 
 class Creature : public DynamicObject, public Destroyable {
@@ -21,6 +21,7 @@ class Creature : public DynamicObject, public Destroyable {
   Creature(const Point& coords, const QString& name, int hp);
 
   const QString& GetName() const;
+  void SetSpeedVector(const Point& speed_vector) override;
 
   void Tick(int current_tick) override;
 
