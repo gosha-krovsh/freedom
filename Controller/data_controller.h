@@ -23,6 +23,7 @@ class DataController {
   explicit DataController(const std::shared_ptr<Model>& model);
 
   static Schedule ParseSchedule();
+  static GameMap ParseGameMap();
 
   void Tick(int current_tick);
 

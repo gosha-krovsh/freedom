@@ -9,7 +9,11 @@
 class GameMap {
  public:
   GameMap() = default;
-  GameMap(std::vector<Object>* objects, int hero_z);
+  explicit GameMap(
+      const std::vector<std::vector<std::vector<Object*>>>& objects,
+      int hero_z = 1);
+  // GameMap(std::vector<Object>* objects, int hero_z);
+  ~GameMap();
 
   int GetXSize() const;
   int GetYSize() const;
@@ -47,11 +51,7 @@ class GameMap {
   std::vector<const Object*> GetWallColumn(int x, int y) const;
 
  private:
-  std::vector<std::vector<std::vector<Object*>>>
-      map_{std::vector<std::vector<std::vector<Object*>>>(
-           constants::kMapSizeZ, std::vector<std::vector<Object*>>(
-           constants::kMapSizeY, std::vector<Object*>(
-           constants::kMapSizeX, nullptr)))};
+  std::vector<std::vector<std::vector<Object*>>> map_;
   int hero_z_{1};
 };
 

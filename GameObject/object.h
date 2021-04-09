@@ -11,10 +11,13 @@
 class Object {
  public:
   explicit Object(const Point& coords,
-                  std::shared_ptr<QPixmap> image = std::shared_ptr<QPixmap>());
+                  const std::shared_ptr<QPixmap>& image =
+                      std::shared_ptr<QPixmap>());
   virtual ~Object() = default;
 
   virtual void Tick(int current_time);
+
+  void PrintInfo() const;
 
   Point GetCoordinates() const;
   double GetX() const;

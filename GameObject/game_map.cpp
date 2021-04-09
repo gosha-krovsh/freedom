@@ -1,19 +1,45 @@
+#include <iostream>
 #include "game_map.h"
 
-GameMap::GameMap(std::vector<Object>* objects, int hero_z) : hero_z_(hero_z) {
-  for (auto& object : *objects) {
-    map_[object.GetRoundedZ()]
-        [object.GetRoundedY()]
-        [object.GetRoundedX()] = &object;
+// map store Z, X, Y
+GameMap::GameMap(
+    const std::vector<std::vector<std::vector<Object*>>>& objects,
+    int hero_z) : map_(objects), hero_z_(hero_z) {
+  // for (int z = 0; z < GetZSize(); ++z) {
+  //   for (int x = 0; x < GetXSize(); ++x) {
+  //     for (int y = 0; y < GetYSize(); ++y) {
+  //       std::cout << map_[z][x][y] << " ";
+  //     }
+  //     std::cout << "\n";
+  //   }
+  //   std::cout << "\n";
+  // }
+}
+
+// GameMap::GameMap(std::vector<Object>* objects, int hero_z) : hero_z_(hero_z) {
+//   for (auto& object : *objects) {
+//     map_[object.GetRoundedZ()]
+//         [object.GetRoundedY()]
+//         [object.GetRoundedX()] = &object;
+//   }
+// }
+
+GameMap::~GameMap() {
+  for (auto& surface : map_) {
+    for (auto& line : surface) {
+      for (auto& block : line) {
+        delete block;
+      }
+    }
   }
 }
 
 int GameMap::GetXSize() const {
-  return map_[0][0].size();
+  return map_[0].size();
 }
 
 int GameMap::GetYSize() const {
-  return map_[0].size();
+  return map_[0][0].size();
 }
 
 int GameMap::GetZSize() const {
@@ -26,7 +52,7 @@ const Object* GameMap::GetBlock(int x, int y, int z) const {
       (z < 0) || (z >= GetZSize())) {
     return nullptr;
   }
-  return map_[z][y][x];
+  return map_[z][x][y];
 }
 
 std::unordered_set<const Object*>

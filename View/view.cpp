@@ -21,6 +21,7 @@ void View::paintEvent(QPaintEvent*) {
   std::unordered_set<const Object*> transparent_blocks{
     map.GetTransparentBlocks(hero.GetRoundedX(), hero.GetRoundedY())};
 
+
   for (int z = 0; z < map.GetZSize(); ++z) {
     for (int y = 0; y < map.GetYSize(); ++y) {
       for (int x = 0; x < map.GetXSize(); ++x) {

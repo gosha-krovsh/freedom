@@ -29,10 +29,6 @@ namespace constants {
   // height not exceed this value.
   const int kBlockTransparencyDistance = 2;
 
-  const int kMapSizeZ = 3;
-  const int kMapSizeY = 40;
-  const int kMapSizeX = 40;
-
   const int kWindowWidth = 850;
   const int kWindowHeight = 500;
   const int kFPS = 60;

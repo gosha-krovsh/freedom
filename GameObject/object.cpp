@@ -1,10 +1,9 @@
 #include "object.h"
 
-#include <utility>
-#include <memory>
+#include <QDebug>
 
-Object::Object(const Point& coords, std::shared_ptr<QPixmap> image)
-  : coordinates_(coords), image_(std::move(image)) {}
+Object::Object(const Point& coords, const std::shared_ptr<QPixmap>& image)
+  : coordinates_(coords), image_(image) {}
 
 void Object::Tick(int) {}
 
@@ -19,6 +18,8 @@ void Object::Draw(QPainter* painter) const {
   int y = static_cast<int>(coordinates_.GetIsometricY() *
                            (constants::kSizeOfBlock / 2.));
 
+  PrintInfo();
+  QPixmap img = *image_;
   painter->drawPixmap(x, y,
                       constants::kSizeOfBlock,
                       constants::kSizeOfBlock,
@@ -72,4 +73,12 @@ int Object::GetFlooredX() const {
 
 int Object::GetFlooredY() const {
   return static_cast<int>(std::floor(GetY()));
+}
+
+void Object::PrintInfo() const {
+  qDebug() << "(" << coordinates_.x << ", "
+            << coordinates_.y << ", "
+            << coordinates_.z << "), "
+            << image_.get()
+            << "\n";
 }

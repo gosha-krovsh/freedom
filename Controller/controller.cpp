@@ -1,7 +1,8 @@
 #include "controller.h"
 
 Controller::Controller()
-    : model_(std::make_shared<Model>(DataController::ParseSchedule())),
+    : model_(std::make_shared<Model>(DataController::ParseSchedule(),
+                                     DataController::ParseGameMap())),
       view_(std::make_unique<View>(this, model_)),
       actions_controller_(std::make_unique<ActionController>(model_)),
       data_controller_(std::make_unique<DataController>(model_)),

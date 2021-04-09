@@ -13,7 +13,7 @@
 
 class Model {
  public:
-  explicit Model(const Schedule& schedule);
+  explicit Model(const Schedule& schedule, const GameMap& game_map);
 
   const GameMap& GetMap() const;
   const Hero& GetHero() const;
@@ -25,12 +25,9 @@ class Model {
  private:
   std::vector<Object> objects_;
   GameMap map_;
-  Hero hero_{Point(1, 6, 1)};
+  Hero hero_{Point(1, 1, 1)};
   Schedule schedule_;
   Time time_;
-
-  std::shared_ptr<QPixmap>
-      brick_image = std::make_shared<QPixmap>(":brick.png");
 };
 
 #endif  // MODEL_MODEL_H_
