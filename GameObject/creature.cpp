@@ -1,11 +1,7 @@
 #include "creature.h"
 
-#include <utility>
-#include <memory>
-
-Creature::Creature(const Point& coords, QString name, int hp)
-    : DynamicObject(coords), Destroyable(hp),
-      name_(std::move(name)) {
+Creature::Creature(const Point& coords, const QString& name, int hp)
+    : DynamicObject(coords), Destroyable(hp), name_(name) {
   for (int i = 0; i < constants::kNumberOfViewDirections; ++i) {
     auto view_direction = static_cast<ViewDirection>(i);
     QString image_name = name_ + "_" + QString::number(i * 45);

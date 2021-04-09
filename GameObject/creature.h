@@ -18,7 +18,7 @@ class Creature : public DynamicObject, public Destroyable {
   };
   using State = std::pair<Action, DynamicObject::ViewDirection>;
 
-  Creature(const Point& coords, QString name, int hp);
+  Creature(const Point& coords, const QString& name, int hp);
 
   const QString& GetName() const;
   void SetSpeedVector(const Point& speed_vector) override;

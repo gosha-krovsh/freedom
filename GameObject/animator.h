@@ -54,6 +54,7 @@ std::shared_ptr<QPixmap> Animator<State>::GetImageByState(const State& state) {
   }
   return images_.at(state_)[GetIndexOfCurrentFrame()];
 }
+
 template<class State>
 int Animator<State>::GetIndexOfCurrentFrame() const {
   return counter_ / constants::kDurationOfOneAnimationFrameInTicks;
