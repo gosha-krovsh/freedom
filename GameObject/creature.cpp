@@ -1,5 +1,7 @@
 #include "creature.h"
 
+#include <utility>
+
 Creature::Creature(const Point& coords, const QString& name, int hp):
     DynamicObject(coords),
     Destroyable(hp),

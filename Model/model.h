@@ -27,12 +27,14 @@ class Model {
  private:
   std::vector<Object> objects_;
   GameMap map_;
+  Hero hero_{Point(1, 6, 1)};
+
   Schedule schedule_;
   Time time_;
-  Hero hero_{Point(1, 6, 1) };
 
   std::shared_ptr<QPixmap>
       brick_image = std::make_shared<QPixmap>(":brick.png");
+
 };
 
 #endif  // MODEL_MODEL_H_
