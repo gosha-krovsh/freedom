@@ -4,10 +4,10 @@
 
 Creature::Creature(const Point& coords,
                    const QPixmap& image,
-                   QString name,
+                   const QString& name,
                    int hp) : DynamicObject(coords, image),
                              Destroyable(hp),
-                             name_(std::move(name)) {}
+                             name_(name) {}
 
 const QString& Creature::GetName() const {
   return name_;

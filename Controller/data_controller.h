@@ -20,7 +20,7 @@
 
 class DataController {
  public:
-  explicit DataController(std::shared_ptr<Model> model);
+  explicit DataController(const std::shared_ptr<Model>& model);
 
   static Schedule ParseSchedule();
 

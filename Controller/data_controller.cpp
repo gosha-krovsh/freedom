@@ -1,7 +1,7 @@
 #include "data_controller.h"
 
-DataController::DataController(std::shared_ptr<Model> model) :
-    model_(std::move(model)) {}
+DataController::DataController(const std::shared_ptr<Model>& model) :
+    model_(model) {}
 
 /* Parses schedule.json
  * schedule.json structure:

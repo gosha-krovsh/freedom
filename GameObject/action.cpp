@@ -1,8 +1,9 @@
 #include "action.h"
 
-Action::Action(const std::string& name, std::vector<std::string> parametres) :
+Action::Action(const std::string& name,
+               const std::vector<std::string>& parametres) :
     action_type_(ChooseActionType(name)),
-    parametres_(std::move(parametres)) {}
+    parametres_(parametres) {}
 
 Action::ActionType Action::GetActionType() const {
   return action_type_;

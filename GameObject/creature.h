@@ -8,7 +8,7 @@
 
 class Creature : public DynamicObject, public Destroyable {
  public:
-  Creature(const Point& coords, const QPixmap& image, QString name,
+  Creature(const Point& coords, const QPixmap& image, const QString& name,
            int hp);
 
   const QString& GetName() const;

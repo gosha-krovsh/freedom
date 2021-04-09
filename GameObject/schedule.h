@@ -9,7 +9,7 @@
 
 class Schedule {
  public:
-  explicit Schedule(std::map<Time, std::vector<Action>>);
+  explicit Schedule(const std::map<Time, std::vector<Action>>&);
 
   void SetSchedule(const std::map<Time,
                                   std::vector<Action>>& schedule_commands);

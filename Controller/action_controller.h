@@ -14,13 +14,13 @@
 
 class ActionController {
  public:
-  explicit ActionController(std::shared_ptr<Model> model);
+  explicit ActionController(const std::shared_ptr<Model>& model);
   void Call(const std::vector<Action>& command);
   void Tick(int current_tick);
 
   // Methods for actions
  private:
-  void Move(const std::string& creature, int id, const Point& place);
+  void Move(int id, const Point& place);
 
  private:
   std::shared_ptr<Model> model_;

@@ -1,8 +1,7 @@
 #include "controller.h"
 
 Controller::Controller()
-    : model_(std::make_shared<Model>(
-        std::move(DataController::ParseSchedule()))),
+    : model_(std::make_shared<Model>(DataController::ParseSchedule())),
       view_(std::make_unique<View>(this, model_)),
       actions_controller_(std::make_unique<ActionController>(model_)),
       data_controller_(std::make_unique<DataController>(model_)),

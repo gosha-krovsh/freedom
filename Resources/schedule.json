@@ -3,8 +3,7 @@
     {
       "action": "Move",
       "arguments": [
-        "Hero",
-        "0",
+        "-1",
         "1",
         "7",
         "1"
@@ -15,7 +14,6 @@
     {
       "action": "Move",
       "arguments": [
-        "Bot",
         "12",
         "3",
         "3",

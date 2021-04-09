@@ -12,7 +12,7 @@ class Action {
     kMove = 1
   };
 
-  Action(const std::string&, std::vector<std::string>);
+  Action(const std::string&, const std::vector<std::string>&);
 
   ActionType GetActionType() const;
   std::vector<std::string> GetParametres() const;

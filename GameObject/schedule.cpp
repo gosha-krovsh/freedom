@@ -1,7 +1,7 @@
 #include "schedule.h"
 
-Schedule::Schedule(std::map<Time, std::vector<Action>> commands) :
-    schedule_commands_(std::move(commands)) {}
+Schedule::Schedule(const std::map<Time, std::vector<Action>>& commands) :
+    schedule_commands_(commands) {}
 
 bool Schedule::IsNextActionAvailable(const Time& time) const {
   return schedule_commands_.find(time) != schedule_commands_.end();
