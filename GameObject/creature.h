@@ -21,7 +21,6 @@ class Creature : public DynamicObject, public Destroyable {
   Creature(const Point& coords, const QString& name, int hp);
 
   const QString& GetName() const;
-  void SetSpeedVector(const Point& speed_vector) override;
 
   void Tick(int current_tick) override;
 
