@@ -3,6 +3,7 @@
 
 #include <map>
 #include <utility>
+#include <memory>
 #include <vector>
 
 #include <GameObject/action.h>
@@ -29,6 +30,9 @@ class Model {
   Schedule schedule_;
   Time time_;
   Hero hero_{Point(1, 6, 1) };
+
+  std::shared_ptr<QPixmap>
+      brick_image = std::make_shared<QPixmap>(":brick.png");
 };
 
 #endif  // MODEL_MODEL_H_

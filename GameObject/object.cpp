@@ -1,11 +1,17 @@
 #include "object.h"
 
-Object::Object(const Point& coords, const QPixmap& image) :
-    coordinates_(coords), image_(image) {}
+#include <utility>
+#include <memory>
+
+Object::Object(const Point& coords, std::shared_ptr<QPixmap> image)
+  : coordinates_(coords), image_(std::move(image)) {}
 
 void Object::Tick(int) {}
 
 void Object::Draw(QPainter* painter) const {
+  if (image_ == nullptr) {
+    return;
+  }
   painter->save();
 
   int x = static_cast<int>(coordinates_.GetIsometricX() *
@@ -16,7 +22,7 @@ void Object::Draw(QPainter* painter) const {
   painter->drawPixmap(x, y,
                       constants::kSizeOfBlock,
                       constants::kSizeOfBlock,
-                      image_);
+                      *image_);
 
   painter->restore();
 }

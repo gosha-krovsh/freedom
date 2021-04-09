@@ -3,20 +3,37 @@
 
 #include <QString>
 
+#include <utility>
+#include <memory>
+
+#include "animator.h"
 #include "dynamic_object.h"
 #include "destroyable.h"
 
 class Creature : public DynamicObject, public Destroyable {
  public:
-  Creature(const Point& coords, const QPixmap& image, const QString& name,
-           int hp);
+  enum class Action {
+    kIdle,
+    kRun,
+  };
+  using State = std::pair<Action, DynamicObject::ViewDirection>;
+
+  Creature(const Point& coords, const QString& name, int hp);
 
   const QString& GetName() const;
+  void SetSpeedVector(const Point& speed_vector) override;
 
   void Tick(int current_tick) override;
 
+ protected:
+  Action action_{Action::kIdle};
+
+ private:
+  State GetState() const;
+
  private:
   QString name_;
+  Animator<State> animator_{GetState()};
 };
 
 #endif  // GAMEOBJECT_CREATURE_H_
