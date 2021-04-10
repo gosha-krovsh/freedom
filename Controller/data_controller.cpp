@@ -3,6 +3,8 @@
 DataController::DataController(
     const std::shared_ptr<Model>& model) : model_(model) {}
 
+void DataController::Tick(int) {}
+
 /* Parses schedule.json
  * schedule.json structure:
  * [
@@ -52,14 +54,33 @@ Schedule DataController::ParseSchedule() {
   return Schedule(schedule);
 }
 
-void DataController::Tick(int) {}
-
+// game_map.json structure:
+// {
+//   "rooms": [
+//     [name, bottom_left_x, bottom_left_y, up_right_x, up_right_y],
+//     ...
+//   ],
+//   "map_array" : [
+//     [ // z=0
+//       [0, 0, ... 0],  // x=0
+//       .............
+//       [0, 0, ... 0]  // x=n
+//     ],
+//     ......................
+//     [ // z=m
+//       [0, 0, ... 0],  // x=0
+//       .............
+//       [0, 0, ... 0]  // x=n
+//     ]
+//   ]
+// }
 std::unique_ptr<GameMap> DataController::ParseGameMap() {
   QFile file(":game_map.json");
   file.open(QIODevice::ReadOnly | QIODevice::Text);
   QJsonObject json_game_map = QJsonDocument::fromJson(file.readAll()).object();
 
-  std::set<GameMap::Room> rooms;
+  // Parsing rooms
+  std::vector<GameMap::Room> rooms;
   QJsonArray json_rooms = json_game_map["rooms"].toArray();
   if (json_rooms.empty()) {
     qDebug() << "There must be at least 1 room";
@@ -69,11 +90,12 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
     if (room_params.size() != 5) {
       qDebug() << "Invalid number of room constructor parameters";
     }
-    rooms.insert({room_params[0].toString(),
-                  room_params[1].toInt(), room_params[2].toInt(),
-                  room_params[3].toInt(), room_params[4].toInt()});
+    rooms.emplace_back(room_params[0].toString(),
+                       room_params[1].toInt(), room_params[2].toInt(),
+                       room_params[3].toInt(), room_params[4].toInt());
   }
 
+  // Parsing objects
   std::vector<Object*> objects;
   QJsonArray map = json_game_map["map_array"].toArray();
   int z_size = map.size();

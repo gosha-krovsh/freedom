@@ -25,7 +25,6 @@ class Model {
   const Time& GetTime() const;
 
  private:
-  // std::vector<Object> objects_;
   std::unique_ptr<GameMap> map_;
   Hero hero_{Point(1, 1, 1)};
   Schedule schedule_;

@@ -1,6 +1,27 @@
 #include "game_map.h"
 
-bool GameMap::Room::IsInsideRoom(int x, int y) const {
+GameMap::Room::Room(const QString& name,
+                    int bottom_left_x, int bottom_left_y,
+                    int up_right_x, int up_right_y) :
+                    name(name),
+                    bottom_left_x(bottom_left_x), bottom_left_y(bottom_left_y),
+                    up_right_x(up_right_x), up_right_y(up_right_y) {
+  if (bottom_left_x <= up_right_x) {
+    qDebug() << "In constructing room: |bottom_left_x| <= |up_right_x|";
+  }
+  if (bottom_left_y >= up_right_y) {
+    qDebug() << "In constructing room: |bottom_left_y| <= |up_right_y|";
+  }
+}
+
+bool GameMap::Room::IsInside(int x, int y) const {
+  return (x < bottom_left_x &&
+          x > up_right_x &&
+          y > bottom_left_y &&
+          y < up_right_y);
+}
+
+bool GameMap::Room::IsInsideOrOnTheEdge(int x, int y) const {
   return (x <= bottom_left_x &&
           x >= up_right_x &&
           y >= bottom_left_y &&
@@ -11,19 +32,34 @@ bool GameMap::Room::operator<(const GameMap::Room& rhs) const {
   return (name < rhs.name);
 }
 
+bool GameMap::Room::operator==(const GameMap::Room& rhs) const {
+  return (name == rhs.name) &&
+         (bottom_left_x == rhs.bottom_left_x) &&
+         (bottom_left_y == rhs.bottom_left_y) &&
+         (up_right_x == rhs.up_right_x) &&
+         (up_right_y == rhs.up_right_y);
+}
+
+bool GameMap::Room::operator!=(const GameMap::Room& rhs) const {
+  return !(*this == rhs);
+}
+
+bool GameMap::Room::IsOnTheEdge(int x, int y) const {
+  return (IsInsideOrOnTheEdge(x, y) && !IsInside(x, y));
+}
+
 // ----------------------------------------------------------------------------
 
 GameMap::GameMap(int x_size, int y_size, int z_size,
                  const std::vector<Object*>& objects,
-                 const std::set<Room>& rooms,
+                 const std::vector<Room>& rooms,
                  int hero_z) :
                  map_(std::vector<std::vector<std::vector<Object*>>>(
                             z_size, std::vector<std::vector<Object*>>(
                                 x_size, std::vector<Object*>(
                                     y_size, nullptr)))),
                  rooms_(rooms),
-                 hero_z_(hero_z),
-                 current_room_(*rooms.begin()) {
+                 hero_z_(hero_z) {
   for (auto& object : objects) {
     if (object) {
       map_[object->GetRoundedZ()]
@@ -71,14 +107,21 @@ std::unordered_set<const Object*> GameMap::GetTransparentBlocks() const {
 }
 
 void GameMap::UpdateCurrentRoom(int hero_x, int hero_y) {
-  if (current_room_.IsInsideRoom(hero_x, hero_y)) {
+  if (current_room_.IsInside(hero_x, hero_y)) {
+    is_hero_on_the_room_edge_ = false;
     return;
   }
+  if (current_room_.IsOnTheEdge(hero_x, hero_y) &&
+      is_hero_on_the_room_edge_) {
+    return;
+  }
+  is_hero_on_the_room_edge_ = true;
 
   auto room_iter = std::find_if(rooms_.begin(), rooms_.end(),
-                                [hero_x, hero_y](const Room& room) {
-                                  return room.IsInsideRoom(hero_x, hero_y);
-                                });
+                                [hero_x, hero_y, this](const Room& room) {
+    return room.IsInsideOrOnTheEdge(hero_x, hero_y) &&
+          (room != current_room_);
+  });
   if (room_iter == rooms_.end()) {
     qDebug() << "Hero coordinates does not belong to any room";
     return;

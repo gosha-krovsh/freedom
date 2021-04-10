@@ -21,10 +21,10 @@ class DataController {
  public:
   explicit DataController(const std::shared_ptr<Model>& model);
 
+  void Tick(int current_tick);
+
   static Schedule ParseSchedule();
   static std::unique_ptr<GameMap> ParseGameMap();
-
-  void Tick(int current_tick);
 
  private:
   enum class GameMapObjectType {
