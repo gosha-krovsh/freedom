@@ -1,7 +1,7 @@
 #include "data_controller.h"
 
-DataController::DataController(const std::shared_ptr<Model>& model) :
-    model_(model) {}
+DataController::DataController(
+    const std::shared_ptr<Model>& model) : model_(model) {}
 
 /* Parses schedule.json
  * schedule.json structure:
@@ -71,14 +71,19 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
   objects.reserve(z_size * x_size * y_size);
 
   for (int z = 0; z < z_size; ++z) {
-    QJsonArray surface = map.at(z).toArray();
-    for (int x = 0; x < x_size; ++x) {
-      QJsonArray line = surface.at(x).toArray();
-      for (int y = 0; y < y_size; ++y) {
-        int type = line.at(y).toInt();
+    QJsonArray surface = map[z].toArray();
+    if (surface.size() != x_size) {
+      qDebug() << "Map consists of jagged array: z =" << z;
+    }
+    for (int x = 0; (x < x_size) && (x < surface.size()); ++x) {
+      QJsonArray line = surface[x].toArray();
+      if (line.size() != y_size) {
+        qDebug() << "Map consists of jagged array: z =" << z << ", x =" << x;
+      }
+      for (int y = 0; (y < y_size) && (y < line.size()); ++y) {
+        int type = line[y].toInt();
         switch (type) {
-          case 0: {
-            objects.emplace_back(nullptr);
+          case 0: {  // no sense to add nullptr
             break;
           }
           case 1: {  // floor with no image
@@ -86,8 +91,9 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
             break;
           }
           case 2: {
-            static std::shared_ptr<QPixmap> img = std::make_shared<QPixmap>(":brick.png");
-            objects.emplace_back(new Object{Point(x, y, z), img});
+            static std::shared_ptr<QPixmap> brick_image =
+                std::make_shared<QPixmap>(":brick.png");
+            objects.emplace_back(new Object{Point(x, y, z), brick_image});
             break;
           }
           default: {
