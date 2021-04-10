@@ -28,10 +28,6 @@ bool GameMap::Room::IsInsideOrOnTheEdge(int x, int y) const {
           y <= up_right_y);
 }
 
-bool GameMap::Room::operator<(const GameMap::Room& rhs) const {
-  return (name < rhs.name);
-}
-
 bool GameMap::Room::operator==(const GameMap::Room& rhs) const {
   return (name == rhs.name) &&
          (bottom_left_x == rhs.bottom_left_x) &&
