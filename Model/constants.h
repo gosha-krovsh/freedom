@@ -10,6 +10,7 @@ namespace constants {
   const int kHP = 100;
   const int kAttack = 25;
   const double kSpeed = 0.05;
+  const int kAttackCooldown = 40;
 
   const int kDurationOfOneAnimationFrameInTicks = 15;
   const int kDurationOfShakingInTicks = 10;

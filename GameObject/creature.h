@@ -25,6 +25,9 @@ class Creature : public DynamicObject, public Destroyable {
 
   void Tick(int current_tick) override;
 
+  bool IsAbleToAttack() const;
+  void UpdateAttackCooldown();
+
  protected:
   Action action_{Action::kIdle};
 
@@ -34,6 +37,7 @@ class Creature : public DynamicObject, public Destroyable {
  private:
   QString name_;
   Animator<State> animator_{GetState()};
+  int attack_cooldown_{0};
 };
 
 #endif  // GAMEOBJECT_CREATURE_H_

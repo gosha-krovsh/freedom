@@ -50,6 +50,9 @@ void Controller::CheckHeroCollision() {
 
 void Controller::HeroAttack() {
   Hero& hero = model_->GetHero();
+  if (!hero.IsAbleToAttack()) {
+    return;
+  }
 
   Point view_vector = hero.GetViewVector() *
                       constants::kDistanceToDetectBlock;
@@ -58,35 +61,34 @@ void Controller::HeroAttack() {
 
   double min_distance_in_square = (1 + constants::kDistanceToDetectBlock) *
                                   (1 + constants::kDistanceToDetectBlock);
-  Destroyable* nearest_block{};
+  Wall* nearest_wall{};
 
   int floored_x = std::floor(hero.GetX());
   int floored_y = std::floor(hero.GetY());
   auto map = model_->GetMap();
   for (int x = floored_x - 1; x <= floored_x + 2; ++x) {
     for (int y = floored_y - 1; y <= floored_y + 2; ++y) {
-      auto block = dynamic_cast<Destroyable*>(map[hero.GetRoundedZ()][y][x]);
+      auto wall = dynamic_cast<Wall*>(map[hero.GetRoundedZ()][y][x]);
 
-      if (block && !block->IsDestroyed()) {
+      if (wall && !wall->IsDestroyed()) {
         double distance_in_square = (new_hero_x - x) * (new_hero_x - x) +
                                     (new_hero_y - y) * (new_hero_y - y);
         if (distance_in_square < min_distance_in_square + constants::kEps) {
           min_distance_in_square = distance_in_square;
-          nearest_block = block;
+          nearest_wall = wall;
         }
       }
     }
   }
 
-  if (nearest_block) {
-    nearest_block->DecreaseHP(constants::kAttack);
+  if (nearest_wall) {
+    nearest_wall->DecreaseHP(constants::kAttack);
 
-    auto* wall = dynamic_cast<Wall*>(nearest_block);
-    if (wall) {
-      Point direction_of_shake{wall->GetRoundedX() - hero.GetRoundedX(),
-                               wall->GetRoundedY() - hero.GetRoundedY()};
-      wall->Shake(direction_of_shake);
-    }
+    Point direction_of_shake{nearest_wall->GetRoundedX() - hero.GetRoundedX(),
+                             nearest_wall->GetRoundedY() - hero.GetRoundedY()};
+    nearest_wall->Shake(direction_of_shake);
+
+    hero.UpdateAttackCooldown();
   }
 }
 

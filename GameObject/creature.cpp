@@ -22,6 +22,9 @@ const QString& Creature::GetName() const {
 
 void Creature::Tick(int current_tick) {
   image_ = animator_.GetImageByState(GetState());
+  if (attack_cooldown_ != 0) {
+    --attack_cooldown_;
+  }
 
   DynamicObject::Tick(current_tick);
   animator_.Tick();
@@ -38,4 +41,12 @@ void Creature::SetSpeedVector(const Point& speed_vector) {
 
 Creature::State Creature::GetState() const {
   return State(action_, view_direction_);
+}
+
+bool Creature::IsAbleToAttack() const {
+  return attack_cooldown_ == 0;
+}
+
+void Creature::UpdateAttackCooldown() {
+  attack_cooldown_ = constants::kAttackCooldown;
 }
