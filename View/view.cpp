@@ -18,8 +18,8 @@ void View::paintEvent(QPaintEvent*) {
 
   const Hero& hero = model_->GetHero();
   const GameMap& map = model_->GetMap();
-  std::unordered_set<const Object*> transparent_blocks{
-    map.GetTransparentBlocks(hero.GetRoundedX(), hero.GetRoundedY())};
+  std::unordered_set<const Object*>
+      transparent_blocks = map.GetTransparentBlocks();
 
 
   for (int z = 0; z < map.GetZSize(); ++z) {

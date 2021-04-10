@@ -61,14 +61,17 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
 
   std::set<GameMap::Room> rooms;
   QJsonArray json_rooms = json_game_map["rooms"].toArray();
+  if (json_rooms.empty()) {
+    qDebug() << "There must be at least 1 room";
+  }
   for (const auto& json_room : json_rooms) {
     QJsonArray room_params = json_room.toArray();
     if (room_params.size() != 5) {
       qDebug() << "Invalid number of room constructor parameters";
     }
     rooms.insert({room_params[0].toString(),
-                  Point(room_params[1].toInt(), room_params[2].toInt()),
-                  Point(room_params[3].toInt(), room_params[4].toInt())});
+                  room_params[1].toInt(), room_params[2].toInt(),
+                  room_params[3].toInt(), room_params[4].toInt()});
   }
 
   std::vector<Object*> objects;
@@ -77,7 +80,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
   int x_size = map.at(0).toArray().size();
   int y_size = map.at(0).toArray().at(0).toArray().size();
   if (z_size * x_size * y_size <= 0) {
-    qDebug() << "Invalid size of the map during parsing";
+    qDebug() << "Invalid size of the map";
   }
   objects.reserve(z_size * x_size * y_size);
 
@@ -110,7 +113,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
             break;
           }
           default: {
-            qDebug() << "Not handled type of object during parsing";
+            qDebug() << "Not handled type of object";
             break;
           }
         }

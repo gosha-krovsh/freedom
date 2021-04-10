@@ -1,5 +1,18 @@
 #include "game_map.h"
 
+bool GameMap::Room::IsInsideRoom(int x, int y) const {
+  return (x <= bottom_left_x &&
+          x >= up_right_x &&
+          y >= bottom_left_y &&
+          y <= up_right_y);
+}
+
+bool GameMap::Room::operator<(const GameMap::Room& rhs) const {
+  return (name < rhs.name);
+}
+
+// ----------------------------------------------------------------------------
+
 GameMap::GameMap(int x_size, int y_size, int z_size,
                  const std::vector<Object*>& objects,
                  const std::set<Room>& rooms,
@@ -9,7 +22,8 @@ GameMap::GameMap(int x_size, int y_size, int z_size,
                                 x_size, std::vector<Object*>(
                                     y_size, nullptr)))),
                  rooms_(rooms),
-                 hero_z_(hero_z) {
+                 hero_z_(hero_z),
+                 current_room_(*rooms.begin()) {
   for (auto& object : objects) {
     if (object) {
       map_[object->GetRoundedZ()]
@@ -17,6 +31,8 @@ GameMap::GameMap(int x_size, int y_size, int z_size,
           [object->GetRoundedY()] = object;
     }
   }
+  // Otherwise, won't be updated after a tick, if hero will be in the 1 room.
+  UpdateTransparentBlocks();
 }
 
 GameMap::~GameMap() {
@@ -50,97 +66,26 @@ const Object* GameMap::GetBlock(int x, int y, int z) const {
   return map_[z][x][y];
 }
 
-std::unordered_set<const Object*>
-    GameMap::GetTransparentBlocks(int hero_x, int hero_y) const {
-  std::unordered_set<const Object*> result;
-  for (int i = 1; i <= constants::kBlockTransparencyDistance; ++i) {
-    auto corner = GetCorner(hero_x + i, hero_y + i);
-    result.insert(corner.begin(), corner.end());
-  }
-  return result;
+std::unordered_set<const Object*> GameMap::GetTransparentBlocks() const {
+  return transparent_blocks_;
 }
 
-std::unordered_set<const Object*> GameMap::GetCorner(int x, int y) const {
-  std::unordered_set<const Object*> result;
-
-  // When there is a hall in the wall, we should consider only one wall
-  if (!GetBlock(x, y, hero_z_)) {
-    if (GetBlock(x, y - 1, hero_z_)) {
-      auto left_wall = GetLeftWall(x, y - 1);
-      result.insert(left_wall.begin(), left_wall.end());
-    } else if (GetBlock(x - 1, y, hero_z_)) {
-      auto right_wall = GetRightWall(x - 1, y);
-      result.insert(right_wall.begin(), right_wall.end());
-    }  // else: result is empty
-    return result;
+void GameMap::UpdateCurrentRoom(int hero_x, int hero_y) {
+  if (current_room_.IsInsideRoom(hero_x, hero_y)) {
+    return;
   }
 
-  auto left_wall{GetLeftWall(x, y - 1)};
-  result.insert(left_wall.begin(), left_wall.end());
-  auto right_wall{GetRightWall(x - 1, y)};
-  result.insert(right_wall.begin(), right_wall.end());
-
-  // If Hero is standing right inside the corner, than 2 walls will be in the
-  // |result|, but this column, that connects left and right wall - won't.
-  // So we need to add it.
-  auto current_column{GetWallColumn(x, y)};
-  result.insert(current_column.begin(), current_column.end());
-
-  return result;
-}
-
-std::vector<const Object*> GameMap::GetLeftWall(int x, int y) const {
-  int y_begin = y;
-  while (y_begin > 0 &&
-        !IsBlockIntersection(x, y_begin - 1, x, y_begin)) {
-    --y_begin;
+  auto room_iter = std::find_if(rooms_.begin(), rooms_.end(),
+                                [hero_x, hero_y](const Room& room) {
+                                  return room.IsInsideRoom(hero_x, hero_y);
+                                });
+  if (room_iter == rooms_.end()) {
+    qDebug() << "Hero coordinates does not belong to any room";
+    return;
   }
 
-  int y_end = y;
-  while (y_end < GetYSize() &&
-        !IsBlockIntersection(x, y_end + 1, x, y_end)) {
-    ++y_end;
-  }
-
-  std::vector<const Object*> result;
-  for (int curr_y = y_begin; curr_y <= y_end; ++curr_y) {
-    auto column = GetWallColumn(x, curr_y);
-    result.insert(result.end(), column.begin(), column.end());
-  }
-  return result;
-}
-
-std::vector<const Object*> GameMap::GetRightWall(int x, int y) const {
-  int x_begin = x;
-  while (x_begin > 0 &&
-        !IsBlockIntersection(x_begin - 1, y, x_begin, y)) {
-    --x_begin;
-  }
-
-  int x_end = x;
-  while (x_end < GetXSize() &&
-        !IsBlockIntersection(x_end + 1, y, x_end, y)) {
-    ++x_end;
-  }
-
-  std::vector<const Object*> result;
-  for (int curr_x = x_begin; curr_x <= x_end; ++curr_x) {
-    auto column = GetWallColumn(curr_x, y);
-    result.insert(result.end(), column.begin(), column.end());
-  }
-  return result;
-}
-
-bool GameMap::IsBlockIntersection(int x, int y, int prev_x, int prev_y) const {
-  int delta_x = x - prev_x;
-  int delta_y = y - prev_y;
-  for (int curr_z = hero_z_; curr_z < GetZSize(); ++curr_z) {
-    if (GetBlock(x + delta_y, y + delta_x, curr_z) ||
-        GetBlock(x - delta_y, y - delta_x, curr_z)) {
-      return true;
-    }
-  }
-  return false;
+  current_room_ = *room_iter;
+  UpdateTransparentBlocks();
 }
 
 std::vector<const Object*> GameMap::GetWallColumn(int x, int y) const {
@@ -153,4 +98,18 @@ std::vector<const Object*> GameMap::GetWallColumn(int x, int y) const {
     }
   }
   return result;
+}
+
+void GameMap::UpdateTransparentBlocks() {
+  transparent_blocks_.clear();
+  for (int x = current_room_.up_right_x + 1;
+       x <= current_room_.bottom_left_x; ++x) {
+    auto column = GetWallColumn(x, current_room_.up_right_y);
+    transparent_blocks_.insert(column.begin(), column.end());
+  }
+  for (int y = current_room_.bottom_left_y + 1;
+       y < current_room_.up_right_y; ++y) {
+    auto column = GetWallColumn(current_room_.bottom_left_x, y);
+    transparent_blocks_.insert(column.begin(), column.end());
+  }
 }

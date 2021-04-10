@@ -10,6 +10,10 @@ const GameMap& Model::GetMap() const {
   return *map_;
 }
 
+GameMap& Model::GetMap() {
+  return *map_;
+}
+
 const Hero& Model::GetHero() const {
   return hero_;
 }

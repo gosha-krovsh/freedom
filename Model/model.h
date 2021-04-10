@@ -17,6 +17,7 @@ class Model {
                  std::unique_ptr<GameMap> game_map);
 
   const GameMap& GetMap() const;
+  GameMap& GetMap();
   const Hero& GetHero() const;
   Hero& GetHero();
   const Schedule& GetSchedule() const;
