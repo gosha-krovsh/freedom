@@ -1,11 +1,14 @@
 #include "game_map.h"
 
 GameMap::GameMap(int x_size, int y_size, int z_size,
-                 const std::vector<Object*>& objects, int hero_z) :
+                 const std::vector<Object*>& objects,
+                 const std::set<Room>& rooms,
+                 int hero_z) :
                  map_(std::vector<std::vector<std::vector<Object*>>>(
                             z_size, std::vector<std::vector<Object*>>(
                                 x_size, std::vector<Object*>(
                                     y_size, nullptr)))),
+                 rooms_(rooms),
                  hero_z_(hero_z) {
   for (auto& object : objects) {
     if (object) {

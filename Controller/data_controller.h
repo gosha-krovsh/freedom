@@ -27,6 +27,13 @@ class DataController {
   void Tick(int current_tick);
 
  private:
+  enum class GameMapObjectType {
+    kNone = 0,
+    kFloor = 1,
+    kWall = 2,
+  };
+
+ private:
   std::shared_ptr<Model> model_;
 };
 

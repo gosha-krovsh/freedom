@@ -3,14 +3,28 @@
 
 #include <vector>
 #include <unordered_set>
+#include <set>
 
 #include "object.h"
 
 class GameMap {
  public:
+  struct Room {
+    QString name;
+    Point bottom_left_coords;
+    Point up_right_coords;
+
+    bool operator<(const Room& rhs) const {
+      return (name < rhs.name);
+    }
+  };
+
+ public:
   GameMap() = default;
-  explicit GameMap(int x_size, int y_size, int z_size,
-                   const std::vector<Object*>& objects, int hero_z = 1);
+  GameMap(int x_size, int y_size, int z_size,
+          const std::vector<Object*>& objects,
+          const std::set<Room>& rooms,
+          int hero_z = 1);
   ~GameMap();
 
   int GetXSize() const;
@@ -50,6 +64,7 @@ class GameMap {
 
  private:
   std::vector<std::vector<std::vector<Object*>>> map_;
+  std::set<Room> rooms_;
   int hero_z_{1};
 };
 

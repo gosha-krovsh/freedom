@@ -57,11 +57,22 @@ void DataController::Tick(int) {}
 std::unique_ptr<GameMap> DataController::ParseGameMap() {
   QFile file(":game_map.json");
   file.open(QIODevice::ReadOnly | QIODevice::Text);
+  QJsonObject json_game_map = QJsonDocument::fromJson(file.readAll()).object();
 
-  QJsonDocument document = QJsonDocument::fromJson(file.readAll());
+  std::set<GameMap::Room> rooms;
+  QJsonArray json_rooms = json_game_map["rooms"].toArray();
+  for (const auto& json_room : json_rooms) {
+    QJsonArray room_params = json_room.toArray();
+    if (room_params.size() != 5) {
+      qDebug() << "Invalid number of room constructor parameters";
+    }
+    rooms.insert({room_params[0].toString(),
+                  Point(room_params[1].toInt(), room_params[2].toInt()),
+                  Point(room_params[3].toInt(), room_params[4].toInt())});
+  }
+
   std::vector<Object*> objects;
-
-  QJsonArray map = document.array();
+  QJsonArray map = json_game_map["map_array"].toArray();
   int z_size = map.size();
   int x_size = map.at(0).toArray().size();
   int y_size = map.at(0).toArray().at(0).toArray().size();
@@ -81,19 +92,21 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
         qDebug() << "Map consists of jagged array: z =" << z << ", x =" << x;
       }
       for (int y = 0; (y < y_size) && (y < line.size()); ++y) {
-        int type = line[y].toInt();
-        switch (type) {
-          case 0: {  // no sense to add nullptr
+        GameMapObjectType object_type =
+            static_cast<GameMapObjectType>(line[y].toInt());
+
+        switch (object_type) {
+          case GameMapObjectType::kNone: {
             break;
           }
-          case 1: {  // floor with no image
-            objects.emplace_back(new Object{Point(x, y, z), nullptr});
+          case GameMapObjectType::kFloor: {
+            objects.emplace_back(new Object(Point(x, y, z), nullptr));
             break;
           }
-          case 2: {
+          case GameMapObjectType::kWall: {
             static std::shared_ptr<QPixmap> brick_image =
                 std::make_shared<QPixmap>(":brick.png");
-            objects.emplace_back(new Object{Point(x, y, z), brick_image});
+            objects.emplace_back(new Object(Point(x, y, z), brick_image));
             break;
           }
           default: {
@@ -105,5 +118,5 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
     }
   }
 
-  return std::make_unique<GameMap>(x_size, y_size, z_size, objects);
+  return std::make_unique<GameMap>(x_size, y_size, z_size, objects, rooms);
 }
