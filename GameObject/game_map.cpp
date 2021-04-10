@@ -1,28 +1,20 @@
-#include <iostream>
 #include "game_map.h"
 
-// map store Z, X, Y
-GameMap::GameMap(
-    const std::vector<std::vector<std::vector<Object*>>>& objects,
-    int hero_z) : map_(objects), hero_z_(hero_z) {
-  // for (int z = 0; z < GetZSize(); ++z) {
-  //   for (int x = 0; x < GetXSize(); ++x) {
-  //     for (int y = 0; y < GetYSize(); ++y) {
-  //       std::cout << map_[z][x][y] << " ";
-  //     }
-  //     std::cout << "\n";
-  //   }
-  //   std::cout << "\n";
-  // }
+GameMap::GameMap(int x_size, int y_size, int z_size,
+                 const std::vector<Object*>& objects, int hero_z) :
+                 map_(std::vector<std::vector<std::vector<Object*>>>(
+                            z_size, std::vector<std::vector<Object*>>(
+                                x_size, std::vector<Object*>(
+                                    y_size, nullptr)))),
+                 hero_z_(hero_z) {
+  for (auto& object : objects) {
+    if (object) {
+      map_[object->GetRoundedZ()]
+          [object->GetRoundedX()]
+          [object->GetRoundedY()] = object;
+    }
+  }
 }
-
-// GameMap::GameMap(std::vector<Object>* objects, int hero_z) : hero_z_(hero_z) {
-//   for (auto& object : *objects) {
-//     map_[object.GetRoundedZ()]
-//         [object.GetRoundedY()]
-//         [object.GetRoundedX()] = &object;
-//   }
-// }
 
 GameMap::~GameMap() {
   for (auto& surface : map_) {

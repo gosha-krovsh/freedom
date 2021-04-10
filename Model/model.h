@@ -13,7 +13,8 @@
 
 class Model {
  public:
-  explicit Model(const Schedule& schedule, const GameMap& game_map);
+  explicit Model(const Schedule& schedule,
+                 std::unique_ptr<GameMap> game_map);
 
   const GameMap& GetMap() const;
   const Hero& GetHero() const;
@@ -23,8 +24,8 @@ class Model {
   const Time& GetTime() const;
 
  private:
-  std::vector<Object> objects_;
-  GameMap map_;
+  // std::vector<Object> objects_;
+  std::unique_ptr<GameMap> map_;
   Hero hero_{Point(1, 1, 1)};
   Schedule schedule_;
   Time time_;

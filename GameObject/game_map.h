@@ -9,10 +9,8 @@
 class GameMap {
  public:
   GameMap() = default;
-  explicit GameMap(
-      const std::vector<std::vector<std::vector<Object*>>>& objects,
-      int hero_z = 1);
-  // GameMap(std::vector<Object>* objects, int hero_z);
+  explicit GameMap(int x_size, int y_size, int z_size,
+                   const std::vector<Object*>& objects, int hero_z = 1);
   ~GameMap();
 
   int GetXSize() const;
