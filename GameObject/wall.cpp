@@ -17,7 +17,7 @@ void Wall::Tick(int current_tick) {
       tick_begin_of_shake_ = -1;
     } else {
       int sign =
-          (delta_tick >= constants::kDurationOfShakingInTicks / 2 ? -1 : 1);
+          (delta_tick >= (constants::kDurationOfShakingInTicks / 2)) ? -1 : 1;
       SetX(GetX() + sign * direction_of_shake_.x * constants::kShakeAmplitude);
       SetY(GetY() + sign * direction_of_shake_.y * constants::kShakeAmplitude);
     }

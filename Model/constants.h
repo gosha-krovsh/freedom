@@ -13,7 +13,8 @@ namespace constants {
 
   const int kDurationOfOneAnimationFrameInTicks = 15;
   const int kDurationOfShakingInTicks = 10;
-  const double kShakeAmplitude = 1./100;
+  const double kShakeAmplitude = 0.01;
+  const double kDistanceToDetectBlock = 2 * kSpeed;
 
   // Needed to make |DynamicObject| movement in Right/Left direction more
   // realistic in isometric view.

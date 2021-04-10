@@ -51,12 +51,13 @@ void Controller::CheckHeroCollision() {
 void Controller::HeroAttack() {
   Hero& hero = model_->GetHero();
 
-  Point view_vector = hero.GetViewVector() * constants::kSpeed;
+  Point view_vector = hero.GetViewVector() *
+                      constants::kDistanceToDetectBlock;
   double new_hero_x = hero.GetX() + view_vector.x;
   double new_hero_y = hero.GetY() + view_vector.y;
 
-  double min_distance_in_square = (1 + constants::kSpeed) *
-                                  (1 + constants::kSpeed);
+  double min_distance_in_square = (1 + constants::kDistanceToDetectBlock) *
+                                  (1 + constants::kDistanceToDetectBlock);
   Destroyable* nearest_block{};
 
   int floored_x = std::floor(hero.GetX());
