@@ -14,7 +14,7 @@ void Controller::Tick() {
 
   ++current_tick_;
 }
-
+#include <iostream>
 void Controller::CheckHeroCollision() {
   Hero& hero = model_->GetHero();
 
@@ -34,6 +34,20 @@ void Controller::CheckHeroCollision() {
       double delta_x = hero.GetX() - block_x;
       double delta_y = hero.GetY() - block_y;
       if (std::abs(delta_x) + std::abs(delta_y) < constants::kMaxSumOfDeltas) {
+        if (std::abs(delta_x) > 1. - constants::kOffsetForCollisionDetection &&
+            std::abs(delta_y) > 1. - constants::kOffsetForCollisionDetection) {
+          switch (hero.GetViewDirection()) {
+            case DynamicObject::ViewDirection::kUpLeft:
+            case DynamicObject::ViewDirection::kDownRight:
+              hero.SetX(block_x + std::round(delta_x));
+              break;
+            case DynamicObject::ViewDirection::kUpRight:
+            case DynamicObject::ViewDirection::kDownLeft:
+              hero.SetY(block_y + std::round(delta_y));
+              break;
+          }
+        }
+
         if (delta_x > 1. - constants::kOffsetForCollisionDetection) {
           hero.SetX(block_x + 1);
         } else if (delta_x < -(1. - constants::kOffsetForCollisionDetection)) {

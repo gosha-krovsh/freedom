@@ -1,5 +1,7 @@
 #include "wall.h"
 
+#include <utility>
+
 Wall::Wall(const Point& coords) : Object(coords, wall_image_),
                                   Destroyable(constants::kHP) {}
 
@@ -29,8 +31,8 @@ void Wall::OnDead() {
   image_ = nullptr;
 }
 
-void Wall::SetImage(const std::shared_ptr<QPixmap>& image) {
-  wall_image_ = image;
+void Wall::SetImage(std::shared_ptr<QPixmap> image) {
+  wall_image_ = std::move(image);
 }
 
 void Wall::Shake(const Point& direction_of_shake) {
