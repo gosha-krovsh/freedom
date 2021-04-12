@@ -1,21 +1,21 @@
 #ifndef ROUTE_H_
 #define ROUTE_H_
 
-#include "coordinates.h"
+#include "point.h"
 
 class Route {
  public:
-  Route(const Coordinates& start, const Coordinates& finish);
+  Route(const Point& start, const Point& finish);
   Route(const Route& route) = default;
 
-  Coordinates GetNext();
+  Point GetNext();
   bool HasFinished() const;
 
  private:
-  const Coordinates start_point_;
-  const Coordinates finish_point_;
+  const Point start_point_;
+  const Point finish_point_;
 
-  Coordinates current_point_;
+  Point current_point_;
 };
 
 #endif  // ROUTE_H_

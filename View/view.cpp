@@ -2,8 +2,8 @@
 
 View::View(AbstractController* controller,
            std::shared_ptr<Model> model) : controller_(controller),
-                           model_(model),
-                           timer_(new QTimer(this)) {
+                                           model_(model),
+                                           timer_(new QTimer(this)) {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
 
   connect(timer_, &QTimer::timeout, this, &View::TimerEvent);
@@ -17,6 +17,7 @@ void View::paintEvent(QPaintEvent*) {
 
   const Hero& hero = model_->GetHero();
   const auto& map = model_->GetMap();
+  const auto& bots = model_->GetBots();
   for (int z = 0; z < map.size(); ++z) {
     for (int y = 0; y < map[z].size(); ++y) {
       for (int x = 0; x < map[z][y].size(); ++x) {
@@ -28,6 +29,14 @@ void View::paintEvent(QPaintEvent*) {
             hero.GetRoundedY() == y &&
             hero.GetRoundedZ() == z) {
           hero.Draw(&painter);
+        }
+
+        for (const auto& current_bot : bots) {
+          if (current_bot->GetRoundedX() == x &&
+              current_bot->GetRoundedY() == y &&
+              current_bot->GetRoundedZ() == z) {
+            current_bot->Draw(&painter);
+          }
         }
       }
     }

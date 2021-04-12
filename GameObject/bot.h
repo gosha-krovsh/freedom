@@ -3,10 +3,11 @@
 
 #include "creature.h"
 #include "route.h"
+#include "point.h"
 
 class Bot : public Creature {
  public:
-  explicit Bot(const QString& name, Coordinates coords,
+  explicit Bot(const QString& name, Point coords,
       const QPixmap& image = QPixmap(":hero_0.png"));
 
   void SetRoute(const Route& route);
@@ -14,8 +15,10 @@ class Bot : public Creature {
 
   void OnDead() override;
  private:
-  void Move() override;
+  void Move();
 
+  const std::vector<Point> possible_bot_targets_{Point(3, 7, 1), Point(3, 6, 1),
+                                           Point(1, 6, 1), Point(1, 7, 1)};
   Route* route_ = nullptr;
 };
 

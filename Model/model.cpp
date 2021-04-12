@@ -37,6 +37,11 @@ Model::Model() {
   for (auto& object : objects_) {
     map_[object.GetZ()][object.GetY()][object.GetX()] = &object;
   }
+
+  bots_.emplace_back(std::make_unique<Bot>("Maks", Point(1, 6, 1)));
+  bots_.emplace_back(std::make_unique<Bot>("Arseniy", Point(2, 5, 1)));
+  // bots_.emplace_back(std::make_unique<Bot>("Gosha", Point(2, 6, 1)));
+  // bots_.emplace_back(std::make_unique<Bot>("Egor", Point(2, 7, 1)));
 }
 
 const Model::GameMap& Model::GetMap() const {
@@ -48,5 +53,8 @@ const Hero& Model::GetHero() const {
 }
 Hero& Model::GetHero() {
   return hero_;
+}
+const std::vector<std::unique_ptr<Bot>>& Model::GetBots() const {
+  return bots_;
 }
 

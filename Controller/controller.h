@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <vector>
+#include <qdebug.h>
 
 #include "abstract_controller.h"
 

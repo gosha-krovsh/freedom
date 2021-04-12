@@ -29,6 +29,8 @@ add_executable(${PROJECT_NAME}
         GameObject/destroyable.cpp
         GameObject/creature.cpp
         GameObject/hero.cpp
+        GameObject/bot.cpp
+        GameObject/route.cpp
 )
 
 if (NOT CMAKE_PREFIX_PATH)

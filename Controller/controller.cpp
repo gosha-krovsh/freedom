@@ -6,6 +6,11 @@ Controller::Controller() : model_(std::make_shared<Model>()),
 
 void Controller::Tick() {
   model_->GetHero().Tick(current_tick_);
+
+  for(const auto& i : model_->GetBots()) {
+    i->Tick(current_tick_);
+    // qDebug() << i->GetX() << ' ' << i->GetY() << '\n';
+  }
   CheckHeroCollision();
 
   ++current_tick_;
@@ -65,4 +70,6 @@ void Controller::UpdateHeroMovingDirection() {
                                    control_key_states_.up,
                                    control_key_states_.right,
                                    control_key_states_.down);
+
+  qDebug() << model_->GetHero().GetX() << ' ' << model_->GetHero().GetY();
 }

@@ -25,6 +25,8 @@ namespace constants {
   const int kWindowWidth = 850;
   const int kWindowHeight = 500;
   const int kFPS = 60;
+
+  const int kCountOfBots = 3;
 }  // namespace constants
 
 #endif  // MODEL_CONSTANTS_H_
