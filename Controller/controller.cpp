@@ -43,17 +43,24 @@ void Controller::CheckHeroCollision() {
       double delta_x = hero.GetX() - block_x;
       double delta_y = hero.GetY() - block_y;
       if (std::abs(delta_x) + std::abs(delta_y) < constants::kMaxSumOfDeltas) {
+        // Check for collision with corner of block
+        // when |Hero| moves diagonally
         if (std::abs(delta_x) > 1. - constants::kOffsetForCollisionDetection &&
             std::abs(delta_y) > 1. - constants::kOffsetForCollisionDetection) {
           switch (hero.GetViewDirection()) {
             case DynamicObject::ViewDirection::kUpLeft:
-            case DynamicObject::ViewDirection::kDownRight:
+            case DynamicObject::ViewDirection::kDownRight: {
               hero.SetX(block_x + std::round(delta_x));
               break;
+            }
             case DynamicObject::ViewDirection::kUpRight:
-            case DynamicObject::ViewDirection::kDownLeft:
+            case DynamicObject::ViewDirection::kDownLeft: {
               hero.SetY(block_y + std::round(delta_y));
               break;
+            }
+            default: {
+              break;
+            }
           }
         }
 
