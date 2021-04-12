@@ -1,8 +1,9 @@
 #include "model.h"
 
-Model::Model() {
+Model::Model(const Schedule& schedule) :
+    time_(Time(8, 30)),
+    schedule_(schedule) {
   Wall::SetImage(std::make_shared<QPixmap>(":brick"));
-
   objects_ = {
       new Wall(Point(0, 8, 1)),
       new Wall(Point(0, 6, 1)),
@@ -53,6 +54,18 @@ const Hero& Model::GetHero() const {
 }
 Hero& Model::GetHero() {
   return hero_;
+}
+
+const Schedule& Model::GetSchedule() const {
+  return schedule_;
+}
+
+Time& Model::GetTime() {
+  return time_;
+}
+
+const Time& Model::GetTime() const {
+  return time_;
 }
 
 Model::~Model() {

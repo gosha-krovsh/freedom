@@ -26,5 +26,6 @@
         <file alias="Hero_315_run_2.png">Hero/Hero_315_run_2.png</file>
 
         <file>brick.png</file>
+        <file>schedule.json</file>
     </qresource>
 </RCC>
