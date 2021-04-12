@@ -9,7 +9,7 @@ Controller::Controller()
 
 void Controller::Tick() {
   data_controller_->Tick(current_tick_);
-  model_->GetHero().Tick(current_tick_);
+  model_->GetHero().Tick(current_tick_);git reset --soft HEAD~1
 
   if (current_tick_ % constants::kTicksInMinute == 0 && current_tick_ != 0) {
     model_->GetTime().AddMinutes(1);
@@ -23,7 +23,7 @@ void Controller::Tick() {
 
   ++current_tick_;
 }
-#include <iostream>
+
 void Controller::CheckHeroCollision() {
   Hero& hero = model_->GetHero();
 
@@ -34,8 +34,8 @@ void Controller::CheckHeroCollision() {
   for (int block_x = floored_x; block_x <= floored_x + 1; ++block_x) {
     for (int block_y = floored_y; block_y <= floored_y + 1; ++block_y) {
       const Object* block = model_->GetMap()[hero.GetRoundedZ()]
-      [block_y]
-      [block_x];
+                                            [block_y]
+                                            [block_x];
       if (block == nullptr || !block->IsTouchable()) {
         continue;
       }
