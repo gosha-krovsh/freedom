@@ -9,7 +9,7 @@ Controller::Controller()
 
 void Controller::Tick() {
   data_controller_->Tick(current_tick_);
-  model_->GetHero().Tick(current_tick_);git reset --soft HEAD~1
+  model_->GetHero().Tick(current_tick_);
 
   if (current_tick_ % constants::kTicksInMinute == 0 && current_tick_ != 0) {
     model_->GetTime().AddMinutes(1);
