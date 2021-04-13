@@ -3,8 +3,8 @@
 
 #include <memory>
 
-#include "object.h"
 #include "destroyable.h"
+#include "object.h"
 
 class Wall : public Object, public Destroyable {
  public:
@@ -20,10 +20,11 @@ class Wall : public Object, public Destroyable {
   void ProcessShaking(int current_tick);
 
  private:
+  static std::shared_ptr<QPixmap> wall_image_;
+
   int tick_begin_of_shake_{-1};
   bool is_shaking_{false};
   Point direction_of_shake_{0, 0};
-  static std::shared_ptr<QPixmap> wall_image_;
 };
 
 #endif  // GAMEOBJECT_WALL_H_
