@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-#include <GameObject/action.h>
+#include "GameObject/action.h"
 #include "GameObject/hero.h"
 #include "GameObject/wall.h"
 #include "GameObject/schedule.h"

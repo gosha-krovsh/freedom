@@ -26,7 +26,7 @@ class Creature : public DynamicObject, public Destroyable {
   void Tick(int current_tick) override;
 
   bool IsAbleToAttack() const;
-  void UpdateAttackCooldown();
+  void RefreshAttackCooldown();
 
  protected:
   Action action_{Action::kIdle};

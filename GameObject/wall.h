@@ -17,6 +17,9 @@ class Wall : public Object, public Destroyable {
   void Shake(const Point& direction_of_shake);
 
  private:
+  void ProcessShaking(int current_tick);
+
+ private:
   int tick_begin_of_shake_{-1};
   bool is_shaking_{false};
   Point direction_of_shake_{0, 0};

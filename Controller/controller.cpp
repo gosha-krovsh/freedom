@@ -86,12 +86,11 @@ void Controller::HeroAttack() {
 
   Point view_vector = hero.GetViewVector() *
                       constants::kDistanceToDetectBlock;
-  double new_hero_x = hero.GetX() + view_vector.x;
-  double new_hero_y = hero.GetY() + view_vector.y;
+  Point hero_coords = hero.GetCoordinates() + view_vector;
 
-  double min_distance_in_square = (1 + constants::kDistanceToDetectBlock) *
-                                  (1 + constants::kDistanceToDetectBlock);
-  Wall* nearest_wall{};
+  double min_distance_squared = (1 + constants::kDistanceToDetectBlock) *
+                                (1 + constants::kDistanceToDetectBlock);
+  Wall* nearest_wall = nullptr;
 
   int floored_x = std::floor(hero.GetX());
   int floored_y = std::floor(hero.GetY());
@@ -101,10 +100,10 @@ void Controller::HeroAttack() {
       auto wall = dynamic_cast<Wall*>(map[hero.GetRoundedZ()][y][x]);
 
       if (wall && !wall->IsDestroyed()) {
-        double distance_in_square = (new_hero_x - x) * (new_hero_x - x) +
-                                    (new_hero_y - y) * (new_hero_y - y);
-        if (distance_in_square < min_distance_in_square + constants::kEps) {
-          min_distance_in_square = distance_in_square;
+        double distance_squared = (hero_coords.x - x) * (hero_coords.x - x) +
+                                  (hero_coords.y - y) * (hero_coords.y - y);
+        if (distance_squared < min_distance_squared + constants::kEps) {
+          min_distance_squared = distance_squared;
           nearest_wall = wall;
         }
       }
@@ -118,7 +117,7 @@ void Controller::HeroAttack() {
                              nearest_wall->GetRoundedY() - hero.GetRoundedY()};
     nearest_wall->Shake(direction_of_shake);
 
-    hero.UpdateAttackCooldown();
+    hero.RefreshAttackCooldown();
   }
 }
 
