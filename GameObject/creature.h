@@ -3,12 +3,12 @@
 
 #include <QString>
 
-#include <utility>
 #include <memory>
+#include <utility>
 
-#include "dynamic_object.h"
 #include "animator.h"
 #include "destroyable.h"
+#include "dynamic_object.h"
 
 class Creature : public DynamicObject, public Destroyable {
  public:
