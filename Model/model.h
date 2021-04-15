@@ -13,8 +13,7 @@
 
 class Model {
  public:
-  explicit Model(const Schedule& schedule,
-                 std::unique_ptr<GameMap> game_map);
+  Model(const Schedule& schedule, std::unique_ptr<GameMap> game_map);
 
   const GameMap& GetMap() const;
   GameMap& GetMap();

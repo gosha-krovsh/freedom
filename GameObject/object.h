@@ -17,8 +17,6 @@ class Object {
 
   virtual void Tick(int current_time);
 
-  void PrintInfo() const;
-
   Point GetCoordinates() const;
   double GetX() const;
   double GetY() const;
