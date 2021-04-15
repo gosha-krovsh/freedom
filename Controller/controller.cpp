@@ -44,6 +44,27 @@ void Controller::CheckHeroCollision() {
   }
 }
 
+StorableObject* Controller::CheckStorableBlocks() {
+  // !DEPRECATED CODE! Will be fixed at merging
+  Hero& hero = model_->GetHero();
+  int floored_x = std::floor(hero.GetX());
+  int floored_y = std::floor(hero.GetY());
+
+  auto map = model_->GetMap();
+  for (int x = floored_x - 1; x <= floored_x + 2; ++x) {
+    for (int y = floored_y - 1; y <= floored_y + 2; ++y) {
+      auto storable_obj =
+          dynamic_cast<StorableObject*>(map[hero.GetRoundedZ()][y][x]);
+
+      if (storable_obj) {
+        return storable_obj;
+      }
+    }
+  }
+
+  return nullptr;
+}
+
 void Controller::SetControlUpKeyState(bool state) {
   control_key_states_.up = state;
   UpdateHeroMovingDirection();
@@ -65,4 +86,23 @@ void Controller::UpdateHeroMovingDirection() {
                                    control_key_states_.up,
                                    control_key_states_.right,
                                    control_key_states_.down);
+}
+
+void Controller::OnItemPress(int bar_id, int index) {
+  std::pair<ItemBar*, ItemBar*> sourse_dest = view_->GetSrcDestBars(bar_id);
+  if (sourse_dest.first && sourse_dest.second) {
+    MoveItem(index, sourse_dest.first->GetObject(),
+                    sourse_dest.second->GetObject());
+    sourse_dest.first->UpdateIcons();
+    sourse_dest.second->UpdateIcons();
+  }
+}
+
+void Controller::MoveItem(int index, StorableObject* sourse,
+                          StorableObject* destination) {
+  // Moves item from one object to another via index.
+  if (sourse->isValidIndex(index)) {
+    Item item_to_move = sourse->RemoveItem(index);
+    destination->PutItem(item_to_move);
+  }
 }

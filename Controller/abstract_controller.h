@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "GameObject/hero.h"
+#include "GameObject/storable_object.h"
 
 class AbstractController {
  public:
@@ -15,6 +16,12 @@ class AbstractController {
   virtual void SetControlRightKeyState(bool state) = 0;
   virtual void SetControlDownKeyState(bool state) = 0;
   virtual void SetControlLeftKeyState(bool state) = 0;
+
+  virtual void OnItemPress(int id, int index) = 0;
+  virtual StorableObject* CheckStorableBlocks() = 0;
+
+ private:
+  virtual void MoveItem(int index, StorableObject*, StorableObject*) = 0;
 };
 
 #endif  // CONTROLLER_ABSTRACT_CONTROLLER_H_

@@ -1,6 +1,8 @@
 #ifndef CONTROLLER_CONTROLLER_H_
 #define CONTROLLER_CONTROLLER_H_
 
+#include <QDebug>
+
 #include <memory>
 #include <vector>
 
@@ -22,7 +24,11 @@ class Controller : public AbstractController {
   void SetControlLeftKeyState(bool state) override;
   void UpdateHeroMovingDirection();
 
+  void OnItemPress(int id, int index) override;
+  StorableObject* CheckStorableBlocks() override;
+
  private:
+
   struct ControlKeyStates {
     bool up{false};
     bool right{false};
@@ -32,6 +38,7 @@ class Controller : public AbstractController {
 
  private:
   void CheckHeroCollision();
+  void MoveItem(int index, StorableObject*, StorableObject*) override;
 
  private:
   std::shared_ptr<Model> model_;

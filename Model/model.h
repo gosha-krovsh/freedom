@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "GameObject/hero.h"
+#include "GameObject/chest.h"
 
 class Model {
  public:
@@ -16,7 +17,7 @@ class Model {
   Hero& GetHero();
 
  private:
-  std::vector<Object> objects_;
+  std::vector<Object*> objects_;
   GameMap map_;
   Hero hero_{Point(1, 6, 1) };
 };
