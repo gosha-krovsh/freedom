@@ -5,19 +5,17 @@ DataController::DataController(
 
 void DataController::Tick(int) {}
 
-/* Parses schedule.json
- * schedule.json structure:
- * [
- * [8, 32, [
- *  {
- *    "action" : "MethodsName",
- *    "arguments": ["", "", ""]
- *  },
- *  ...
- * ]],
- * ...
- * ]
- * */
+// schedule.json structure:
+// [
+//   [8, 32, [
+//     {
+//       "action" : "MethodsName",
+//       "arguments": ["", "", ""]
+//     },
+//     ...
+//   ]],
+//   ...
+// ]
 Schedule DataController::ParseSchedule() {
   QFile file(":schedule.json");
   file.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -57,7 +55,7 @@ Schedule DataController::ParseSchedule() {
 // game_map.json structure:
 // {
 //   "rooms": [
-//     [name, bottom_left_x, bottom_left_y, up_right_x, up_right_y],
+//     [name, down_left_x, down_left_y, up_right_x, up_right_y],
 //     ...
 //   ],
 //   "map_array" : [

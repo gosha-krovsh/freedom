@@ -24,8 +24,8 @@ class GameMap {
     bool operator!=(const Room& rhs) const;
 
     QString name;
-    int bottom_left_x;
-    int bottom_left_y;
+    int down_left_x;
+    int down_left_y;
     int up_right_x;
     int up_right_y;
   };
@@ -41,6 +41,9 @@ class GameMap {
   int GetXSize() const;
   int GetYSize() const;
   int GetZSize() const;
+
+  // Returns the pointer to the object on the map. Returns the nullptr, if there
+  // is an empty space, or if the x or y or z are out of range of map size.
   const Object* GetBlock(int x, int y, int z) const;
 
   // Updates |current_room_| by hero coordinates. If hero is on the edge of the
@@ -63,7 +66,7 @@ class GameMap {
   std::vector<std::vector<std::vector<Object*>>> map_;
   std::unordered_set<const Object*> transparent_blocks_;
   std::vector<Room> rooms_;
-  // First room in |rooms_| by default. Will be updated after 1 tick otherwise.
+  // Change default value to the room, where hero is spawned.
   Room current_room_{*rooms_.begin()};
   bool is_hero_on_the_room_edge_{false};
   int hero_z_{1};

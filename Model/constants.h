@@ -24,11 +24,6 @@ namespace constants {
   // Needed to prevent getting stuck at the joints of the blocks
   const double kMaxSumOfDeltas = 2 * (1 - kOffsetForCollisionDetection * 2 / 3);
 
-  // Influence on the distance from |Hero|, on which the column of blocks will
-  // be made transparent. Maybe in future it would be more correct to make walls
-  // height not exceed this value.
-  const int kBlockTransparencyDistance = 2;
-
   const int kWindowWidth = 850;
   const int kWindowHeight = 500;
   const int kFPS = 60;

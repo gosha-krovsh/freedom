@@ -3,35 +3,35 @@
 GameMap::Room::Room(const QString& name,
                     int bottom_left_x, int bottom_left_y,
                     int up_right_x, int up_right_y) :
-                    name(name),
-                    bottom_left_x(bottom_left_x), bottom_left_y(bottom_left_y),
-                    up_right_x(up_right_x), up_right_y(up_right_y) {
+    name(name),
+    down_left_x(bottom_left_x), down_left_y(bottom_left_y),
+    up_right_x(up_right_x), up_right_y(up_right_y) {
   if (bottom_left_x <= up_right_x) {
-    qDebug() << "In constructing room: |bottom_left_x| <= |up_right_x|";
+    qDebug() << "In constructing room: |down_left_x| <= |up_right_x|";
   }
   if (bottom_left_y >= up_right_y) {
-    qDebug() << "In constructing room: |bottom_left_y| <= |up_right_y|";
+    qDebug() << "In constructing room: |down_left_y| <= |up_right_y|";
   }
 }
 
 bool GameMap::Room::IsInside(int x, int y) const {
-  return (x < bottom_left_x &&
+  return (x < down_left_x &&
           x > up_right_x &&
-          y > bottom_left_y &&
+          y > down_left_y &&
           y < up_right_y);
 }
 
 bool GameMap::Room::IsInsideOrOnTheEdge(int x, int y) const {
-  return (x <= bottom_left_x &&
+  return (x <= down_left_x &&
           x >= up_right_x &&
-          y >= bottom_left_y &&
+          y >= down_left_y &&
           y <= up_right_y);
 }
 
 bool GameMap::Room::operator==(const GameMap::Room& rhs) const {
   return (name == rhs.name) &&
-         (bottom_left_x == rhs.bottom_left_x) &&
-         (bottom_left_y == rhs.bottom_left_y) &&
+         (down_left_x == rhs.down_left_x) &&
+         (down_left_y == rhs.down_left_y) &&
          (up_right_x == rhs.up_right_x) &&
          (up_right_y == rhs.up_right_y);
 }
@@ -142,13 +142,13 @@ std::vector<const Object*> GameMap::GetWallColumn(int x, int y) const {
 void GameMap::UpdateTransparentBlocks() {
   transparent_blocks_.clear();
   for (int x = current_room_.up_right_x + 1;
-       x <= current_room_.bottom_left_x; ++x) {
+       x <= current_room_.down_left_x; ++x) {
     auto column = GetWallColumn(x, current_room_.up_right_y);
     transparent_blocks_.insert(column.begin(), column.end());
   }
-  for (int y = current_room_.bottom_left_y + 1;
+  for (int y = current_room_.down_left_y + 1;
        y < current_room_.up_right_y; ++y) {
-    auto column = GetWallColumn(current_room_.bottom_left_x, y);
+    auto column = GetWallColumn(current_room_.down_left_x, y);
     transparent_blocks_.insert(column.begin(), column.end());
   }
 }
