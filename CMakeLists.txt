@@ -33,7 +33,9 @@ add_executable(${PROJECT_NAME}
         GameObject/hero.cpp
         GameObject/game_time.cpp
         GameObject/schedule.cpp
-        GameObject/action.cpp)
+        GameObject/action.cpp
+        GameObject/game_map.cpp
+        )
 
 if (NOT CMAKE_PREFIX_PATH)
     message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "

@@ -11,7 +11,8 @@
 class Object {
  public:
   explicit Object(const Point& coords,
-                  std::shared_ptr<QPixmap> image = std::shared_ptr<QPixmap>());
+                  const std::shared_ptr<QPixmap>& image =
+                      std::shared_ptr<QPixmap>());
   virtual ~Object() = default;
 
   virtual void Tick(int current_time);
@@ -23,6 +24,8 @@ class Object {
   int GetRoundedX() const;
   int GetRoundedY() const;
   int GetRoundedZ() const;
+  int GetFlooredX() const;
+  int GetFlooredY() const;
   void SetCoordinates(const Point& coords);
   void SetX(double x);
   void SetY(double y);

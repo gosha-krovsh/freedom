@@ -17,12 +17,21 @@ void View::paintEvent(QPaintEvent*) {
   CenterCameraOnHero(&painter);
 
   const Hero& hero = model_->GetHero();
-  const auto& map = model_->GetMap();
-  for (int z = 0; z < map.size(); ++z) {
-    for (int y = 0; y < map[z].size(); ++y) {
-      for (int x = 0; x < map[z][y].size(); ++x) {
-        if (map[z][y][x]) {
-          map[z][y][x]->Draw(&painter);
+  const GameMap& map = model_->GetMap();
+  std::unordered_set<const Object*>
+      transparent_blocks = map.GetTransparentBlocks();
+
+
+  for (int z = 0; z < map.GetZSize(); ++z) {
+    for (int y = 0; y < map.GetYSize(); ++y) {
+      for (int x = 0; x < map.GetXSize(); ++x) {
+        auto curr_block = map.GetBlock(x, y, z);
+        if (curr_block) {
+          if (transparent_blocks.find(curr_block) != transparent_blocks.end()) {
+            painter.setOpacity(constants::kBlockOpacity);
+          }
+          curr_block->Draw(&painter);
+          painter.setOpacity(1);
         }
 
         if (hero.GetRoundedX() == x &&

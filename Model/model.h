@@ -7,33 +7,27 @@
 #include <vector>
 
 #include <GameObject/action.h>
+#include "GameObject/game_map.h"
 #include "GameObject/hero.h"
 #include "GameObject/schedule.h"
 
 class Model {
  public:
-  using GameMap = std::vector<std::vector<std::vector<Object*>>>;
-
-  explicit Model(const Schedule& schedule);
+  Model(const Schedule& schedule, std::unique_ptr<GameMap> game_map);
 
   const GameMap& GetMap() const;
+  GameMap& GetMap();
   const Hero& GetHero() const;
   Hero& GetHero();
   const Schedule& GetSchedule() const;
-
   Time& GetTime();
   const Time& GetTime() const;
 
  private:
-  std::vector<Object> objects_;
-  GameMap map_;
-  Hero hero_{Point(1, 6, 1)};
-
+  std::unique_ptr<GameMap> map_;
+  Hero hero_{Point(1, 1, 1)};
   Schedule schedule_;
   Time time_;
-
-  std::shared_ptr<QPixmap>
-      brick_image = std::make_shared<QPixmap>(":brick.png");
 };
 
 #endif  // MODEL_MODEL_H_

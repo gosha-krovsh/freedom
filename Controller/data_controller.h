@@ -15,16 +15,23 @@
 #include "GameObject/action.h"
 #include "GameObject/game_time.h"
 #include "GameObject/schedule.h"
-
 #include "Model/model.h"
 
 class DataController {
  public:
   explicit DataController(const std::shared_ptr<Model>& model);
 
-  static Schedule ParseSchedule();
-
   void Tick(int current_tick);
+
+  static Schedule ParseSchedule();
+  static std::unique_ptr<GameMap> ParseGameMap();
+
+ private:
+  enum class GameMapObjectType {
+    kNone = 0,
+    kFloor = 1,
+    kWall = 2,
+  };
 
  private:
   std::shared_ptr<Model> model_;

@@ -1,10 +1,7 @@
 #include "object.h"
 
-#include <utility>
-#include <memory>
-
-Object::Object(const Point& coords, std::shared_ptr<QPixmap> image)
-  : coordinates_(coords), image_(std::move(image)) {}
+Object::Object(const Point& coords, const std::shared_ptr<QPixmap>& image)
+  : coordinates_(coords), image_(image) {}
 
 void Object::Tick(int) {}
 
@@ -64,4 +61,12 @@ void Object::SetZ(double z) {
 
 bool Object::IsTouchable() const {
   return is_touchable_;
+}
+
+int Object::GetFlooredX() const {
+  return static_cast<int>(std::floor(GetX()));
+}
+
+int Object::GetFlooredY() const {
+  return static_cast<int>(std::floor(GetY()));
 }
