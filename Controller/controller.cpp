@@ -102,7 +102,6 @@ void Controller::MoveItem(int index, StorableObject* sourse,
                           StorableObject* destination) {
   // Moves item from one object to another via index.
   if (sourse->isValidIndex(index)) {
-    Item item_to_move = sourse->RemoveItem(index);
-    destination->PutItem(item_to_move);
+    destination->PutItem(sourse->RemoveItem(index));
   }
 }
