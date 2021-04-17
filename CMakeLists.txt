@@ -24,6 +24,7 @@ add_executable(${PROJECT_NAME}
         Controller/controller.cpp
         Controller/action_controller.cpp
         Controller/data_controller.cpp
+        Controller/quest_controller.cpp
 
         GameObject/point.cpp
         GameObject/object.cpp
@@ -36,6 +37,7 @@ add_executable(${PROJECT_NAME}
         GameObject/action.cpp
         GameObject/game_map.cpp
 
+        Quests/quest.cpp
         Quests/abstract_quest_node.cpp
         Quests/move_to_destination_quest_node.cpp
 )

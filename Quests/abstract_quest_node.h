@@ -1,7 +1,7 @@
 #ifndef QUESTS_ABSTRACT_QUEST_NODE_H_
 #define QUESTS_ABSTRACT_QUEST_NODE_H_
 
-#include <string>
+#include <QString>
 
 class AbstractQuestNode {
  public:
@@ -10,17 +10,17 @@ class AbstractQuestNode {
   };
 
  public:
-  AbstractQuestNode(int id, const std::string& name);
+  AbstractQuestNode(int id, const QString& name);
   virtual ~AbstractQuestNode() = default;
 
   virtual QuestNodeType GetQuestNodeType() const = 0;
 
   int GetId() const;
-  std::string GetName() const;
+  QString GetName() const;
 
  private:
   int id_;
-  std::string name_;
+  QString name_;
 };
 
 #endif  // QUESTS_ABSTRACT_QUEST_NODE_H_

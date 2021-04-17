@@ -6,10 +6,12 @@ Controller::Controller()
       view_(std::make_unique<View>(this, model_)),
       actions_controller_(std::make_unique<ActionController>(model_)),
       data_controller_(std::make_unique<DataController>(model_)),
+      quest_controller_(std::make_unique<QuestController>(model_)),
       current_tick_(0) {}
 
 void Controller::Tick() {
   data_controller_->Tick(current_tick_);
+  quest_controller_->Tick(current_tick_);
   model_->GetHero().Tick(current_tick_);
   model_->GetMap().UpdateCurrentRoom(model_->GetHero().GetRoundedX(),
                                      model_->GetHero().GetRoundedY());

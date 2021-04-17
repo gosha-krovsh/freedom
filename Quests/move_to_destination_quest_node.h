@@ -6,7 +6,7 @@
 
 class MoveToDestinationQuestNode : public AbstractQuestNode {
  public:
-  MoveToDestinationQuestNode(int id, const std::string& name,
+  MoveToDestinationQuestNode(int id, const QString& name,
                              const Point& destination);
   ~MoveToDestinationQuestNode() override = default;
 
