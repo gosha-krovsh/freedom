@@ -10,6 +10,8 @@
 #include "GameObject/game_map.h"
 #include "GameObject/hero.h"
 #include "GameObject/schedule.h"
+#include "Quests/quest.h"
+#include "Quests/move_to_destination_quest_node.h"
 
 class Model {
  public:
@@ -23,11 +25,18 @@ class Model {
   Time& GetTime();
   const Time& GetTime() const;
 
+  void SetCurrentQuestById(int id);
+  std::shared_ptr<Quest> GetCurrentQuest() const;
+  void ResetCurrentQuest();
+
  private:
   std::unique_ptr<GameMap> map_;
   Hero hero_{Point(1, 1, 1)};
   Schedule schedule_;
   Time time_;
+
+  std::vector<std::shared_ptr<Quest>> quests_;
+  std::shared_ptr<Quest> current_quest{nullptr};
 };
 
 #endif  // MODEL_MODEL_H_

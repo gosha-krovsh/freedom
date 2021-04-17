@@ -114,3 +114,8 @@ bool Point::operator==(const Point& rhs) const {
 bool Point::operator!=(const Point& rhs) const {
   return !(*this == rhs);
 }
+
+bool Point::AreRoundedEqual(const Point& rhs) const {
+  return (Point{std::round(x), std::round(y), std::round(z)} ==
+          Point{std::round(rhs.x), std::round(rhs.y), std::round(rhs.z)});
+}

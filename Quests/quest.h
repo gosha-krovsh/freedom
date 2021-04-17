@@ -12,6 +12,10 @@ class Quest {
  public:
   Quest(int id, const QString& name,
         const std::vector<std::shared_ptr<AbstractQuestNode>>& quest_nodes);
+  int GetId() const;
+  QString GetName() const;
+  std::shared_ptr<AbstractQuestNode> GetCurrentQuestNode() const;
+  void MoveToNextQuestNode();
 
  private:
   int id_;
