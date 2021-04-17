@@ -36,7 +36,7 @@ class Model {
   Time time_;
 
   std::vector<std::shared_ptr<Quest>> quests_;
-  std::shared_ptr<Quest> current_quest{nullptr};
+  std::shared_ptr<Quest> current_quest_{nullptr};
 };
 
 #endif  // MODEL_MODEL_H_

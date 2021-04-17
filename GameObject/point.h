@@ -32,8 +32,6 @@ class Point {
   // about the origin of a 2-dimensional Cartesian coordinate system.
   void Rotate(double angle);
 
-  // Compare rounded coordinates of |this| with rounded coordinates of |rhs|.
-  bool AreRoundedEqual(const Point& rhs) const;
   bool operator==(const Point& rhs) const;
   bool operator!=(const Point& rhs) const;
 
@@ -49,6 +47,9 @@ class Point {
   friend Point operator*(double lhs, Point rhs);
   friend Point operator/(Point lhs, double rhs);
   friend Point operator/(double lhs, Point rhs);
+
+  // Compare rounded coordinates of |this| with rounded coordinates of |rhs|.
+  friend bool AreRoundedEqual(const Point& lhs, const Point& rhs);
 
  public:
   double x{0};

@@ -8,7 +8,7 @@ Model::Model(const Schedule& schedule,
   // TODO: parse it from json
   std::vector<std::shared_ptr<AbstractQuestNode>> quest_nodes{
       std::make_shared<MoveToDestinationQuestNode>(0, "MyQuestNodeName",
-                                                   Point{3, 3, 1})
+                                                   Point{7, 9, 1})
   };
   quests_.emplace_back(std::make_shared<Quest>(0, "MyQuestName", quest_nodes));
 }
@@ -41,11 +41,11 @@ const Time& Model::GetTime() const {
 }
 
 std::shared_ptr<Quest> Model::GetCurrentQuest() const {
-  return current_quest;
+  return current_quest_;
 }
 
 void Model::ResetCurrentQuest() {
-  current_quest = nullptr;
+  current_quest_ = nullptr;
 }
 
 void Model::SetCurrentQuestById(int id) {
@@ -56,7 +56,7 @@ void Model::SetCurrentQuestById(int id) {
   if (it == quests_.end()) {
     qDebug() << "Invalid quest id";
   } else {
-    current_quest = *it;
+    current_quest_ = *it;
   }
 }
 

@@ -5,10 +5,10 @@ QuestController::QuestController(const std::shared_ptr<Model>& model) :
 
 void QuestController::StartQuest(int id) {
   model_->SetCurrentQuestById(id);
-  // current_quest->OnStart();
+  // TODO: handle current_quest_->OnStart();
 }
 
-void QuestController::Tick(int current_tick) {
+void QuestController::Tick(int) {
   auto current_quest = model_->GetCurrentQuest();
   if (!current_quest) {
     return;
@@ -20,8 +20,9 @@ void QuestController::Tick(int current_tick) {
       current_quest->MoveToNextQuestNode();
     }
   } else {
-    // current_quest->OnFinish();
+    // TODO: handle current_quest_->OnFinish();
     model_->ResetCurrentQuest();
+    qDebug() << "Quest finished";  // message to test
   }
 }
 
@@ -32,6 +33,10 @@ bool QuestController::CheckCondition(
       return CheckCondition(
           std::static_pointer_cast<MoveToDestinationQuestNode>(quest_node));
     }
+    default: {
+      qDebug() << "Unhandled QuestNodeType";
+      return false;
+    }
   }
 }
 
@@ -39,5 +44,5 @@ bool QuestController::CheckCondition(
     const std::shared_ptr<MoveToDestinationQuestNode>& quest_node) {
   auto hero = model_->GetHero();
   auto destination = quest_node->GetDestination();
-  return hero.GetCoordinates().AreRoundedEqual(destination);
+  return AreRoundedEqual(hero.GetCoordinates(), destination);
 }

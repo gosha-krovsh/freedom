@@ -8,10 +8,16 @@
 class QuestController {
  public:
   explicit QuestController(const std::shared_ptr<Model>& model);
+
+  // Checks each tick, if there is a current quest, and if it is, checks
+  // the condition of a current node in this quest. If all quest nodes were
+  // accomplished, it finishes the current quest.
   void Tick(int current_tick);
+
   void StartQuest(int id);
 
  private:
+  // Returns true, if the condition, needed to accomplish |quest_node|, is met.
   bool CheckCondition(const std::shared_ptr<AbstractQuestNode>& quest_node);
   bool CheckCondition(
       const std::shared_ptr<MoveToDestinationQuestNode>& quest_node);
