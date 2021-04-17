@@ -1,9 +1,9 @@
 #include "view.h"
 
 View::View(AbstractController* controller,
-           std::shared_ptr<Model> model) : controller_(controller),
-                                           model_(model),
-                                           timer_(new QTimer(this)) {
+           const std::shared_ptr<Model>& model) : controller_(controller),
+                                                  model_(model),
+                                                  timer_(new QTimer(this)) {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
 
   connect(timer_, &QTimer::timeout, this, &View::TimerEvent);
@@ -14,15 +14,25 @@ View::View(AbstractController* controller,
 
 void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
+  CenterCameraOnHero(&painter);
 
   const Hero& hero = model_->GetHero();
-  const auto& map = model_->GetMap();
+  const GameMap& map = model_->GetMap();
   const auto& bots = model_->GetBots();
-  for (int z = 0; z < map.size(); ++z) {
-    for (int y = 0; y < map[z].size(); ++y) {
-      for (int x = 0; x < map[z][y].size(); ++x) {
-        if (map[z][y][x]) {
-          map[z][y][x]->Draw(&painter);
+  std::unordered_set<const Object*>
+      transparent_blocks = map.GetTransparentBlocks();
+
+
+  for (int z = 0; z < map.GetZSize(); ++z) {
+    for (int y = 0; y < map.GetYSize(); ++y) {
+      for (int x = 0; x < map.GetXSize(); ++x) {
+        auto curr_block = map.GetBlock(x, y, z);
+        if (curr_block) {
+          if (transparent_blocks.find(curr_block) != transparent_blocks.end()) {
+            painter.setOpacity(constants::kBlockOpacity);
+          }
+          curr_block->Draw(&painter);
+          painter.setOpacity(1);
         }
 
         if (hero.GetRoundedX() == x &&
@@ -41,6 +51,21 @@ void View::paintEvent(QPaintEvent*) {
       }
     }
   }
+}
+
+void View::CenterCameraOnHero(QPainter* camera) const {
+  // Get center of screen
+  double x_camera_offset = width() / 2.;
+  double y_camera_offset = height() / 2.;
+
+  // Center camera on center of |Hero|
+  x_camera_offset -= (model_->GetHero().GetCoordinates().GetIsometricX() + 1)
+      * (constants::kSizeOfBlock / 2.);
+  y_camera_offset -= (model_->GetHero().GetCoordinates().GetIsometricY() + 1)
+      * (constants::kSizeOfBlock / 2.);
+
+  // Make camera follow |Hero|
+  camera->translate(x_camera_offset, y_camera_offset);
 }
 
 void View::TimerEvent() {

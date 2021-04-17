@@ -1,15 +1,27 @@
 #include "controller.h"
 
-Controller::Controller() : model_(std::make_shared<Model>()),
-                           view_(std::make_unique<View>(this, model_)),
-                           current_tick_(0) {}
+Controller::Controller()
+    : model_(std::make_shared<Model>(DataController::ParseSchedule(),
+                                     DataController::ParseGameMap())),
+      view_(std::make_unique<View>(this, model_)),
+      actions_controller_(std::make_unique<ActionController>(model_)),
+      data_controller_(std::make_unique<DataController>(model_)),
+      current_tick_(0) {}
 
 void Controller::Tick() {
+  data_controller_->Tick(current_tick_);
   model_->GetHero().Tick(current_tick_);
 
   for(const auto& i : model_->GetBots()) {
     i->Tick(current_tick_);
     // qDebug() << i->GetX() << ' ' << i->GetY() << '\n';
+  }
+  model_->GetMap().UpdateCurrentRoom(model_->GetHero().GetRoundedX(),
+                                     model_->GetHero().GetRoundedY());
+
+  if (current_tick_ % constants::kTicksInMinute == 0 && current_tick_ != 0) {
+    model_->GetTime().AddMinutes(1);
+    actions_controller_->Tick(current_tick_);
   }
   CheckHeroCollision();
 
@@ -19,15 +31,14 @@ void Controller::Tick() {
 void Controller::CheckHeroCollision() {
   Hero& hero = model_->GetHero();
 
-  int floored_x = std::floor(hero.GetX());
-  int floored_y = std::floor(hero.GetY());
+  int floored_x = hero.GetFlooredX();
+  int floored_y = hero.GetFlooredY();
 
   // Check 4 blocks, which |Hero| can collide
   for (int block_x = floored_x; block_x <= floored_x + 1; ++block_x) {
     for (int block_y = floored_y; block_y <= floored_y + 1; ++block_y) {
-      const Object* block = model_->GetMap()[hero.GetRoundedZ()]
-                                            [block_y]
-                                            [block_x];
+      auto block = model_->GetMap().GetBlock(block_x, block_y,
+                                             hero.GetRoundedZ());
       if (block == nullptr || !block->IsTouchable()) {
         continue;
       }
@@ -71,5 +82,5 @@ void Controller::UpdateHeroMovingDirection() {
                                    control_key_states_.right,
                                    control_key_states_.down);
 
-  qDebug() << model_->GetHero().GetX() << ' ' << model_->GetHero().GetY();
+  // qDebug() << model_->GetHero().GetX() << ' ' << model_->GetHero().GetY();
 }

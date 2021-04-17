@@ -3,12 +3,16 @@
 
 #include <QPainter>
 
+#include <memory>
+
 #include "Model/constants.h"
 #include "point.h"
 
 class Object {
  public:
-  Object(const Point& coords, const QPixmap& image);
+  explicit Object(const Point& coords,
+                  const std::shared_ptr<QPixmap>& image =
+                      std::shared_ptr<QPixmap>());
   virtual ~Object() = default;
 
   virtual void Tick(int current_time);
@@ -20,6 +24,8 @@ class Object {
   int GetRoundedX() const;
   int GetRoundedY() const;
   int GetRoundedZ() const;
+  int GetFlooredX() const;
+  int GetFlooredY() const;
   void SetCoordinates(const Point& coords);
   void SetX(double x);
   void SetY(double y);
@@ -31,10 +37,10 @@ class Object {
 
  protected:
   bool is_touchable_{true};
+  std::shared_ptr<QPixmap> image_;
 
  private:
   Point coordinates_;
-  QPixmap image_;
 };
 
 #endif  // GAMEOBJECT_OBJECT_H_

@@ -5,15 +5,18 @@
 #include <QMainWindow>
 #include <QTimer>
 #include <memory>
+#include <unordered_set>
+#include <utility>
 
 #include "Controller/abstract_controller.h"
 #include "Model/model.h"
+#include "GameObject/object.h"
 
 class View : public QMainWindow {
   Q_OBJECT
 
  public:
-  View(AbstractController* controller, std::shared_ptr<Model> model);
+  View(AbstractController* controller, const std::shared_ptr<Model>& model);
 
  private:
   void paintEvent(QPaintEvent*) override;
@@ -21,6 +24,8 @@ class View : public QMainWindow {
   void keyReleaseEvent(QKeyEvent*) override;
   void changeEvent(QEvent*) override;
   void TimerEvent();
+
+  void CenterCameraOnHero(QPainter* camera) const;
 
  private:
   QTimer* timer_;

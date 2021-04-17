@@ -1,51 +1,17 @@
 #include "model.h"
 
-Model::Model() {
-  objects_ = {
-      Object(Point(0, 8, 1), QPixmap(":brick.png")),
-      Object(Point(0, 7, 1), QPixmap(":brick.png")),
-      Object(Point(0, 6, 1), QPixmap(":brick.png")),
-      Object(Point(0, 5, 1), QPixmap(":brick.png")),
+Model::Model(const Schedule& schedule,
+             std::unique_ptr<GameMap> game_map) :
+    time_(Time(8, 30)),
+    schedule_(schedule),
+    map_(std::move(game_map)) {}
 
-      Object(Point(4, 8, 1), QPixmap(":brick.png")),
-      Object(Point(4, 7, 1), QPixmap(":brick.png")),
-      Object(Point(4, 6, 1), QPixmap(":brick.png")),
-      Object(Point(4, 5, 1), QPixmap(":brick.png")),
-
-      Object(Point(1, 8, 1), QPixmap(":brick.png")),
-      Object(Point(2, 8, 1), QPixmap(":brick.png")),
-      Object(Point(3, 8, 1), QPixmap(":brick.png")),
-
-      Object(Point(1, 5, 1), QPixmap(":brick.png")),
-      Object(Point(3, 5, 1), QPixmap(":brick.png")),
-
-      Object(Point(1, 5, 0), QPixmap(":brick.png")),
-      Object(Point(2, 5, 0), QPixmap(":brick.png")),
-      Object(Point(3, 5, 0), QPixmap(":brick.png")),
-      Object(Point(1, 6, 0), QPixmap(":brick.png")),
-      Object(Point(2, 6, 0), QPixmap(":brick.png")),
-      Object(Point(3, 6, 0), QPixmap(":brick.png")),
-      Object(Point(1, 7, 0), QPixmap(":brick.png")),
-      Object(Point(2, 7, 0), QPixmap(":brick.png")),
-      Object(Point(3, 7, 0), QPixmap(":brick.png")),
-  };
-  map_ = GameMap(constants::kHeightOfMap,
-                 std::vector<std::vector<Object*>>(constants::kDepthOfMap,
-                 std::vector<Object*>(constants::kWidthOfMap,
-                   nullptr)));
-
-  for (auto& object : objects_) {
-    map_[object.GetZ()][object.GetY()][object.GetX()] = &object;
-  }
-
-  bots_.emplace_back(std::make_unique<Bot>("Maks", Point(1, 6, 1)));
-  bots_.emplace_back(std::make_unique<Bot>("Arseniy", Point(2, 5, 1)));
-  // bots_.emplace_back(std::make_unique<Bot>("Gosha", Point(2, 6, 1)));
-  // bots_.emplace_back(std::make_unique<Bot>("Egor", Point(2, 7, 1)));
+const GameMap& Model::GetMap() const {
+  return *map_;
 }
 
-const Model::GameMap& Model::GetMap() const {
-  return map_;
+GameMap& Model::GetMap() {
+  return *map_;
 }
 
 const Hero& Model::GetHero() const {
@@ -56,5 +22,17 @@ Hero& Model::GetHero() {
 }
 const std::vector<std::unique_ptr<Bot>>& Model::GetBots() const {
   return bots_;
+}
+
+const Schedule& Model::GetSchedule() const {
+  return schedule_;
+}
+
+Time& Model::GetTime() {
+  return time_;
+}
+
+const Time& Model::GetTime() const {
+  return time_;
 }
 
