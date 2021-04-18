@@ -1,6 +1,7 @@
 #ifndef ROUTE_H_
 #define ROUTE_H_
 
+#include "dynamic_object.h"
 #include "point.h"
 
 class Route {

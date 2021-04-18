@@ -4,7 +4,10 @@ Model::Model(const Schedule& schedule,
              std::unique_ptr<GameMap> game_map) :
     time_(Time(8, 30)),
     schedule_(schedule),
-    map_(std::move(game_map)) {}
+    map_(std::move(game_map)) {
+    bots_.emplace_back(std::make_unique<Bot>("Hero", Point(4, 1, 1), 0));
+    bots_.emplace_back(std::make_unique<Bot>("Hero", Point(1, 8, 1), 4));
+}
 
 const GameMap& Model::GetMap() const {
   return *map_;

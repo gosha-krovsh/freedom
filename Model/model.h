@@ -31,6 +31,8 @@ class Model {
   Schedule schedule_;
   Time time_;
   std::vector<std::unique_ptr<Bot>> bots_;
+  // {std::make_unique<Bot>("",Point(1, 1, 1)),};
+    // std::make_unique<Bot>("",Point(1, 1, 1))};
 
 };
 

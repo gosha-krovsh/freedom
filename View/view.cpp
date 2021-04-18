@@ -23,6 +23,8 @@ void View::paintEvent(QPaintEvent*) {
       transparent_blocks = map.GetTransparentBlocks();
 
 
+  qDebug() << hero.GetX() << ' ' << hero.GetY() << ' '
+  << hero.GetZ() << '\n';
   for (int z = 0; z < map.GetZSize(); ++z) {
     for (int y = 0; y < map.GetYSize(); ++y) {
       for (int x = 0; x < map.GetXSize(); ++x) {
@@ -42,9 +44,12 @@ void View::paintEvent(QPaintEvent*) {
         }
 
         for (const auto& current_bot : bots) {
+          // qDebug() << x << ' ' << y << ' ' << z << ' ' << current_bot->GetRoundedX() << ' '<<
+          // current_bot->GetRoundedY() << ' ' << current_bot->GetRoundedZ() << '\n';
           if (current_bot->GetRoundedX() == x &&
               current_bot->GetRoundedY() == y &&
               current_bot->GetRoundedZ() == z) {
+            // qDebug() << '*' << '\n';
             current_bot->Draw(&painter);
           }
         }
