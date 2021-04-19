@@ -1,5 +1,7 @@
-#ifndef BOT_H_
-#define BOT_H_
+#ifndef GAMEOBJECT_BOT_H_
+#define GAMEOBJECT_BOT_H_
+
+#include <memory>
 
 #include "creature.h"
 #include "route.h"
@@ -19,10 +21,10 @@ class Bot : public Creature {
   std::unique_ptr<Route> route_ = nullptr;
   int base_direction_;
   int current_direction_ = 0;
-  std::vector<Point> possible_bot_targets{Point(1, 1, 1),Point(1, 6, 1),
+  std::vector<Point> possible_bot_targets{Point(1, 1, 1), Point(1, 6, 1),
                                           Point(4, 6, 1), Point(4, 1, 1),
                                           Point(7, 9, 1), Point(1, 9, 1),
                                           Point(7, 9, 1), Point(1, 9, 1)};
 };
 
-#endif // BOT_H_
+#endif // GAMEOBJECT_BOT_H_

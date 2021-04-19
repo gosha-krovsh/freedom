@@ -41,8 +41,6 @@ void View::paintEvent(QPaintEvent*) {
         }
 
         for (const auto& current_bot : bots) {
-          // qDebug() << x << ' ' << y << ' ' << z << ' ' << current_bot->GetRoundedX() << ' '<<
-          // current_bot->GetRoundedY() << ' ' << current_bot->GetRoundedZ() << '\n';
           if (current_bot->GetRoundedX() == x &&
               current_bot->GetRoundedY() == y &&
               current_bot->GetRoundedZ() == z) {

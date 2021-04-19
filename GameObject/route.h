@@ -1,5 +1,7 @@
-#ifndef ROUTE_H_
-#define ROUTE_H_
+#ifndef GAMEOBJECT_ROUTE_H_
+#define GAMEOBJECT_ROUTE_H_
+
+#include <cmath>
 
 #include "dynamic_object.h"
 #include "point.h"
@@ -19,4 +21,4 @@ class Route {
   Point current_point_;
 };
 
-#endif  // ROUTE_H_
+#endif  // GAMEOBJECT_ROUTE_H_

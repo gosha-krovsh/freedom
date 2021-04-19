@@ -12,7 +12,7 @@ void Controller::Tick() {
   data_controller_->Tick(current_tick_);
   model_->GetHero().Tick(current_tick_);
 
-  for(const auto& i : model_->GetBots()) {
+  for (const auto& i : model_->GetBots()) {
     i->Tick(current_tick_);
     // qDebug() << i->GetX() << ' ' << i->GetY() << '\n';
   }

@@ -1,8 +1,4 @@
 #include "route.h"
-#include "point.h"
-#include "dynamic_object.h"
-#include <cmath>
-#include<qdebug.h>
 
 Route::Route(const Point& start, const Point& finish) :
     start_point_(start),
