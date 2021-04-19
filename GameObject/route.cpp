@@ -2,6 +2,7 @@
 #include "point.h"
 #include "dynamic_object.h"
 #include <cmath>
+#include<qdebug.h>
 
 Route::Route(const Point& start, const Point& finish) :
     start_point_(start),
@@ -15,23 +16,24 @@ Point Route::GetNext() {
     return finish_point_;
   }
 
+  double current_speed = constants::kSpeed / (sqrt(2));
   if (current_point_.y != finish_point_.y) {
-    if (std::abs(current_point_.y - finish_point_.y) < 0.03536) {
+    if (std::abs(current_point_.y - finish_point_.y) < current_speed) {
       current_point_.y = finish_point_.y;
     } else if (current_point_.y < finish_point_.y) {
-      current_point_.y += 0.03536;
+      current_point_.y += current_speed;
     } else {
-      current_point_.y -= 0.03536;
+      current_point_.y -= current_speed;
     }
   } else {
     if (std::abs(current_point_.x - finish_point_.x)
-        < 0.03536) {
+        < current_speed) {
       current_point_.x = finish_point_.x;
     } else {
       if (current_point_.x < finish_point_.x) {
-        current_point_.x += 0.03536;
+        current_point_.x += current_speed;
       } else {
-        current_point_.x -= 0.03536;
+        current_point_.x -= current_speed;
       }
     }
 

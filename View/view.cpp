@@ -22,9 +22,6 @@ void View::paintEvent(QPaintEvent*) {
   std::unordered_set<const Object*>
       transparent_blocks = map.GetTransparentBlocks();
 
-
-  qDebug() << hero.GetX() << ' ' << hero.GetY() << ' '
-  << hero.GetZ() << '\n';
   for (int z = 0; z < map.GetZSize(); ++z) {
     for (int y = 0; y < map.GetYSize(); ++y) {
       for (int x = 0; x < map.GetXSize(); ++x) {
@@ -49,7 +46,6 @@ void View::paintEvent(QPaintEvent*) {
           if (current_bot->GetRoundedX() == x &&
               current_bot->GetRoundedY() == y &&
               current_bot->GetRoundedZ() == z) {
-            // qDebug() << '*' << '\n';
             current_bot->Draw(&painter);
           }
         }
