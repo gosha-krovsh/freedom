@@ -28,4 +28,4 @@ class Bot : public Creature {
                                           Point(7, 9, 1), Point(1, 9, 1)};
 };
 
-#endif // GAMEOBJECT_BOT_H_
+#endif  // GAMEOBJECT_BOT_H_
