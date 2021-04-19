@@ -2,6 +2,7 @@
 #define GAMEOBJECT_BOT_H_
 
 #include <memory>
+#include <vector>
 
 #include "creature.h"
 #include "route.h"

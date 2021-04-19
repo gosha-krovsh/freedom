@@ -32,7 +32,6 @@ Point Route::GetNext() {
         current_point_.x -= current_speed;
       }
     }
-
   }
   // UpdateViewDirection();
   return current_point_;
