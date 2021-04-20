@@ -18,7 +18,6 @@ void Bot::Tick(int current_tick) {
     current_direction_ = (current_direction_ + 1) % targets_.size();
     route_ = std::make_unique<Route>(Point(GetX(), GetY(), GetZ()),
                                      targets_[current_direction_]);
-
   }
 }
 
