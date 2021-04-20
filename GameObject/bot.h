@@ -10,7 +10,7 @@
 
 class Bot : public Creature {
  public:
-  explicit Bot(const QString& name,
+  Bot(const QString& name,
                const Point& coords, const std::vector<Point>& targets);
 
   void SetRoute(const Route& route);
@@ -24,10 +24,6 @@ class Bot : public Creature {
   std::unique_ptr<Route> route_ = nullptr;
   int current_direction_ = 0;
   std::vector<Point> targets_;
-  // std::vector<Point> possible_bot_targets{Point(1, 1, 1), Point(1, 6, 1),
-  //                                         Point(4, 6, 1), Point(4, 1, 1),
-  //                                         Point(7, 9, 1), Point(1, 9, 1),
-  //                                         Point(7, 9, 1), Point(1, 9, 1)};
 };
 
 #endif  // GAMEOBJECT_BOT_H_

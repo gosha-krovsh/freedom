@@ -7,18 +7,18 @@ Bot::Bot(const QString& name, const Point& coords,
     Creature(coords, name, constants::kHP), targets_(targets) {}
 
 void Bot::Tick(int current_tick) {
-  speed_vector_ = {0, 0};
   Creature::Tick(current_tick);
   Move();
-
   if (route_) {
     if (route_->HasFinished()) {
       route_ = nullptr;
+      speed_vector_ = Point(0, 0);
     }
   } else {
     current_direction_ = (current_direction_ + 1) % targets_.size();
     route_ = std::make_unique<Route>(Point(GetX(), GetY(), GetZ()),
                                      targets_[current_direction_]);
+
   }
 }
 
@@ -33,6 +33,10 @@ void Bot::Move() {
 
   Point next_point = route_->GetNext();
 
+  if (speed_vector_ != Point(0, 0)) {
+    SetCoordinates(next_point);
+    return;
+  }
   if (next_point.x == GetX()) {
     if (next_point.y > GetY()) {
       SetSpeedVector({0, 1});
@@ -45,6 +49,8 @@ void Bot::Move() {
     } else {
       SetSpeedVector({-1, 0});
     }
+  } else {
+    speed_vector_ = Point(0, 0);
   }
   UpdateViewDirection();
   SetCoordinates(next_point);
