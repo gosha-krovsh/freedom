@@ -2,8 +2,11 @@
 
 #include <utility>
 
-Wall::Wall(const Point& coords) : Object(coords, wall_image_),
-                                  Destroyable(constants::kHP) {}
+Wall::Wall(const Point& coords)
+  : Object(coords, wall_image_),
+    Destroyable(constants::kHP) {
+  type_ = ObjectType::kWall;
+}
 
 void Wall::Tick(int current_tick) {
   Object::Tick(current_tick);
@@ -13,11 +16,11 @@ void Wall::Tick(int current_tick) {
 
 void Wall::OnDead() {
   is_touchable_ = false;
-  image_ = nullptr;
+  delete_on_next_tick_ = true;
 }
 
-void Wall::SetImage(std::shared_ptr<QPixmap> image) {
-  wall_image_ = std::move(image);
+void Wall::SetImage(const std::shared_ptr<QPixmap>& image) {
+  wall_image_ = image;
 }
 
 void Wall::Shake(const Point& direction_of_shake) {
@@ -42,6 +45,18 @@ void Wall::ProcessShaking(int current_tick) {
       SetY(GetY() + sign * direction_of_shake_.y * constants::kShakeAmplitude);
     }
   }
+}
+
+void Wall::Interact(const InteractingObject& interacting_object) {
+  DecreaseHP(interacting_object.GetAttack());
+
+  Point direction_of_shake{GetRoundedX() - interacting_object.GetRoundedX(),
+                           GetRoundedY() - interacting_object.GetRoundedY()};
+  Shake(direction_of_shake);
+}
+
+void Wall::DeleteImage() {
+  wall_image_.reset();
 }
 
 std::shared_ptr<QPixmap> Wall::wall_image_;

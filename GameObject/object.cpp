@@ -3,13 +3,13 @@
 #include <utility>
 #include <memory>
 
-Object::Object(const Point& coords, std::shared_ptr<QPixmap> image)
-  : coordinates_(coords), image_(std::move(image)) {}
+Object::Object(const Point& coords, const std::weak_ptr<QPixmap>& image)
+  : coordinates_(coords), image_(image) {}
 
 void Object::Tick(int) {}
 
 void Object::Draw(QPainter* painter) const {
-  if (image_ == nullptr) {
+  if (image_.expired()) {
     return;
   }
   painter->save();
@@ -22,7 +22,7 @@ void Object::Draw(QPainter* painter) const {
   painter->drawPixmap(x, y,
                       constants::kSizeOfBlock,
                       constants::kSizeOfBlock,
-                      *image_);
+                      *image_.lock());
 
   painter->restore();
 }
@@ -65,3 +65,11 @@ void Object::SetZ(double z) {
 bool Object::IsTouchable() const {
   return is_touchable_;
 }
+bool Object::IsType(Object::ObjectType object_type) const {
+  return type_ == object_type;
+}
+bool Object::ToDelete() const {
+  return delete_on_next_tick_;
+}
+
+void Object::Interact(const InteractingObject& interacting_object) {}

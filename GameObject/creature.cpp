@@ -51,3 +51,7 @@ bool Creature::IsAbleToAttack() const {
 void Creature::RefreshAttackCooldown() {
   attack_cooldown_ = constants::kAttackCooldown;
 }
+
+int Creature::GetAttack() const {
+  return attack_;
+}

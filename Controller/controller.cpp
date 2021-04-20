@@ -17,11 +17,29 @@ void Controller::Tick() {
   }
   CheckHeroCollision();
 
-  for (auto& object : model_->GetObjects()) {
-    object->Tick(current_tick_);
-  }
+  BlocksTick();
 
   ++current_tick_;
+}
+
+void Controller::BlocksTick() {
+  auto& map = model_->GetMap();
+  for (auto& plane : map) {
+    for (auto& line : plane) {
+      for (auto& block : line) {
+        if (block == nullptr) {
+          continue;
+        }
+
+        block->Tick(current_tick_);
+
+        if (block->ToDelete()) {
+          delete block;
+          block = nullptr;
+        }
+      }
+    }
+  }
 }
 
 void Controller::CheckHeroCollision() {
@@ -84,41 +102,44 @@ void Controller::HeroAttack() {
     return;
   }
 
+  auto nearest_wall = FindNearestObjectWithType(Object::ObjectType::kWall);
+
+  if (nearest_wall) {
+    nearest_wall->Interact(hero);
+
+    hero.RefreshAttackCooldown();
+  }
+}
+
+Object* Controller::FindNearestObjectWithType(Object::ObjectType type) {
+  Hero& hero = model_->GetHero();
   Point view_vector = hero.GetViewVector() *
                       constants::kDistanceToDetectBlock;
   Point hero_coords = hero.GetCoordinates() + view_vector;
 
   double min_distance_squared = (1 + constants::kDistanceToDetectBlock) *
                                 (1 + constants::kDistanceToDetectBlock);
-  Wall* nearest_wall = nullptr;
+  Object* nearest_block = nullptr;
 
   int floored_x = std::floor(hero.GetX());
   int floored_y = std::floor(hero.GetY());
   auto map = model_->GetMap();
   for (int x = floored_x - 1; x <= floored_x + 2; ++x) {
     for (int y = floored_y - 1; y <= floored_y + 2; ++y) {
-      auto wall = dynamic_cast<Wall*>(map[hero.GetRoundedZ()][y][x]);
+      auto block = map[hero.GetRoundedZ()][y][x];
 
-      if (wall && !wall->IsDestroyed()) {
+      if (block && block->IsType(type)) {
         double distance_squared = (hero_coords.x - x) * (hero_coords.x - x) +
                                   (hero_coords.y - y) * (hero_coords.y - y);
         if (distance_squared < min_distance_squared + constants::kEps) {
           min_distance_squared = distance_squared;
-          nearest_wall = wall;
+          nearest_block = block;
         }
       }
     }
   }
 
-  if (nearest_wall) {
-    nearest_wall->DecreaseHP(constants::kAttack);
-
-    Point direction_of_shake{nearest_wall->GetRoundedX() - hero.GetRoundedX(),
-                             nearest_wall->GetRoundedY() - hero.GetRoundedY()};
-    nearest_wall->Shake(direction_of_shake);
-
-    hero.RefreshAttackCooldown();
-  }
+  return nearest_block;
 }
 
 void Controller::SetControlUpKeyState(bool state) {

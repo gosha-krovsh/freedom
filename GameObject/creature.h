@@ -27,6 +27,7 @@ class Creature : public DynamicObject, public Destroyable {
 
   bool IsAbleToAttack() const;
   void RefreshAttackCooldown();
+  int GetAttack() const;
 
  protected:
   Action action_{Action::kIdle};
@@ -38,6 +39,7 @@ class Creature : public DynamicObject, public Destroyable {
   QString name_;
   Animator<State> animator_{GetState()};
   int attack_cooldown_{0};
+  int attack_{constants::kAttack};
 };
 
 #endif  // GAMEOBJECT_CREATURE_H_

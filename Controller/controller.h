@@ -37,6 +37,8 @@ class Controller : public AbstractController {
 
  private:
   void CheckHeroCollision();
+  void BlocksTick();
+  Object* FindNearestObjectWithType(Object::ObjectType type);
 
  private:
   std::shared_ptr<Model> model_;

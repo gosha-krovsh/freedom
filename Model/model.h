@@ -19,6 +19,7 @@ class Model {
   ~Model();
 
   const GameMap& GetMap() const;
+  GameMap& GetMap();
   std::vector<Object*>& GetObjects();
   const Hero& GetHero() const;
   Hero& GetHero();
@@ -28,7 +29,6 @@ class Model {
   const Time& GetTime() const;
 
  private:
-  std::vector<Object*> objects_;
   GameMap map_;
   Hero hero_{Point(2, 7, 1)};
 

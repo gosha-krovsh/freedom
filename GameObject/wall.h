@@ -12,9 +12,12 @@ class Wall : public Object, public Destroyable {
   void Tick(int current_tick) override;
   void OnDead() override;
 
-  static void SetImage(std::shared_ptr<QPixmap> image);
+  static void SetImage(const std::shared_ptr<QPixmap>& image);
+  static void DeleteImage();
 
   void Shake(const Point& direction_of_shake);
+
+  void Interact(const InteractingObject& interacting_object) override;
 
  private:
   void ProcessShaking(int current_tick);
