@@ -12,9 +12,8 @@ void Controller::Tick() {
   data_controller_->Tick(current_tick_);
   model_->GetHero().Tick(current_tick_);
 
-  for (const auto& i : model_->GetBots()) {
-    i->Tick(current_tick_);
-    // qDebug() << i->GetX() << ' ' << i->GetY() << '\n';
+  for (const auto& current_bot : model_->GetBots()) {
+    current_bot->Tick(current_tick_);
   }
   model_->GetMap().UpdateCurrentRoom(model_->GetHero().GetRoundedX(),
                                      model_->GetHero().GetRoundedY());

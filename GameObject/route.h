@@ -9,16 +9,14 @@
 class Route {
  public:
   Route(const Point& start, const Point& finish);
-  Route(const Route& route) = default;
-
   Point GetNext();
   bool HasFinished() const;
 
  private:
-  const Point start_point_;
-  const Point finish_point_;
+  const Point start_;
+  const Point finish_;
 
-  Point current_point_;
+  Point current_;
 };
 
 #endif  // GAMEOBJECT_ROUTE_H_

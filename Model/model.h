@@ -7,9 +7,9 @@
 #include <vector>
 
 #include <GameObject/action.h>
+#include <GameObject/bot.h>
 #include "GameObject/game_map.h"
 #include "GameObject/hero.h"
-#include <GameObject/bot.h>
 #include "GameObject/schedule.h"
 
 class Model {

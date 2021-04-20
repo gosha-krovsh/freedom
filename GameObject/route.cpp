@@ -1,45 +1,41 @@
 #include "route.h"
 
 Route::Route(const Point& start, const Point& finish) :
-    start_point_(start),
-    finish_point_(finish),
-    current_point_(start) {}
+    start_(start),
+    finish_(finish),
+    current_(start) {}
 
 Point Route::GetNext() {
-  if (current_point_.x == finish_point_.x &&
-      current_point_.y == finish_point_.y &&
-      current_point_.z == finish_point_.z) {
-    return finish_point_;
+  if (HasFinished()) {
+    return finish_;
   }
 
-  double current_speed = constants::kSpeed / (sqrt(2));
-  if (current_point_.y != finish_point_.y) {
-    if (std::abs(current_point_.y - finish_point_.y) < current_speed) {
-      current_point_.y = finish_point_.y;
-    } else if (current_point_.y < finish_point_.y) {
-      current_point_.y += current_speed;
+  double current_speed = constants::kSpeed / (std::sqrt(2));
+  if (current_.y != finish_.y) {
+    if (std::abs(current_.y - finish_.y) < current_speed) {
+      current_.y = finish_.y;
+    } else if (current_.y < finish_.y) {
+      current_.y += current_speed;
     } else {
-      current_point_.y -= current_speed;
+      current_.y -= current_speed;
     }
   } else {
-    if (std::abs(current_point_.x - finish_point_.x)
+    if (std::abs(current_.x - finish_.x)
         < current_speed) {
-      current_point_.x = finish_point_.x;
+      current_.x = finish_.x;
     } else {
-      if (current_point_.x < finish_point_.x) {
-        current_point_.x += current_speed;
+      if (current_.x < finish_.x) {
+        current_.x += current_speed;
       } else {
-        current_point_.x -= current_speed;
+        current_.x -= current_speed;
       }
     }
   }
   // UpdateViewDirection();
-  return current_point_;
+  return current_;
 }
 
 bool Route::HasFinished() const {
-  return (current_point_.x == finish_point_.x &&
-      current_point_.y == finish_point_.y &&
-      current_point_.z == finish_point_.z);
+  return current_ == finish_;
 }
 

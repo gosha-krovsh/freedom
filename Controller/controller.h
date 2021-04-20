@@ -1,10 +1,11 @@
 #ifndef CONTROLLER_CONTROLLER_H_
 #define CONTROLLER_CONTROLLER_H_
 
+#include <QDebug>
+
 #include <memory>
 #include <utility>
 #include <vector>
-#include <qdebug.h>
 
 #include "abstract_controller.h"
 #include "action_controller.h"

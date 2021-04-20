@@ -5,8 +5,19 @@ Model::Model(const Schedule& schedule,
     time_(Time(8, 30)),
     schedule_(schedule),
     map_(std::move(game_map)) {
-    bots_.emplace_back(std::make_unique<Bot>("Hero", Point(4, 1, 1), 0));
-    bots_.emplace_back(std::make_unique<Bot>("Hero", Point(1, 8, 1), 4));
+  bots_.emplace_back(std::make_unique<Bot>("Hero", Point(1, 1, 1),
+                                           std::vector<Point>(
+                                               {Point(1, 1, 1),
+                                                Point(1, 6, 1),
+                                                Point(4, 6, 1),
+                                                Point(4, 1, 1)})));
+  bots_.emplace_back(std::make_unique<Bot>("Hero", Point(7, 9, 1),
+                                           std::vector<Point>({
+                                               Point(7, 9, 1),
+                                               Point(1, 9, 1),
+                                               Point(7, 9, 1),
+                                               Point(1, 9, 1),
+                                               })));
 }
 
 const GameMap& Model::GetMap() const {
