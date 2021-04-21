@@ -1,8 +1,5 @@
 #include "object.h"
 
-#include <utility>
-#include <memory>
-
 Object::Object(const Point& coords, const std::weak_ptr<QPixmap>& image)
   : coordinates_(coords), image_(image) {}
 
