@@ -39,6 +39,8 @@ class GameMap {
           int hero_z = 1);
   ~GameMap();
 
+  void Tick(int current_tick);
+
   int GetXSize() const;
   int GetYSize() const;
   int GetZSize() const;

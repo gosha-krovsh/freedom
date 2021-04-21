@@ -77,6 +77,25 @@ GameMap::~GameMap() {
   }
 }
 
+void GameMap::Tick(int current_tick) {
+  for (auto& plane : map_) {
+    for (auto& line : plane) {
+      for (auto& block : line) {
+        if (block == nullptr) {
+          continue;
+        }
+
+        block->Tick(current_tick);
+
+        if (block->ToDelete()) {
+          delete block;
+          block = nullptr;
+        }
+      }
+    }
+  }
+}
+
 int GameMap::GetXSize() const {
   return map_[0].size();
 }

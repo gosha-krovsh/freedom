@@ -37,7 +37,6 @@ class Controller : public AbstractController {
 
  private:
   void CheckHeroCollision();
-  void BlocksTick();
   Object* FindNearestObjectWithType(Object::Type type);
 
  private:

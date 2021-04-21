@@ -20,28 +20,9 @@ void Controller::Tick() {
   }
   CheckHeroCollision();
 
-  BlocksTick();
+  model_->GetMap().Tick(current_tick_);
 
   ++current_tick_;
-}
-
-void Controller::BlocksTick() {
-  for (auto& plane : model_->GetMap().GetBlocks()) {
-    for (auto& line : plane) {
-      for (auto& block : line) {
-        if (block == nullptr) {
-          continue;
-        }
-
-        block->Tick(current_tick_);
-
-        if (block->ToDelete()) {
-          delete block;
-          block = nullptr;
-        }
-      }
-    }
-  }
 }
 
 void Controller::CheckHeroCollision() {
