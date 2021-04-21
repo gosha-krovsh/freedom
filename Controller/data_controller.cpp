@@ -93,6 +93,8 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
                        room_params[3].toInt(), room_params[4].toInt());
   }
 
+  Wall::SetImage(std::make_shared<QPixmap>(":brick.png"));
+
   // Parsing objects
   std::vector<Object*> objects;
   QJsonArray map = json_game_map["map_array"].toArray();
@@ -123,13 +125,11 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
             break;
           }
           case GameMapObjectType::kFloor: {
-            objects.emplace_back(new Object(Point(x, y, z), nullptr));
+            objects.emplace_back(new Object(Point(x, y, z)));
             break;
           }
           case GameMapObjectType::kWall: {
-            static std::shared_ptr<QPixmap> brick_image =
-                std::make_shared<QPixmap>(":brick.png");
-            objects.emplace_back(new Object(Point(x, y, z), brick_image));
+            objects.emplace_back(new Wall(Point(x, y, z)));
             break;
           }
           default: {

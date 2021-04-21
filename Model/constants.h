@@ -19,7 +19,7 @@ namespace constants {
   const double kDistanceToDetectBlock = 2 * kSpeed;
 
   // The opacity of the block, when it's considered transparent.
-  const double kBlockOpacity = 0.15;
+  const double kBlockOpacity = 0.05;
 
   // Needed to make |DynamicObject| movement in Right/Left direction more
   // realistic in isometric view.

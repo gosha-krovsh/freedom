@@ -9,7 +9,7 @@ Model::Model(const Schedule& schedule,
 
 const GameMap& Model::GetMap() const {
   return *map_;
-
+}
 GameMap& Model::GetMap() {
   return *map_;
 }
@@ -35,12 +35,4 @@ const Time& Model::GetTime() const {
 
 Model::~Model() {
   Wall::DeleteImage();
-
-  for (auto& plane : map_) {
-    for (auto& line : plane) {
-      for (auto& block : line) {
-        delete block;
-      }
-    }
-  }
 }

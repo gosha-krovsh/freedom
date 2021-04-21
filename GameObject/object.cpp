@@ -3,9 +3,6 @@
 #include <utility>
 #include <memory>
 
-Object::Object(const Point& coords, const std::shared_ptr<QPixmap>& image)
-  : coordinates_(coords), image_(image) {}
-
 Object::Object(const Point& coords, const std::weak_ptr<QPixmap>& image)
   : coordinates_(coords), image_(image) {}
 

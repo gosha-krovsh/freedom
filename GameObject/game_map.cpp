@@ -97,6 +97,17 @@ const Object* GameMap::GetBlock(int x, int y, int z) const {
   }
   return map_[z][x][y];
 }
+Object* GameMap::GetBlock(int x, int y, int z) {
+  if ((x < 0) || (x >= GetXSize()) ||
+      (y < 0) || (y >= GetYSize()) ||
+      (z < 0) || (z >= GetZSize())) {
+    return nullptr;
+  }
+  return map_[z][x][y];
+}
+std::vector<std::vector<std::vector<Object*>>>& GameMap::GetBlocks() {
+  return map_;
+}
 
 std::unordered_set<const Object*> GameMap::GetTransparentBlocks() const {
   return transparent_blocks_;

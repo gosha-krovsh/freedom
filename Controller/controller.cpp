@@ -26,8 +26,7 @@ void Controller::Tick() {
 }
 
 void Controller::BlocksTick() {
-  auto& map = model_->GetMap();
-  for (auto& plane : map) {
+  for (auto& plane : model_->GetMap().GetBlocks()) {
     for (auto& line : plane) {
       for (auto& block : line) {
         if (block == nullptr) {
@@ -125,10 +124,10 @@ Object* Controller::FindNearestObjectWithType(Object::ObjectType type) {
 
   int floored_x = std::floor(hero.GetX());
   int floored_y = std::floor(hero.GetY());
-  auto map = model_->GetMap();
+  auto& map = model_->GetMap();
   for (int x = floored_x - 1; x <= floored_x + 2; ++x) {
     for (int y = floored_y - 1; y <= floored_y + 2; ++y) {
-      auto block = map[hero.GetRoundedZ()][y][x];
+      auto block = map.GetBlock(x, y, hero.GetRoundedZ());
 
       if (block && block->IsType(type)) {
         double distance_squared = (hero_coords.x - x) * (hero_coords.x - x) +
