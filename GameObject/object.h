@@ -31,6 +31,8 @@ class Object {
   int GetRoundedX() const;
   int GetRoundedY() const;
   int GetRoundedZ() const;
+  int GetFlooredX() const;
+  int GetFlooredY() const;
   void SetCoordinates(const Point& coords);
   void SetX(double x);
   void SetY(double y);

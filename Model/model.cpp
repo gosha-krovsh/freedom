@@ -1,52 +1,17 @@
 #include "model.h"
 
-Model::Model(const Schedule& schedule) :
+
+Model::Model(const Schedule& schedule,
+             std::unique_ptr<GameMap> game_map) :
     time_(Time(8, 30)),
-    schedule_(schedule) {
-  Wall::SetImage(std::make_shared<QPixmap>(":brick"));
-  std::vector<Point> wall_coords = {
-      Point(0, 8, 1),
-      Point(0, 6, 1),
-      Point(0, 5, 1),
+    schedule_(schedule),
+    map_(std::move(game_map)) {}
 
-      Point(4, 8, 1),
-      Point(4, 7, 1),
-      Point(4, 6, 1),
-      Point(4, 5, 1),
+const GameMap& Model::GetMap() const {
+  return *map_;
 
-      Point(1, 8, 1),
-      Point(2, 8, 1),
-      Point(3, 8, 1),
-
-      Point(1, 5, 1),
-      Point(2, 5, 1),
-      Point(3, 8, 1),
-
-      Point(1, 5, 0),
-      Point(2, 5, 0),
-      Point(3, 5, 0),
-      Point(1, 6, 0),
-      Point(2, 6, 0),
-      Point(3, 6, 0),
-      Point(1, 7, 0),
-      Point(2, 7, 0),
-      Point(3, 7, 0),
-  };
-  map_ = GameMap(constants::kHeightOfMap,
-                 std::vector<std::vector<Object*>>(constants::kDepthOfMap,
-                 std::vector<Object*>(constants::kWidthOfMap,
-                   nullptr)));
-
-  for (const auto& coords : wall_coords) {
-    map_[coords.z][coords.y][coords.x] = new Wall(coords);
-  }
-}
-
-const Model::GameMap& Model::GetMap() const {
-  return map_;
-}
-Model::GameMap& Model::GetMap() {
-  return map_;
+GameMap& Model::GetMap() {
+  return *map_;
 }
 
 const Hero& Model::GetHero() const {

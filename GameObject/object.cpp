@@ -3,6 +3,9 @@
 #include <utility>
 #include <memory>
 
+Object::Object(const Point& coords, const std::shared_ptr<QPixmap>& image)
+  : coordinates_(coords), image_(image) {}
+
 Object::Object(const Point& coords, const std::weak_ptr<QPixmap>& image)
   : coordinates_(coords), image_(image) {}
 
@@ -60,6 +63,14 @@ void Object::SetY(double y) {
 }
 void Object::SetZ(double z) {
   coordinates_.z = z;
+}
+
+int Object::GetFlooredX() const {
+  return static_cast<int>(std::floor(GetX()));
+}
+
+int Object::GetFlooredY() const {
+  return static_cast<int>(std::floor(GetY()));
 }
 
 bool Object::IsTouchable() const {

@@ -30,8 +30,7 @@ class Animator {
 
 template<class State>
 void Animator<State>::Tick() {
-  counter_++;
-
+  ++counter_;
   if (GetIndexOfCurrentFrame() >= images_[state_].size()) {
     counter_ = 0;
   }
@@ -52,7 +51,7 @@ std::shared_ptr<QPixmap> Animator<State>::GetImageByState(const State& state) {
     state_ = state;
     counter_ = 0;
   }
-  return images_.at(state_)[GetIndexOfCurrentFrame()];
+  return images_.at(state_).at(GetIndexOfCurrentFrame());
 }
 
 template<class State>

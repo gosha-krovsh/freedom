@@ -27,5 +27,6 @@
 
         <file>brick.png</file>
         <file>schedule.json</file>
+        <file>game_map.json</file>
     </qresource>
 </RCC>

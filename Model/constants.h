@@ -18,6 +18,9 @@ namespace constants {
   const double kShakeAmplitude = 0.01;
   const double kDistanceToDetectBlock = 2 * kSpeed;
 
+  // The opacity of the block, when it's considered transparent.
+  const double kBlockOpacity = 0.15;
+
   // Needed to make |DynamicObject| movement in Right/Left direction more
   // realistic in isometric view.
   const double kIsometricSpeedCoefficient = 1 / std::sqrt(3);
@@ -26,10 +29,6 @@ namespace constants {
   const double kOffsetForCollisionDetection = 0.15;
   // Needed to prevent getting stuck at the joints of the blocks
   const double kMaxSumOfDeltas = 2 * (1 - kOffsetForCollisionDetection * 2 / 3);
-
-  const int kHeightOfMap = 2;
-  const int kDepthOfMap = 10;
-  const int kWidthOfMap = 10;
 
   const int kWindowWidth = 850;
   const int kWindowHeight = 500;
