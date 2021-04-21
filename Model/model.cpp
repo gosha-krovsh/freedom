@@ -1,6 +1,5 @@
 #include "model.h"
 
-
 Model::Model(const Schedule& schedule,
              std::unique_ptr<GameMap> game_map) :
     time_(Time(8, 30)),
@@ -10,6 +9,7 @@ Model::Model(const Schedule& schedule,
 const GameMap& Model::GetMap() const {
   return *map_;
 }
+
 GameMap& Model::GetMap() {
   return *map_;
 }

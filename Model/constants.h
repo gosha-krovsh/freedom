@@ -21,6 +21,9 @@ namespace constants {
   // The opacity of the block, when it's considered transparent.
   const double kBlockOpacity = 0.05;
 
+  // The opacity of the block, when it's considered transparent.
+  const double kBlockOpacity = 0.15;
+
   // Needed to make |DynamicObject| movement in Right/Left direction more
   // realistic in isometric view.
   const double kIsometricSpeedCoefficient = 1 / std::sqrt(3);

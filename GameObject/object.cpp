@@ -81,3 +81,10 @@ bool Object::ToDelete() const {
 }
 
 void Object::Interact(const InteractingObject& interacting_object) {}
+
+int Object::GetFlooredX() const {
+  return static_cast<int>(std::floor(GetX()));
+}
+int Object::GetFlooredY() const {
+  return static_cast<int>(std::floor(GetY()));
+}
