@@ -1,7 +1,5 @@
 #include "wall.h"
 
-#include <utility>
-
 Wall::Wall(const Point& coords)
   : Object(coords, wall_image_),
     Destroyable(constants::kHP) {
