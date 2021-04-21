@@ -92,7 +92,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
                        room_params[1].toInt(), room_params[2].toInt(),
                        room_params[3].toInt(), room_params[4].toInt());
   }
-  
+
   Wall::SetImage(std::make_shared<QPixmap>(":brick.png"));
 
   // Parsing objects
