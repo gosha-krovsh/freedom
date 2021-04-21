@@ -11,8 +11,9 @@
 
 class Object {
  public:
-  enum class ObjectType {
+  enum class Type {
     kNone,
+    kFloor,
     kWall
   };
 
@@ -39,7 +40,7 @@ class Object {
   void SetZ(double z);
 
   bool IsTouchable() const;
-  bool IsType(ObjectType object_type) const;
+  bool IsType(Type object_type) const;
   bool ToDelete() const;
 
   void Draw(QPainter* painter) const;
@@ -49,7 +50,7 @@ class Object {
   std::weak_ptr<QPixmap> image_;
   bool is_touchable_{true};
   bool delete_on_next_tick_{false};
-  ObjectType type_{ObjectType::kNone};
+  Type type_{Type::kNone};
 
  private:
   Point coordinates_;

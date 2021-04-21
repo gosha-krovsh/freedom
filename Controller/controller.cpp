@@ -103,7 +103,7 @@ void Controller::HeroAttack() {
     return;
   }
 
-  auto nearest_wall = FindNearestObjectWithType(Object::ObjectType::kWall);
+  auto nearest_wall = FindNearestObjectWithType(Object::Type::kWall);
 
   if (nearest_wall) {
     nearest_wall->Interact(hero);
@@ -112,7 +112,7 @@ void Controller::HeroAttack() {
   }
 }
 
-Object* Controller::FindNearestObjectWithType(Object::ObjectType type) {
+Object* Controller::FindNearestObjectWithType(Object::Type type) {
   Hero& hero = model_->GetHero();
   Point view_vector = hero.GetViewVector() *
                       constants::kDistanceToDetectBlock;

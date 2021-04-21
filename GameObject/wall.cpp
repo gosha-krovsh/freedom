@@ -5,7 +5,7 @@
 Wall::Wall(const Point& coords)
   : Object(coords, wall_image_),
     Destroyable(constants::kHP) {
-  type_ = ObjectType::kWall;
+  type_ = Type::kWall;
 }
 
 void Wall::Tick(int current_tick) {
