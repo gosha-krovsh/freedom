@@ -34,6 +34,7 @@ class Creature : public DynamicObject, public Destroyable {
 
  private:
   State GetState() const;
+  void DecrementAttackCooldown();
 
  private:
   QString name_;
