@@ -1,5 +1,7 @@
 #include "image_manager.h"
 
+std::map<QString, std::shared_ptr<QPixmap>> ImageManager::images_{};
+
 std::weak_ptr<QPixmap> ImageManager::GetImage(const QString& name) {
   auto iter = images_.find(name);
 
