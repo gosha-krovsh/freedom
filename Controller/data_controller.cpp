@@ -117,8 +117,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
         qDebug() << "Map consists of jagged array: z =" << z << ", x =" << x;
       }
       for (int y = 0; (y < y_size) && (y < line.size()); ++y) {
-        Object::Type object_type =
-            static_cast<Object::Type>(line[y].toInt());
+        Object::Type object_type = static_cast<Object::Type>(line[y].toInt());
 
         switch (object_type) {
           case Object::Type::kNone: {

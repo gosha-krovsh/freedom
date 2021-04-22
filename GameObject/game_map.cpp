@@ -124,9 +124,6 @@ Object* GameMap::GetBlock(int x, int y, int z) {
   }
   return map_[z][x][y];
 }
-std::vector<std::vector<std::vector<Object*>>>& GameMap::GetBlocks() {
-  return map_;
-}
 
 std::unordered_set<const Object*> GameMap::GetTransparentBlocks() const {
   return transparent_blocks_;
