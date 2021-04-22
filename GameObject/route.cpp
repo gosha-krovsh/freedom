@@ -1,5 +1,7 @@
 #include "route.h"
 
+// Now this class is useless.
+
 Route::Route(const Point& start, const Point& finish) :
     start_(start),
     finish_(finish),
@@ -7,9 +9,8 @@ Route::Route(const Point& start, const Point& finish) :
 
 Point Route::GetNext() {
   if (HasFinished()) {
-    return finish_;
+    return current_;
   }
-
   double current_speed = constants::kSpeed / (std::sqrt(2));
   if (current_.y != finish_.y) {
     if (std::abs(current_.y - finish_.y) < current_speed) {
@@ -31,7 +32,7 @@ Point Route::GetNext() {
       }
     }
   }
-  // UpdateViewDirection();
+
   return current_;
 }
 

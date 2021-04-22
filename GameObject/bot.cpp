@@ -1,7 +1,5 @@
 #include "bot.h"
 
-#include <QDebug>
-
 Bot::Bot(const QString& name, const Point& coords,
          const std::vector<Point>& targets) :
     Creature(coords, name, constants::kHP), targets_(targets) {}
@@ -9,15 +7,13 @@ Bot::Bot(const QString& name, const Point& coords,
 void Bot::Tick(int current_tick) {
   Creature::Tick(current_tick);
   Move();
-  if (route_) {
-    if (route_->HasFinished()) {
-      route_ = nullptr;
+  if (GetCoordinates() == targets_[current_direction_]) {
       speed_vector_ = Point(0, 0);
-    }
-  } else {
-    current_direction_ = (current_direction_ + 1) % targets_.size();
-    route_ = std::make_unique<Route>(Point(GetX(), GetY(), GetZ()),
-                                     targets_[current_direction_]);
+      current_direction_ = (current_direction_ + order_);
+      if (current_direction_ == targets_.size() || current_direction_ == -1) {
+        order_ *= -1;
+        current_direction_ += order_;
+      }
   }
 }
 
@@ -26,33 +22,29 @@ void Bot::SetRoute(const Route& route) {
 }
 
 void Bot::Move() {
-  if (route_ == nullptr) {
+  Point next_point = targets_[current_direction_];
+  if (!(std::abs(GetX() - next_point.x) <= constants::kSpeed
+      && std::abs(GetY() - next_point.y) <= constants::kSpeed) &&
+      (speed_vector_ != Point(0, 0))) {
     return;
-  }
-
-  Point next_point = route_->GetNext();
-
-  if (speed_vector_ != Point(0, 0)) {
+  } else if (speed_vector_ != Point(0, 0)) {
     SetCoordinates(next_point);
+    speed_vector_ = {0, 0};
     return;
   }
-  if (next_point.x == GetX()) {
-    if (next_point.y > GetY()) {
-      SetSpeedVector({0, 1});
+  if (std::abs(next_point.x - GetX()) <= constants::kEps) {
+    if ((GetY() - next_point.y) >= constants::kEps) {
+      UpdateMovement(true, true, false, false);
     } else {
-      SetSpeedVector({0, -1});
+      UpdateMovement(false, false, true, true);
     }
-  } else if (next_point.y == GetY()) {
-    if (next_point.x > GetX()) {
-      SetSpeedVector({1, 0});
+  } else if (std::abs(next_point.y - GetY()) < constants::kEps) {
+    if (next_point.x - GetX() >= constants::kEps) {
+      UpdateMovement(true, false, false, true);
     } else {
-      SetSpeedVector({-1, 0});
+      UpdateMovement(false, true, true, false);
     }
-  } else {
-    speed_vector_ = Point(0, 0);
   }
-  UpdateViewDirection();
-  SetCoordinates(next_point);
 }
 
 void Bot::OnDead() {}

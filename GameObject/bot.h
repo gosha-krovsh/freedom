@@ -1,10 +1,13 @@
 #ifndef GAMEOBJECT_BOT_H_
 #define GAMEOBJECT_BOT_H_
 
+#include <QDebug>
+
 #include <memory>
 #include <vector>
 
 #include "creature.h"
+#include "object.h"
 #include "route.h"
 #include "point.h"
 
@@ -23,6 +26,7 @@ class Bot : public Creature {
 
   std::unique_ptr<Route> route_ = nullptr;
   int current_direction_ = 0;
+  int order_ = 1;
   std::vector<Point> targets_;
 };
 

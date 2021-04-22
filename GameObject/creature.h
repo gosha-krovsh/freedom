@@ -22,11 +22,13 @@ class Creature : public DynamicObject, public Destroyable {
 
   const QString& GetName() const;
   void SetSpeedVector(const Point& speed_vector) override;
+  void UpdateMovement(bool, bool, bool, bool);
 
   void Tick(int current_tick) override;
 
  protected:
   Action action_{Action::kIdle};
+  void UpdateSpeedVector(const Point&);
 
  private:
   State GetState() const;
