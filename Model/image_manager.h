@@ -4,6 +4,7 @@
 #include <QPixmap>
 
 #include <map>
+#include <memory>
 
 class ImageManager {
  public:

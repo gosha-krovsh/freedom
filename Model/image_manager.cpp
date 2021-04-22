@@ -6,7 +6,8 @@ std::weak_ptr<QPixmap> ImageManager::GetImage(const QString& name) {
   if (iter != images_.end()) {
     return iter->second;
   } else {
-    std::shared_ptr<QPixmap> image = std::make_shared<QPixmap>(":" + name + ".png");
+    std::shared_ptr<QPixmap> image =
+        std::make_shared<QPixmap>(":" + name + ".png");
     images_[name] = image;
     return image;
   }
