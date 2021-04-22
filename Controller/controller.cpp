@@ -80,6 +80,4 @@ void Controller::UpdateHeroMovingDirection() {
                                    control_key_states_.up,
                                    control_key_states_.right,
                                    control_key_states_.down);
-
-  // qDebug() << model_->GetHero().GetX() << ' ' << model_->GetHero().GetY();
 }

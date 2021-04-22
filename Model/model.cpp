@@ -17,13 +17,6 @@ Model::Model(const Schedule& schedule,
                                                 Point(7, 9, 1)})));
 
   /// TODO: Parse bots from JSON
-  // bots_.emplace_back(std::make_unique<Bot>("Hero", Point(7, 9, 1),
-  //                                          std::vector<Point>({
-  //                                              Point(7, 9, 1),
-  //                                              Point(1, 9, 1),
-  //                                              Point(7, 9, 1),
-  //                                              Point(1, 9, 1),
-  //                                              })));
 }
 
 const GameMap& Model::GetMap() const {
