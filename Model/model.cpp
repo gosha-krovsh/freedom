@@ -1,10 +1,15 @@
 #include "model.h"
+#include "image_manager.h"
 
 Model::Model(const Schedule& schedule,
              std::unique_ptr<GameMap> game_map) :
     time_(Time(8, 30)),
     schedule_(schedule),
     map_(std::move(game_map)) {}
+
+Model::~Model() {
+  ImageManager::Wipe();
+}
 
 const GameMap& Model::GetMap() const {
   return *map_;
@@ -32,4 +37,3 @@ Time& Model::GetTime() {
 const Time& Model::GetTime() const {
   return time_;
 }
-

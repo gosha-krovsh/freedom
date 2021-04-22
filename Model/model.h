@@ -14,6 +14,7 @@
 class Model {
  public:
   Model(const Schedule& schedule, std::unique_ptr<GameMap> game_map);
+  ~Model();
 
   const GameMap& GetMap() const;
   GameMap& GetMap();

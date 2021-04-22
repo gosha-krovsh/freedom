@@ -35,6 +35,7 @@ add_executable(${PROJECT_NAME}
         GameObject/schedule.cpp
         GameObject/action.cpp
         GameObject/game_map.cpp
+        Model/image_manager.cpp
         )
 
 if (NOT CMAKE_PREFIX_PATH)
