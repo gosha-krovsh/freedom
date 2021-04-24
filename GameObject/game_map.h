@@ -33,6 +33,7 @@ class GameMap {
  public:
   GameMap() = default;
   GameMap(const GameMap&) = delete;
+  GameMap& operator=(const GameMap&) = delete;
   GameMap(int x_size, int y_size, int z_size,
           const std::vector<Object*>& objects,
           const std::vector<Room>& rooms,
