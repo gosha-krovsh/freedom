@@ -33,3 +33,6 @@ const Time& Model::GetTime() const {
   return time_;
 }
 
+Model::~Model() {
+  Wall::DeleteImage();
+}
