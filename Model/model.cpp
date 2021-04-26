@@ -47,10 +47,10 @@ const Quest& Model::GetQuestById(int id) const {
   return quests_[id];
 }
 
-const std::vector<Quest>& Model::GetCurrentQuests() const {
+const std::list<Quest>& Model::GetCurrentQuests() const {
   return current_quests_;
 }
 
-std::vector<Quest>& Model::GetCurrentQuests() {
+std::list<Quest>& Model::GetCurrentQuests() {
   return current_quests_;
 }

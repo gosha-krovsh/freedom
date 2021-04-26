@@ -25,8 +25,8 @@ class Model {
   const Time& GetTime() const;
 
   const Quest& GetQuestById(int id) const;
-  const std::vector<Quest>& GetCurrentQuests() const;
-  std::vector<Quest>& GetCurrentQuests();
+  const std::list<Quest>& GetCurrentQuests() const;
+  std::list<Quest>& GetCurrentQuests();
 
  private:
   std::unique_ptr<GameMap> map_;
@@ -35,7 +35,7 @@ class Model {
   Time time_;
 
   std::vector<Quest> quests_;
-  std::vector<Quest> current_quests_;
+  std::list<Quest> current_quests_;
 };
 
 #endif  // MODEL_MODEL_H_

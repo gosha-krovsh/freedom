@@ -20,7 +20,7 @@ class QuestController {
   void FinishQuest(int id);
 
   // Returns true, if the condition, needed to accomplish |quest_node|, is met.
-  bool CheckCondition(const QuestNode& quest_node);
+  bool CheckCondition(const QuestNode* quest_node);
   bool CheckMoveToDestination(const Point& destination);
 
  private:

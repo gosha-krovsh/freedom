@@ -29,7 +29,7 @@ void QuestController::Tick(int) {
   for (auto& quest : current_quests) {
     auto quest_node = quest.GetCurrentQuestNode();
     if (quest_node) {
-      if (CheckCondition(*quest_node)) {
+      if (CheckCondition(quest_node)) {
         quest.MoveToNextQuestNode();
       }
     } else {
@@ -38,9 +38,9 @@ void QuestController::Tick(int) {
   }
 }
 
-bool QuestController::CheckCondition(const QuestNode& quest_node) {
-  auto params = quest_node.GetParams();
-  switch (quest_node.GetType()) {
+bool QuestController::CheckCondition(const QuestNode* quest_node) {
+  auto params = quest_node->GetParams();
+  switch (quest_node->GetType()) {
     case QuestNode::Type::kMoveToDestination: {
       Point destination = {params[0].toDouble(),
                            params[1].toDouble(),
