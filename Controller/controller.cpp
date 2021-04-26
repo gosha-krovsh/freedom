@@ -15,21 +15,22 @@ void Controller::Tick() {
   model_->GetHero().Tick(current_tick_);
   model_->GetMap().UpdateCurrentRoom(model_->GetHero().GetRoundedX(),
                                      model_->GetHero().GetRoundedY());
-  
-  if (current_tick_ % constants::kTicksInMinute == 0 && current_tick_ != 0) {
+
+  if (current_tick_ % constants::kTicksInMinute == 0 &&
+      current_tick_ != 0) {
     model_->GetTime().AddMinutes(1);
     actions_controller_->Tick(current_tick_);
   }
   CheckHeroCollision();
-  
+
   model_->GetMap().Tick(current_tick_);
-  
+
   // TEMP_CODE: starting the quest 1 minute after the start of the game.
   if (current_tick_ == 1 * constants::kTicksInMinute) {
     quest_controller_->StartQuest(0);
     qDebug() << "Quest started";  // message to test
   }
-  
+
   ++current_tick_;
 }
 
