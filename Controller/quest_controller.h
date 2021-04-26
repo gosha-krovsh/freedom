@@ -18,9 +18,8 @@ class QuestController {
 
  private:
   // Returns true, if the condition, needed to accomplish |quest_node|, is met.
-  bool CheckCondition(const std::shared_ptr<AbstractQuestNode>& quest_node);
-  bool CheckCondition(
-      const std::shared_ptr<MoveToDestinationQuestNode>& quest_node);
+  bool CheckCondition(const std::shared_ptr<QuestNode>& quest_node);
+  bool CheckMoveToDestinationCondition(const Point& destination);
 
  private:
   std::shared_ptr<Model> model_;

@@ -11,7 +11,6 @@
 #include "GameObject/hero.h"
 #include "GameObject/schedule.h"
 #include "Quests/quest.h"
-#include "Quests/move_to_destination_quest_node.h"
 
 class Model {
  public:

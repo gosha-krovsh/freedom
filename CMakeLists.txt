@@ -38,9 +38,8 @@ add_executable(${PROJECT_NAME}
         GameObject/game_map.cpp
 
         Quests/quest.cpp
-        Quests/abstract_quest_node.cpp
-        Quests/move_to_destination_quest_node.cpp
-)
+        Quests/quest_node.cpp
+        )
 
 if (NOT CMAKE_PREFIX_PATH)
     message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "

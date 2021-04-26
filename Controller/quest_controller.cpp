@@ -27,22 +27,24 @@ void QuestController::Tick(int) {
 }
 
 bool QuestController::CheckCondition(
-    const std::shared_ptr<AbstractQuestNode>& quest_node) {
-  switch (quest_node->GetQuestNodeType()) {
-    case AbstractQuestNode::QuestNodeType::kMoveToDestination: {
-      return CheckCondition(
-          std::static_pointer_cast<MoveToDestinationQuestNode>(quest_node));
+    const std::shared_ptr<QuestNode>& quest_node) {
+  auto params = quest_node->GetParams();
+  switch (quest_node->GetType()) {
+    case QuestNode::Type::kMoveToDestination: {
+      Point destination = {params[0].toDouble(),
+                           params[1].toDouble(),
+                           params[2].toDouble()};
+      return CheckMoveToDestinationCondition(destination);
     }
     default: {
-      qDebug() << "Unhandled QuestNodeType";
+      qDebug() << "Unhandled Type";
       return false;
     }
   }
 }
 
-bool QuestController::CheckCondition(
-    const std::shared_ptr<MoveToDestinationQuestNode>& quest_node) {
+bool QuestController::CheckMoveToDestinationCondition(
+    const Point& destination) {
   auto hero = model_->GetHero();
-  auto destination = quest_node->GetDestination();
   return AreRoundedEqual(hero.GetCoordinates(), destination);
 }

@@ -6,9 +6,10 @@ Model::Model(const Schedule& schedule,
     schedule_(schedule),
     map_(std::move(game_map)) {
   // TODO: parse it from json
-  std::vector<std::shared_ptr<AbstractQuestNode>> quest_nodes{
-      std::make_shared<MoveToDestinationQuestNode>(0, "MyQuestNodeName",
-                                                   Point{7, 9, 1})
+  std::vector<std::shared_ptr<QuestNode>> quest_nodes{
+      std::make_shared<QuestNode>(0, "MyQuestNodeName",
+                                  QuestNode::Type::kMoveToDestination,
+                                  std::vector<QString>{"7", "9", "1"})
   };
   quests_.emplace_back(std::make_shared<Quest>(0, "MyQuestName", quest_nodes));
 }
