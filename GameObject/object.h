@@ -7,12 +7,20 @@
 
 #include "Model/constants.h"
 #include "point.h"
+#include "interacting_object.h"
 
 class Object {
  public:
+  enum class Type {
+    kNone,
+    kFloor,
+    kWall
+  };
+
+ public:
   explicit Object(const Point& coords,
-                  const std::shared_ptr<QPixmap>& image =
-                      std::shared_ptr<QPixmap>());
+                  const std::weak_ptr<QPixmap>& image =
+                      std::weak_ptr<QPixmap>());
   virtual ~Object() = default;
 
   virtual void Tick(int current_time);
@@ -32,12 +40,17 @@ class Object {
   void SetZ(double z);
 
   bool IsTouchable() const;
+  bool IsType(Type object_type) const;
+  bool ToDelete() const;
 
   void Draw(QPainter* painter) const;
+  virtual void Interact(const InteractingObject& interacting_object);
 
  protected:
+  std::weak_ptr<QPixmap> image_;
   bool is_touchable_{true};
-  std::shared_ptr<QPixmap> image_;
+  bool delete_on_next_tick_{false};
+  Type type_{Type::kNone};
 
  private:
   Point coordinates_;

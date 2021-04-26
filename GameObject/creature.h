@@ -28,16 +28,23 @@ class Creature : public DynamicObject, public Destroyable {
 
   void Tick(int current_tick) override;
 
+  bool IsAbleToAttack() const;
+  void RefreshAttackCooldown();
+  int GetAttack() const;
+
  protected:
   Action action_{Action::kIdle};
   void UpdateSpeedVector(const Point&);
 
  private:
   State GetState() const;
+  void DecrementAttackCooldown();
 
  private:
   QString name_;
   Animator<State> animator_{GetState()};
+  int attack_cooldown_{0};
+  int attack_{constants::kAttack};
 };
 
 #endif  // GAMEOBJECT_CREATURE_H_

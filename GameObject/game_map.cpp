@@ -77,6 +77,25 @@ GameMap::~GameMap() {
   }
 }
 
+void GameMap::Tick(int current_tick) {
+  for (auto& plane : map_) {
+    for (auto& line : plane) {
+      for (auto& block : line) {
+        if (block == nullptr) {
+          continue;
+        }
+
+        block->Tick(current_tick);
+
+        if (block->ToDelete()) {
+          delete block;
+          block = nullptr;
+        }
+      }
+    }
+  }
+}
+
 int GameMap::GetXSize() const {
   return map_[0].size();
 }
@@ -90,6 +109,14 @@ int GameMap::GetZSize() const {
 }
 
 const Object* GameMap::GetBlock(int x, int y, int z) const {
+  if ((x < 0) || (x >= GetXSize()) ||
+      (y < 0) || (y >= GetYSize()) ||
+      (z < 0) || (z >= GetZSize())) {
+    return nullptr;
+  }
+  return map_[z][x][y];
+}
+Object* GameMap::GetBlock(int x, int y, int z) {
   if ((x < 0) || (x >= GetXSize()) ||
       (y < 0) || (y >= GetYSize()) ||
       (z < 0) || (z >= GetZSize())) {

@@ -9,6 +9,7 @@
 class Point {
  public:
   Point(double x, double y, double z = 0);
+  Point(int x, int y, int z = 0);
 
   // Transform point from users screen to Cartesian point.
   static Point FromScreenPoint(const Point& screen_point);

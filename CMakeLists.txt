@@ -27,19 +27,17 @@ add_executable(${PROJECT_NAME}
 
         GameObject/action.cpp
         GameObject/bot.cpp
+        GameObject/creature.cpp
         GameObject/destroyable.cpp
         GameObject/dynamic_object.cpp
-
-
-        GameObject/point.cpp
-        GameObject/object.cpp
-        GameObject/creature.cpp
-        GameObject/hero.cpp
-        GameObject/game_time.cpp
-        GameObject/schedule.cpp
         GameObject/game_map.cpp
-        GameObject/route.cpp
-)
+        GameObject/game_time.cpp
+        GameObject/hero.cpp
+        GameObject/object.cpp
+        GameObject/point.cpp
+        GameObject/schedule.cpp
+        GameObject/wall.cpp
+        )
 
 if (NOT CMAKE_PREFIX_PATH)
     message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "

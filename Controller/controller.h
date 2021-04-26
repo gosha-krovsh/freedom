@@ -21,6 +21,8 @@ class Controller : public AbstractController {
 
   void Tick() override;
 
+  void HeroAttack() override;
+
   void SetControlUpKeyState(bool state) override;
   void SetControlRightKeyState(bool state) override;
   void SetControlDownKeyState(bool state) override;
@@ -37,6 +39,7 @@ class Controller : public AbstractController {
 
  private:
   void CheckHeroCollision();
+  Object* FindNearestObjectWithType(Object::Type type);
 
  private:
   std::shared_ptr<Model> model_;
