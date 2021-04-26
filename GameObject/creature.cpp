@@ -46,7 +46,6 @@ void Creature::UpdateMovement(bool left, bool up, bool right, bool down) {
   double y = (up ? 1 : 0) - (down ? 1 : 0);
   Point screen_vector{x, y};
   UpdateSpeedVector(screen_vector);
-  // qDebug() << speed_vector_.x << ' ' << speed_vector_.y << '\n';
   UpdateViewDirection();
 }
 void Creature::UpdateSpeedVector(const Point& screen_vector) {
@@ -71,7 +70,7 @@ void Creature::NormalizeAsSpeedVector(Point& speed_vector) {
   }
   SetSpeedVector(speed_vector);
   UpdateViewDirection();
-
+}
 bool Creature::IsAbleToAttack() const {
   return attack_cooldown_ == 0;
 }
