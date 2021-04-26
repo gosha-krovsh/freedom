@@ -6,12 +6,11 @@ Model::Model(const Schedule& schedule,
     schedule_(schedule),
     map_(std::move(game_map)) {
   // TODO: parse it from json
-  std::vector<std::shared_ptr<QuestNode>> quest_nodes{
-      std::make_shared<QuestNode>(0, "MyQuestNodeName",
-                                  QuestNode::Type::kMoveToDestination,
-                                  std::vector<QString>{"7", "9", "1"})
+  std::vector<QuestNode> quest_nodes{
+      QuestNode(0, "MyQuestNodeName", QuestNode::Type::kMoveToDestination,
+                std::vector<QString>{"7", "9", "1"})
   };
-  quests_.emplace_back(std::make_shared<Quest>(0, "MyQuestName", quest_nodes));
+  quests_.emplace_back(0, "MyQuestName", quest_nodes);
 }
 
 const GameMap& Model::GetMap() const {
@@ -41,17 +40,17 @@ const Time& Model::GetTime() const {
   return time_;
 }
 
-const std::shared_ptr<Quest>& Model::GetQuestById(int id) const {
+const Quest& Model::GetQuestById(int id) const {
   if (id < 0 || id >= quests_.size()) {
     qDebug() << "Invalid quest id";
   }
   return quests_[id];
 }
 
-const std::vector<std::shared_ptr<Quest>>& Model::GetCurrentQuests() const {
+const std::vector<Quest>& Model::GetCurrentQuests() const {
   return current_quests_;
 }
 
-std::vector<std::shared_ptr<Quest>>& Model::GetCurrentQuests() {
+std::vector<Quest>& Model::GetCurrentQuests() {
   return current_quests_;
 }

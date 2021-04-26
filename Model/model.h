@@ -24,9 +24,9 @@ class Model {
   Time& GetTime();
   const Time& GetTime() const;
 
-  const std::shared_ptr<Quest>& GetQuestById(int id) const;
-  const std::vector<std::shared_ptr<Quest>>& GetCurrentQuests() const;
-  std::vector<std::shared_ptr<Quest>>& GetCurrentQuests();
+  const Quest& GetQuestById(int id) const;
+  const std::vector<Quest>& GetCurrentQuests() const;
+  std::vector<Quest>& GetCurrentQuests();
 
  private:
   std::unique_ptr<GameMap> map_;
@@ -34,8 +34,8 @@ class Model {
   Schedule schedule_;
   Time time_;
 
-  std::vector<std::shared_ptr<Quest>> quests_;
-  std::vector<std::shared_ptr<Quest>> current_quests_;
+  std::vector<Quest> quests_;
+  std::vector<Quest> current_quests_;
 };
 
 #endif  // MODEL_MODEL_H_

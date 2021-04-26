@@ -1,8 +1,8 @@
 #include "quest.h"
 
 Quest::Quest(int id, const QString& name,
-    const std::vector<std::shared_ptr<QuestNode>>& quest_nodes) :
-    id_(id), name_(name), quest_nodes_(quest_nodes) {}
+             const std::vector<QuestNode>& quest_nodes) :
+             id_(id), name_(name), quest_nodes_(quest_nodes) {}
 
 int Quest::GetId() const {
   return id_;
@@ -12,11 +12,11 @@ QString Quest::GetName() const {
   return name_;
 }
 
-std::shared_ptr<QuestNode> Quest::GetCurrentQuestNode() const {
+const QuestNode* Quest::GetCurrentQuestNode() const {
   if (current_node_index_ >= quest_nodes_.size()) {
     return nullptr;
   }
-  return quest_nodes_[current_node_index_];
+  return &quest_nodes_[current_node_index_];
 }
 
 void Quest::MoveToNextQuestNode() {
