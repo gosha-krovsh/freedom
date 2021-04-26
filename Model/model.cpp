@@ -41,23 +41,17 @@ const Time& Model::GetTime() const {
   return time_;
 }
 
-std::shared_ptr<Quest> Model::GetCurrentQuest() const {
-  return current_quest_;
-}
-
-void Model::ResetCurrentQuest() {
-  current_quest_ = nullptr;
-}
-
-void Model::SetCurrentQuestById(int id) {
-  auto it = std::find_if(quests_.begin(), quests_.end(),
-                         [id](const std::shared_ptr<Quest>& quest) {
-                           return (quest->GetId() == id);
-  });
-  if (it == quests_.end()) {
+const std::shared_ptr<Quest>& Model::GetQuestById(int id) const {
+  if (id < 0 || id >= quests_.size()) {
     qDebug() << "Invalid quest id";
-  } else {
-    current_quest_ = *it;
   }
+  return quests_[id];
 }
 
+const std::vector<std::shared_ptr<Quest>>& Model::GetCurrentQuests() const {
+  return current_quests_;
+}
+
+std::vector<std::shared_ptr<Quest>>& Model::GetCurrentQuests() {
+  return current_quests_;
+}

@@ -4,25 +4,37 @@ QuestController::QuestController(const std::shared_ptr<Model>& model) :
     model_(model) {}
 
 void QuestController::StartQuest(int id) {
-  model_->SetCurrentQuestById(id);
+  model_->GetCurrentQuests().emplace_back(model_->GetQuestById(id));
   // TODO: handle current_quest_->OnStart();
 }
 
-void QuestController::Tick(int) {
-  auto current_quest = model_->GetCurrentQuest();
-  if (!current_quest) {
+void QuestController::FinishQuest(int id) {
+  auto& current_quests = model_->GetCurrentQuests();
+  auto it = std::find_if(current_quests.begin(), current_quests.end(),
+                         [id](const std::shared_ptr<Quest>& quest) {
+                           return (quest->GetId() == id);
+                         });
+  if (it == current_quests.end()) {
+    qDebug() << "Invalid quest id";
     return;
   }
+  current_quests.erase(it);
 
-  auto current_quest_node = current_quest->GetCurrentQuestNode();
-  if (current_quest_node) {
-    if (CheckCondition(current_quest_node)) {
-      current_quest->MoveToNextQuestNode();
+  // TODO: handle current_quest_->OnFinish();
+  qDebug() << "Quest finished";  // message to test
+}
+
+void QuestController::Tick(int) {
+  auto& current_quests = model_->GetCurrentQuests();
+  for (auto& quest : current_quests) {
+    auto quest_node = quest->GetCurrentQuestNode();
+    if (quest_node) {
+      if (CheckCondition(quest_node)) {
+        quest->MoveToNextQuestNode();
+      }
+    } else {
+      FinishQuest(quest->GetId());
     }
-  } else {
-    // TODO: handle current_quest_->OnFinish();
-    model_->ResetCurrentQuest();
-    qDebug() << "Quest finished";  // message to test
   }
 }
 
@@ -34,7 +46,7 @@ bool QuestController::CheckCondition(
       Point destination = {params[0].toDouble(),
                            params[1].toDouble(),
                            params[2].toDouble()};
-      return CheckMoveToDestinationCondition(destination);
+      return CheckMoveToDestination(destination);
     }
     default: {
       qDebug() << "Unhandled Type";
@@ -43,8 +55,7 @@ bool QuestController::CheckCondition(
   }
 }
 
-bool QuestController::CheckMoveToDestinationCondition(
-    const Point& destination) {
+bool QuestController::CheckMoveToDestination(const Point& destination) {
   auto hero = model_->GetHero();
   return AreRoundedEqual(hero.GetCoordinates(), destination);
 }

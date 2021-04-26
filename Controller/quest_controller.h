@@ -17,9 +17,11 @@ class QuestController {
   void StartQuest(int id);
 
  private:
+  void FinishQuest(int id);
+
   // Returns true, if the condition, needed to accomplish |quest_node|, is met.
   bool CheckCondition(const std::shared_ptr<QuestNode>& quest_node);
-  bool CheckMoveToDestinationCondition(const Point& destination);
+  bool CheckMoveToDestination(const Point& destination);
 
  private:
   std::shared_ptr<Model> model_;
