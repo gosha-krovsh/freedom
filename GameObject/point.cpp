@@ -73,7 +73,9 @@ Point operator*(double lhs, Point rhs) {
 }
 
 Point& Point::operator-=(const Point& rhs) {
-  *this = -(*this);
+  x -= rhs.x;
+  y -= rhs.y;
+  z -= rhs.z;
   return *this;
 }
 

@@ -1,6 +1,7 @@
 #ifndef GAMEOBJECT_CREATURE_H_
 #define GAMEOBJECT_CREATURE_H_
 
+#include <QDebug>
 #include <QString>
 
 #include <memory>
@@ -23,6 +24,7 @@ class Creature : public DynamicObject, public Destroyable {
   const QString& GetName() const;
   void SetSpeedVector(const Point& speed_vector) override;
   void UpdateMovement(bool, bool, bool, bool);
+  void NormalizeAsSpeedVector(Point&);
 
   void Tick(int current_tick) override;
 

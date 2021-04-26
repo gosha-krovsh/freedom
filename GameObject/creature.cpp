@@ -1,6 +1,6 @@
 #include "creature.h"
 
-Creature::Creature(const Point& coords, const QString& name, int hp):
+Creature::Creature(const Point& coords, const QString& name, int hp) :
     DynamicObject(coords),
     Destroyable(hp),
     name_(name) {
@@ -50,18 +50,24 @@ void Creature::UpdateMovement(bool left, bool up, bool right, bool down) {
 }
 void Creature::UpdateSpeedVector(const Point& screen_vector) {
   Point speed_vector = Point::FromScreenPoint(screen_vector);
+  NormalizeAsSpeedVector(speed_vector);
+}
+
+void Creature::NormalizeAsSpeedVector(Point& speed_vector) {
   speed_vector.Normalize();
 
   // Making movement more realistic in isometric world: equal displacement in
   // isometric view in all directions, except horizontal (a slow down here)
-  if (std::abs(screen_vector.y) < constants::kEps) {
+  if (std::abs(speed_vector.x) >= constants::kEps &&
+      std::abs(speed_vector.y) >= constants::kEps &&
+      speed_vector.x * speed_vector.y <= constants::kEps) {
     // horizontal movement
     speed_vector *= constants::kIsometricSpeedCoefficient;
-  } else if (std::abs(screen_vector.x) >= constants::kEps &&
-      std::abs(screen_vector.y) >= constants::kEps) {
+  } else if (std::abs(speed_vector.x) * std::abs(speed_vector.y)
+      <= constants::kEps) {
     // diagonal movement
     speed_vector /= std::sqrt(2);
   }
-
   SetSpeedVector(speed_vector);
+  UpdateViewDirection();
 }

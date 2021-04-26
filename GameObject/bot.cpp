@@ -32,19 +32,9 @@ void Bot::Move() {
     speed_vector_ = {0, 0};
     return;
   }
-  if (std::abs(next_point.x - GetX()) <= constants::kEps) {
-    if ((GetY() - next_point.y) >= constants::kEps) {
-      UpdateMovement(true, true, false, false);
-    } else {
-      UpdateMovement(false, false, true, true);
-    }
-  } else if (std::abs(next_point.y - GetY()) < constants::kEps) {
-    if (next_point.x - GetX() >= constants::kEps) {
-      UpdateMovement(true, false, false, true);
-    } else {
-      UpdateMovement(false, true, true, false);
-    }
-  }
+
+  Point speed_vector = next_point - GetCoordinates();
+  NormalizeAsSpeedVector(speed_vector);
 }
 
 void Bot::OnDead() {}
