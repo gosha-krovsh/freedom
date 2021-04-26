@@ -9,7 +9,7 @@ Action::ActionType Action::GetActionType() const {
   return action_type_;
 }
 
-std::vector<std::string> Action::GetParametres() const {
+std::vector<std::string> Action::GetParameters() const {
   return parametres_;
 }
 

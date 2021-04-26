@@ -27,13 +27,6 @@ class DataController {
   static std::unique_ptr<GameMap> ParseGameMap();
 
  private:
-  enum class GameMapObjectType {
-    kNone = 0,
-    kFloor = 1,
-    kWall = 2,
-  };
-
- private:
   std::shared_ptr<Model> model_;
 };
 

@@ -13,6 +13,10 @@ Model::Model(const Schedule& schedule,
   quests_.emplace_back(0, "MyQuestName", quest_nodes);
 }
 
+Model::~Model() {
+  Wall::DeleteImage();
+}
+
 const GameMap& Model::GetMap() const {
   return *map_;
 }

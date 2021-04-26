@@ -1,6 +1,9 @@
 #include "point.h"
 
 Point::Point(double x, double y, double z) : x(x), y(y), z(z) {}
+Point::Point(int x, int y, int z) : Point(static_cast<double>(x),
+                                          static_cast<double>(y),
+                                          static_cast<double>(z)) {}
 
 Point Point::FromScreenPoint(const Point& screen_point) {
   Point new_coords{screen_point};

@@ -32,11 +32,15 @@ class GameMap {
 
  public:
   GameMap() = default;
+  GameMap(const GameMap&) = delete;
+  GameMap& operator=(const GameMap&) = delete;
   GameMap(int x_size, int y_size, int z_size,
           const std::vector<Object*>& objects,
           const std::vector<Room>& rooms,
           int hero_z = 1);
   ~GameMap();
+
+  void Tick(int current_tick);
 
   int GetXSize() const;
   int GetYSize() const;
@@ -45,6 +49,7 @@ class GameMap {
   // Returns the pointer to the object on the map. Returns the nullptr, if there
   // is an empty space, or if the x or y or z are out of range of map size.
   const Object* GetBlock(int x, int y, int z) const;
+  Object* GetBlock(int x, int y, int z);
 
   // Updates |current_room_| by hero coordinates. If hero is on the edge of the
   // room (usually it means in the doorway), we assume that he wants to go to

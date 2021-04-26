@@ -66,6 +66,10 @@ void View::TimerEvent() {
 
 void View::keyPressEvent(QKeyEvent* event) {
   switch (event->key()) {
+    case Qt::Key_Space: {
+      controller_->HeroAttack();
+      break;
+    }
     case Qt::Key_Up:
     case Qt::Key_W: {
       controller_->SetControlUpKeyState(true);
