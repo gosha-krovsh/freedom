@@ -55,6 +55,6 @@ bool QuestController::CheckCondition(const QuestNode& quest_node) {
 }
 
 bool QuestController::CheckMoveToDestination(const Point& destination) {
-  auto hero = model_->GetHero();
-  return AreRoundedEqual(hero.GetCoordinates(), destination);
+  return (model_->GetHero().GetCoordinates().GetRounded() ==
+          destination.GetRounded());
 }

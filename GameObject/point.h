@@ -10,6 +10,8 @@ class Point {
  public:
   Point(double x, double y, double z = 0);
 
+  Point GetRounded() const;
+
   // Transform point from users screen to Cartesian point.
   static Point FromScreenPoint(const Point& screen_point);
 
@@ -47,9 +49,6 @@ class Point {
   friend Point operator*(double lhs, Point rhs);
   friend Point operator/(Point lhs, double rhs);
   friend Point operator/(double lhs, Point rhs);
-
-  // Compare rounded coordinates of |this| with rounded coordinates of |rhs|.
-  friend bool AreRoundedEqual(const Point& lhs, const Point& rhs);
 
  public:
   double x{0};
