@@ -20,6 +20,8 @@ namespace constants {
 
   // The opacity of the block, when it's considered transparent.
   const double kBlockOpacity = 0.1;
+  const double kBotOpacity = 0.3;
+  const double kBotOpacityDistance = 2;
 
   // Needed to make |DynamicObject| movement in Right/Left direction more
   // realistic in isometric view.

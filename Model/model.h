@@ -22,6 +22,8 @@ class Model {
   GameMap& GetMap();
   const Hero& GetHero() const;
   const std::vector<std::unique_ptr<Bot>>& GetBots() const;
+  std::vector<std::unique_ptr<Bot>>& GetBots();
+
   Hero& GetHero();
   const Schedule& GetSchedule() const;
   Time& GetTime();

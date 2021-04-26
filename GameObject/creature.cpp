@@ -50,10 +50,10 @@ void Creature::UpdateMovement(bool left, bool up, bool right, bool down) {
 }
 void Creature::UpdateSpeedVector(const Point& screen_vector) {
   Point speed_vector = Point::FromScreenPoint(screen_vector);
-  NormalizeAsSpeedVector(speed_vector);
+  NormalizeSpeedVector(speed_vector);
 }
 
-void Creature::NormalizeAsSpeedVector(Point& speed_vector) {
+void Creature::NormalizeSpeedVector(Point& speed_vector) {
   speed_vector.Normalize();
 
   // Making movement more realistic in isometric world: equal displacement in

@@ -24,7 +24,6 @@ class Creature : public DynamicObject, public Destroyable {
   const QString& GetName() const;
   void SetSpeedVector(const Point& speed_vector) override;
   void UpdateMovement(bool, bool, bool, bool);
-  void NormalizeAsSpeedVector(Point&);
 
   void Tick(int current_tick) override;
 
@@ -35,6 +34,8 @@ class Creature : public DynamicObject, public Destroyable {
  protected:
   Action action_{Action::kIdle};
   void UpdateSpeedVector(const Point&);
+  void NormalizeSpeedVector(Point&);
+
 
  private:
   State GetState() const;

@@ -52,3 +52,6 @@ const Time& Model::GetTime() const {
 Model::~Model() {
   Wall::DeleteImage();
 }
+std::vector<std::unique_ptr<Bot>>& Model::GetBots() {
+  return bots_;
+}

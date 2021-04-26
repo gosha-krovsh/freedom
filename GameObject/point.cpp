@@ -26,7 +26,7 @@ double Point::GetMagnitude() const {
 void Point::Rotate(double angle) {
   double rad_angle = angle * M_PI / 180;
   double new_x = x * std::cos(rad_angle) + y * std::sin(rad_angle);
-  double new_y = - x * std::sin(rad_angle) + y * std::cos(rad_angle);
+  double new_y = -x * std::sin(rad_angle) + y * std::cos(rad_angle);
   *this = Point{new_x, new_y, z};
 }
 
@@ -76,9 +76,7 @@ Point operator*(double lhs, Point rhs) {
 }
 
 Point& Point::operator-=(const Point& rhs) {
-  x -= rhs.x;
-  y -= rhs.y;
-  z -= rhs.z;
+  *this = *this + (-rhs);
   return *this;
 }
 
@@ -112,10 +110,14 @@ Point operator/(double lhs, Point rhs) {
 
 bool Point::operator==(const Point& rhs) const {
   return (std::abs(x - rhs.x) < constants::kEps &&
-          std::abs(y - rhs.y) < constants::kEps &&
-          std::abs(z - rhs.z) < constants::kEps);
+      std::abs(y - rhs.y) < constants::kEps &&
+      std::abs(z - rhs.z) < constants::kEps);
 }
 
 bool Point::operator!=(const Point& rhs) const {
   return !(*this == rhs);
+}
+double Point::Distance(const Point& other) {
+  return std::sqrt((x - other.x) * (x - other.x)
+                       + (y - other.y) * (y - other.y));
 }
