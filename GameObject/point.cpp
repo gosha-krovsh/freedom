@@ -117,3 +117,7 @@ bool Point::operator==(const Point& rhs) const {
 bool Point::operator!=(const Point& rhs) const {
   return !(*this == rhs);
 }
+
+Point Point::GetRounded() const {
+  return {std::round(x), std::round(y), std::round(z)};
+}

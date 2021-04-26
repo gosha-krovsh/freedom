@@ -24,6 +24,7 @@ add_executable(${PROJECT_NAME}
         Controller/action_controller.cpp
         Controller/controller.cpp
         Controller/data_controller.cpp
+        Controller/quest_controller.cpp
 
         GameObject/action.cpp
         GameObject/creature.cpp
@@ -36,6 +37,9 @@ add_executable(${PROJECT_NAME}
         GameObject/point.cpp
         GameObject/schedule.cpp
         GameObject/wall.cpp
+        
+        Quests/quest.cpp
+        Quests/quest_node.cpp
         )
 
 if (NOT CMAKE_PREFIX_PATH)

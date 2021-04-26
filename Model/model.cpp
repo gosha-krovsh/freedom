@@ -4,7 +4,18 @@ Model::Model(const Schedule& schedule,
              std::unique_ptr<GameMap> game_map) :
     time_(Time(8, 30)),
     schedule_(schedule),
-    map_(std::move(game_map)) {}
+    map_(std::move(game_map)) {
+  // TODO: parse it from json
+  std::vector<QuestNode> quest_nodes{
+      QuestNode(0, "MyQuestNodeName", QuestNode::Type::kMoveToDestination,
+                std::vector<QString>{"7", "9", "1"})
+  };
+  quests_.emplace_back(0, "MyQuestName", quest_nodes);
+}
+
+Model::~Model() {
+  Wall::DeleteImage();
+}
 
 const GameMap& Model::GetMap() const {
   return *map_;
@@ -33,6 +44,17 @@ const Time& Model::GetTime() const {
   return time_;
 }
 
-Model::~Model() {
-  Wall::DeleteImage();
+const Quest& Model::GetQuestById(int id) const {
+  if (id < 0 || id >= quests_.size()) {
+    qDebug() << "Invalid quest id";
+  }
+  return quests_[id];
+}
+
+const std::list<Quest>& Model::GetCurrentQuests() const {
+  return current_quests_;
+}
+
+std::list<Quest>& Model::GetCurrentQuests() {
+  return current_quests_;
 }

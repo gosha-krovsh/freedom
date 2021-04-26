@@ -1,6 +1,7 @@
 #ifndef MODEL_MODEL_H_
 #define MODEL_MODEL_H_
 
+#include <list>
 #include <map>
 #include <memory>
 #include <utility>
@@ -11,6 +12,7 @@
 #include "GameObject/hero.h"
 #include "GameObject/wall.h"
 #include "GameObject/schedule.h"
+#include "Quests/quest.h"
 
 class Model {
  public:
@@ -25,11 +27,18 @@ class Model {
   Time& GetTime();
   const Time& GetTime() const;
 
+  const Quest& GetQuestById(int id) const;
+  const std::list<Quest>& GetCurrentQuests() const;
+  std::list<Quest>& GetCurrentQuests();
+
  private:
   Hero hero_{Point(1, 1, 1)};
   std::unique_ptr<GameMap> map_;
   Schedule schedule_;
   Time time_;
+
+  std::vector<Quest> quests_;
+  std::list<Quest> current_quests_;
 };
 
 #endif  // MODEL_MODEL_H_
