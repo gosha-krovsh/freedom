@@ -39,7 +39,8 @@ void View::paintEvent(QPaintEvent*) {
               current_bot.GetRoundedY() == y &&
               current_bot.GetRoundedZ() == z) {
             double dist =
-                hero.GetCoordinates().DistanceFrom(current_bot.GetCoordinates());
+                hero.GetCoordinates().
+                    DistanceFrom(current_bot.GetCoordinates());
             painter.setOpacity(std::max(dist / 2,
                                         constants::kBotOpacity));
             current_bot.Draw(&painter);
