@@ -2,6 +2,6 @@
     <qresource>
         <file>hero_0.png</file>
         <file>brick.png</file>
-        <file alias = "styles.qss">../Styles/styles.qss</file>
+        <file alias = "item_bar_styles">../Styles/item_bar_styles.qss</file>
     </qresource>
 </RCC>

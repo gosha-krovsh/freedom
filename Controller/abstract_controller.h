@@ -18,7 +18,7 @@ class AbstractController {
   virtual void SetControlLeftKeyState(bool state) = 0;
 
   virtual void OnItemPress(int id, int index) = 0;
-  virtual StorableObject* CheckStorableBlocks() = 0;
+  virtual StorableObject* GetStorableBlocksAround() = 0;
 
  private:
   virtual void MoveItem(int index, StorableObject*, StorableObject*) = 0;

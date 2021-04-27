@@ -12,19 +12,15 @@
 #include "Model/constants.h"
 #include "Controller/abstract_controller.h"
 
-class ItemBar : QWidget {
+class ItemBar : public QWidget {
  Q_OBJECT
 
  public:
-  ItemBar(int x, int y, int height, int width,
-          int id,
+  ItemBar(int id,
           AbstractController* controller,
           QWidget* parent = nullptr,
           StorableObject* storage = nullptr,
           Qt::WindowFlags f = Qt::WindowFlags());
-  void Show();
-  void Hide();
-  void SetEnabled(bool);
 
   int GetId() const;
   StorableObject* GetObject() const;
@@ -33,12 +29,15 @@ class ItemBar : QWidget {
 
   void AssignObject(StorableObject*);
   void UpdateIcons();
+  void ResizeButtons(int width, int max_height);
 
  private:
-  void SetUi(int x, int y, int width, int height);
+  void SetUi();
   void ConnectButtons();
   void ButtonPressed(int index);
-  void ClearIconsFromIndex(size_t index);
+  void ClearIconsFromIndex(int index);
+  void SetStyles();
+  void resizeEvent(QResizeEvent*) override;
 
   AbstractController* controller_;
   StorableObject* storage_ = nullptr;

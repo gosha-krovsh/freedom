@@ -8,16 +8,20 @@ void StorableObject::PutItem(const Item& item) {
 
 Item StorableObject::RemoveItem(int index) {
   auto it = items_.begin() + index;
-  Item item = *it;
   items_.erase(it);
-
-  return item;
+  return *it;
 }
 
-bool StorableObject::isValidIndex(int index) {
+bool StorableObject::IsValidIndex(int index) {
   return index < items_.size();
 }
 
 std::vector<Item> StorableObject::GetItems() {
   return items_;
+}
+
+void StorableObject::PutItems(const std::vector<Item>& items) {
+  for (const auto& item : items) {
+    PutItem(item);
+  }
 }

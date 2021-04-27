@@ -8,10 +8,11 @@
 
 class StorableObject {
  public:
-  void PutItem(const Item&);
+  void PutItem(const Item& item);
+  void PutItems(const std::vector<Item>& items);
   Item RemoveItem(int index);
 
-  bool isValidIndex(int index);
+  bool IsValidIndex(int index);
   std::vector<Item> GetItems();
 
  protected:

@@ -44,7 +44,7 @@ void Controller::CheckHeroCollision() {
   }
 }
 
-StorableObject* Controller::CheckStorableBlocks() {
+StorableObject* Controller::GetStorableBlocksAround() {
   // !DEPRECATED CODE! Will be fixed at merging
   Hero& hero = model_->GetHero();
   int floored_x = std::floor(hero.GetX());
@@ -89,19 +89,18 @@ void Controller::UpdateHeroMovingDirection() {
 }
 
 void Controller::OnItemPress(int bar_id, int index) {
-  std::pair<ItemBar*, ItemBar*> sourse_dest = view_->GetSrcDestBars(bar_id);
-  if (sourse_dest.first && sourse_dest.second) {
-    MoveItem(index, sourse_dest.first->GetObject(),
-                    sourse_dest.second->GetObject());
-    sourse_dest.first->UpdateIcons();
-    sourse_dest.second->UpdateIcons();
+  std::pair<ItemBar*, ItemBar*> source_dest = view_->GetSrcDestBars(bar_id);
+  if (source_dest.first && source_dest.second) {
+    MoveItem(index, source_dest.first->GetObject(),
+                    source_dest.second->GetObject());
+    source_dest.first->UpdateIcons();
+    source_dest.second->UpdateIcons();
   }
 }
 
-void Controller::MoveItem(int index, StorableObject* sourse,
+void Controller::MoveItem(int index, StorableObject* source,
                           StorableObject* destination) {
-  // Moves item from one object to another via index.
-  if (sourse->isValidIndex(index)) {
-    destination->PutItem(sourse->RemoveItem(index));
+  if (source->IsValidIndex(index)) {
+    destination->PutItem(source->RemoveItem(index));
   }
 }

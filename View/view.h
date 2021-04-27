@@ -8,7 +8,7 @@
 #include <memory>
 #include <utility>
 
-#include "View/item_bar.h"
+#include "View/bar_pack.h"
 #include "Controller/abstract_controller.h"
 #include "Model/model.h"
 
@@ -22,12 +22,12 @@ class View : public QMainWindow {
 
  private:
   void paintEvent(QPaintEvent*) override;
+  void resizeEvent(QResizeEvent*) override;
   void keyPressEvent(QKeyEvent*) override;
   void keyReleaseEvent(QKeyEvent*) override;
   void changeEvent(QEvent*) override;
   void TimerEvent();
 
-  void SetStyles();
   void CenterCameraOnHero(QPainter* camera) const;
 
  private:
@@ -36,9 +36,7 @@ class View : public QMainWindow {
   std::shared_ptr<Model> model_;
 
   bool is_item_dialog_open_;
-
-  ItemBar* hero_item_bar_;
-  ItemBar* object_item_bar_;
+  BarPack* item_bar_pack_;
 };
 
 #endif  // VIEW_VIEW_H_

@@ -1,6 +1,8 @@
 #ifndef MODEL_MODEL_H_
 #define MODEL_MODEL_H_
 
+#include <QString>
+
 #include <vector>
 
 #include "GameObject/hero.h"

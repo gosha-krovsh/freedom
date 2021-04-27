@@ -20,9 +20,9 @@ Model::Model() {
       new Object(Point(1, 5, 1), QPixmap(":brick.png")),
       new Object(Point(3, 5, 1), QPixmap(":brick.png")),
       new Chest(Point(3, 6, 1), QPixmap(":brick.png"), {
-                Item("YaBlock1", 1, QPixmap(":brick.png")),
-                Item("YaBlock2", 2, QPixmap(":brick.png")),
-                Item("YaBlock3", 3, QPixmap(":brick.png"))}),
+                Item(1, QString("YaBlock1"), QPixmap(":brick.png")),
+                Item(2, QString("YaBlock2"), QPixmap(":brick.png")),
+                Item(3, QString("YaBlock3"), QPixmap(":brick.png"))}),
 
       new Object(Point(1, 5, 0), QPixmap(":brick.png")),
       new Object(Point(2, 5, 0), QPixmap(":brick.png")),

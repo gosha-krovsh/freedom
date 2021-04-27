@@ -2,20 +2,21 @@
 #define GAMEOBJECT_ITEM_H_
 
 #include <QPixmap>
+#include <QString>
 
 #include <string>
 #include <utility>
 
 class Item {
  public:
-  Item(std::string name, int id, const QPixmap& image);
+  Item(int id, const QString& name, const QPixmap& image);
 
-  QPixmap& GetImage();
+  const QPixmap& GetImage() const;
   int GetId() const;
-  std::string GetName() const;
+  QString GetName() const;
 
  private:
-  std::string name_;
+  QString name_;
   int id_;
   QPixmap image_;
 };

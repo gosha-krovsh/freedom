@@ -25,7 +25,7 @@ class Controller : public AbstractController {
   void UpdateHeroMovingDirection();
 
   void OnItemPress(int id, int index) override;
-  StorableObject* CheckStorableBlocks() override;
+  StorableObject* GetStorableBlocksAround() override;
 
  private:
 
@@ -38,7 +38,10 @@ class Controller : public AbstractController {
 
  private:
   void CheckHeroCollision();
-  void MoveItem(int index, StorableObject*, StorableObject*) override;
+  // Moves item from one object to another via index.
+  void MoveItem(int item_index,
+                StorableObject* destination,
+                StorableObject* source) override;
 
  private:
   std::shared_ptr<Model> model_;

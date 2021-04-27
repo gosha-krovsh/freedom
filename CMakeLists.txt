@@ -21,6 +21,7 @@ add_executable(${PROJECT_NAME}
 
         View/view.cpp
         View/item_bar.cpp
+        View/bar_pack.cpp
 
         Controller/controller.cpp
 

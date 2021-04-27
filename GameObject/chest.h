@@ -6,9 +6,8 @@
 
 class Chest : public Object, public StorableObject {
  public:
-  Chest(const Point& coords, const QPixmap& image);
   Chest(const Point& coords, const QPixmap& image,
-        const std::vector<Item>& items);
+        const std::vector<Item>& items = {});
 };
 
 #endif  // GAMEOBJECT_CHEST_H_
