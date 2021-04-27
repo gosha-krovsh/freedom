@@ -15,7 +15,7 @@
 #include "Controller/abstract_controller.h"
 
 class ItemBar : public QWidget {
- Q_OBJECT
+  Q_OBJECT
 
  public:
   ItemBar(int id,
