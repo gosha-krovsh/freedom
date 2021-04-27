@@ -1,7 +1,7 @@
 #include "object.h"
 
 Object::Object(const Point& coords, const std::weak_ptr<QPixmap>& image)
-  : coordinates_(coords), image_(image) {}
+  : coordinates_(coords), image_(image), storage_(nullptr) {}
 
 void Object::Tick(int) {}
 
@@ -78,3 +78,7 @@ bool Object::ToDelete() const {
 }
 
 void Object::Interact(const InteractingObject& interacting_object) {}
+
+std::shared_ptr<Storage> Object::GetStorage() {
+  return storage_;
+}

@@ -12,8 +12,8 @@ class BarPack : public QWidget {
   BarPack(int center_x, int y, int width, int height,
           AbstractController* controller,
           QWidget* parent = nullptr,
-          StorableObject* hero_storage = nullptr,
-          StorableObject* object_storage = nullptr,
+          const std::shared_ptr<Storage>& hero_storage = nullptr,
+          const std::shared_ptr<Storage>& object_storage = nullptr,
           Qt::WindowFlags f = Qt::WindowFlags());
 
   ItemBar* GetHeroBar();

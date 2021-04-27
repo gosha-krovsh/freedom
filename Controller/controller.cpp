@@ -159,15 +159,16 @@ void Controller::UpdateHeroMovingDirection() {
 void Controller::OnItemPress(int bar_id, int index) {
   std::pair<ItemBar*, ItemBar*> source_dest = view_->GetSrcDestBars(bar_id);
   if (source_dest.first && source_dest.second) {
-    MoveItem(index, source_dest.first->GetObject(),
-                    source_dest.second->GetObject());
+    MoveItem(index, source_dest.first->GetStorage(),
+             source_dest.second->GetStorage());
     source_dest.first->UpdateIcons();
     source_dest.second->UpdateIcons();
   }
 }
 
-void Controller::MoveItem(int index, StorableObject* source,
-                          StorableObject* destination) {
+void Controller::MoveItem(int index,
+                          const std::shared_ptr<Storage>& source,
+                          const std::shared_ptr<Storage>& destination) {
   if (source->IsValidIndex(index)) {
     destination->PutItem(source->RemoveItem(index));
   }

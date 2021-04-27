@@ -36,7 +36,7 @@ add_executable(${PROJECT_NAME}
         GameObject/game_time.cpp
         GameObject/hero.cpp
         GameObject/item.cpp
-        GameObject/storable_object.cpp
+        GameObject/storage.cpp
         GameObject/chest.cpp
         GameObject/object.cpp
         GameObject/point.cpp

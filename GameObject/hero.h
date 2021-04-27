@@ -2,10 +2,10 @@
 #define GAMEOBJECT_HERO_H_
 
 #include "creature.h"
-#include "storable_object.h"
+#include "storage.h"
 #include "interacting_object.h"
 
-class Hero : public Creature, public StorableObject, public InteractingObject {
+class Hero : public Creature, public InteractingObject {
  public:
   explicit Hero(const Point& coords);
 

@@ -1,10 +1,9 @@
 #include "item_bar.h"
 
-ItemBar::ItemBar(// int x, int y, int width, int window_height,
-                 int id,
+ItemBar::ItemBar(int id,
                  AbstractController* controller,
                  QWidget* parent,
-                 StorableObject* storage,
+                 const std::shared_ptr<Storage>& storage,
                  Qt::WindowFlags f) : QWidget(parent, f),
                                       id_(id),
                                       controller_(controller),
@@ -55,7 +54,7 @@ void ItemBar::ConnectButtons() {
   }
 }
 
-void ItemBar::AssignObject(StorableObject* object) {
+void ItemBar::AssignStorage(const std::shared_ptr<Storage>& object) {
   storage_ = object;
   UpdateIcons();
 }
@@ -68,17 +67,18 @@ int ItemBar::GetId() const {
   return id_;
 }
 
-StorableObject* ItemBar::GetObject() const {
+std::shared_ptr<Storage> ItemBar::GetStorage() const {
   return storage_;
 }
 
 void ItemBar::UpdateIcons() {
   if (!storage_) {
     ClearIconsFromIndex(0);
+    return;
   }
 
-  int size = std::min(storage_->GetItems().size(),
-                      static_cast<size_t>(constants::kMaxElementsInItemBar));
+  int size = std::min(static_cast<int>(storage_->GetItems().size()),
+                      constants::kMaxElementsInItemBar);
   for (int i = 0; i < size; i++) {
     QPixmap image = storage_->GetItems().at(i).GetImage();
     QString name = storage_->GetItems().at(i).GetName();

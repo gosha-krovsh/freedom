@@ -12,7 +12,7 @@ View::View(AbstractController* controller,
                                2 * constants::kWindowHeight / 5,
                                controller,
                                this,
-                               &model_->GetHero())) {
+                               model_->GetHero().GetStorage())) {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
   show();
 
@@ -103,15 +103,18 @@ void View::keyPressEvent(QKeyEvent* event) {
     case Qt::Key_E: {
       // Opens the second bar, when clicked
       // and there is an object that can store something nearby
-      StorableObject* obj = controller_->GetStorableBlocksAround();
+      Object* chest =
+          controller_->FindNearestObjectWithType(Object::Type::kStorable);
 
-      if (!is_item_dialog_open_ && obj) {
+      if (!is_item_dialog_open_ && chest) {
+        std::shared_ptr<Storage> storage = chest->GetStorage();
+
         is_item_dialog_open_ = true;
         item_bar_pack_->GetHeroBar()->setEnabled(true);
 
         item_bar_pack_->GetObjectBar()->show();
         item_bar_pack_->GetObjectBar()->setEnabled(true);
-        item_bar_pack_->GetObjectBar()->AssignObject(obj);
+        item_bar_pack_->GetObjectBar()->AssignStorage(storage);
       } else {
         is_item_dialog_open_ = false;
         item_bar_pack_->GetHeroBar()->setEnabled(false);
@@ -181,8 +184,10 @@ std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id) {
   // Makes a pair of 2 bars, where first argument is a source
   // and second is a destination
   switch (id) {
-    case 0: return std::make_pair(item_bar_pack_->GetHeroBar(), item_bar_pack_->GetObjectBar());
-    case 1: return std::make_pair(item_bar_pack_->GetObjectBar(), item_bar_pack_->GetHeroBar());
+    case 0: return std::make_pair(item_bar_pack_->GetHeroBar(),
+                                  item_bar_pack_->GetObjectBar());
+    case 1: return std::make_pair(item_bar_pack_->GetObjectBar(),
+                                  item_bar_pack_->GetHeroBar());
     default:return std::make_pair(nullptr, nullptr);
   }
 }

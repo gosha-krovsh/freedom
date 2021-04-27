@@ -19,15 +19,15 @@ class ItemBar : public QWidget {
   ItemBar(int id,
           AbstractController* controller,
           QWidget* parent = nullptr,
-          StorableObject* storage = nullptr,
+          const std::shared_ptr<Storage>& storage = nullptr,
           Qt::WindowFlags f = Qt::WindowFlags());
 
   int GetId() const;
-  StorableObject* GetObject() const;
+  std::shared_ptr<Storage> GetStorage() const;
 
   void UseItem(int index);
 
-  void AssignObject(StorableObject*);
+  void AssignStorage(const std::shared_ptr<Storage>& object);
   void UpdateIcons();
   void ResizeButtons(int width, int max_height);
 
@@ -40,7 +40,7 @@ class ItemBar : public QWidget {
   void resizeEvent(QResizeEvent*) override;
 
   AbstractController* controller_;
-  StorableObject* storage_ = nullptr;
+  std::shared_ptr<Storage> storage_ = nullptr;
   int id_;
 
   std::vector<QPushButton*> buttons_;

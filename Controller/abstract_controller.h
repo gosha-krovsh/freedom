@@ -4,7 +4,7 @@
 #include <vector>
 
 #include "GameObject/hero.h"
-#include "GameObject/storable_object.h"
+#include "GameObject/storage.h"
 
 class AbstractController {
  public:
@@ -20,10 +20,12 @@ class AbstractController {
   virtual void SetControlLeftKeyState(bool state) = 0;
 
   virtual void OnItemPress(int id, int index) = 0;
-  virtual StorableObject* GetStorableBlocksAround() = 0;
+  virtual Object* FindNearestObjectWithType(Object::Type type) = 0;
 
  private:
-  virtual void MoveItem(int index, StorableObject*, StorableObject*) = 0;
+  virtual void MoveItem(int index,
+                        const std::shared_ptr<Storage>&,
+                        const std::shared_ptr<Storage>&) = 0;
 };
 
 #endif  // CONTROLLER_ABSTRACT_CONTROLLER_H_

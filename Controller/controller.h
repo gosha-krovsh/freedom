@@ -1,8 +1,6 @@
 #ifndef CONTROLLER_CONTROLLER_H_
 #define CONTROLLER_CONTROLLER_H_
 
-#include <QDebug>
-
 #include <memory>
 #include <utility>
 #include <vector>
@@ -31,6 +29,7 @@ class Controller : public AbstractController {
   void UpdateHeroMovingDirection();
 
   void OnItemPress(int id, int index) override;
+  Object* FindNearestObjectWithType(Object::Type type) override;
 
  private:
   struct ControlKeyStates {
@@ -44,9 +43,8 @@ class Controller : public AbstractController {
   void CheckHeroCollision();
   // Moves item from one object to another via index.
   void MoveItem(int item_index,
-                StorableObject* destination,
-                StorableObject* source) override;
-  Object* FindNearestObjectWithType(Object::Type type);
+                const std::shared_ptr<Storage>& destination,
+                const std::shared_ptr<Storage>& source) override;
 
  private:
   std::shared_ptr<Model> model_;

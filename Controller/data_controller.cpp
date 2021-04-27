@@ -94,6 +94,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
   }
 
   Wall::SetImage(std::make_shared<QPixmap>(":brick.png"));
+  Chest::SetImage(std::make_shared<QPixmap>(":brick.png"));
 
   // Parsing objects
   std::vector<Object*> objects;
@@ -129,6 +130,12 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
           }
           case Object::Type::kWall: {
             objects.emplace_back(new Wall(Point(x, y, z)));
+            break;
+          }
+          case Object::Type::kStorable: {
+            // Temporary code
+            objects.emplace_back(new Chest(
+                Point(x, y, z), {Item(0, "Block", QPixmap(":brick.png"))}));
             break;
           }
           default: {

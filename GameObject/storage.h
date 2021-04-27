@@ -6,7 +6,7 @@
 #include "item.h"
 #include "Model/constants.h"
 
-class StorableObject {
+class Storage {
  public:
   void PutItem(const Item& item);
   void PutItems(const std::vector<Item>& items);
