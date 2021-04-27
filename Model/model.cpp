@@ -6,15 +6,15 @@ Model::Model(const Schedule& schedule,
     schedule_(schedule),
     map_(std::move(game_map)) {
   bots_.emplace_back("Hero", Point(4, 1, 1),
-                                           std::vector<Point>(
-                                               {Point(4, 6, 1),
-                                                Point(1, 6, 1),
-                                                Point(1, 1, 1),
-                                                Point(4, 1, 1),
-                                                Point(4, 6, 1),
-                                                Point(2, 6, 1),
-                                                Point(2, 9, 1),
-                                                Point(7, 9, 1)}));
+                     std::vector<Point>(
+                         {Point(4, 6, 1),
+                          Point(1, 6, 1),
+                          Point(1, 1, 1),
+                          Point(4, 1, 1),
+                          Point(4, 6, 1),
+                          Point(2, 6, 1),
+                          Point(2, 9, 1),
+                          Point(7, 9, 1)}));
 
   /// TODO: Parse bots from JSON
   // TODO: parse it from json

@@ -22,9 +22,6 @@ void View::paintEvent(QPaintEvent*) {
   std::unordered_set<const Object*>
       transparent_blocks = map.GetTransparentBlocks();
 
-  // qDebug() << hero.GetRoundedX() << ' ' <<
-  // hero.GetRoundedY() << ' ' << hero.GetRoundedZ();
-
   for (int z = 0; z < map.GetZSize(); ++z) {
     for (int y = 0; y < map.GetYSize(); ++y) {
       for (int x = 0; x < map.GetXSize(); ++x) {
@@ -42,7 +39,7 @@ void View::paintEvent(QPaintEvent*) {
               current_bot.GetRoundedY() == y &&
               current_bot.GetRoundedZ() == z) {
             double dist =
-                hero.GetCoordinates().Distance(current_bot.GetCoordinates());
+                hero.GetCoordinates().DistanceFrom(current_bot.GetCoordinates());
             painter.setOpacity(std::max(dist / 2,
                                         constants::kBotOpacity));
             current_bot.Draw(&painter);

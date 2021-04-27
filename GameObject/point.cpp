@@ -110,16 +110,16 @@ Point operator/(double lhs, Point rhs) {
 
 bool Point::operator==(const Point& rhs) const {
   return (std::abs(x - rhs.x) < constants::kEps &&
-      std::abs(y - rhs.y) < constants::kEps &&
-      std::abs(z - rhs.z) < constants::kEps);
+          std::abs(y - rhs.y) < constants::kEps &&
+          std::abs(z - rhs.z) < constants::kEps);
 }
 
 bool Point::operator!=(const Point& rhs) const {
   return !(*this == rhs);
 }
-double Point::Distance(const Point& other) {
-  return std::sqrt((x - other.x) * (x - other.x)
-                       + (y - other.y) * (y - other.y));
+double Point::DistanceFrom(const Point& other) const {
+  return std::sqrt((x - other.x) * (x - other.x) +
+                    (y - other.y) * (y - other.y));
 }
 
 Point Point::GetRounded() const {

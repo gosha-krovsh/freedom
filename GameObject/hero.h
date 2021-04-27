@@ -11,7 +11,7 @@ class Hero : public Creature, public InteractingObject {
   void Tick(int current_tick) override;
 
   Point GetViewVector() const;
-  void UpdateMovement(bool, bool, bool, bool);
+  void UpdateMovement(bool left, bool up, bool right, bool down);
   void OnDead() override;
 
   int GetRoundedX() const override;
@@ -19,7 +19,7 @@ class Hero : public Creature, public InteractingObject {
   int GetAttack() const override;
 
  private:
-  void UpdateSpeedVector(const Point&);
+  void UpdateSpeedVector(const Point& screen_vector);
 };
 
 #endif  // GAMEOBJECT_HERO_H_
