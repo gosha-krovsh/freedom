@@ -23,8 +23,8 @@ class Model {
   const GameMap& GetMap() const;
   GameMap& GetMap();
   const Hero& GetHero() const;
-  const std::vector<std::unique_ptr<Bot>>& GetBots() const;
-  std::vector<std::unique_ptr<Bot>>& GetBots();
+  const std::vector<Bot>& GetBots() const;
+  std::vector<Bot>& GetBots();
 
   Hero& GetHero();
   const Schedule& GetSchedule() const;
@@ -40,8 +40,7 @@ class Model {
   std::unique_ptr<GameMap> map_;
   Schedule schedule_;
   Time time_;
-  
-  std::vector<std::unique_ptr<Bot>> bots_;
+  std::vector<Bot> bots_;
 
   std::vector<Quest> quests_;
   std::list<Quest> current_quests_;

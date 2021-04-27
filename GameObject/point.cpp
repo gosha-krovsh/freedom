@@ -120,7 +120,8 @@ bool Point::operator!=(const Point& rhs) const {
 double Point::Distance(const Point& other) {
   return std::sqrt((x - other.x) * (x - other.x)
                        + (y - other.y) * (y - other.y));
-                       
+}
+
 Point Point::GetRounded() const {
   return {std::round(x), std::round(y), std::round(z)};
 }

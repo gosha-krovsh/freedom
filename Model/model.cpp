@@ -5,7 +5,7 @@ Model::Model(const Schedule& schedule,
     time_(Time(8, 30)),
     schedule_(schedule),
     map_(std::move(game_map)) {
-  bots_.emplace_back(std::make_unique<Bot>("Hero", Point(4, 1, 1),
+  bots_.emplace_back("Hero", Point(4, 1, 1),
                                            std::vector<Point>(
                                                {Point(4, 6, 1),
                                                 Point(1, 6, 1),
@@ -14,7 +14,7 @@ Model::Model(const Schedule& schedule,
                                                 Point(4, 6, 1),
                                                 Point(2, 6, 1),
                                                 Point(2, 9, 1),
-                                                Point(7, 9, 1)})));
+                                                Point(7, 9, 1)}));
 
   /// TODO: Parse bots from JSON
   // TODO: parse it from json
@@ -43,7 +43,7 @@ const Hero& Model::GetHero() const {
 Hero& Model::GetHero() {
   return hero_;
 }
-const std::vector<std::unique_ptr<Bot>>& Model::GetBots() const {
+const std::vector<Bot>& Model::GetBots() const {
   return bots_;
 }
 
@@ -73,6 +73,6 @@ const std::list<Quest>& Model::GetCurrentQuests() const {
 std::list<Quest>& Model::GetCurrentQuests() {
   return current_quests_;
 }
-std::vector<std::unique_ptr<Bot>>& Model::GetBots() {
+std::vector<Bot>& Model::GetBots() {
   return bots_;
 }

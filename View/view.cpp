@@ -38,14 +38,14 @@ void View::paintEvent(QPaintEvent*) {
         }
 
         for (const auto& current_bot : bots) {
-          if (current_bot->GetRoundedX() == x &&
-              current_bot->GetRoundedY() == y &&
-              current_bot->GetRoundedZ() == z) {
+          if (current_bot.GetRoundedX() == x &&
+              current_bot.GetRoundedY() == y &&
+              current_bot.GetRoundedZ() == z) {
             double dist =
-                hero.GetCoordinates().Distance(current_bot->GetCoordinates());
+                hero.GetCoordinates().Distance(current_bot.GetCoordinates());
             painter.setOpacity(std::max(dist / 2,
                                         constants::kBotOpacity));
-            current_bot->Draw(&painter);
+            current_bot.Draw(&painter);
             painter.setOpacity(1);
           }
         }
