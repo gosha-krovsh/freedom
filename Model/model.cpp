@@ -1,51 +1,28 @@
 #include "model.h"
 
-Model::Model() {
-  // This part is also deprecated, will be updated after merge with master
-  objects_ = {
-      new Object(Point(0, 8, 1), QPixmap(":brick.png")),
-      new Object(Point(0, 7, 1), QPixmap(":brick.png")),
-      new Object(Point(0, 6, 1), QPixmap(":brick.png")),
-      new Object(Point(0, 5, 1), QPixmap(":brick.png")),
-
-      new Object(Point(4, 8, 1), QPixmap(":brick.png")),
-      new Object(Point(4, 7, 1), QPixmap(":brick.png")),
-      new Object(Point(4, 6, 1), QPixmap(":brick.png")),
-      new Object(Point(4, 5, 1), QPixmap(":brick.png")),
-
-      new Object(Point(1, 8, 1), QPixmap(":brick.png")),
-      new Object(Point(2, 8, 1), QPixmap(":brick.png")),
-      new Object(Point(3, 8, 1), QPixmap(":brick.png")),
-
-      new Object(Point(1, 5, 1), QPixmap(":brick.png")),
-      new Object(Point(3, 5, 1), QPixmap(":brick.png")),
-      new Chest(Point(3, 6, 1), QPixmap(":brick.png"), {
-                Item(1, QString("YaBlock1"), QPixmap(":brick.png")),
-                Item(2, QString("YaBlock2"), QPixmap(":brick.png")),
-                Item(3, QString("YaBlock3"), QPixmap(":brick.png"))}),
-
-      new Object(Point(1, 5, 0), QPixmap(":brick.png")),
-      new Object(Point(2, 5, 0), QPixmap(":brick.png")),
-      new Object(Point(3, 5, 0), QPixmap(":brick.png")),
-      new Object(Point(1, 6, 0), QPixmap(":brick.png")),
-      new Object(Point(2, 6, 0), QPixmap(":brick.png")),
-      new Object(Point(3, 6, 0), QPixmap(":brick.png")),
-      new Object(Point(1, 7, 0), QPixmap(":brick.png")),
-      new Object(Point(2, 7, 0), QPixmap(":brick.png")),
-      new Object(Point(3, 7, 0), QPixmap(":brick.png")),
+Model::Model(const Schedule& schedule,
+             std::unique_ptr<GameMap> game_map) :
+    time_(Time(8, 30)),
+    schedule_(schedule),
+    map_(std::move(game_map)) {
+  // TODO: parse it from json
+  std::vector<QuestNode> quest_nodes{
+      QuestNode(0, "MyQuestNodeName", QuestNode::Type::kMoveToDestination,
+                std::vector<QString>{"7", "9", "1"})
   };
-  map_ = GameMap(constants::kHeightOfMap,
-                 std::vector<std::vector<Object*>>(constants::kDepthOfMap,
-                 std::vector<Object*>(constants::kWidthOfMap,
-                   nullptr)));
-
-  for (auto& object : objects_) {
-    map_[object->GetZ()][object->GetY()][object->GetX()] = object;
-  }
+  quests_.emplace_back(0, "MyQuestName", quest_nodes);
 }
 
-const Model::GameMap& Model::GetMap() const {
-  return map_;
+Model::~Model() {
+  Wall::DeleteImage();
+}
+
+const GameMap& Model::GetMap() const {
+  return *map_;
+}
+
+GameMap& Model::GetMap() {
+  return *map_;
 }
 
 const Hero& Model::GetHero() const {
@@ -55,3 +32,29 @@ Hero& Model::GetHero() {
   return hero_;
 }
 
+const Schedule& Model::GetSchedule() const {
+  return schedule_;
+}
+
+Time& Model::GetTime() {
+  return time_;
+}
+
+const Time& Model::GetTime() const {
+  return time_;
+}
+
+const Quest& Model::GetQuestById(int id) const {
+  if (id < 0 || id >= quests_.size()) {
+    qDebug() << "Invalid quest id";
+  }
+  return quests_[id];
+}
+
+const std::list<Quest>& Model::GetCurrentQuests() const {
+  return current_quests_;
+}
+
+std::list<Quest>& Model::GetCurrentQuests() {
+  return current_quests_;
+}

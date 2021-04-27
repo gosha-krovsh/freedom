@@ -3,15 +3,20 @@
 
 #include "creature.h"
 #include "storable_object.h"
+#include "interacting_object.h"
 
-class Hero : public Creature, public StorableObject {
+class Hero : public Creature, public StorableObject, public InteractingObject {
  public:
-  explicit Hero(const Point& coords,
-                const QPixmap& image = QPixmap(":hero_0.png"));
+  explicit Hero(const Point& coords);
 
   void Tick(int current_tick) override;
   void UpdateMovement(bool left, bool up, bool right, bool down);
+  Point GetViewVector() const;
   void OnDead() override;
+
+  int GetRoundedX() const override;
+  int GetRoundedY() const override;
+  int GetAttack() const override;
 
  private:
   void UpdateSpeedVector(const Point& screen_vector);

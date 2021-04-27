@@ -23,17 +23,29 @@ add_executable(${PROJECT_NAME}
         View/item_bar.cpp
         View/bar_pack.cpp
 
+        Controller/action_controller.cpp
         Controller/controller.cpp
+        Controller/data_controller.cpp
+        Controller/quest_controller.cpp
 
-        GameObject/point.cpp
-        GameObject/object.cpp
-        GameObject/dynamic_object.cpp
-        GameObject/destroyable.cpp
+        GameObject/action.cpp
         GameObject/creature.cpp
+        GameObject/destroyable.cpp
+        GameObject/dynamic_object.cpp
+        GameObject/game_map.cpp
+        GameObject/game_time.cpp
         GameObject/hero.cpp
         GameObject/item.cpp
         GameObject/storable_object.cpp
-        GameObject/chest.cpp)
+        GameObject/chest.cpp
+        GameObject/object.cpp
+        GameObject/point.cpp
+        GameObject/schedule.cpp
+        GameObject/wall.cpp
+
+        Quests/quest.cpp
+        Quests/quest_node.cpp
+        )
 
 if (NOT CMAKE_PREFIX_PATH)
     message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "

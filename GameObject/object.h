@@ -3,12 +3,24 @@
 
 #include <QPainter>
 
+#include <memory>
+
 #include "Model/constants.h"
 #include "point.h"
+#include "interacting_object.h"
 
 class Object {
  public:
-  Object(const Point& coords, const QPixmap& image);
+  enum class Type {
+    kNone,
+    kFloor,
+    kWall
+  };
+
+ public:
+  explicit Object(const Point& coords,
+                  const std::weak_ptr<QPixmap>& image =
+                      std::weak_ptr<QPixmap>());
   virtual ~Object() = default;
 
   virtual void Tick(int current_time);
@@ -20,21 +32,28 @@ class Object {
   int GetRoundedX() const;
   int GetRoundedY() const;
   int GetRoundedZ() const;
+  int GetFlooredX() const;
+  int GetFlooredY() const;
   void SetCoordinates(const Point& coords);
   void SetX(double x);
   void SetY(double y);
   void SetZ(double z);
 
   bool IsTouchable() const;
+  bool IsType(Type object_type) const;
+  bool ToDelete() const;
 
   void Draw(QPainter* painter) const;
+  virtual void Interact(const InteractingObject& interacting_object);
 
  protected:
+  std::weak_ptr<QPixmap> image_;
   bool is_touchable_{true};
+  bool delete_on_next_tick_{false};
+  Type type_{Type::kNone};
 
  private:
   Point coordinates_;
-  QPixmap image_;
 };
 
 #endif  // GAMEOBJECT_OBJECT_H_

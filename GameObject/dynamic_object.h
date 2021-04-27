@@ -1,6 +1,7 @@
 #ifndef GAMEOBJECT_DYNAMIC_OBJECT_H_
 #define GAMEOBJECT_DYNAMIC_OBJECT_H_
 
+#include <utility>
 #include <cmath>
 
 #include "object.h"
@@ -19,12 +20,12 @@ class DynamicObject : public Object {
   };
 
  public:
-  DynamicObject(const Point& coords, const QPixmap& image);
+  explicit DynamicObject(const Point& coords);
 
   void Tick(int current_tick) override;
 
   ViewDirection GetViewDirection() const;
-
+  virtual void SetSpeedVector(const Point& speed_vector);
 
  protected:
   void UpdateViewDirection();
