@@ -1,6 +1,8 @@
 #ifndef GAMEOBJECT_HERO_H_
 #define GAMEOBJECT_HERO_H_
 
+#include <memory>
+
 #include "creature.h"
 #include "storage.h"
 #include "interacting_object.h"

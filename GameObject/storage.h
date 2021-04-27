@@ -1,5 +1,5 @@
-#ifndef GAMEOBJECT_STORABLE_H_
-#define GAMEOBJECT_STORABLE_H_
+#ifndef GAMEOBJECT_STORAGE_H_
+#define GAMEOBJECT_STORAGE_H_
 
 #include <vector>
 
@@ -19,4 +19,4 @@ class Storage {
   std::vector<Item> items_;
 };
 
-#endif  // GAMEOBJECT_STORABLE_H_
+#endif  // GAMEOBJECT_STORAGE_H_

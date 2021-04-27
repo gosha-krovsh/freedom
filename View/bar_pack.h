@@ -1,7 +1,8 @@
-#ifndef VIEW_BAR_PACK_H
-#define VIEW_BAR_PACK_H
+#ifndef VIEW_BAR_PACK_H_
+#define VIEW_BAR_PACK_H_
 
 #include <QVBoxLayout>
+#include <memory>
 
 #include "item_bar.h"
 
@@ -29,4 +30,4 @@ class BarPack : public QWidget {
   QVBoxLayout* layout_;
 };
 
-#endif // VIEW_BAR_PACK_H
+#endif  // VIEW_BAR_PACK_H_

@@ -3,7 +3,7 @@
 Item::Item(int id, const QString& name, const QPixmap& image) :
     name_(std::move(name)),
     id_(id),
-    image_(image){}
+    image_(image) {}
 
 QString Item::GetName() const {
   return name_;

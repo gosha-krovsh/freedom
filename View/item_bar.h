@@ -8,6 +8,8 @@
 #include <QWidget>
 
 #include <algorithm>
+#include <memory>
+#include <vector>
 
 #include "Model/constants.h"
 #include "Controller/abstract_controller.h"
