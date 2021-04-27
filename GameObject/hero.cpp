@@ -37,5 +37,5 @@ int Hero::GetAttack() const {
 
 void Hero::UpdateSpeedVector(const Point& screen_vector) {
   Point speed_vector = Point::FromScreenPoint(screen_vector);
-  NormalizeSpeedVector(speed_vector);
+  NormalizeSpeedVector(&speed_vector);
 }

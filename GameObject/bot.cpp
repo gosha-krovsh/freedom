@@ -31,7 +31,7 @@ void Bot::Move() {
   }
 
   Point speed_vector = next_point - GetCoordinates();
-  NormalizeSpeedVector(speed_vector);
+  NormalizeSpeedVector(&speed_vector);
 }
 
 void Bot::OnDead() {}
