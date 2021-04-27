@@ -41,17 +41,6 @@ void Creature::SetSpeedVector(const Point& speed_vector) {
 Creature::State Creature::GetState() const {
   return State(action_, view_direction_);
 }
-void Creature::UpdateMovement(bool left, bool up, bool right, bool down) {
-  double x = (right ? 1 : 0) - (left ? 1 : 0);
-  double y = (up ? 1 : 0) - (down ? 1 : 0);
-  Point screen_vector{x, y};
-  UpdateSpeedVector(screen_vector);
-  UpdateViewDirection();
-}
-void Creature::UpdateSpeedVector(const Point& screen_vector) {
-  Point speed_vector = Point::FromScreenPoint(screen_vector);
-  NormalizeSpeedVector(speed_vector);
-}
 
 void Creature::NormalizeSpeedVector(Point& speed_vector) {
   speed_vector.Normalize();

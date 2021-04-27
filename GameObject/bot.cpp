@@ -15,8 +15,8 @@ void Bot::SetRoute(const Route& route) {
 
 void Bot::Move() {
   Point next_point = targets_[current_direction_];
-  if (std::abs(GetX() - next_point.x) <= constants::kSpeed &&
-      std::abs(GetY() - next_point.y) <= constants::kSpeed) {
+  if ((std::abs(GetX() - next_point.x) <= constants::kSpeed) &&
+      (std::abs(GetY() - next_point.y) <= constants::kSpeed)) {
     SetCoordinates(next_point);
     current_direction_ += order_;
     if (current_direction_ == targets_.size() || current_direction_ == -1) {
