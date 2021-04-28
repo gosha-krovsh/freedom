@@ -15,6 +15,8 @@ class Creature : public DynamicObject, public Destroyable {
   enum class Action {
     kIdle,
     kRun,
+    kFight,
+    kDead,
   };
   using State = std::pair<Action, DynamicObject::ViewDirection>;
 
@@ -28,13 +30,18 @@ class Creature : public DynamicObject, public Destroyable {
   bool IsAbleToAttack() const;
   void RefreshAttackCooldown();
   int GetAttack() const;
+  void StartFighting();
+  void StopFighting();
+  bool IsDestroyed() const;
+  int GetHP() const;
+  void OnDead() override;
 
- protected:
   Action action_{Action::kIdle};
 
  private:
   State GetState() const;
   void DecrementAttackCooldown();
+  void SetAction(Action action);
 
  private:
   QString name_;

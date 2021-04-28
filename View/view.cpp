@@ -39,6 +39,15 @@ void View::paintEvent(QPaintEvent*) {
             hero.GetRoundedZ() == z) {
           hero.Draw(&painter);
         }
+
+        // Temp code for adding bots
+        for (const auto& bot : model_->GetBots()) {
+          if (bot.GetRoundedX() == x &&
+              bot.GetRoundedY() == y &&
+              bot.GetRoundedZ() == z) {
+            bot.Draw(&painter);
+          }
+        }
       }
     }
   }

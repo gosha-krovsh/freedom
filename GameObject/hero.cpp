@@ -39,14 +39,17 @@ void Hero::UpdateSpeedVector(const Point& screen_vector) {
   SetSpeedVector(speed_vector);
 }
 
-void Hero::OnDead() {}
-
 int Hero::GetRoundedX() const {
   return Object::GetRoundedX();
 }
 int Hero::GetRoundedY() const {
   return Object::GetRoundedY();
 }
+
 int Hero::GetAttack() const {
   return Creature::GetAttack();
+}
+
+void Hero::OnDead() {
+  Creature::OnDead();
 }

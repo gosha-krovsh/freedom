@@ -37,7 +37,9 @@ class Controller : public AbstractController {
 
  private:
   void CheckHeroCollision();
+  void ProcessFighting();
   Object* FindNearestObjectWithType(Object::Type type);
+  Creature* FindNearestBotInRadius(double radius);
 
  private:
   std::shared_ptr<Model> model_;

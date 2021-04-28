@@ -19,10 +19,44 @@ void Controller::Tick() {
     actions_controller_->Tick(current_tick_);
   }
   CheckHeroCollision();
+  ProcessFighting();
 
   model_->GetMap().Tick(current_tick_);
 
+  for (auto& bot : model_->GetBots()) {
+    bot.Tick(current_tick_);
+  }
+
   ++current_tick_;
+}
+
+void Controller::ProcessFighting() {
+  for (int i = 0; i < model_->GetNumberOfFightingPairs(); ++i) {
+    auto fighting_pair = model_->GetFightingPairWithIndex(i);
+    auto first = fighting_pair.first;
+    auto second = fighting_pair.second;
+
+    if (first->IsAbleToAttack()) {
+      second->DecreaseHP(first->GetAttack());
+      first->RefreshAttackCooldown();
+
+      if (second->IsDestroyed()) {
+        first->StopFighting();
+        model_->DeleteFightingPair(fighting_pair);
+        return;
+      }
+    }
+
+    if (second->IsAbleToAttack()) {
+      first->DecreaseHP(second->GetAttack());
+      second->RefreshAttackCooldown();
+
+      if (first->IsDestroyed()) {
+        second->StopFighting();
+        model_->DeleteFightingPair(fighting_pair);
+      }
+    }
+  }
 }
 
 void Controller::CheckHeroCollision() {
@@ -84,13 +118,38 @@ void Controller::HeroAttack() {
     return;
   }
 
-  auto nearest_wall = FindNearestObjectWithType(Object::Type::kWall);
+  auto nearest_bot = FindNearestBotInRadius(constants::kAttackRadius);
+  if (nearest_bot) {
+    model_->CreateFightingPair(&hero, nearest_bot);
+    hero.StartFighting();
+    nearest_bot->StartFighting();
+    return;
+  }
 
+  auto nearest_wall = FindNearestObjectWithType(Object::Type::kWall);
   if (nearest_wall) {
     nearest_wall->Interact(hero);
-
     hero.RefreshAttackCooldown();
   }
+}
+
+Creature* Controller::FindNearestBotInRadius(double radius) {
+  Point hero_coords = model_->GetHero().GetCoordinates();
+  double squared_radius = radius * radius;
+
+  Creature* nearest_bot = nullptr;
+  double squared_distance;
+  for (auto& bot : model_->GetBots()) {
+    double new_squared_distance =
+        hero_coords.SquaredDistanceFrom(bot.GetCoordinates());
+    if (!bot.IsDestroyed() && new_squared_distance <= squared_radius &&
+        (nearest_bot == nullptr || new_squared_distance < squared_distance)) {
+      squared_distance = new_squared_distance;
+      nearest_bot = &bot;
+    }
+  }
+
+  return nearest_bot;
 }
 
 Object* Controller::FindNearestObjectWithType(Object::Type type) {

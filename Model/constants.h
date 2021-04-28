@@ -11,10 +11,12 @@ namespace constants {
   const int kAttack = 25;
   const double kSpeed = 0.05;
   const int kAttackCooldown = 40;
+  const double kAttackRadius = 1.5;
 
   // All durations are measured in ticks
   const int kDurationOfOneAnimationFrame = 15;
   const int kDurationOfWallShaking = 10;
+
   const double kShakeAmplitude = 0.01;
   const double kDistanceToDetectBlock = 2 * kSpeed;
 
