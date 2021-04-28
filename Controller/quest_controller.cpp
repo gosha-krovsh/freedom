@@ -26,14 +26,15 @@ void QuestController::FinishQuest(int id) {
 
 void QuestController::Tick(int) {
   auto& current_quests = model_->GetCurrentQuests();
-  for (auto& quest : current_quests) {
-    auto quest_node = quest.GetCurrentQuestNode();
+  for (int i = 0; i < current_quests.size(); ++i) {
+    auto quest_node = current_quests[i].GetCurrentQuestNode();
     if (quest_node) {
       if (CheckCondition(quest_node)) {
-        quest.MoveToNextQuestNode();
+        current_quests[i].MoveToNextQuestNode();
       }
     } else {
-      FinishQuest(quest.GetId());
+      FinishQuest(current_quests[i].GetId());
+      --i;
     }
   }
 }
