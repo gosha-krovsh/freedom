@@ -15,6 +15,12 @@ void Hero::UpdateMovement(bool left, bool up, bool right, bool down) {
   UpdateViewDirection();
 }
 
+Point Hero::GetViewVector() const {
+  Point view_vector(-1, 0);
+  view_vector.Rotate(-135 + 45 * static_cast<int>(view_direction_));
+  return view_vector;
+}
+
 void Hero::UpdateSpeedVector(const Point& screen_vector) {
   Point speed_vector = Point::FromScreenPoint(screen_vector);
   speed_vector.Normalize();
@@ -34,3 +40,13 @@ void Hero::UpdateSpeedVector(const Point& screen_vector) {
 }
 
 void Hero::OnDead() {}
+
+int Hero::GetRoundedX() const {
+  return Object::GetRoundedX();
+}
+int Hero::GetRoundedY() const {
+  return Object::GetRoundedY();
+}
+int Hero::GetAttack() const {
+  return Creature::GetAttack();
+}

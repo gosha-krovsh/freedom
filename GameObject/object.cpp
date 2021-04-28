@@ -59,10 +59,6 @@ void Object::SetZ(double z) {
   coordinates_.z = z;
 }
 
-bool Object::IsTouchable() const {
-  return is_touchable_;
-}
-
 int Object::GetFlooredX() const {
   return static_cast<int>(std::floor(GetX()));
 }
@@ -70,3 +66,15 @@ int Object::GetFlooredX() const {
 int Object::GetFlooredY() const {
   return static_cast<int>(std::floor(GetY()));
 }
+
+bool Object::IsTouchable() const {
+  return is_touchable_;
+}
+bool Object::IsType(Object::Type object_type) const {
+  return type_ == object_type;
+}
+bool Object::ToDelete() const {
+  return delete_on_next_tick_;
+}
+
+void Object::Interact(const InteractingObject& interacting_object) {}

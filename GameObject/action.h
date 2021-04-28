@@ -15,7 +15,7 @@ class Action {
   Action(const std::string&, const std::vector<std::string>&);
 
   ActionType GetActionType() const;
-  std::vector<std::string> GetParametres() const;
+  std::vector<std::string> GetParameters() const;
 
  private:
   ActionType ChooseActionType(const std::string& name);

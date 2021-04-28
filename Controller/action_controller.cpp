@@ -7,10 +7,10 @@ void ActionController::Call(const std::vector<Action>& command) {
   for (const auto& method_to_call : command) {
     switch (method_to_call.GetActionType()) {
       case Action::ActionType::kMove: {
-        Move(std::stoi(method_to_call.GetParametres().at(0)),
-             Point(std::stoi(method_to_call.GetParametres().at(1)),
-                   std::stoi(method_to_call.GetParametres().at(2)),
-                   std::stoi(method_to_call.GetParametres().at(3))));
+        Move(std::stoi(method_to_call.GetParameters().at(0)),
+             Point(std::stoi(method_to_call.GetParameters().at(1)),
+                   std::stoi(method_to_call.GetParameters().at(2)),
+                   std::stoi(method_to_call.GetParameters().at(3))));
         break;
       }
       case Action::ActionType::kWrongArg: {

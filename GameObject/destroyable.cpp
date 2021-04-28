@@ -11,7 +11,7 @@ bool Destroyable::IsDestroyed() const {
 }
 
 void Destroyable::IncreaseHP(int hp) {
-  if (hp < 0) {
+  if (IsDestroyed()) {
     return;
   }
 
@@ -21,12 +21,13 @@ void Destroyable::IncreaseHP(int hp) {
   }
 }
 void Destroyable::DecreaseHP(int hp) {
-  if (hp < 0) {
+  if (IsDestroyed()) {
     return;
   }
 
   hp_ -= hp;
-  if (hp_ < 0) {
+  if (IsDestroyed()) {
     hp_ = 0;
+    OnDead();
   }
 }

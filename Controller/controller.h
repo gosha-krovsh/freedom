@@ -8,6 +8,7 @@
 #include "abstract_controller.h"
 #include "action_controller.h"
 #include "data_controller.h"
+#include "quest_controller.h"
 
 #include "View/view.h"
 #include "Model/model.h"
@@ -18,6 +19,8 @@ class Controller : public AbstractController {
   ~Controller() override = default;
 
   void Tick() override;
+
+  void HeroAttack() override;
 
   void SetControlUpKeyState(bool state) override;
   void SetControlRightKeyState(bool state) override;
@@ -35,6 +38,7 @@ class Controller : public AbstractController {
 
  private:
   void CheckHeroCollision();
+  Object* FindNearestObjectWithType(Object::Type type);
 
  private:
   std::shared_ptr<Model> model_;
@@ -42,6 +46,7 @@ class Controller : public AbstractController {
 
   std::unique_ptr<ActionController> actions_controller_;
   std::unique_ptr<DataController> data_controller_;
+  std::unique_ptr<QuestController> quest_controller_;
 
   ControlKeyStates control_key_states_;
   int current_tick_;

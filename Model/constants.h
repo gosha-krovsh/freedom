@@ -8,12 +8,18 @@ namespace constants {
   const double kEps = 1e-7;
   const int kSizeOfBlock = 140;
   const int kHP = 100;
+  const int kAttack = 25;
   const double kSpeed = 0.05;
+  const int kAttackCooldown = 40;
 
-  const int kDurationOfOneAnimationFrameInTicks = 15;
+  // All durations are measured in ticks
+  const int kDurationOfOneAnimationFrame = 15;
+  const int kDurationOfWallShaking = 10;
+  const double kShakeAmplitude = 0.01;
+  const double kDistanceToDetectBlock = 2 * kSpeed;
 
   // The opacity of the block, when it's considered transparent.
-  const double kBlockOpacity = 0.15;
+  const double kBlockOpacity = 0.1;
 
   // Needed to make |DynamicObject| movement in Right/Left direction more
   // realistic in isometric view.
