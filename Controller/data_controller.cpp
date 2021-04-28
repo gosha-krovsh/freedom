@@ -16,7 +16,7 @@ void DataController::Tick(int) {}
 //   ]],
 //   ...
 // ]
-Schedule DataController::ParseSchedule() {
+std::unique_ptr<Schedule> DataController::ParseSchedule() {
   QFile file(":schedule.json");
   file.open(QIODevice::ReadOnly | QIODevice::Text);
 
@@ -49,7 +49,7 @@ Schedule DataController::ParseSchedule() {
                   time_array.at(1).toInt(0))] = actions;
   }
 
-  return Schedule(schedule);
+  return std::make_unique<Schedule>(schedule);
 }
 
 // game_map.json structure:
@@ -93,8 +93,6 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
                        room_params[3].toInt(), room_params[4].toInt());
   }
 
-  Wall::SetImage(std::make_shared<QPixmap>(":brick.png"));
-
   // Parsing objects
   std::vector<Object*> objects;
   QJsonArray map = json_game_map["map_array"].toArray();
@@ -124,11 +122,13 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
             break;
           }
           case Object::Type::kFloor: {
-            objects.emplace_back(new Object(Point(x, y, z)));
+            objects.emplace_back(new Object(Point(x, y, z),
+                                            model_->GetImage("floor")));
             break;
           }
           case Object::Type::kWall: {
-            objects.emplace_back(new Wall(Point(x, y, z)));
+            objects.emplace_back(new Wall(Point(x, y, z),
+                                          model_->GetImage("brick")));
             break;
           }
           default: {

@@ -23,8 +23,8 @@ class DataController {
 
   void Tick(int current_tick);
 
-  static Schedule ParseSchedule();
-  static std::unique_ptr<GameMap> ParseGameMap();
+  std::unique_ptr<Schedule> ParseSchedule();
+  std::unique_ptr<GameMap> ParseGameMap();
 
  private:
   std::shared_ptr<Model> model_;
