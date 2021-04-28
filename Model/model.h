@@ -53,6 +53,8 @@ class Model {
   std::vector<Quest> quests_;
   std::vector<Quest> current_quests_;
   std::vector<std::pair<Creature*, Creature*>> fighting_pairs_;
+  // Temp code for adding bots
+  std::vector<Creature> bots_;
 };
 
 #endif  // MODEL_MODEL_H_
