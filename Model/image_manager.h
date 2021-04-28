@@ -8,11 +8,10 @@
 
 class ImageManager {
  public:
-  static std::weak_ptr<QPixmap> GetImage(const QString& name);
-  static void Wipe();
+  std::weak_ptr<QPixmap> GetImage(const QString& name);
 
  private:
-  static std::map<QString, std::shared_ptr<QPixmap>> images_;
+  std::map<QString, std::shared_ptr<QPixmap>> images_;
 };
 
 #endif  // MODEL_IMAGE_MANAGER_H_

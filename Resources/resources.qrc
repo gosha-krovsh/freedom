@@ -26,6 +26,7 @@
         <file alias="Hero_315_run_2.png">Hero/Hero_315_run_2.png</file>
 
         <file>brick.png</file>
+        <file>floor.png</file>
         <file>schedule.json</file>
         <file>game_map.json</file>
     </qresource>

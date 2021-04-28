@@ -1,14 +1,11 @@
 #include "model.h"
 #include "image_manager.h"
 
-Model::Model(const Schedule& schedule,
-             std::unique_ptr<GameMap> game_map) :
-    time_(Time(8, 30)),
-    schedule_(schedule),
-    map_(std::move(game_map)) {}
-
-Model::~Model() {
-  ImageManager::Wipe();
+void Model::SetMap(std::unique_ptr<GameMap>&& game_map) {
+  map_ = std::move(game_map);
+}
+void Model::SetSchedule(std::unique_ptr<Schedule>&& schedule) {
+  schedule_ = std::move(schedule);
 }
 
 const GameMap& Model::GetMap() const {
@@ -27,7 +24,7 @@ Hero& Model::GetHero() {
 }
 
 const Schedule& Model::GetSchedule() const {
-  return schedule_;
+  return *schedule_;
 }
 
 Time& Model::GetTime() {
@@ -36,4 +33,8 @@ Time& Model::GetTime() {
 
 const Time& Model::GetTime() const {
   return time_;
+}
+
+std::weak_ptr<QPixmap> Model::GetImage(const QString& name) {
+  return image_manager.GetImage(name);
 }

@@ -1,12 +1,14 @@
 #include "controller.h"
 
 Controller::Controller()
-    : model_(std::make_shared<Model>(DataController::ParseSchedule(),
-                                     DataController::ParseGameMap())),
+    : model_(std::make_shared<Model>()),
       view_(std::make_unique<View>(this, model_)),
       actions_controller_(std::make_unique<ActionController>(model_)),
       data_controller_(std::make_unique<DataController>(model_)),
-      current_tick_(0) {}
+      current_tick_(0) {
+  model_->SetMap(std::move(data_controller_->ParseGameMap()));
+  model_->SetSchedule(std::move(data_controller_->ParseSchedule()));
+}
 
 void Controller::Tick() {
   data_controller_->Tick(current_tick_);

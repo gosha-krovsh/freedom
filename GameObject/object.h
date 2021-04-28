@@ -11,8 +11,8 @@
 class Object {
  public:
   explicit Object(const Point& coords,
-                  const std::shared_ptr<QPixmap>& image =
-                      std::shared_ptr<QPixmap>());
+                  const std::weak_ptr<QPixmap>& image =
+                      std::weak_ptr<QPixmap>());
   virtual ~Object() = default;
 
   virtual void Tick(int current_time);
@@ -37,7 +37,7 @@ class Object {
 
  protected:
   bool is_touchable_{true};
-  std::shared_ptr<QPixmap> image_;
+  std::weak_ptr<QPixmap> image_;
 
  private:
   Point coordinates_;
