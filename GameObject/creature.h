@@ -9,8 +9,11 @@
 #include "animator.h"
 #include "destroyable.h"
 #include "dynamic_object.h"
+#include "shaking_object.h"
 
-class Creature : public DynamicObject, public Destroyable {
+class Creature : public DynamicObject,
+                 public Destroyable,
+                 public ShakingObject {
  public:
   enum class Action {
     kIdle,
@@ -36,7 +39,7 @@ class Creature : public DynamicObject, public Destroyable {
   int GetHP() const;
   void OnDead() override;
 
-  Action action_{Action::kIdle};
+  Point GetDrawOffset() const override;
 
  private:
   State GetState() const;
@@ -45,6 +48,7 @@ class Creature : public DynamicObject, public Destroyable {
 
  private:
   QString name_;
+  Action action_{Action::kIdle};
   Animator<State> animator_{GetState()};
   int attack_cooldown_{0};
   int attack_{constants::kAttack};

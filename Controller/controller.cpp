@@ -18,14 +18,15 @@ void Controller::Tick() {
     model_->GetTime().AddMinutes(1);
     actions_controller_->Tick(current_tick_);
   }
-  CheckHeroCollision();
-  ProcessFighting();
-
-  model_->GetMap().Tick(current_tick_);
 
   for (auto& bot : model_->GetBots()) {
     bot.Tick(current_tick_);
   }
+
+  CheckHeroCollision();
+  ProcessFighting();
+
+  model_->GetMap().Tick(current_tick_);
 
   ++current_tick_;
 }
@@ -45,6 +46,8 @@ void Controller::ProcessFighting() {
         model_->DeleteFightingPair(fighting_pair);
         return;
       }
+
+      second->Shake(second->GetCoordinates() - first->GetCoordinates());
     }
 
     if (second->IsAbleToAttack()) {
@@ -54,7 +57,10 @@ void Controller::ProcessFighting() {
       if (first->IsDestroyed()) {
         second->StopFighting();
         model_->DeleteFightingPair(fighting_pair);
+        return;
       }
+
+      first->Shake(first->GetCoordinates() - second->GetCoordinates());
     }
   }
 }
@@ -134,16 +140,18 @@ void Controller::HeroAttack() {
 }
 
 Creature* Controller::FindNearestBotInRadius(double radius) {
-  Point hero_coords = model_->GetHero().GetCoordinates();
+  Hero& hero = model_->GetHero();
+  Point hero_coords = hero.GetCoordinates() +
+                      constants::kCoefficientForShiftingCircleAttack * radius *
+                      hero.GetViewVector();
   double squared_radius = radius * radius;
 
   Creature* nearest_bot = nullptr;
-  double squared_distance;
+  double squared_distance = squared_radius;
   for (auto& bot : model_->GetBots()) {
     double new_squared_distance =
         hero_coords.SquaredDistanceFrom(bot.GetCoordinates());
-    if (!bot.IsDestroyed() && new_squared_distance <= squared_radius &&
-        (nearest_bot == nullptr || new_squared_distance < squared_distance)) {
+    if (!bot.IsDestroyed() && new_squared_distance < squared_distance) {
       squared_distance = new_squared_distance;
       nearest_bot = &bot;
     }

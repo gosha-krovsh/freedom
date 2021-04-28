@@ -27,8 +27,9 @@ const QString& Creature::GetName() const {
 
 void Creature::Tick(int current_tick) {
   image_ = animator_.GetImageByState(GetState());
-  DecrementAttackCooldown();
+  ShakingObject::Tick(current_tick);
 
+  DecrementAttackCooldown();
   if (!IsDestroyed() && action_ != Action::kFight) {
     DynamicObject::Tick(current_tick);
   }
@@ -92,4 +93,7 @@ int Creature::GetHP() const {
 
 void Creature::OnDead() {
   action_ = Action::kDead;
+}
+Point Creature::GetDrawOffset() const {
+  return ShakingObject::GetOffset();
 }

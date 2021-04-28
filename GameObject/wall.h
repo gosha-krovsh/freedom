@@ -3,10 +3,11 @@
 
 #include <memory>
 
+#include "shaking_object.h"
 #include "destroyable.h"
 #include "object.h"
 
-class Wall : public Object, public Destroyable {
+class Wall : public Object, public Destroyable, public ShakingObject {
  public:
   explicit Wall(const Point& coords);
   void Tick(int current_tick) override;
@@ -15,12 +16,9 @@ class Wall : public Object, public Destroyable {
   static void SetImage(const std::shared_ptr<QPixmap>& image);
   static void DeleteImage();
 
-  void Shake(const Point& direction_of_shake);
-
   void Interact(const InteractingObject& interacting_object) override;
 
- private:
-  void ProcessShaking(int current_tick);
+  Point GetDrawOffset() const override;
 
  private:
   static std::shared_ptr<QPixmap> wall_image_;
