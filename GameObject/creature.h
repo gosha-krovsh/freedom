@@ -32,7 +32,7 @@ class Creature : public DynamicObject, public Destroyable {
 
  protected:
   Action action_{Action::kIdle};
-  void NormalizeSpeedVector(Point* speed_vector);
+  void NormalizeSpeedVector(const Point& speed_vector);
 
 
  private:

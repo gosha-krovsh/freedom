@@ -34,7 +34,14 @@ void View::paintEvent(QPaintEvent*) {
           painter.setOpacity(1);
         }
 
+        bool hero_drown = false;
         for (const auto& current_bot : bots) {
+          if (hero.GetRoundedX() == x &&
+              hero.GetRoundedY() == y &&
+              hero.GetRoundedZ() == z && hero.GetZ() < current_bot.GetZ()) {
+            hero.Draw(&painter);
+            hero_drown = true;
+          }
           if (current_bot.GetRoundedX() == x &&
               current_bot.GetRoundedY() == y &&
               current_bot.GetRoundedZ() == z) {
@@ -48,11 +55,13 @@ void View::paintEvent(QPaintEvent*) {
           }
         }
 
-        if (hero.GetRoundedX() == x &&
+        if (!hero_drown &&
+            hero.GetRoundedX() == x &&
             hero.GetRoundedY() == y &&
             hero.GetRoundedZ() == z) {
           hero.Draw(&painter);
         }
+
       }
     }
   }

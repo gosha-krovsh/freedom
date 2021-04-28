@@ -42,22 +42,23 @@ Creature::State Creature::GetState() const {
   return State(action_, view_direction_);
 }
 
-void Creature::NormalizeSpeedVector(Point* speed_vector) {
-  speed_vector->Normalize();
+void Creature::NormalizeSpeedVector(const Point& speed_vector) {
+  Point new_speed = speed_vector;
+  new_speed.Normalize();
 
   // Making movement more realistic in isometric world: equal displacement in
   // isometric view in all directions, except horizontal (a slow down here)
-  if (std::abs(speed_vector->x) >= constants::kEps &&
-      std::abs(speed_vector->y) >= constants::kEps &&
-      speed_vector->x * speed_vector->y <= constants::kEps) {
+  if (std::abs(new_speed.x) >= constants::kEps &&
+      std::abs(new_speed.y) >= constants::kEps &&
+      new_speed.x * new_speed.y <= constants::kEps) {
     // horizontal movement
-    *speed_vector *= constants::kIsometricSpeedCoefficient;
-  } else if (std::abs(speed_vector->x) * std::abs(speed_vector->y)
+    new_speed *= constants::kIsometricSpeedCoefficient;
+  } else if (std::abs(new_speed.x) * std::abs(new_speed.y)
       <= constants::kEps) {
     // diagonal movement
-    *speed_vector /= std::sqrt(2);
+    new_speed /= std::sqrt(2);
   }
-  SetSpeedVector(*speed_vector);
+  SetSpeedVector(new_speed);
   UpdateViewDirection();
 }
 bool Creature::IsAbleToAttack() const {
