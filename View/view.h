@@ -21,6 +21,8 @@ class View : public QMainWindow {
   View(AbstractController* controller, const std::shared_ptr<Model>& model);
 
   std::pair<ItemBar*, ItemBar*> GetSrcDestBars(int id);
+  void ItemDialogEvent();
+  bool IsItemDialogOpen();
 
  private:
   void paintEvent(QPaintEvent*) override;

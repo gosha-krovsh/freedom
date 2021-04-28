@@ -101,27 +101,7 @@ void View::keyPressEvent(QKeyEvent* event) {
       break;
     }
     case Qt::Key_E: {
-      // Opens the second bar, when clicked
-      // and there is an object that can store something nearby
-      Object* chest =
-          controller_->FindNearestObjectWithType(Object::Type::kStorable);
-
-      if (!is_item_dialog_open_ && chest) {
-        std::shared_ptr<Storage> storage = chest->GetStorage();
-
-        is_item_dialog_open_ = true;
-        item_bar_pack_->GetHeroBar()->setEnabled(true);
-
-        item_bar_pack_->GetObjectBar()->show();
-        item_bar_pack_->GetObjectBar()->setEnabled(true);
-        item_bar_pack_->GetObjectBar()->AssignStorage(storage);
-      } else {
-        is_item_dialog_open_ = false;
-        item_bar_pack_->GetHeroBar()->setEnabled(false);
-
-        item_bar_pack_->GetObjectBar()->hide();
-        item_bar_pack_->GetObjectBar()->setEnabled(false);
-      }
+      ItemDialogEvent();
       break;
     }
       // Following keys are used to use items,
@@ -189,5 +169,32 @@ std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id) {
     case 1: return std::make_pair(item_bar_pack_->GetObjectBar(),
                                   item_bar_pack_->GetHeroBar());
     default:return std::make_pair(nullptr, nullptr);
+  }
+}
+bool View::IsItemDialogOpen() {
+  return is_item_dialog_open_;
+}
+
+void View::ItemDialogEvent() {
+  // Opens the second bar, when clicked
+  // and there is an object that can store something nearby
+  Object* chest =
+      controller_->FindNearestObjectWithType(Object::Type::kStorable);
+
+  if (!is_item_dialog_open_ && chest) {
+    std::shared_ptr<Storage> storage = chest->GetStorage();
+
+    is_item_dialog_open_ = true;
+    item_bar_pack_->GetHeroBar()->setEnabled(true);
+
+    item_bar_pack_->GetObjectBar()->show();
+    item_bar_pack_->GetObjectBar()->setEnabled(true);
+    item_bar_pack_->GetObjectBar()->AssignStorage(storage);
+  } else {
+    is_item_dialog_open_ = false;
+    item_bar_pack_->GetHeroBar()->setEnabled(false);
+
+    item_bar_pack_->GetObjectBar()->hide();
+    item_bar_pack_->GetObjectBar()->setEnabled(false);
   }
 }

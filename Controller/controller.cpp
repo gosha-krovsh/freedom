@@ -31,6 +31,11 @@ void Controller::Tick() {
     qDebug() << "Quest started";  // message to test
   }
 
+  if (view_->IsItemDialogOpen() &&
+      !FindNearestObjectWithType(Object::Type::kStorable)) {
+    view_->ItemDialogEvent();
+  }
+
   ++current_tick_;
 }
 
