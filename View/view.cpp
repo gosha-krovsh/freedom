@@ -61,7 +61,6 @@ void View::paintEvent(QPaintEvent*) {
             hero.GetRoundedZ() == z) {
           hero.Draw(&painter);
         }
-
       }
     }
   }
