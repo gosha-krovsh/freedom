@@ -123,4 +123,7 @@ double Point::SquaredDistanceFrom(const Point& other) const {
 }
 double Point::DistanceFrom(const Point& other) const {
   return std::sqrt(SquaredDistanceFrom(other));
+
+Point Point::GetRounded() const {
+  return {std::round(x), std::round(y), std::round(z)};
 }

@@ -18,12 +18,14 @@ add_executable(${PROJECT_NAME}
         Resources/resources.qrc
 
         Model/model.cpp
+        Model/image_manager.cpp
 
         View/view.cpp
 
         Controller/action_controller.cpp
         Controller/controller.cpp
         Controller/data_controller.cpp
+        Controller/quest_controller.cpp
 
         GameObject/action.cpp
         GameObject/creature.cpp
@@ -35,8 +37,12 @@ add_executable(${PROJECT_NAME}
         GameObject/object.cpp
         GameObject/point.cpp
         GameObject/schedule.cpp
+        GameObject/shaking_object.cpp
         GameObject/wall.cpp
-        GameObject/shaking_object.cpp GameObject/shaking_object.h)
+
+        Quests/quest.cpp
+        Quests/quest_node.cpp
+        )
 
 if (NOT CMAKE_PREFIX_PATH)
     message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "

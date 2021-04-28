@@ -1,16 +1,22 @@
 #include "model.h"
+#include "image_manager.h"
 
-Model::Model(const Schedule& schedule,
-             std::unique_ptr<GameMap> game_map) :
-    time_(Time(8, 30)),
-    schedule_(schedule),
-    map_(std::move(game_map)) {
+Model::Model() {
   // Temp code for adding bots
   bots_.emplace_back(Point(2, 2, 1), "Hero", 100);
+  // TODO: parse it from json
+  std::vector<QuestNode> quest_nodes{
+      QuestNode(0, "MyQuestNodeName", QuestNode::Type::kMoveToDestination,
+                std::vector<QString>{"7", "9", "1"})
+  };
+  quests_.emplace_back(0, "MyQuestName", quest_nodes);
 }
 
-const GameMap& Model::GetMap() const {
-  return *map_;
+void Model::SetMap(std::unique_ptr<GameMap>&& game_map) {
+  map_ = std::move(game_map);
+}
+void Model::SetSchedule(std::unique_ptr<Schedule>&& schedule) {
+  schedule_ = std::move(schedule);
 }
 
 void Model::CreateFightingPair(Creature* first, Creature* second) {
@@ -19,11 +25,13 @@ void Model::CreateFightingPair(Creature* first, Creature* second) {
 std::pair<Creature*, Creature*> Model::GetFightingPairWithIndex(int index) {
   return fighting_pairs_.at(index);
 }
-
 int Model::GetNumberOfFightingPairs() const {
   return fighting_pairs_.size();
 }
 
+const GameMap& Model::GetMap() const {
+  return *map_;
+}
 GameMap& Model::GetMap() {
   return *map_;
 }
@@ -36,7 +44,7 @@ Hero& Model::GetHero() {
 }
 
 const Schedule& Model::GetSchedule() const {
-  return schedule_;
+  return *schedule_;
 }
 
 Time& Model::GetTime() {
@@ -47,8 +55,23 @@ const Time& Model::GetTime() const {
   return time_;
 }
 
-Model::~Model() {
-  Wall::DeleteImage();
+std::weak_ptr<QPixmap> Model::GetImage(const QString& name) {
+  return image_manager.GetImage(name);
+}
+
+const Quest& Model::GetQuestById(int id) const {
+  if (id < 0 || id >= quests_.size()) {
+    qDebug() << "Invalid quest id";
+  }
+  return quests_[id];
+}
+
+const std::vector<Quest>& Model::GetCurrentQuests() const {
+  return current_quests_;
+}
+
+std::vector<Quest>& Model::GetCurrentQuests() {
+  return current_quests_;
 }
 void Model::DeleteFightingPair(const std::pair<Creature*, Creature*>& pair) {
   auto iter = std::find(fighting_pairs_.begin(), fighting_pairs_.end(), pair);
