@@ -161,8 +161,6 @@ void View::resizeEvent(QResizeEvent*) {
 }
 
 std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id) {
-  // Makes a pair of 2 bars, where first argument is a source
-  // and second is a destination
   switch (id) {
     case 0: return std::make_pair(item_bar_pack_->GetHeroBar(),
                                   item_bar_pack_->GetObjectBar());
@@ -171,13 +169,12 @@ std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id) {
     default:return std::make_pair(nullptr, nullptr);
   }
 }
+
 bool View::IsItemDialogOpen() {
   return is_item_dialog_open_;
 }
 
 void View::ItemDialogEvent() {
-  // Opens the second bar, when clicked
-  // and there is an object that can store something nearby
   Object* chest =
       controller_->FindNearestObjectWithType(Object::Type::kStorable);
 

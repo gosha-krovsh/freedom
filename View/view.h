@@ -20,7 +20,12 @@ class View : public QMainWindow {
  public:
   View(AbstractController* controller, const std::shared_ptr<Model>& model);
 
+  // Makes a pair of 2 bars, where first argument is a source
+  // and second is a destination
   std::pair<ItemBar*, ItemBar*> GetSrcDestBars(int id);
+
+  // Opens the second bar, when clicked
+  // and there is an object that can store something nearby
   void ItemDialogEvent();
   bool IsItemDialogOpen();
 

@@ -12,13 +12,14 @@ ItemBar::ItemBar(int id,
   for (int i = 0; i < constants::kMaxElementsInItemBar; i++) {
     QPushButton* button = new QPushButton(this);
     button->setObjectName(tr("item_bar_button"));
+    // NoFocus policy doesn't allow buttons to overlap arrow-keys functionality
+    button->setFocusPolicy(Qt::FocusPolicy::NoFocus);
     buttons_.emplace_back(button);
   }
 
   SetUi();
   SetStyles();
   ConnectButtons();
-
   // This bar is disabled, while you don't need to transfer items.
   // This solves the problem, that bar listeners overlap the main window ones
   setDisabled(true);
@@ -109,6 +110,9 @@ void ItemBar::resizeEvent(QResizeEvent* event) {
 
 void ItemBar::ResizeButtons(int width, int max_height) {
   int size = std::min(width / constants::kMaxElementsInItemBar, max_height);
+  int space_between_buttons = size / 25;
+
+  size -= space_between_buttons;
   for (auto& button : buttons_) {
     button->setFixedSize(size, size);
     button->setIconSize(button->size() * 0.8);
