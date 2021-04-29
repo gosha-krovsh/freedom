@@ -1,7 +1,7 @@
 #include "object.h"
 
 Object::Object(const Point& coords, const std::weak_ptr<QPixmap>& image)
-  : coordinates_(coords), image_(image), storage_(nullptr) {}
+  : coordinates_(coords), image_(image) {}
 
 void Object::Tick(int) {}
 

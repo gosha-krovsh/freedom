@@ -1,5 +1,9 @@
 #include "storage.h"
 
+Storage::Storage(const std::vector<Item>& items) {
+  PutItems(items);
+}
+
 void Storage::PutItem(const Item& item) {
   if (items_.size() < constants::kMaxElementsInItemBar) {
     items_.emplace_back(item);
@@ -16,7 +20,7 @@ bool Storage::IsValidIndex(int index) {
   return index < items_.size();
 }
 
-std::vector<Item> Storage::GetItems() {
+std::vector<Item> Storage::GetItems() const {
   return items_;
 }
 

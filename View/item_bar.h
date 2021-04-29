@@ -21,8 +21,7 @@ class ItemBar : public QWidget {
   ItemBar(int id,
           AbstractController* controller,
           QWidget* parent = nullptr,
-          const std::shared_ptr<Storage>& storage = nullptr,
-          Qt::WindowFlags f = Qt::WindowFlags());
+          const std::shared_ptr<Storage>& storage = nullptr);
 
   int GetId() const;
   std::shared_ptr<Storage> GetStorage() const;

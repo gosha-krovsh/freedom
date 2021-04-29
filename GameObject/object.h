@@ -56,7 +56,7 @@ class Object {
   bool delete_on_next_tick_{false};
   Type type_{Type::kNone};
 
-  std::shared_ptr<Storage> storage_;
+  std::shared_ptr<Storage> storage_ = nullptr;
 
  private:
   Point coordinates_;

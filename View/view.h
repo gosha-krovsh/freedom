@@ -27,7 +27,7 @@ class View : public QMainWindow {
   // Opens the second bar, when clicked
   // and there is an object that can store something nearby
   void ItemDialogEvent();
-  bool IsItemDialogOpen();
+  bool IsItemDialogOpen() const;
 
  private:
   void paintEvent(QPaintEvent*) override;
@@ -40,11 +40,11 @@ class View : public QMainWindow {
   void CenterCameraOnHero(QPainter* camera) const;
 
  private:
-  QTimer* timer_;
+  QTimer* timer_{new QTimer(this)};
   AbstractController* controller_;
   std::shared_ptr<Model> model_;
 
-  bool is_item_dialog_open_;
+  bool is_item_dialog_open_{false};
   BarPack* item_bar_pack_;
 };
 

@@ -3,9 +3,8 @@ BarPack::BarPack(int center_x, int y, int width, int height,
                  AbstractController* controller,
                  QWidget* parent,
                  const std::shared_ptr<Storage>& hero_storage,
-                 const std::shared_ptr<Storage>& object_storage,
-                 Qt::WindowFlags f) :
-    QWidget(parent, f),
+                 const std::shared_ptr<Storage>& object_storage) :
+    QWidget(parent),
     layout_(new QVBoxLayout(this)),
     hero_bar_(new ItemBar(0, controller, this, hero_storage)),
     object_bar_(new ItemBar(1, controller, this, object_storage)) {

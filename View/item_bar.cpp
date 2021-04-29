@@ -3,12 +3,12 @@
 ItemBar::ItemBar(int id,
                  AbstractController* controller,
                  QWidget* parent,
-                 const std::shared_ptr<Storage>& storage,
-                 Qt::WindowFlags f) : QWidget(parent, f),
-                                      id_(id),
-                                      controller_(controller),
-                                      storage_(storage),
-                                      layout_(new QHBoxLayout()) {
+                 const std::shared_ptr<Storage>& storage)
+                 : QWidget(parent),
+                   id_(id),
+                   controller_(controller),
+                   storage_(storage),
+                   layout_(new QHBoxLayout()) {
   for (int i = 0; i < constants::kMaxElementsInItemBar; i++) {
     QPushButton* button = new QPushButton(this);
     button->setObjectName(tr("item_bar_button"));

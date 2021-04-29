@@ -4,8 +4,6 @@ View::View(AbstractController* controller,
            const std::shared_ptr<Model>& model) :
     controller_(controller),
     model_(model),
-    timer_(new QTimer(this)),
-    is_item_dialog_open_(false),
     item_bar_pack_(new BarPack(constants::kWindowWidth / 2,
                                3 * constants::kWindowHeight / 5,
                                constants::kWindowWidth / 2,
@@ -104,8 +102,8 @@ void View::keyPressEvent(QKeyEvent* event) {
       ItemDialogEvent();
       break;
     }
-      // Following keys are used to use items,
-      // this feature will be updated in future
+    // Following keys are used to use items,
+    // this feature will be updated in future
     case Qt::Key_1 :
     case Qt::Key_2 :
     case Qt::Key_3 :
@@ -170,7 +168,7 @@ std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id) {
   }
 }
 
-bool View::IsItemDialogOpen() {
+bool View::IsItemDialogOpen() const {
   return is_item_dialog_open_;
 }
 

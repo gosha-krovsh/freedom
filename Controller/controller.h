@@ -45,7 +45,6 @@ class Controller : public AbstractController {
   void MoveItem(int item_index,
                 const std::shared_ptr<Storage>& destination,
                 const std::shared_ptr<Storage>& source) override;
-  void CheckHeroInChestRange(Object::Type type);
 
  private:
   std::shared_ptr<Model> model_;

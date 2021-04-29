@@ -25,8 +25,8 @@ class AbstractController {
 
  private:
   virtual void MoveItem(int index,
-                        const std::shared_ptr<Storage>&,
-                        const std::shared_ptr<Storage>&) = 0;
+                        const std::shared_ptr<Storage>& source,
+                        const std::shared_ptr<Storage>& destination) = 0;
 };
 
 #endif  // CONTROLLER_ABSTRACT_CONTROLLER_H_
