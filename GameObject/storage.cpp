@@ -16,7 +16,7 @@ Item Storage::RemoveItem(int index) {
   return *it;
 }
 
-bool Storage::IsValidIndex(int index) {
+bool Storage::IsValidIndex(int index) const {
   return index < items_.size();
 }
 

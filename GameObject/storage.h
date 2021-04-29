@@ -15,7 +15,7 @@ class Storage {
   void PutItems(const std::vector<Item>& items);
   Item RemoveItem(int index);
 
-  bool IsValidIndex(int index);
+  bool IsValidIndex(int index) const;
   std::vector<Item> GetItems() const;
 
  protected:
