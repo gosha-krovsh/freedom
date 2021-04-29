@@ -18,6 +18,7 @@ add_executable(${PROJECT_NAME}
         Resources/resources.qrc
 
         Model/model.cpp
+        Model/image_manager.cpp
 
         View/view.cpp
 
@@ -37,8 +38,10 @@ add_executable(${PROJECT_NAME}
         GameObject/object.cpp
         GameObject/point.cpp
         GameObject/schedule.cpp
+        GameObject/action.cpp
+        GameObject/game_map.cpp
         GameObject/wall.cpp
-        
+
         Quests/quest.cpp
         Quests/quest_node.cpp
         )

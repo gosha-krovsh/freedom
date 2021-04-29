@@ -1,4 +1,5 @@
 #include "model.h"
+#include "image_manager.h"
 
 Model::Model(const Schedule& schedule,
              std::unique_ptr<GameMap> game_map) :
@@ -25,14 +26,16 @@ Model::Model(const Schedule& schedule,
   quests_.emplace_back(0, "MyQuestName", quest_nodes);
 }
 
-Model::~Model() {
-  Wall::DeleteImage();
+void Model::SetMap(std::unique_ptr<GameMap>&& game_map) {
+  map_ = std::move(game_map);
+}
+void Model::SetSchedule(std::unique_ptr<Schedule>&& schedule) {
+  schedule_ = std::move(schedule);
 }
 
 const GameMap& Model::GetMap() const {
   return *map_;
 }
-
 GameMap& Model::GetMap() {
   return *map_;
 }
@@ -48,7 +51,7 @@ const std::vector<Bot>& Model::GetBots() const {
 }
 
 const Schedule& Model::GetSchedule() const {
-  return schedule_;
+  return *schedule_;
 }
 
 Time& Model::GetTime() {
@@ -59,6 +62,10 @@ const Time& Model::GetTime() const {
   return time_;
 }
 
+std::weak_ptr<QPixmap> Model::GetImage(const QString& name) {
+  return image_manager.GetImage(name);
+}
+
 const Quest& Model::GetQuestById(int id) const {
   if (id < 0 || id >= quests_.size()) {
     qDebug() << "Invalid quest id";
@@ -66,11 +73,11 @@ const Quest& Model::GetQuestById(int id) const {
   return quests_[id];
 }
 
-const std::list<Quest>& Model::GetCurrentQuests() const {
+const std::vector<Quest>& Model::GetCurrentQuests() const {
   return current_quests_;
 }
 
-std::list<Quest>& Model::GetCurrentQuests() {
+std::vector<Quest>& Model::GetCurrentQuests() {
   return current_quests_;
 }
 std::vector<Bot>& Model::GetBots() {

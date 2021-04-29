@@ -8,12 +8,9 @@
 
 class Wall : public Object, public Destroyable {
  public:
-  explicit Wall(const Point& coords);
+  explicit Wall(const Point& coords, const std::weak_ptr<QPixmap>& image);
   void Tick(int current_tick) override;
   void OnDead() override;
-
-  static void SetImage(const std::shared_ptr<QPixmap>& image);
-  static void DeleteImage();
 
   void Shake(const Point& direction_of_shake);
 
@@ -23,8 +20,6 @@ class Wall : public Object, public Destroyable {
   void ProcessShaking(int current_tick);
 
  private:
-  static std::shared_ptr<QPixmap> wall_image_;
-
   int tick_begin_of_shake_{-1};
   bool is_shaking_{false};
   Point direction_of_shake_{0, 0};
