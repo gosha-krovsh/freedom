@@ -38,7 +38,10 @@ void View::paintEvent(QPaintEvent*) {
         for (const auto& current_bot : bots) {
           if (hero.GetRoundedX() == x &&
               hero.GetRoundedY() == y &&
-              hero.GetRoundedZ() == z && hero.GetZ() < current_bot.GetZ()) {
+              hero.GetRoundedZ() == z &&
+              (hero.GetY() < current_bot.GetY() ||
+              (hero.GetY() == current_bot.GetY() &&
+              hero.GetX() < current_bot.GetX()))) {
             hero.Draw(&painter);
             hero_drown = true;
           }
