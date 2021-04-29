@@ -1,11 +1,7 @@
 #include "model.h"
 #include "image_manager.h"
 
-Model::Model(const Schedule& schedule,
-             std::unique_ptr<GameMap> game_map) :
-    time_(Time(8, 30)),
-    schedule_(schedule),
-    map_(std::move(game_map)) {
+Model::Model() {
   bots_.emplace_back("Hero", Point(4, 1, 1),
                      std::vector<Point>(
                          {Point(4, 6, 1),
