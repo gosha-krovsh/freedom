@@ -9,6 +9,7 @@
 
 #include "image_manager.h"
 
+#include "Conversations/conversation.h"
 #include "GameObject/action.h"
 #include "GameObject/game_map.h"
 #include "GameObject/hero.h"
@@ -22,6 +23,7 @@ class Model {
 
   void SetMap(std::unique_ptr<GameMap>&& game_map);
   void SetSchedule(std::unique_ptr<Schedule>&& schedule);
+  void SetConversations(std::vector<Conversation>&& conversations);
 
   const GameMap& GetMap() const;
   GameMap& GetMap();
@@ -44,6 +46,7 @@ class Model {
   ImageManager image_manager;
   std::vector<Quest> quests_;
   std::vector<Quest> current_quests_;
+  std::vector<Conversation> conversations_;
 };
 
 #endif  // MODEL_MODEL_H_

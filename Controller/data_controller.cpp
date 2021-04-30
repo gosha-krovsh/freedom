@@ -142,3 +142,46 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
 
   return std::make_unique<GameMap>(x_size, y_size, z_size, objects, rooms);
 }
+
+std::vector<Conversation> DataController::ParseConversations() {
+  QFile file(":conversations.json");
+  file.open(QIODevice::ReadOnly | QIODevice::Text);
+
+  QJsonArray j_conversations = QJsonDocument::fromJson(file.readAll()).array();
+  std::vector<Conversation> conversations;
+  conversations.reserve(j_conversations.size());
+
+  for (int i = 0; i < j_conversations.size(); ++i) {
+    QJsonArray j_nodes = j_conversations[i].toArray();
+    std::vector<Conversation::Node> nodes;
+    nodes.reserve(j_nodes.size());
+
+    for (const auto& j_node_obj : j_nodes) {
+      QJsonArray j_node = j_node_obj.toArray();
+      if (j_node.size() != 3) {
+        qDebug() << "Invalid node: conversation_id = " << i;
+      }
+
+      Conversation::Node node;
+      node.id = j_node[0].toInt();
+      node.text = j_node[1].toString();
+
+      QJsonArray j_answers = j_node[2].toArray();
+      for (const auto& j_ans_obj : j_answers) {
+        QJsonArray j_ans = j_ans_obj.toArray();
+        if (j_ans.size() != 2) {
+          qDebug() << "Invalid node: conversation_id = " << i;
+        }
+
+        Conversation::Answer answer;
+        answer.text = j_ans[0].toString();
+        answer.next_node_id = j_ans[1].toInt();
+        node.answers.emplace_back(answer);
+      }
+
+      nodes.emplace_back(node);
+    }
+    conversations.emplace_back(i, nodes);
+  }
+  return conversations;
+}

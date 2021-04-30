@@ -9,6 +9,7 @@ Controller::Controller()
       current_tick_(0) {
   model_->SetMap(std::move(data_controller_->ParseGameMap()));
   model_->SetSchedule(std::move(data_controller_->ParseSchedule()));
+  model_->SetConversations(std::move(data_controller_->ParseConversations()));
 }
 
 void Controller::Tick() {

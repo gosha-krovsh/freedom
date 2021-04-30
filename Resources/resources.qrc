@@ -29,5 +29,6 @@
         <file>floor.png</file>
         <file>schedule.json</file>
         <file>game_map.json</file>
+        <file>conversations.json</file>
     </qresource>
 </RCC>

@@ -17,6 +17,10 @@ void Model::SetSchedule(std::unique_ptr<Schedule>&& schedule) {
   schedule_ = std::move(schedule);
 }
 
+void Model::SetConversations(std::vector<Conversation>&& conversations) {
+  conversations_ = std::move(conversations);
+}
+
 const GameMap& Model::GetMap() const {
   return *map_;
 }
