@@ -7,11 +7,10 @@
 #include <utility>
 #include <vector>
 
-
 #include "image_manager.h"
 
 #include "GameObject/action.h"
-#include <GameObject/bot.h>
+#include "GameObject/bot.h"
 #include "GameObject/game_map.h"
 #include "GameObject/hero.h"
 #include "GameObject/wall.h"

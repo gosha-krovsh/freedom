@@ -1,7 +1,4 @@
 #include "hero.h"
-
-#include <QDebug>
-
 Hero::Hero(const Point& coords)
   : Creature(coords, "Hero", constants::kHP) {}
 

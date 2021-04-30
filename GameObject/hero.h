@@ -1,6 +1,8 @@
 #ifndef GAMEOBJECT_HERO_H_
 #define GAMEOBJECT_HERO_H_
 
+#include <QDebug>
+
 #include "creature.h"
 #include "interacting_object.h"
 
