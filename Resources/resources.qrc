@@ -30,5 +30,7 @@
         <file>schedule.json</file>
         <file>game_map.json</file>
         <file>conversations.json</file>
+
+        <file alias = "conversation_window_styles">../Styles/conversation_window_styles.qss</file>
     </qresource>
 </RCC>

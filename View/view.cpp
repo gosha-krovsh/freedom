@@ -1,9 +1,11 @@
 #include "view.h"
 
 View::View(AbstractController* controller,
-           const std::shared_ptr<Model>& model) : controller_(controller),
-                                                  model_(model),
-                                                  timer_(new QTimer(this)) {
+           const std::shared_ptr<Model>& model) :
+           controller_(controller),
+           model_(model),
+           timer_(new QTimer(this)),
+           conversation_window_(new ConversationWindow(controller_, this)) {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
 
   connect(timer_, &QTimer::timeout, this, &View::TimerEvent);
@@ -79,7 +81,8 @@ void View::keyPressEvent(QKeyEvent* event) {
       break;
     }
     case Qt::Key_Q: {
-      controller_->StartConversation();
+      conversation_window_->show();
+      // controller_->StartConversation();
       break;
     }
     case Qt::Key_Up:
@@ -137,4 +140,9 @@ void View::changeEvent(QEvent* event) {
     controller_->SetControlDownKeyState(false);
     controller_->SetControlLeftKeyState(false);
   }
+}
+
+void View::resizeEvent(QResizeEvent*) {
+  conversation_window_->setGeometry(0.25 * width(), 0.5 * height(),
+                                    0.5 * width(), 0.4 * height());
 }

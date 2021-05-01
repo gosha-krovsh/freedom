@@ -1,0 +1,8 @@
+* {
+    background: lightblue;
+    font-size: 24px;
+}
+
+QScrollArea {
+    background: blueviolet;
+}

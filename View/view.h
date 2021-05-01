@@ -8,6 +8,7 @@
 #include <unordered_set>
 #include <utility>
 
+#include "conversation_window.h"
 #include "Controller/abstract_controller.h"
 #include "Model/model.h"
 #include "GameObject/object.h"
@@ -23,6 +24,7 @@ class View : public QMainWindow {
   void keyPressEvent(QKeyEvent*) override;
   void keyReleaseEvent(QKeyEvent*) override;
   void changeEvent(QEvent*) override;
+  void resizeEvent(QResizeEvent*) override;
   void TimerEvent();
 
   void CenterCameraOnHero(QPainter* camera) const;
@@ -31,6 +33,8 @@ class View : public QMainWindow {
   QTimer* timer_;
   AbstractController* controller_;
   std::shared_ptr<Model> model_;
+
+  ConversationWindow* conversation_window_;
 };
 
 #endif  // VIEW_VIEW_H_
