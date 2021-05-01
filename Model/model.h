@@ -17,6 +17,8 @@
 #include "GameObject/schedule.h"
 #include "Quests/quest.h"
 
+#include "GameObject/creature.h"  // temp
+
 class Model {
  public:
   Model();
@@ -37,6 +39,8 @@ class Model {
   const Quest& GetQuestById(int id) const;
   const std::vector<Quest>& GetCurrentQuests() const;
   std::vector<Quest>& GetCurrentQuests();
+
+  Creature my_bot;  // temp
 
  private:
   std::unique_ptr<GameMap> map_;

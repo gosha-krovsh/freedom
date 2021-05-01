@@ -1,7 +1,9 @@
 #ifndef CONVERSATIONS_CONVERSATION_H_
 #define CONVERSATIONS_CONVERSATION_H_
 
+#include <QDebug>
 #include <QString>
+
 #include <vector>
 
 class Conversation {
@@ -18,8 +20,11 @@ class Conversation {
   };
 
  public:
+  Conversation() = default;
   Conversation(int id, const std::vector<Node>& nodes);
+
   Node GetCurrentNode() const;
+  bool IsLastNode() const;
   void MoveToNextNode(int answer_index);
 
  private:

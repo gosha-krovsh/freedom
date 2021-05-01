@@ -16,6 +16,7 @@ void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
   CenterCameraOnHero(&painter);
 
+  const Creature& my_bot = model_->my_bot;  // temp
   const Hero& hero = model_->GetHero();
   const GameMap& map = model_->GetMap();
   std::unordered_set<const Object*>
@@ -38,6 +39,13 @@ void View::paintEvent(QPaintEvent*) {
             hero.GetRoundedY() == y &&
             hero.GetRoundedZ() == z) {
           hero.Draw(&painter);
+        }
+
+        // temp
+        if (my_bot.GetRoundedX() == x &&
+            my_bot.GetRoundedY() == y &&
+            my_bot.GetRoundedZ() == z) {
+          my_bot.Draw(&painter);
         }
       }
     }
@@ -68,6 +76,10 @@ void View::keyPressEvent(QKeyEvent* event) {
   switch (event->key()) {
     case Qt::Key_Space: {
       controller_->HeroAttack();
+      break;
+    }
+    case Qt::Key_Q: {
+      controller_->StartConversation();
       break;
     }
     case Qt::Key_Up:

@@ -4,6 +4,7 @@
 #include <memory>
 #include <utility>
 #include <vector>
+#include <iostream>  // temp
 
 #include "abstract_controller.h"
 #include "action_controller.h"
@@ -21,6 +22,7 @@ class Controller : public AbstractController {
   void Tick() override;
 
   void HeroAttack() override;
+  void StartConversation() override;
 
   void SetControlUpKeyState(bool state) override;
   void SetControlRightKeyState(bool state) override;

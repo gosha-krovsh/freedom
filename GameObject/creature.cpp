@@ -59,3 +59,13 @@ void Creature::DecrementAttackCooldown() {
     --attack_cooldown_;
   }
 }
+
+void Creature::OnDead() {}
+
+Conversation Creature::GetCurrentConversation() const {
+  return current_conversation_;
+}
+
+void Creature::SetCurrentConversation(const Conversation& conversation) {
+  current_conversation_ = conversation;
+}

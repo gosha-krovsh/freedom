@@ -16,6 +16,7 @@ void Controller::Tick() {
   data_controller_->Tick(current_tick_);
   quest_controller_->Tick(current_tick_);
   model_->GetHero().Tick(current_tick_);
+  model_->my_bot.Tick(current_tick_);  // temp
   model_->GetMap().UpdateCurrentRoom(model_->GetHero().GetRoundedX(),
                                      model_->GetHero().GetRoundedY());
 
@@ -157,4 +158,26 @@ void Controller::UpdateHeroMovingDirection() {
                                    control_key_states_.up,
                                    control_key_states_.right,
                                    control_key_states_.down);
+}
+
+void Controller::StartConversation() {
+  Creature& bot = model_->my_bot;  // temp, replace with |FindNearestBot()|
+  auto conversation = bot.GetCurrentConversation();
+
+  auto current_node = conversation.GetCurrentNode();
+  std::cout << current_node.text.toStdString() << "\n";
+  while (!conversation.IsLastNode()) {
+    for (int i = 0; i < current_node.answers.size(); ++i) {
+      std::cout << i << ") "
+                << current_node.answers[i].text.toStdString() << "\n";
+    }
+
+    int answer_index = 0;
+    std::cin >> answer_index;
+    conversation.MoveToNextNode(answer_index);
+
+    current_node = conversation.GetCurrentNode();
+    std::cout << current_node.text.toStdString() << "\n";
+  }
+  std::cout << "[Conversation finished]\n";
 }

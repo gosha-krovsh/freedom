@@ -9,6 +9,7 @@
 #include "animator.h"
 #include "destroyable.h"
 #include "dynamic_object.h"
+#include <Conversations/conversation.h>
 
 class Creature : public DynamicObject, public Destroyable {
  public:
@@ -29,6 +30,11 @@ class Creature : public DynamicObject, public Destroyable {
   void RefreshAttackCooldown();
   int GetAttack() const;
 
+  void OnDead() override;
+
+  Conversation GetCurrentConversation() const;
+  void SetCurrentConversation(const Conversation& conversation);
+
  protected:
   Action action_{Action::kIdle};
 
@@ -41,6 +47,8 @@ class Creature : public DynamicObject, public Destroyable {
   Animator<State> animator_{GetState()};
   int attack_cooldown_{0};
   int attack_{constants::kAttack};
+
+  Conversation current_conversation_;
 };
 
 #endif  // GAMEOBJECT_CREATURE_H_
