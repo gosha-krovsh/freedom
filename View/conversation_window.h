@@ -12,7 +12,9 @@
 class ConversationWindow : public QWidget {
   Q_OBJECT
  public:
-  explicit ConversationWindow(AbstractController* controller, QWidget* parent = nullptr);
+  ConversationWindow(const Conversation& conversation,
+                     AbstractController* controller,
+                     QWidget* parent = nullptr);
   ~ConversationWindow() override = default;
 
  private:
@@ -20,6 +22,7 @@ class ConversationWindow : public QWidget {
   void SetUi();
   void resizeEvent(QResizeEvent*) override;
 
+  Conversation conversation_;
   AbstractController* controller_;
 
   QScrollArea* scroll_area_;

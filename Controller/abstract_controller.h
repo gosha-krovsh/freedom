@@ -12,7 +12,7 @@ class AbstractController {
   virtual void Tick() = 0;
 
   virtual void HeroAttack() = 0;
-  virtual void StartConversation() = 0;
+  virtual std::unique_ptr<Conversation> StartConversation() = 0;
 
   virtual void SetControlUpKeyState(bool state) = 0;
   virtual void SetControlRightKeyState(bool state) = 0;

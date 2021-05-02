@@ -28,13 +28,15 @@ class View : public QMainWindow {
   void TimerEvent();
 
   void CenterCameraOnHero(QPainter* camera) const;
+  bool IsInputBlocked() const;
+  void InterruptAllInput();
 
  private:
   QTimer* timer_;
   AbstractController* controller_;
   std::shared_ptr<Model> model_;
 
-  ConversationWindow* conversation_window_;
+  ConversationWindow* conversation_window_{nullptr};
 };
 
 #endif  // VIEW_VIEW_H_

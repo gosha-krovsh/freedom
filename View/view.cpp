@@ -4,8 +4,7 @@ View::View(AbstractController* controller,
            const std::shared_ptr<Model>& model) :
            controller_(controller),
            model_(model),
-           timer_(new QTimer(this)),
-           conversation_window_(new ConversationWindow(controller_, this)) {
+           timer_(new QTimer(this)) {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
 
   connect(timer_, &QTimer::timeout, this, &View::TimerEvent);
@@ -75,14 +74,24 @@ void View::TimerEvent() {
 }
 
 void View::keyPressEvent(QKeyEvent* event) {
+  if (IsInputBlocked()) {
+    return;
+  }
+
   switch (event->key()) {
     case Qt::Key_Space: {
       controller_->HeroAttack();
       break;
     }
     case Qt::Key_Q: {
-      conversation_window_->show();
-      // controller_->StartConversation();
+      std::unique_ptr<Conversation> conversation =
+          controller_->StartConversation();
+      if (conversation) {
+        conversation_window_ =
+            new ConversationWindow(*conversation, controller_, this);
+        InterruptAllInput();
+        resizeEvent(nullptr);
+      }
       break;
     }
     case Qt::Key_Up:
@@ -135,14 +144,24 @@ void View::keyReleaseEvent(QKeyEvent* event) {
 
 void View::changeEvent(QEvent* event) {
   if (event->type() == QEvent::ActivationChange && !isActiveWindow()) {
-    controller_->SetControlUpKeyState(false);
-    controller_->SetControlRightKeyState(false);
-    controller_->SetControlDownKeyState(false);
-    controller_->SetControlLeftKeyState(false);
+    InterruptAllInput();
   }
 }
 
 void View::resizeEvent(QResizeEvent*) {
-  conversation_window_->setGeometry(0.25 * width(), 0.5 * height(),
-                                    0.5 * width(), 0.4 * height());
+  if (conversation_window_) {
+    conversation_window_->setGeometry(0.25 * width(), 0.65 * height(),
+                                      0.5 * width(), 0.3 * height());
+  }
+}
+
+bool View::IsInputBlocked() const {
+  return (conversation_window_ != nullptr);
+}
+
+void View::InterruptAllInput() {
+  controller_->SetControlUpKeyState(false);
+  controller_->SetControlRightKeyState(false);
+  controller_->SetControlDownKeyState(false);
+  controller_->SetControlLeftKeyState(false);
 }

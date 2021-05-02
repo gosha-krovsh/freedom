@@ -1,14 +1,17 @@
 #include "conversation_window.h"
 
 ConversationWindow::ConversationWindow(
-    AbstractController* controller, QWidget* parent) : QWidget(parent),
+    const Conversation& conversation,
+    AbstractController* controller,
+    QWidget* parent) : QWidget(parent),
+    conversation_(conversation),
     controller_(controller),
     scroll_area_(new QScrollArea(this)),
     content_(new QWidget(this)),
     layout_(new QGridLayout(this)) {
-  hide();
   SetStyles();
   SetUi();
+  show();
 }
 
 void ConversationWindow::SetUi() {

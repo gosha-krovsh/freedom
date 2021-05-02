@@ -22,7 +22,7 @@ class Controller : public AbstractController {
   void Tick() override;
 
   void HeroAttack() override;
-  void StartConversation() override;
+  std::unique_ptr<Conversation> StartConversation() override;
 
   void SetControlUpKeyState(bool state) override;
   void SetControlRightKeyState(bool state) override;
