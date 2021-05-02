@@ -18,6 +18,7 @@ class View : public QMainWindow {
 
  public:
   View(AbstractController* controller, const std::shared_ptr<Model>& model);
+  void CloseConversationWindow();
 
  private:
   void paintEvent(QPaintEvent*) override;
@@ -36,7 +37,7 @@ class View : public QMainWindow {
   AbstractController* controller_;
   std::shared_ptr<Model> model_;
 
-  ConversationWindow* conversation_window_{nullptr};
+  std::unique_ptr<ConversationWindow> conversation_window_{nullptr};
 };
 
 #endif  // VIEW_VIEW_H_

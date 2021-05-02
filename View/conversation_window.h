@@ -3,11 +3,14 @@
 
 #include <QWidget>
 #include <QGridLayout>
-
-#include <Controller/abstract_controller.h>
+#include <QVBoxLayout>
 #include <QLabel>
+#include <QPushButton>
 #include <QFile>
 #include <QScrollArea>
+#include <QStyle>
+
+#include <Controller/abstract_controller.h>
 
 class ConversationWindow : public QWidget {
   Q_OBJECT
@@ -18,16 +21,18 @@ class ConversationWindow : public QWidget {
   ~ConversationWindow() override = default;
 
  private:
+  void resizeEvent(QResizeEvent*) override;
+
   void SetStyles();
   void SetUi();
-  void resizeEvent(QResizeEvent*) override;
+  void AddNode(int answer_index = -1);
 
   Conversation conversation_;
   AbstractController* controller_;
 
   QScrollArea* scroll_area_;
   QWidget* content_;
-  QGridLayout* layout_;
+  QVBoxLayout* layout_;
 };
 
 #endif  // VIEW_CONVERSATION_WINDOW_H_

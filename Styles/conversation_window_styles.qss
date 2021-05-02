@@ -1,8 +1,34 @@
 * {
     background: lightblue;
-    font-size: 24px;
+    font-size: 18px;
 }
 
 QScrollArea {
     background: blueviolet;
+}
+
+#content {
+    background: red;
+}
+
+#layout {
+    background: magenta;
+}
+
+QPushButton {
+    background-color: rgba(0, 0, 0, 0.3);
+
+    border: 2px solid gray;
+    border-radius: 12px;
+    /*margin-left: 2%;*/
+    /*margin-right: 2%;*/
+    /*position: relative;*/
+}
+
+QPushButton#selected_answer_button {
+    background-color: darkgoldenrod;
+}
+
+QPushButton:hover {
+    background-color: rgba(255, 255, 255, 0.8);
 }

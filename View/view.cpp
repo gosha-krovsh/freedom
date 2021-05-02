@@ -84,11 +84,11 @@ void View::keyPressEvent(QKeyEvent* event) {
       break;
     }
     case Qt::Key_Q: {
-      std::unique_ptr<Conversation> conversation =
-          controller_->StartConversation();
+      std::unique_ptr<Conversation>
+          conversation = controller_->StartConversation();
       if (conversation) {
-        conversation_window_ =
-            new ConversationWindow(*conversation, controller_, this);
+        conversation_window_ = std::make_unique<ConversationWindow>(
+            *conversation, controller_, this);
         InterruptAllInput();
         resizeEvent(nullptr);
       }
@@ -164,4 +164,8 @@ void View::InterruptAllInput() {
   controller_->SetControlRightKeyState(false);
   controller_->SetControlDownKeyState(false);
   controller_->SetControlLeftKeyState(false);
+}
+
+void View::CloseConversationWindow() {
+  conversation_window_ = nullptr;
 }

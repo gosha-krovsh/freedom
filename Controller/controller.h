@@ -4,7 +4,6 @@
 #include <memory>
 #include <utility>
 #include <vector>
-#include <iostream>  // temp
 
 #include "abstract_controller.h"
 #include "action_controller.h"
@@ -23,6 +22,7 @@ class Controller : public AbstractController {
 
   void HeroAttack() override;
   std::unique_ptr<Conversation> StartConversation() override;
+  void FinishConversation() override;
 
   void SetControlUpKeyState(bool state) override;
   void SetControlRightKeyState(bool state) override;
