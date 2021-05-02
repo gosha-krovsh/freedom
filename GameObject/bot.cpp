@@ -1,19 +1,14 @@
 #include "bot.h"
 
-Bot::Bot(const QString& name, const Point& coords,
-         const std::vector<Point>& targets) :
+Bot::Bot(const QString& name, const Point& coords, std::vector<Point> targets) :
     Creature(coords, name, constants::kHP), targets_(targets) {}
 
 void Bot::Tick(int current_tick) {
   Creature::Tick(current_tick);
-  Move();
+  MakeStep();
 }
 
-void Bot::SetRoute(const Route& route) {
-  route_ = std::make_unique<Route>(route);
-}
-
-void Bot::Move() {
+void Bot::MakeStep() {
   Point next_point = targets_[current_direction_];
   if (((std::abs(GetX() - next_point.x) > constants::kSpeed)
       || (std::abs(GetY() - next_point.y) > constants::kSpeed)) &&
