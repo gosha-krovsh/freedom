@@ -2,7 +2,6 @@
 #define VIEW_CONVERSATION_WINDOW_H_
 
 #include <QWidget>
-#include <QGridLayout>
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QPushButton>
@@ -10,10 +9,13 @@
 #include <QScrollArea>
 #include <QStyle>
 
+#include <vector>
+
 #include <Controller/abstract_controller.h>
 
 class ConversationWindow : public QWidget {
   Q_OBJECT
+
  public:
   ConversationWindow(const Conversation& conversation,
                      AbstractController* controller,
@@ -23,10 +25,17 @@ class ConversationWindow : public QWidget {
  private:
   void resizeEvent(QResizeEvent*) override;
 
-  void SetStyles();
   void SetUi();
+  void SetStyles();
   void AddNode(int answer_index = -1);
 
+  QLabel* CreateConversationLabel(const QString& text);
+  QPushButton* CreateAnswerButton(int answer_index, const QString& answer_text);
+  QPushButton* CreateFinishConversationButton();
+  void AnswerButtonPress(const std::vector<QPushButton*>& ans_buttons,
+                         int answer_index);
+
+ private:
   Conversation conversation_;
   AbstractController* controller_;
 

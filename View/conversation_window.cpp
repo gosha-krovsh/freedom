@@ -3,15 +3,16 @@
 ConversationWindow::ConversationWindow(
     const Conversation& conversation,
     AbstractController* controller,
-    QWidget* parent) : QWidget(parent),
+    QWidget* parent) :
+    QWidget(parent),
     conversation_(conversation),
     controller_(controller),
     scroll_area_(new QScrollArea(this)),
     content_(new QWidget(this)),
     layout_(new QVBoxLayout(this)) {
   SetUi();
-  AddNode();
   SetStyles();
+  AddNode();
   show();
 }
 
@@ -22,7 +23,6 @@ void ConversationWindow::SetUi() {
 
   scroll_area_->setWidget(content_);
   scroll_area_->setWidgetResizable(true);
-  scroll_area_->setAlignment(Qt::AlignCenter);
 }
 
 void ConversationWindow::SetStyles() {
@@ -41,44 +41,69 @@ void ConversationWindow::AddNode(int answer_index) {
   }
 
   auto current_node = conversation_.GetCurrentNode();
-  auto label = new QLabel(current_node.text, this);
+  CreateConversationLabel(current_node.text);
+
+  if (conversation_.IsLastNode()) {
+    CreateFinishConversationButton();
+  }
+
+  // Creates all answer buttons
+  std::vector<QPushButton*> ans_buttons;
+  for (int i = 0; i < current_node.answers.size(); ++i) {
+    auto button = CreateAnswerButton(i, current_node.answers[i].text);
+    ans_buttons.emplace_back(button);
+  }
+
+  // Connects all answer buttons presses
+  for (int i = 0; i < ans_buttons.size(); ++i) {
+    connect(ans_buttons[i], &QPushButton::pressed,
+            this, [this, ans_buttons, i] {
+          AnswerButtonPress(ans_buttons, i);
+    });
+  }
+}
+
+void ConversationWindow::AnswerButtonPress(
+    const std::vector<QPushButton*>& ans_buttons, int answer_index) {
+  // Disable all buttons
+  for (const auto& bt : ans_buttons) {
+    bt->setDisabled(true);
+  }
+
+  // Update StyleSheets for selected button
+  ans_buttons[answer_index]->setObjectName("selected_answer_button");
+  ans_buttons[answer_index]->style()->unpolish(ans_buttons[answer_index]);
+  ans_buttons[answer_index]->style()->polish(ans_buttons[answer_index]);
+
+  AddNode(answer_index);
+}
+
+QPushButton* ConversationWindow::CreateAnswerButton(
+    int answer_index, const QString& answer_text) {
+  QString button_text = QString::number(answer_index + 1) + ". " + answer_text;
+  QPushButton* ans_button = new QPushButton(button_text, this);
+  ans_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  ans_button->setObjectName("answer_button");
+  layout_->addWidget(ans_button);
+  return ans_button;
+}
+
+QLabel* ConversationWindow::CreateConversationLabel(const QString& text) {
+  QLabel* label = new QLabel(text, this);
   label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
   label->setWordWrap(true);
   label->setAlignment(Qt::AlignRight);
   layout_->addWidget(label);
+  return label;
+}
 
-  if (conversation_.IsLastNode()) {
-    auto ans_button = new QPushButton("Finish", this);
-    ans_button->setObjectName("finish_button");
-    layout_->addWidget(ans_button, Qt::AlignCenter);
-    connect(ans_button, &QPushButton::pressed,
-            this, [this]() {
-              controller_->FinishConversation();
-            });
-  }
-
-  std::vector<QPushButton*> ans_buttons;
-  for (int i = 0; i < current_node.answers.size(); ++i) {
-    auto ans_button = new QPushButton
-        (QString::number(i + 1) + ". " + current_node.answers[i].text, this);
-    ans_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    ans_button->setObjectName("answer_button");
-    layout_->addWidget(ans_button);
-    ans_buttons.emplace_back(ans_button);
-  }
-
-  for (int i = 0; i < ans_buttons.size(); ++i) {
-    connect(ans_buttons[i], &QPushButton::pressed,
-            this, [this, i, ans_buttons]() {
-              // Disable all buttons
-              for (const auto& bt : ans_buttons) {
-                bt->setDisabled(true);
-              }
-              ans_buttons[i]->setObjectName("selected_answer_button");
-              // Update StyleSheets for this button
-              ans_buttons[i]->style()->unpolish(ans_buttons[i]);
-              ans_buttons[i]->style()->polish(ans_buttons[i]);
-              AddNode(i);
-            });
-  }
+QPushButton* ConversationWindow::CreateFinishConversationButton() {
+  QPushButton* button = new QPushButton("Finish", this);
+  button->setObjectName("finish_button");
+  layout_->addWidget(button, Qt::AlignCenter);
+  connect(button, &QPushButton::pressed,
+          this, [this]() {
+            controller_->FinishConversation();
+          });
+  return button;
 }
