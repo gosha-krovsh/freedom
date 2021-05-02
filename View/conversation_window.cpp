@@ -9,17 +9,16 @@ ConversationWindow::ConversationWindow(
     scroll_area_(new QScrollArea(this)),
     content_(new QWidget(this)),
     layout_(new QVBoxLayout(this)) {
-  SetStyles();
   SetUi();
   AddNode();
+  SetStyles();
   show();
 }
 
 void ConversationWindow::SetUi() {
   content_->setLayout(layout_);
   content_->setObjectName("content");
-  layout_->setObjectName("layout");
-  content_->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  content_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
   scroll_area_->setWidget(content_);
   scroll_area_->setWidgetResizable(true);
@@ -34,8 +33,6 @@ void ConversationWindow::SetStyles() {
 
 void ConversationWindow::resizeEvent(QResizeEvent*) {
   scroll_area_->setGeometry(0, 0, width(), height());
-  content_->setGeometry(0.1 * width(), content_->y(),
-                        0.8 * width(), content_->height());
 }
 
 void ConversationWindow::AddNode(int answer_index) {
@@ -45,13 +42,14 @@ void ConversationWindow::AddNode(int answer_index) {
 
   auto current_node = conversation_.GetCurrentNode();
   auto label = new QLabel(current_node.text, this);
-  label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
   label->setWordWrap(true);
+  label->setAlignment(Qt::AlignRight);
   layout_->addWidget(label);
 
   if (conversation_.IsLastNode()) {
     auto ans_button = new QPushButton("Finish", this);
-    ans_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    ans_button->setObjectName("finish_button");
     layout_->addWidget(ans_button, Qt::AlignCenter);
     connect(ans_button, &QPushButton::pressed,
             this, [this]() {
@@ -64,7 +62,8 @@ void ConversationWindow::AddNode(int answer_index) {
     auto ans_button = new QPushButton
         (QString::number(i + 1) + ". " + current_node.answers[i].text, this);
     ans_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    layout_->addWidget(ans_button, Qt::AlignCenter);
+    ans_button->setObjectName("answer_button");
+    layout_->addWidget(ans_button);
     ans_buttons.emplace_back(ans_button);
   }
 
