@@ -30,7 +30,7 @@ class ItemBar : public QWidget {
 
   void AssignStorage(const std::shared_ptr<Storage>& object);
   void UpdateIcons();
-  void ResizeButtons(int width, int max_height);
+  void SetButtonsSize(int width, int max_height);
 
  private:
   void SetUi();

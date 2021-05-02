@@ -108,7 +108,7 @@ void ItemBar::resizeEvent(QResizeEvent* event) {
   layout_->setSpacing(static_cast<int>(0.01 * width()));
 }
 
-void ItemBar::ResizeButtons(int width, int max_height) {
+void ItemBar::SetButtonsSize(int width, int max_height) {
   int size = std::min(width / constants::kMaxElementsInItemBar, max_height);
   int space_between_buttons = size / 25;
 

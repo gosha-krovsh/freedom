@@ -31,8 +31,10 @@ void Controller::Tick() {
     qDebug() << "Quest started";  // message to test
   }
 
-  if (view_->IsItemDialogOpen() &&
-      !FindNearestObjectWithType(Object::Type::kStorable)) {
+  Object* nearest_storage = FindIfNearestObject([](Object* block) {
+    return block->IsStorable();
+  });
+  if (view_->IsItemDialogOpen() && !nearest_storage) {
     view_->ItemDialogEvent();
   }
 
@@ -138,6 +140,37 @@ Object* Controller::FindNearestObjectWithType(Object::Type type) {
   return nearest_block;
 }
 
+Object* Controller::FindIfNearestObject(std::function<bool(Object*)> pred) {
+  Hero& hero = model_->GetHero();
+  Point view_vector = hero.GetViewVector() *
+      constants::kDistanceToDetectBlock;
+  Point hero_coords = hero.GetCoordinates() + view_vector;
+
+  double min_distance_squared = (1 + constants::kDistanceToDetectBlock) *
+      (1 + constants::kDistanceToDetectBlock);
+  Object* nearest_block = nullptr;
+
+  int floored_x = std::floor(hero.GetX());
+  int floored_y = std::floor(hero.GetY());
+  auto& map = model_->GetMap();
+  for (int x = floored_x - 1; x <= floored_x + 2; ++x) {
+    for (int y = floored_y - 1; y <= floored_y + 2; ++y) {
+      auto block = map.GetBlock(x, y, hero.GetRoundedZ());
+
+      if (block && pred(block)) {
+        double distance_squared = (hero_coords.x - x) * (hero_coords.x - x) +
+            (hero_coords.y - y) * (hero_coords.y - y);
+        if (distance_squared < min_distance_squared + constants::kEps) {
+          min_distance_squared = distance_squared;
+          nearest_block = block;
+        }
+      }
+    }
+  }
+
+  return nearest_block;
+}
+
 void Controller::SetControlUpKeyState(bool state) {
   control_key_states_.up = state;
   UpdateHeroMovingDirection();
@@ -154,6 +187,7 @@ void Controller::SetControlLeftKeyState(bool state) {
   control_key_states_.left = state;
   UpdateHeroMovingDirection();
 }
+
 void Controller::UpdateHeroMovingDirection() {
   model_->GetHero().UpdateMovement(control_key_states_.left,
                                    control_key_states_.up,

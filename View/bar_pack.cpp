@@ -1,9 +1,10 @@
 #include "bar_pack.h"
-BarPack::BarPack(int center_x, int y, int width, int height,
-                 AbstractController* controller,
+
+BarPack::BarPack(AbstractController* controller,
                  QWidget* parent,
                  const std::shared_ptr<Storage>& hero_storage,
-                 const std::shared_ptr<Storage>& object_storage) :
+                 const std::shared_ptr<Storage>& object_storage,
+                 int center_x, int y, int width, int height) :
     QWidget(parent),
     layout_(new QVBoxLayout(this)),
     hero_bar_(new ItemBar(0, controller, this, hero_storage)),
@@ -24,8 +25,8 @@ void BarPack::SetUi(int center_x, int y, int width, int height) {
   layout_->addWidget(hero_bar_);
   setLayout(layout_);
 
-  hero_bar_->ResizeButtons(width, height / 2);
-  object_bar_->ResizeButtons(width, height / 2);
+  hero_bar_->SetButtonsSize(width, height / 2);
+  object_bar_->SetButtonsSize(width, height / 2);
 }
 
 ItemBar* BarPack::GetHeroBar() {

@@ -22,6 +22,7 @@ class AbstractController {
 
   virtual void OnItemPress(int id, int index) = 0;
   virtual Object* FindNearestObjectWithType(Object::Type type) = 0;
+  virtual Object* FindIfNearestObject(std::function<bool(Object*)>) = 0;
 
  private:
   virtual void MoveItem(int index,

@@ -30,6 +30,7 @@ class Controller : public AbstractController {
 
   void OnItemPress(int id, int index) override;
   Object* FindNearestObjectWithType(Object::Type type) override;
+  Object* FindIfNearestObject(std::function<bool(Object*)> predicate) override;
 
  private:
   struct ControlKeyStates {

@@ -1,5 +1,5 @@
 QPushButton#item_bar_button {
-  background-color: rgba(0 , 0 ,0 , 0.3);
+  background-color: rgba(0, 0, 0, 0.3);
 
   border: 2px solid gray;
   border-radius: 12px;

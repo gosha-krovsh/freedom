@@ -4,12 +4,7 @@ View::View(AbstractController* controller,
            const std::shared_ptr<Model>& model) :
     controller_(controller),
     model_(model),
-    item_bar_pack_(new BarPack(constants::kWindowWidth / 2,
-                               3 * constants::kWindowHeight / 5,
-                               constants::kWindowWidth / 2,
-                               2 * constants::kWindowHeight / 5,
-                               controller,
-                               this,
+    item_bar_pack_(new BarPack(controller, this,
                                model_->GetHero().GetStorage())) {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
   show();
@@ -28,7 +23,6 @@ void View::paintEvent(QPaintEvent*) {
   const GameMap& map = model_->GetMap();
   std::unordered_set<const Object*>
       transparent_blocks = map.GetTransparentBlocks();
-
 
   for (int z = 0; z < map.GetZSize(); ++z) {
     for (int y = 0; y < map.GetYSize(); ++y) {
@@ -173,23 +167,19 @@ bool View::IsItemDialogOpen() const {
 }
 
 void View::ItemDialogEvent() {
-  Object* chest =
-      controller_->FindNearestObjectWithType(Object::Type::kStorable);
+  Object* chest = controller_->FindIfNearestObject([](Object* block) {
+    return block->IsStorable();
+  });
 
   if (!is_item_dialog_open_ && chest) {
-    std::shared_ptr<Storage> storage = chest->GetStorage();
-
     is_item_dialog_open_ = true;
-    item_bar_pack_->GetHeroBar()->setEnabled(true);
-
-    item_bar_pack_->GetObjectBar()->show();
-    item_bar_pack_->GetObjectBar()->setEnabled(true);
+    std::shared_ptr<Storage> storage = chest->GetStorage();
     item_bar_pack_->GetObjectBar()->AssignStorage(storage);
+    item_bar_pack_->GetObjectBar()->show();
   } else {
     is_item_dialog_open_ = false;
-    item_bar_pack_->GetHeroBar()->setEnabled(false);
-
     item_bar_pack_->GetObjectBar()->hide();
-    item_bar_pack_->GetObjectBar()->setEnabled(false);
   }
+  item_bar_pack_->GetHeroBar()->setEnabled(is_item_dialog_open_);
+  item_bar_pack_->GetObjectBar()->setEnabled(is_item_dialog_open_);
 }

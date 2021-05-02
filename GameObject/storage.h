@@ -3,6 +3,9 @@
 
 #include <vector>
 
+#include <QDebug>
+#include <QString>
+
 #include "item.h"
 #include "Model/constants.h"
 

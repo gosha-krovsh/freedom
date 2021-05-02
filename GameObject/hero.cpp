@@ -2,7 +2,6 @@
 
 Hero::Hero(const Point& coords)
   : Creature(coords, "Hero", constants::kHP) {
-  type_ = Object::Type::kStorable;
   storage_ = std::make_shared<Storage>();
 }
 

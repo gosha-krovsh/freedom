@@ -132,7 +132,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
             objects.emplace_back(new Wall(Point(x, y, z)));
             break;
           }
-          case Object::Type::kStorable: {
+          case Object::Type::kChest: {
             // Temporary code
             objects.emplace_back(new Chest(
                 Point(x, y, z), {Item(0, "Block", QPixmap(":brick.png"))}));

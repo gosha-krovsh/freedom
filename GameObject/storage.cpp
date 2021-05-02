@@ -17,6 +17,10 @@ Item Storage::RemoveItem(int index) {
 }
 
 bool Storage::IsValidIndex(int index) const {
+  if (index < 0) {
+    qDebug() << QIODevice::tr("Storage index is below 0, index = ") << index;
+    return false;
+  }
   return index < items_.size();
 }
 

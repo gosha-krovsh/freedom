@@ -2,7 +2,6 @@
 
 Chest::Chest(const Point& coords, const std::vector<Item>& items) :
     Object(coords, chest_image_) {
-  type_ = Object::Type::kStorable;
   storage_ = std::make_shared<Storage>();
   storage_->PutItems(items);
 }

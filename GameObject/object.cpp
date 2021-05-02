@@ -70,9 +70,15 @@ int Object::GetFlooredY() const {
 bool Object::IsTouchable() const {
   return is_touchable_;
 }
+
+bool Object::IsStorable() const {
+  return storage_ != nullptr;
+}
+
 bool Object::IsType(Object::Type object_type) const {
   return type_ == object_type;
 }
+
 bool Object::ToDelete() const {
   return delete_on_next_tick_;
 }

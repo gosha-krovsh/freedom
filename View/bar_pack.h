@@ -10,11 +10,14 @@ class BarPack : public QWidget {
   Q_OBJECT
 
  public:
-  BarPack(int center_x, int y, int width, int height,
-          AbstractController* controller,
+  BarPack(AbstractController* controller,
           QWidget* parent = nullptr,
           const std::shared_ptr<Storage>& hero_storage = nullptr,
-          const std::shared_ptr<Storage>& object_storage = nullptr);
+          const std::shared_ptr<Storage>& object_storage = nullptr,
+          int center_x = constants::kWindowWidth / 2,
+          int y = 3 * constants::kWindowHeight / 5,
+          int width = constants::kWindowWidth / 2,
+          int height = 2 * constants::kWindowHeight / 5);
 
   ItemBar* GetHeroBar();
   ItemBar* GetObjectBar();

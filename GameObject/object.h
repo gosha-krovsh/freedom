@@ -16,7 +16,7 @@ class Object {
     kNone,
     kFloor,
     kWall,
-    kStorable
+    kChest
   };
 
  public:
@@ -44,6 +44,7 @@ class Object {
   std::shared_ptr<Storage> GetStorage();
 
   bool IsTouchable() const;
+  bool IsStorable() const;
   bool IsType(Type object_type) const;
   bool ToDelete() const;
 
