@@ -12,7 +12,8 @@ ConversationWindow::ConversationWindow(
     layout_(new QVBoxLayout(this)) {
   SetUi();
   SetStyles();
-  AddNextNode();
+  RestoreConversationHistory();
+  setFocus();
   show();
 }
 
@@ -37,11 +38,34 @@ void ConversationWindow::resizeEvent(QResizeEvent*) {
   scroll_area_->setGeometry(0, 0, width(), height());
 }
 
-void ConversationWindow::AddNextNode(int answer_index) {
-  if (answer_index != - 1) {
-    conversation_->MoveToNextNode(answer_index);
+void ConversationWindow::RestoreConversationHistory() {
+  auto answers_indexes_history = conversation_->GetAnswersIndexesHistory();
+  if (answers_indexes_history.empty()) {
+    AddNextNode(-1);
+    return;
   }
 
+  conversation_->Reset();
+  for (int i = 0; i < answers_indexes_history.size(); ++i) {
+    auto current_node = conversation_->GetCurrentNode();
+    CreateConversationLabel(current_node.text);
+
+    auto ans_buttons = CreateAllAnswerButtons(current_node);
+
+    // Simulate button press from history
+    AnswerButtonPress(ans_buttons, answers_indexes_history[i]);
+
+    if (i != answers_indexes_history.size() - 1) {
+      conversation_->MoveToNextNode(answers_indexes_history[i]);
+    }
+  }
+  AddNextNode(answers_indexes_history.back());
+}
+
+void ConversationWindow::AddNextNode(int answer_index) {
+  if (answer_index != -1) {
+    conversation_->MoveToNextNode(answer_index);
+  }
   auto current_node = conversation_->GetCurrentNode();
   CreateConversationLabel(current_node.text);
 
@@ -49,20 +73,36 @@ void ConversationWindow::AddNextNode(int answer_index) {
     CreateFinishConversationButton();
   }
 
-  // Creates all answer buttons
-  std::vector<QPushButton*> ans_buttons;
-  for (int i = 0; i < current_node.answers.size(); ++i) {
-    auto button = CreateAnswerButton(i, current_node.answers[i].text);
-    ans_buttons.emplace_back(button);
-  }
+  auto ans_buttons = CreateAllAnswerButtons(current_node);
 
   // Connects all answer buttons presses
   for (int i = 0; i < ans_buttons.size(); ++i) {
     connect(ans_buttons[i], &QPushButton::pressed,
             this, [this, ans_buttons, i] {
           AnswerButtonPress(ans_buttons, i);
+          AddNextNode(i);
     });
   }
+}
+
+std::vector<QPushButton*> ConversationWindow::CreateAllAnswerButtons(
+    const Conversation::Node& current_node) {
+  std::vector<QPushButton*> ans_buttons;
+  for (int i = 0; i < current_node.answers.size(); ++i) {
+    auto button = CreateAnswerButton(i, current_node.answers[i].text);
+    ans_buttons.emplace_back(button);
+  }
+  return ans_buttons;
+}
+
+QPushButton* ConversationWindow::CreateAnswerButton(
+    int answer_index, const QString& answer_text) {
+  QString button_text = QString::number(answer_index + 1) + ". " + answer_text;
+  QPushButton* ans_button = new QPushButton(button_text, this);
+  ans_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  ans_button->setObjectName("answer_button");
+  layout_->addWidget(ans_button);
+  return ans_button;
 }
 
 void ConversationWindow::AnswerButtonPress(
@@ -76,18 +116,6 @@ void ConversationWindow::AnswerButtonPress(
   ans_buttons[answer_index]->setObjectName("selected_answer_button");
   ans_buttons[answer_index]->style()->unpolish(ans_buttons[answer_index]);
   ans_buttons[answer_index]->style()->polish(ans_buttons[answer_index]);
-
-  AddNextNode(answer_index);
-}
-
-QPushButton* ConversationWindow::CreateAnswerButton(
-    int answer_index, const QString& answer_text) {
-  QString button_text = QString::number(answer_index + 1) + ". " + answer_text;
-  QPushButton* ans_button = new QPushButton(button_text, this);
-  ans_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-  ans_button->setObjectName("answer_button");
-  layout_->addWidget(ans_button);
-  return ans_button;
 }
 
 QLabel* ConversationWindow::CreateConversationLabel(const QString& text) {
@@ -117,7 +145,13 @@ QToolButton* ConversationWindow::CreateCloseWidgetButton() {
                                standardIcon(QStyle::SP_DockWidgetCloseButton));
   connect(corner_close_button, &QToolButton::pressed,
           this, [this]() {
-            controller_->FinishConversation();
+            controller_->StopConversation();
           });;
   return corner_close_button;
+}
+
+void ConversationWindow::keyPressEvent(QKeyEvent* event) {
+  if (event->key() == Qt::Key_Escape) {
+    controller_->StopConversation();
+  }
 }

@@ -169,5 +169,13 @@ std::shared_ptr<Conversation> Controller::StartConversation() {
 }
 
 void Controller::FinishConversation() {
+  // temp, replace with |onFinish()|
+  Bot bot = model_->GetBots().at(0);
+  bot.GetCurrentConversation()->Reset();
+
+  view_->CloseConversationWindow();
+}
+
+void Controller::StopConversation() {
   view_->CloseConversationWindow();
 }

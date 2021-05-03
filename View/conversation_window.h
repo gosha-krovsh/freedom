@@ -11,6 +11,8 @@
 #include <QFile>
 #include <QScrollArea>
 #include <QStyle>
+#include <QKeyEvent>
+#include <QScrollBar>
 
 #include <memory>
 #include <vector>
@@ -28,14 +30,18 @@ class ConversationWindow : public QWidget {
 
  private:
   void resizeEvent(QResizeEvent*) override;
+  void keyPressEvent(QKeyEvent*) override;
 
   void SetUi();
   void SetStyles();
-  void AddNextNode(int answer_index = -1);
+  void RestoreConversationHistory();
+  void AddNextNode(int answer_index);
 
   QToolButton* CreateCloseWidgetButton();
   QLabel* CreateConversationLabel(const QString& text);
   QPushButton* CreateAnswerButton(int answer_index, const QString& answer_text);
+  std::vector<QPushButton*> CreateAllAnswerButtons(
+      const Conversation::Node& current_node);
   QPushButton* CreateFinishConversationButton();
   void AnswerButtonPress(const std::vector<QPushButton*>& ans_buttons,
                          int answer_index);

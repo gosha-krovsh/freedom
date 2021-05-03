@@ -25,12 +25,16 @@ class Conversation {
 
   Node GetCurrentNode() const;
   bool IsLastNode() const;
+  std::vector<int> GetAnswersIndexesHistory() const;
   void MoveToNextNode(int answer_index);
+
+  void Reset();
 
  private:
   int id_;
   std::vector<Node> nodes_;
-  int current_node_index_{0};
+  int current_node_id_{0};
+  std::vector<int> answers_indexes_history_{};
 };
 
 #endif  // CONVERSATIONS_CONVERSATION_H_

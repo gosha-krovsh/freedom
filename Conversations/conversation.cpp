@@ -8,14 +8,23 @@ Conversation::Conversation(int id, const std::vector<Node>& nodes) :
 }
 
 Conversation::Node Conversation::GetCurrentNode() const {
-  return nodes_[current_node_index_];
+  return nodes_[current_node_id_];
+}
+
+std::vector<int> Conversation::GetAnswersIndexesHistory() const {
+  return answers_indexes_history_;
 }
 
 void Conversation::MoveToNextNode(int answer_index) {
-  current_node_index_ = nodes_[current_node_index_].
-                        answers.at(answer_index).next_node_id;
+  answers_indexes_history_.emplace_back(answer_index);
+  current_node_id_ = GetCurrentNode().answers.at(answer_index).next_node_id;
 }
 
 bool Conversation::IsLastNode() const {
-  return nodes_[current_node_index_].answers.empty();
+  return GetCurrentNode().answers.empty();
+}
+
+void Conversation::Reset() {
+  answers_indexes_history_.clear();
+  current_node_id_ = 0;
 }
