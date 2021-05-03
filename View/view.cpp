@@ -35,13 +35,18 @@ void View::paintEvent(QPaintEvent*) {
         }
 
         bool hero_drown = false;
+        Point camera = Point(map.GetXSize(), map.GetYSize());
+        double hero_distance_to_camera =
+            hero.GetCoordinates().DistanceFrom(camera);
+
         for (const auto& current_bot : bots) {
+          double bot_distance_to_camera =
+              current_bot.GetCoordinates().DistanceFrom(camera);
+
           if (hero.GetRoundedX() == x &&
               hero.GetRoundedY() == y &&
               hero.GetRoundedZ() == z &&
-              (hero.GetY() < current_bot.GetY() ||
-              (hero.GetY() == current_bot.GetY() &&
-              hero.GetX() < current_bot.GetX()))) {
+              hero_distance_to_camera > bot_distance_to_camera) {
             hero.Draw(&painter);
             hero_drown = true;
           }
