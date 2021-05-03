@@ -2,6 +2,18 @@
 #include "image_manager.h"
 
 Model::Model() {
+  bots_.emplace_back("Hero", Point(4, 1, 1),
+                     std::vector<Point>(
+                         {Point(4, 6, 1),
+                          Point(1, 6, 1),
+                          Point(1, 1, 1),
+                          Point(4, 1, 1),
+                          Point(4, 6, 1),
+                          Point(2, 6, 1),
+                          Point(2, 9, 1),
+                          Point(7, 9, 1)}));
+
+  /// TODO: Parse bots from JSON
   // TODO: parse it from json
   std::vector<QuestNode> quest_nodes{
       QuestNode(0, "MyQuestNodeName", QuestNode::Type::kMoveToDestination,
@@ -29,6 +41,9 @@ const Hero& Model::GetHero() const {
 }
 Hero& Model::GetHero() {
   return hero_;
+}
+const std::vector<Bot>& Model::GetBots() const {
+  return bots_;
 }
 
 const Schedule& Model::GetSchedule() const {
@@ -60,4 +75,8 @@ const std::vector<Quest>& Model::GetCurrentQuests() const {
 
 std::vector<Quest>& Model::GetCurrentQuests() {
   return current_quests_;
+}
+
+std::vector<Bot>& Model::GetBots() {
+  return bots_;
 }

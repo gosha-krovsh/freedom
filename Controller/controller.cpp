@@ -15,6 +15,10 @@ void Controller::Tick() {
   data_controller_->Tick(current_tick_);
   quest_controller_->Tick(current_tick_);
   model_->GetHero().Tick(current_tick_);
+
+  for (auto& current_bot : model_->GetBots()) {
+    current_bot.Tick(current_tick_);
+  }
   model_->GetMap().UpdateCurrentRoom(model_->GetHero().GetRoundedX(),
                                      model_->GetHero().GetRoundedY());
 
