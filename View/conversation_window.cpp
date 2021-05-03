@@ -1,7 +1,7 @@
 #include "conversation_window.h"
 
 ConversationWindow::ConversationWindow(
-    const Conversation& conversation,
+    const std::shared_ptr<Conversation>& conversation,
     AbstractController* controller,
     QWidget* parent) :
     QWidget(parent),
@@ -23,6 +23,8 @@ void ConversationWindow::SetUi() {
 
   scroll_area_->setWidget(content_);
   scroll_area_->setWidgetResizable(true);
+  scroll_area_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+  scroll_area_->setCornerWidget(CreateCloseWidgetButton());
 }
 
 void ConversationWindow::SetStyles() {
@@ -37,13 +39,13 @@ void ConversationWindow::resizeEvent(QResizeEvent*) {
 
 void ConversationWindow::AddNextNode(int answer_index) {
   if (answer_index != - 1) {
-    conversation_.MoveToNextNode(answer_index);
+    conversation_->MoveToNextNode(answer_index);
   }
 
-  auto current_node = conversation_.GetCurrentNode();
+  auto current_node = conversation_->GetCurrentNode();
   CreateConversationLabel(current_node.text);
 
-  if (conversation_.IsLastNode()) {
+  if (conversation_->IsLastNode()) {
     CreateFinishConversationButton();
   }
 
@@ -106,4 +108,16 @@ QPushButton* ConversationWindow::CreateFinishConversationButton() {
             controller_->FinishConversation();
           });
   return button;
+}
+
+QToolButton* ConversationWindow::CreateCloseWidgetButton() {
+  auto corner_close_button = new QToolButton(this);
+  corner_close_button->setObjectName("close_button");
+  corner_close_button->setIcon(QApplication::style()->
+                               standardIcon(QStyle::SP_DockWidgetCloseButton));
+  connect(corner_close_button, &QToolButton::pressed,
+          this, [this]() {
+            controller_->FinishConversation();
+          });;
+  return corner_close_button;
 }

@@ -53,3 +53,7 @@ QPushButton#finish_button {
 QPushButton#finish_button:hover {
     background: rgba(255, 0, 0, 0.5);
 }
+
+QToolButton#close_button {
+    background: coral;
+}

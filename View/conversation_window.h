@@ -1,6 +1,9 @@
 #ifndef VIEW_CONVERSATION_WINDOW_H_
 #define VIEW_CONVERSATION_WINDOW_H_
 
+#include <QApplication>
+#include <QAction>
+#include <QToolButton>
 #include <QWidget>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -9,6 +12,7 @@
 #include <QScrollArea>
 #include <QStyle>
 
+#include <memory>
 #include <vector>
 
 #include "Controller/abstract_controller.h"
@@ -17,7 +21,7 @@ class ConversationWindow : public QWidget {
   Q_OBJECT
 
  public:
-  ConversationWindow(const Conversation& conversation,
+  ConversationWindow(const std::shared_ptr<Conversation>& conversation,
                      AbstractController* controller,
                      QWidget* parent = nullptr);
   ~ConversationWindow() override = default;
@@ -29,6 +33,7 @@ class ConversationWindow : public QWidget {
   void SetStyles();
   void AddNextNode(int answer_index = -1);
 
+  QToolButton* CreateCloseWidgetButton();
   QLabel* CreateConversationLabel(const QString& text);
   QPushButton* CreateAnswerButton(int answer_index, const QString& answer_text);
   QPushButton* CreateFinishConversationButton();
@@ -36,7 +41,7 @@ class ConversationWindow : public QWidget {
                          int answer_index);
 
  private:
-  Conversation conversation_;
+  std::shared_ptr<Conversation> conversation_;
   AbstractController* controller_;
 
   QScrollArea* scroll_area_;
