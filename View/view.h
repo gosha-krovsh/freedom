@@ -4,6 +4,8 @@
 #include <QKeyEvent>
 #include <QMainWindow>
 #include <QTimer>
+
+#include <algorithm>
 #include <memory>
 #include <unordered_set>
 #include <utility>

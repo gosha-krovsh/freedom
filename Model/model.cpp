@@ -1,7 +1,19 @@
 #include "model.h"
 #include "image_manager.h"
 
-Model::Model() : my_bot(Point{2, 2, 1}, "Hero", 100) {  // temp
+Model::Model() {
+  // TODO: Parse bots from JSON
+  bots_.emplace_back("Hero", Point(4, 1, 1),
+                     std::vector<Point>(
+                         {Point(4, 6, 1),
+                          Point(1, 6, 1),
+                          Point(1, 1, 1),
+                          Point(4, 1, 1),
+                          Point(4, 6, 1),
+                          Point(2, 6, 1),
+                          Point(2, 9, 1),
+                          Point(7, 9, 1)}));
+
   // TODO: parse it from json
   std::vector<QuestNode> quest_nodes{
       QuestNode(0, "MyQuestNodeName", QuestNode::Type::kMoveToDestination,
@@ -20,7 +32,7 @@ void Model::SetSchedule(std::unique_ptr<Schedule>&& schedule) {
 void Model::SetConversations(
     std::vector<std::shared_ptr<Conversation>>&& conversations) {
   conversations_ = std::move(conversations);
-  my_bot.SetCurrentConversation(conversations_[0]);
+  bots_.at(0).SetCurrentConversation(conversations_[0]);
 }
 
 const GameMap& Model::GetMap() const {
@@ -35,6 +47,13 @@ const Hero& Model::GetHero() const {
 }
 Hero& Model::GetHero() {
   return hero_;
+}
+
+std::vector<Bot>& Model::GetBots() {
+  return bots_;
+}
+const std::vector<Bot>& Model::GetBots() const {
+  return bots_;
 }
 
 const Schedule& Model::GetSchedule() const {

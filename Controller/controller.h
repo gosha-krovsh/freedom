@@ -1,6 +1,8 @@
 #ifndef CONTROLLER_CONTROLLER_H_
 #define CONTROLLER_CONTROLLER_H_
 
+#include <QDebug>
+
 #include <memory>
 #include <utility>
 #include <vector>

@@ -11,6 +11,7 @@
 
 #include "Conversations/conversation.h"
 #include "GameObject/action.h"
+#include "GameObject/bot.h"
 #include "GameObject/game_map.h"
 #include "GameObject/hero.h"
 #include "GameObject/wall.h"
@@ -30,6 +31,9 @@ class Model {
   const GameMap& GetMap() const;
   GameMap& GetMap();
   const Hero& GetHero() const;
+  const std::vector<Bot>& GetBots() const;
+  std::vector<Bot>& GetBots();
+
   Hero& GetHero();
   const Schedule& GetSchedule() const;
   Time& GetTime();
@@ -48,6 +52,7 @@ class Model {
   Hero hero_{Point(1, 1, 1)};
   Time time_{Time(8, 30)};
   ImageManager image_manager;
+  std::vector<Bot> bots_;
   std::vector<Quest> quests_;
   std::vector<Quest> current_quests_;
   std::vector<std::shared_ptr<Conversation>> conversations_;

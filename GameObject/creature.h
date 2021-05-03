@@ -1,6 +1,7 @@
 #ifndef GAMEOBJECT_CREATURE_H_
 #define GAMEOBJECT_CREATURE_H_
 
+#include <QDebug>
 #include <QString>
 
 #include <memory>
@@ -37,6 +38,7 @@ class Creature : public DynamicObject, public Destroyable {
 
  protected:
   Action action_{Action::kIdle};
+  void NormalizeSpeedVector(const Point& speed_vector);
 
  private:
   State GetState() const;

@@ -20,9 +20,9 @@ void View::paintEvent(QPaintEvent*) {
   const Creature& my_bot = model_->my_bot;  // temp
   const Hero& hero = model_->GetHero();
   const GameMap& map = model_->GetMap();
+  const auto& bots = model_->GetBots();
   std::unordered_set<const Object*>
       transparent_blocks = map.GetTransparentBlocks();
-
 
   for (int z = 0; z < map.GetZSize(); ++z) {
     for (int y = 0; y < map.GetYSize(); ++y) {
@@ -36,7 +36,37 @@ void View::paintEvent(QPaintEvent*) {
           painter.setOpacity(1);
         }
 
-        if (hero.GetRoundedX() == x &&
+        bool hero_drown = false;
+        Point camera = Point(map.GetXSize(), map.GetYSize());
+        double hero_distance_to_camera =
+            hero.GetCoordinates().DistanceFrom(camera);
+
+        for (const auto& current_bot : bots) {
+          double bot_distance_to_camera =
+              current_bot.GetCoordinates().DistanceFrom(camera);
+
+          if (hero.GetRoundedX() == x &&
+              hero.GetRoundedY() == y &&
+              hero.GetRoundedZ() == z &&
+              hero_distance_to_camera > bot_distance_to_camera) {
+            hero.Draw(&painter);
+            hero_drown = true;
+          }
+          if (current_bot.GetRoundedX() == x &&
+              current_bot.GetRoundedY() == y &&
+              current_bot.GetRoundedZ() == z) {
+            double dist =
+                hero.GetCoordinates().
+                    DistanceFrom(current_bot.GetCoordinates());
+            painter.setOpacity(std::max(dist / 2,
+                                        constants::kBotOpacity));
+            current_bot.Draw(&painter);
+            painter.setOpacity(1);
+          }
+        }
+
+        if (!hero_drown &&
+            hero.GetRoundedX() == x &&
             hero.GetRoundedY() == y &&
             hero.GetRoundedZ() == z) {
           hero.Draw(&painter);
