@@ -140,7 +140,8 @@ Object* Controller::FindNearestObjectWithType(Object::Type type) {
   return nearest_block;
 }
 
-Object* Controller::FindIfNearestObject(std::function<bool(Object*)> pred) {
+Object* Controller::FindIfNearestObject(
+    const std::function<bool(Object*)>& predicate) {
   Hero& hero = model_->GetHero();
   Point view_vector = hero.GetViewVector() *
       constants::kDistanceToDetectBlock;
@@ -157,7 +158,7 @@ Object* Controller::FindIfNearestObject(std::function<bool(Object*)> pred) {
     for (int y = floored_y - 1; y <= floored_y + 2; ++y) {
       auto block = map.GetBlock(x, y, hero.GetRoundedZ());
 
-      if (block && pred(block)) {
+      if (block && predicate(block)) {
         double distance_squared = (hero_coords.x - x) * (hero_coords.x - x) +
             (hero_coords.y - y) * (hero_coords.y - y);
         if (distance_squared < min_distance_squared + constants::kEps) {
