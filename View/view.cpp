@@ -17,7 +17,6 @@ void View::paintEvent(QPaintEvent*) {
   QPainter painter(this);
   CenterCameraOnHero(&painter);
 
-  const Creature& my_bot = model_->my_bot;  // temp
   const Hero& hero = model_->GetHero();
   const GameMap& map = model_->GetMap();
   const auto& bots = model_->GetBots();
@@ -55,9 +54,8 @@ void View::paintEvent(QPaintEvent*) {
           if (current_bot.GetRoundedX() == x &&
               current_bot.GetRoundedY() == y &&
               current_bot.GetRoundedZ() == z) {
-            double dist =
-                hero.GetCoordinates().
-                    DistanceFrom(current_bot.GetCoordinates());
+            double dist = hero.GetCoordinates().
+                               DistanceFrom(current_bot.GetCoordinates());
             painter.setOpacity(std::max(dist / 2,
                                         constants::kBotOpacity));
             current_bot.Draw(&painter);
@@ -70,13 +68,6 @@ void View::paintEvent(QPaintEvent*) {
             hero.GetRoundedY() == y &&
             hero.GetRoundedZ() == z) {
           hero.Draw(&painter);
-        }
-
-        // temp
-        if (my_bot.GetRoundedX() == x &&
-            my_bot.GetRoundedY() == y &&
-            my_bot.GetRoundedZ() == z) {
-          my_bot.Draw(&painter);
         }
       }
     }

@@ -164,7 +164,7 @@ void Controller::UpdateHeroMovingDirection() {
 }
 
 std::shared_ptr<Conversation> Controller::StartConversation() {
-  Creature& bot = model_->my_bot;  // temp, replace with |FindNearestBot()|
+  Bot bot = model_->GetBots().at(0);  // temp, replace with |FindNearestBot()|
   return bot.GetCurrentConversation();
 }
 

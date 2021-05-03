@@ -44,8 +44,6 @@ class Model {
   const std::vector<Quest>& GetCurrentQuests() const;
   std::vector<Quest>& GetCurrentQuests();
 
-  Creature my_bot;  // temp
-
  private:
   std::unique_ptr<GameMap> map_;
   std::unique_ptr<Schedule> schedule_;
