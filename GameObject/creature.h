@@ -34,7 +34,6 @@ class Creature : public DynamicObject, public Destroyable {
   Action action_{Action::kIdle};
   void NormalizeSpeedVector(const Point& speed_vector);
 
-
  private:
   State GetState() const;
   void DecrementAttackCooldown();

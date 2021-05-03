@@ -1,5 +1,4 @@
 #include "dynamic_object.h"
-#include <QDebug>
 
 DynamicObject::DynamicObject(const Point& coords) : Object(coords) {
   is_touchable_ = false;

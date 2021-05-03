@@ -76,6 +76,7 @@ const std::vector<Quest>& Model::GetCurrentQuests() const {
 std::vector<Quest>& Model::GetCurrentQuests() {
   return current_quests_;
 }
+
 std::vector<Bot>& Model::GetBots() {
   return bots_;
 }
