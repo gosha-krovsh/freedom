@@ -11,7 +11,7 @@
 
 #include <vector>
 
-#include <Controller/abstract_controller.h>
+#include "Controller/abstract_controller.h"
 
 class ConversationWindow : public QWidget {
   Q_OBJECT
@@ -27,7 +27,7 @@ class ConversationWindow : public QWidget {
 
   void SetUi();
   void SetStyles();
-  void AddNode(int answer_index = -1);
+  void AddNextNode(int answer_index = -1);
 
   QLabel* CreateConversationLabel(const QString& text);
   QPushButton* CreateAnswerButton(int answer_index, const QString& answer_text);

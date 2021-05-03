@@ -12,7 +12,7 @@ ConversationWindow::ConversationWindow(
     layout_(new QVBoxLayout(this)) {
   SetUi();
   SetStyles();
-  AddNode();
+  AddNextNode();
   show();
 }
 
@@ -35,7 +35,7 @@ void ConversationWindow::resizeEvent(QResizeEvent*) {
   scroll_area_->setGeometry(0, 0, width(), height());
 }
 
-void ConversationWindow::AddNode(int answer_index) {
+void ConversationWindow::AddNextNode(int answer_index) {
   if (answer_index != - 1) {
     conversation_.MoveToNextNode(answer_index);
   }
@@ -75,7 +75,7 @@ void ConversationWindow::AnswerButtonPress(
   ans_buttons[answer_index]->style()->unpolish(ans_buttons[answer_index]);
   ans_buttons[answer_index]->style()->polish(ans_buttons[answer_index]);
 
-  AddNode(answer_index);
+  AddNextNode(answer_index);
 }
 
 QPushButton* ConversationWindow::CreateAnswerButton(

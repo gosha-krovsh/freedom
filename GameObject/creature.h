@@ -9,7 +9,7 @@
 #include "animator.h"
 #include "destroyable.h"
 #include "dynamic_object.h"
-#include <Conversations/conversation.h>
+#include "Conversations/conversation.h"
 
 class Creature : public DynamicObject, public Destroyable {
  public:
