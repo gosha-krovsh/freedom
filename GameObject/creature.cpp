@@ -62,10 +62,11 @@ void Creature::DecrementAttackCooldown() {
 
 void Creature::OnDead() {}
 
-Conversation Creature::GetCurrentConversation() const {
+std::shared_ptr<Conversation> Creature::GetCurrentConversation() const {
   return current_conversation_;
 }
 
-void Creature::SetCurrentConversation(const Conversation& conversation) {
+void Creature::SetCurrentConversation(
+    const std::shared_ptr<Conversation>& conversation) {
   current_conversation_ = conversation;
 }

@@ -17,7 +17,8 @@ void Model::SetSchedule(std::unique_ptr<Schedule>&& schedule) {
   schedule_ = std::move(schedule);
 }
 
-void Model::SetConversations(std::vector<Conversation>&& conversations) {
+void Model::SetConversations(
+    std::vector<std::shared_ptr<Conversation>>&& conversations) {
   conversations_ = std::move(conversations);
   my_bot.SetCurrentConversation(conversations_[0]);
 }

@@ -23,9 +23,9 @@ class Model {
  public:
   Model();
 
-  void SetMap(std::unique_ptr<GameMap>&& game_map);
-  void SetSchedule(std::unique_ptr<Schedule>&& schedule);
-  void SetConversations(std::vector<Conversation>&& conversations);
+  void SetMap(std::unique_ptr<GameMap>&&);
+  void SetSchedule(std::unique_ptr<Schedule>&&);
+  void SetConversations(std::vector<std::shared_ptr<Conversation>>&&);
 
   const GameMap& GetMap() const;
   GameMap& GetMap();
@@ -50,7 +50,7 @@ class Model {
   ImageManager image_manager;
   std::vector<Quest> quests_;
   std::vector<Quest> current_quests_;
-  std::vector<Conversation> conversations_;
+  std::vector<std::shared_ptr<Conversation>> conversations_;
 };
 
 #endif  // MODEL_MODEL_H_

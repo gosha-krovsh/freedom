@@ -84,8 +84,7 @@ void View::keyPressEvent(QKeyEvent* event) {
       break;
     }
     case Qt::Key_Q: {
-      std::unique_ptr<Conversation>
-          conversation = controller_->StartConversation();
+      auto conversation = controller_->StartConversation();
       if (conversation) {
         conversation_window_ = std::make_unique<ConversationWindow>(
             *conversation, controller_, this);

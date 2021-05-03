@@ -21,7 +21,7 @@ class Controller : public AbstractController {
   void Tick() override;
 
   void HeroAttack() override;
-  std::unique_ptr<Conversation> StartConversation() override;
+  std::shared_ptr<Conversation> StartConversation() override;
   void FinishConversation() override;
 
   void SetControlUpKeyState(bool state) override;

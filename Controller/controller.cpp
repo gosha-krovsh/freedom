@@ -160,10 +160,9 @@ void Controller::UpdateHeroMovingDirection() {
                                    control_key_states_.down);
 }
 
-std::unique_ptr<Conversation> Controller::StartConversation() {
+std::shared_ptr<Conversation> Controller::StartConversation() {
   Creature& bot = model_->my_bot;  // temp, replace with |FindNearestBot()|
-  auto conversation = bot.GetCurrentConversation();
-  return std::make_unique<Conversation>(conversation);
+  return bot.GetCurrentConversation();
 }
 
 void Controller::FinishConversation() {

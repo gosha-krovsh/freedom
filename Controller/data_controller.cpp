@@ -143,12 +143,13 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
   return std::make_unique<GameMap>(x_size, y_size, z_size, objects, rooms);
 }
 
-std::vector<Conversation> DataController::ParseConversations() {
+std::vector<std::shared_ptr<Conversation>>
+    DataController::ParseConversations() {
   QFile file(":conversations.json");
   file.open(QIODevice::ReadOnly | QIODevice::Text);
 
   QJsonArray j_conversations = QJsonDocument::fromJson(file.readAll()).array();
-  std::vector<Conversation> conversations;
+  std::vector<std::shared_ptr<Conversation>> conversations;
   conversations.reserve(j_conversations.size());
 
   for (int i = 0; i < j_conversations.size(); ++i) {
@@ -181,7 +182,8 @@ std::vector<Conversation> DataController::ParseConversations() {
 
       nodes.emplace_back(node);
     }
-    conversations.emplace_back(i, nodes);
+    conversations.emplace_back(std::make_shared<Conversation>(i, nodes));
   }
+
   return conversations;
 }
