@@ -52,7 +52,6 @@ class Creature : public DynamicObject,
 
  private:
   QString name_;
-  Action action_{Action::kIdle};
   Animator<State> animator_{GetState()};
   int attack_cooldown_{0};
   int attack_{constants::kAttack};

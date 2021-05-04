@@ -16,8 +16,8 @@ void Controller::Tick() {
   quest_controller_->Tick(current_tick_);
   model_->GetHero().Tick(current_tick_);
 
-  for (auto& current_bot : model_->GetBots()) {
-    current_bot.Tick(current_tick_);
+  for (auto& bot : model_->GetBots()) {
+    bot.Tick(current_tick_);
   }
   model_->GetMap().UpdateCurrentRoom(model_->GetHero().GetRoundedX(),
                                      model_->GetHero().GetRoundedY());
@@ -26,10 +26,6 @@ void Controller::Tick() {
       current_tick_ != 0) {
     model_->GetTime().AddMinutes(1);
     actions_controller_->Tick(current_tick_);
-  }
-
-  for (auto& bot : model_->GetBots()) {
-    bot.Tick(current_tick_);
   }
 
   CheckHeroCollision();

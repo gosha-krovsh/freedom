@@ -45,9 +45,6 @@ class Model {
   const std::vector<Quest>& GetCurrentQuests() const;
   std::vector<Quest>& GetCurrentQuests();
 
-  // Temp code for adding bots
-  std::vector<Creature>& GetBots();
-
  private:
   std::unique_ptr<GameMap> map_;
   std::unique_ptr<Schedule> schedule_;
@@ -58,8 +55,6 @@ class Model {
   std::vector<Quest> quests_;
   std::vector<Quest> current_quests_;
   std::vector<std::pair<Creature*, Creature*>> fighting_pairs_;
-  // Temp code for adding bots
-  std::vector<Creature> bots_;
 };
 
 #endif  // MODEL_MODEL_H_
