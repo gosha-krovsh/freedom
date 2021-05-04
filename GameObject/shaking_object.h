@@ -12,8 +12,7 @@ class ShakingObject {
 
  private:
   Point offset_{0, 0};
-  int tick_begin_of_shake_{-1};
-  bool is_shaking_{false};
+  int remaining_shaking_ticks{0};
   Point direction_of_shake_{0, 0};
 };
 
