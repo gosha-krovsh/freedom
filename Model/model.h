@@ -24,7 +24,7 @@ class Model {
   void SetSchedule(std::unique_ptr<Schedule>&& schedule);
 
   void CreateFightingPair(Creature* first, Creature* second);
-  void DeleteFightingPair(const std::pair<Creature*, Creature*>& pair);
+  void DeleteFightingPairWithIndex(int index);
   std::pair<Creature*, Creature*> GetFightingPairWithIndex(int index);
   int GetNumberOfFightingPairs() const;
 

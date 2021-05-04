@@ -73,11 +73,8 @@ const std::vector<Quest>& Model::GetCurrentQuests() const {
 std::vector<Quest>& Model::GetCurrentQuests() {
   return current_quests_;
 }
-void Model::DeleteFightingPair(const std::pair<Creature*, Creature*>& pair) {
-  auto iter = std::find(fighting_pairs_.begin(), fighting_pairs_.end(), pair);
-  if (iter != fighting_pairs_.end()) {
-    fighting_pairs_.erase(iter);
-  }
+void Model::DeleteFightingPairWithIndex(int index) {
+  fighting_pairs_.erase(fighting_pairs_.begin() + index);
 }
 
 // Temp code for adding bots

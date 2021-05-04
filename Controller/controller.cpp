@@ -42,37 +42,30 @@ void Controller::Tick() {
   ++current_tick_;
 }
 
+void Controller::ProcessFighting(Creature* attacker, Creature* victim, int* i) {
+  if (attacker->IsAbleToAttack() &&
+      !victim->IsDestroyed() && !attacker->IsDestroyed()) {
+    victim->DecreaseHP(attacker->GetAttack());
+    attacker->RefreshAttackCooldown();
+
+    if (victim->IsDestroyed()) {
+      attacker->StopFighting();
+      model_->DeleteFightingPairWithIndex(*i);
+      --*i;
+    } else {
+      victim->Shake(victim->GetCoordinates() - attacker->GetCoordinates());
+    }
+  }
+}
+
 void Controller::ProcessFighting() {
   for (int i = 0; i < model_->GetNumberOfFightingPairs(); ++i) {
     auto fighting_pair = model_->GetFightingPairWithIndex(i);
     auto first = fighting_pair.first;
     auto second = fighting_pair.second;
 
-    if (first->IsAbleToAttack()) {
-      second->DecreaseHP(first->GetAttack());
-      first->RefreshAttackCooldown();
-
-      if (second->IsDestroyed()) {
-        first->StopFighting();
-        model_->DeleteFightingPair(fighting_pair);
-        return;
-      }
-
-      second->Shake(second->GetCoordinates() - first->GetCoordinates());
-    }
-
-    if (second->IsAbleToAttack()) {
-      first->DecreaseHP(second->GetAttack());
-      second->RefreshAttackCooldown();
-
-      if (first->IsDestroyed()) {
-        second->StopFighting();
-        model_->DeleteFightingPair(fighting_pair);
-        return;
-      }
-
-      first->Shake(first->GetCoordinates() - second->GetCoordinates());
-    }
+    ProcessFighting(first, second, &i);
+    ProcessFighting(second, first, &i);
   }
 }
 
