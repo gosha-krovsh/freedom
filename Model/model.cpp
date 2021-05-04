@@ -2,8 +2,17 @@
 #include "image_manager.h"
 
 Model::Model() {
-  // Temp code for adding bots
-  bots_.emplace_back(Point(2, 2, 1), "Hero", 100);
+  bots_.emplace_back("Hero", Point(4, 1, 1),
+                     std::vector<Point>(
+                         {Point(4, 6, 1),
+                          Point(1, 6, 1),
+                          Point(1, 1, 1),
+                          Point(4, 1, 1),
+                          Point(4, 6, 1),
+                          Point(2, 6, 1),
+                          Point(2, 9, 1),
+                          Point(7, 9, 1)}));
+
   // TODO: parse it from json
   std::vector<QuestNode> quest_nodes{
       QuestNode(0, "MyQuestNodeName", QuestNode::Type::kMoveToDestination,
@@ -42,6 +51,9 @@ const Hero& Model::GetHero() const {
 Hero& Model::GetHero() {
   return hero_;
 }
+const std::vector<Bot>& Model::GetBots() const {
+  return bots_;
+}
 
 const Schedule& Model::GetSchedule() const {
   return *schedule_;
@@ -73,11 +85,11 @@ const std::vector<Quest>& Model::GetCurrentQuests() const {
 std::vector<Quest>& Model::GetCurrentQuests() {
   return current_quests_;
 }
+
 void Model::DeleteFightingPairWithIndex(int index) {
   fighting_pairs_.erase(fighting_pairs_.begin() + index);
 }
 
-// Temp code for adding bots
-std::vector<Creature>& Model::GetBots() {
+std::vector<Bot>& Model::GetBots() {
   return bots_;
 }

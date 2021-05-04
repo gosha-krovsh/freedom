@@ -26,6 +26,8 @@ namespace constants {
 
   // The opacity of the block, when it's considered transparent.
   const double kBlockOpacity = 0.1;
+  const double kBotOpacity = 0.4;
+  const double kBotOpacityDistance = 2;
 
   // Needed to make |DynamicObject| movement in Right/Left direction more
   // realistic in isometric view.
@@ -41,6 +43,8 @@ namespace constants {
   const int kFPS = 60;
 
   const int kTicksInMinute = 300;
+
+  const int kCountOfBots = 3;
 }  // namespace constants
 
 #endif  // MODEL_CONSTANTS_H_

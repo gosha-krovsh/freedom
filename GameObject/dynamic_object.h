@@ -1,8 +1,10 @@
 #ifndef GAMEOBJECT_DYNAMIC_OBJECT_H_
 #define GAMEOBJECT_DYNAMIC_OBJECT_H_
 
-#include <utility>
+#include <QDebug>
+
 #include <cmath>
+#include <utility>
 
 #include "object.h"
 
