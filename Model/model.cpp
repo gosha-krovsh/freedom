@@ -13,7 +13,6 @@ Model::Model() {
                           Point(2, 9, 1),
                           Point(7, 9, 1)}));
 
-  /// TODO: Parse bots from JSON
   // TODO: parse it from json
   std::vector<QuestNode> quest_nodes{
       QuestNode(0, "MyQuestNodeName", QuestNode::Type::kMoveToDestination,
@@ -27,6 +26,16 @@ void Model::SetMap(std::unique_ptr<GameMap>&& game_map) {
 }
 void Model::SetSchedule(std::unique_ptr<Schedule>&& schedule) {
   schedule_ = std::move(schedule);
+}
+
+void Model::CreateFightingPair(Creature* first, Creature* second) {
+  fighting_pairs_.emplace_back(first, second);
+}
+std::pair<Creature*, Creature*> Model::GetFightingPairWithIndex(int index) {
+  return fighting_pairs_.at(index);
+}
+int Model::GetNumberOfFightingPairs() const {
+  return fighting_pairs_.size();
 }
 
 const GameMap& Model::GetMap() const {
@@ -75,6 +84,10 @@ const std::vector<Quest>& Model::GetCurrentQuests() const {
 
 std::vector<Quest>& Model::GetCurrentQuests() {
   return current_quests_;
+}
+
+void Model::DeleteFightingPairWithIndex(int index) {
+  fighting_pairs_.erase(fighting_pairs_.begin() + index);
 }
 
 std::vector<Bot>& Model::GetBots() {

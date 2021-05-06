@@ -10,12 +10,17 @@
 #include "animator.h"
 #include "destroyable.h"
 #include "dynamic_object.h"
+#include "shaking_object.h"
 
-class Creature : public DynamicObject, public Destroyable {
+class Creature : public DynamicObject,
+                 public Destroyable,
+                 public ShakingObject {
  public:
   enum class Action {
     kIdle,
     kRun,
+    kFight,
+    kDead,
   };
   using State = std::pair<Action, DynamicObject::ViewDirection>;
 
@@ -29,6 +34,12 @@ class Creature : public DynamicObject, public Destroyable {
   bool IsAbleToAttack() const;
   void RefreshAttackCooldown();
   int GetAttack() const;
+  void StartFighting();
+  void StopFighting();
+  bool IsDestroyed() const;
+  int GetHP() const;
+  void OnDead() override;
+  Point GetDrawOffset() const override;
 
  protected:
   Action action_{Action::kIdle};
@@ -37,6 +48,7 @@ class Creature : public DynamicObject, public Destroyable {
  private:
   State GetState() const;
   void DecrementAttackCooldown();
+  void SetAction(Action action);
 
  private:
   QString name_;

@@ -117,9 +117,12 @@ bool Point::operator==(const Point& rhs) const {
 bool Point::operator!=(const Point& rhs) const {
   return !(*this == rhs);
 }
+
+double Point::SquaredDistanceFrom(const Point& other) const {
+  return (x - other.x) * (x - other.x) + (y - other.y) * (y - other.y);
+}
 double Point::DistanceFrom(const Point& other) const {
-  return std::sqrt((x - other.x) * (x - other.x) +
-                    (y - other.y) * (y - other.y));
+  return std::sqrt(SquaredDistanceFrom(other));
 }
 
 Point Point::GetRounded() const {

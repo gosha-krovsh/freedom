@@ -16,8 +16,8 @@ void Controller::Tick() {
   quest_controller_->Tick(current_tick_);
   model_->GetHero().Tick(current_tick_);
 
-  for (auto& current_bot : model_->GetBots()) {
-    current_bot.Tick(current_tick_);
+  for (auto& bot : model_->GetBots()) {
+    bot.Tick(current_tick_);
   }
   model_->GetMap().UpdateCurrentRoom(model_->GetHero().GetRoundedX(),
                                      model_->GetHero().GetRoundedY());
@@ -27,7 +27,9 @@ void Controller::Tick() {
     model_->GetTime().AddMinutes(1);
     actions_controller_->Tick(current_tick_);
   }
+
   CheckHeroCollision();
+  ProcessFighting();
 
   model_->GetMap().Tick(current_tick_);
 
@@ -38,6 +40,33 @@ void Controller::Tick() {
   }
 
   ++current_tick_;
+}
+
+void Controller::ProcessFighting(Creature* attacker, Creature* victim, int* i) {
+  if (attacker->IsAbleToAttack() &&
+      !victim->IsDestroyed() && !attacker->IsDestroyed()) {
+    victim->DecreaseHP(attacker->GetAttack());
+    attacker->RefreshAttackCooldown();
+
+    if (victim->IsDestroyed()) {
+      attacker->StopFighting();
+      model_->DeleteFightingPairWithIndex(*i);
+      --*i;
+    } else {
+      victim->Shake(victim->GetCoordinates() - attacker->GetCoordinates());
+    }
+  }
+}
+
+void Controller::ProcessFighting() {
+  for (int i = 0; i < model_->GetNumberOfFightingPairs(); ++i) {
+    auto fighting_pair = model_->GetFightingPairWithIndex(i);
+    auto first = fighting_pair.first;
+    auto second = fighting_pair.second;
+
+    ProcessFighting(first, second, &i);
+    ProcessFighting(second, first, &i);
+  }
 }
 
 void Controller::CheckHeroCollision() {
@@ -99,13 +128,40 @@ void Controller::HeroAttack() {
     return;
   }
 
-  auto nearest_wall = FindNearestObjectWithType(Object::Type::kWall);
+  auto nearest_bot = FindNearestBotInRadius(constants::kAttackRadius);
+  if (nearest_bot) {
+    model_->CreateFightingPair(&hero, nearest_bot);
+    hero.StartFighting();
+    nearest_bot->StartFighting();
+    return;
+  }
 
+  auto nearest_wall = FindNearestObjectWithType(Object::Type::kWall);
   if (nearest_wall) {
     nearest_wall->Interact(hero);
-
     hero.RefreshAttackCooldown();
   }
+}
+
+Creature* Controller::FindNearestBotInRadius(double radius) {
+  Hero& hero = model_->GetHero();
+  Point hero_coords = hero.GetCoordinates() +
+                      constants::kCoefficientForShiftingCircleAttack * radius *
+                      hero.GetViewVector();
+  double squared_radius = radius * radius;
+
+  Creature* nearest_bot = nullptr;
+  double squared_distance = squared_radius;
+  for (auto& bot : model_->GetBots()) {
+    double new_squared_distance =
+        hero_coords.SquaredDistanceFrom(bot.GetCoordinates());
+    if (!bot.IsDestroyed() && new_squared_distance < squared_distance) {
+      squared_distance = new_squared_distance;
+      nearest_bot = &bot;
+    }
+  }
+
+  return nearest_bot;
 }
 
 Object* Controller::FindNearestObjectWithType(Object::Type type) {

@@ -38,8 +38,7 @@ add_executable(${PROJECT_NAME}
         GameObject/object.cpp
         GameObject/point.cpp
         GameObject/schedule.cpp
-        GameObject/action.cpp
-        GameObject/game_map.cpp
+        GameObject/shaking_object.cpp
         GameObject/wall.cpp
 
         Quests/quest.cpp

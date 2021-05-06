@@ -24,6 +24,11 @@ class Model {
   void SetMap(std::unique_ptr<GameMap>&& game_map);
   void SetSchedule(std::unique_ptr<Schedule>&& schedule);
 
+  void CreateFightingPair(Creature* first, Creature* second);
+  void DeleteFightingPairWithIndex(int index);
+  std::pair<Creature*, Creature*> GetFightingPairWithIndex(int index);
+  int GetNumberOfFightingPairs() const;
+
   const GameMap& GetMap() const;
   GameMap& GetMap();
   const Hero& GetHero() const;
@@ -49,6 +54,7 @@ class Model {
   std::vector<Bot> bots_;
   std::vector<Quest> quests_;
   std::vector<Quest> current_quests_;
+  std::vector<std::pair<Creature*, Creature*>> fighting_pairs_;
 };
 
 #endif  // MODEL_MODEL_H_
