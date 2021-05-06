@@ -154,11 +154,17 @@ void View::resizeEvent(QResizeEvent*) {
 
 std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id) {
   switch (id) {
-    case 0: return std::make_pair(item_bar_pack_->GetHeroBar(),
-                                  item_bar_pack_->GetObjectBar());
-    case 1: return std::make_pair(item_bar_pack_->GetObjectBar(),
-                                  item_bar_pack_->GetHeroBar());
-    default:return std::make_pair(nullptr, nullptr);
+    case 0: {
+      return std::make_pair(item_bar_pack_->GetHeroBar(),
+                            item_bar_pack_->GetObjectBar());
+    }
+    case 1: {
+      return std::make_pair(item_bar_pack_->GetObjectBar(),
+                            item_bar_pack_->GetHeroBar());
+    }
+    default: {
+      return std::make_pair(nullptr, nullptr);
+    }
   }
 }
 

@@ -19,9 +19,9 @@ add_executable(${PROJECT_NAME}
 
         Model/model.cpp
 
-        View/view.cpp
-        View/item_bar.cpp
         View/bar_pack.cpp
+        View/item_bar.cpp
+        View/view.cpp
 
         Controller/action_controller.cpp
         Controller/controller.cpp

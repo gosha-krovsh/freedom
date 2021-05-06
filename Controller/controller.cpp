@@ -34,7 +34,7 @@ void Controller::Tick() {
   Object* nearest_storage = FindIfNearestObject([](Object* block) {
     return block->IsStorable();
   });
-  if (view_->IsItemDialogOpen() && !nearest_storage) {
+  if (view_->IsItemDialogOpen() && nearest_storage == nullptr) {
     view_->ItemDialogEvent();
   }
 
@@ -110,34 +110,9 @@ void Controller::HeroAttack() {
 }
 
 Object* Controller::FindNearestObjectWithType(Object::Type type) {
-  Hero& hero = model_->GetHero();
-  Point view_vector = hero.GetViewVector() *
-                      constants::kDistanceToDetectBlock;
-  Point hero_coords = hero.GetCoordinates() + view_vector;
-
-  double min_distance_squared = (1 + constants::kDistanceToDetectBlock) *
-                                (1 + constants::kDistanceToDetectBlock);
-  Object* nearest_block = nullptr;
-
-  int floored_x = std::floor(hero.GetX());
-  int floored_y = std::floor(hero.GetY());
-  auto& map = model_->GetMap();
-  for (int x = floored_x - 1; x <= floored_x + 2; ++x) {
-    for (int y = floored_y - 1; y <= floored_y + 2; ++y) {
-      auto block = map.GetBlock(x, y, hero.GetRoundedZ());
-
-      if (block && block->IsType(type)) {
-        double distance_squared = (hero_coords.x - x) * (hero_coords.x - x) +
-                                  (hero_coords.y - y) * (hero_coords.y - y);
-        if (distance_squared < min_distance_squared + constants::kEps) {
-          min_distance_squared = distance_squared;
-          nearest_block = block;
-        }
-      }
-    }
-  }
-
-  return nearest_block;
+  return FindIfNearestObject([type] (Object* object) {
+    return object->IsType(type);
+  });
 }
 
 Object* Controller::FindIfNearestObject(
@@ -159,6 +134,7 @@ Object* Controller::FindIfNearestObject(
       auto block = map.GetBlock(x, y, hero.GetRoundedZ());
 
       if (block && predicate(block)) {
+        // TODO:change to new functionality
         double distance_squared = (hero_coords.x - x) * (hero_coords.x - x) +
             (hero_coords.y - y) * (hero_coords.y - y);
         if (distance_squared < min_distance_squared + constants::kEps) {
@@ -198,7 +174,7 @@ void Controller::UpdateHeroMovingDirection() {
 
 void Controller::OnItemPress(int bar_id, int index) {
   std::pair<ItemBar*, ItemBar*> source_dest = view_->GetSrcDestBars(bar_id);
-  if (source_dest.first && source_dest.second) {
+  if (source_dest.first != nullptr && source_dest.second != nullptr) {
     MoveItem(index, source_dest.first->GetStorage(),
              source_dest.second->GetStorage());
     source_dest.first->UpdateIcons();

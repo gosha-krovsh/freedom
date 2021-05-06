@@ -14,10 +14,10 @@ class BarPack : public QWidget {
           QWidget* parent = nullptr,
           const std::shared_ptr<Storage>& hero_storage = nullptr,
           const std::shared_ptr<Storage>& object_storage = nullptr,
-          int center_x = constants::kWindowWidth / 2,
-          int y = 3 * constants::kWindowHeight / 5,
-          int width = constants::kWindowWidth / 2,
-          int height = 2 * constants::kWindowHeight / 5);
+          int center_x = constants::kBarPackDefaultCenteredX,
+          int y = constants::kBarPackDefaultY,
+          int width = constants::kBarPackDefaultWidth,
+          int height = constants::kBarPackDefaultHeight);
 
   ItemBar* GetHeroBar();
   ItemBar* GetObjectBar();

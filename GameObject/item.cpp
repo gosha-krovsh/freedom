@@ -1,7 +1,7 @@
 #include "item.h"
 
 Item::Item(int id, const QString& name, const QPixmap& image) :
-    name_(std::move(name)),
+    name_(name),
     id_(id),
     image_(image) {}
 

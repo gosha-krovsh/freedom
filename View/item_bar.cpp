@@ -9,7 +9,7 @@ ItemBar::ItemBar(int id,
                    controller_(controller),
                    storage_(storage),
                    layout_(new QHBoxLayout()) {
-  for (int i = 0; i < constants::kMaxElementsInItemBar; i++) {
+  for (int i = 0; i < constants::kMaxElementsInItemBar; ++i) {
     QPushButton* button = new QPushButton(this);
     button->setObjectName(tr("item_bar_button"));
     // NoFocus policy doesn't allow buttons to overlap arrow-keys functionality
@@ -48,7 +48,7 @@ void ItemBar::SetStyles() {
 }
 
 void ItemBar::ConnectButtons() {
-  for (int i = 0; i < constants::kMaxElementsInItemBar; i++) {
+  for (int i = 0; i < constants::kMaxElementsInItemBar; ++i) {
     connect(buttons_.at(i), &QPushButton::pressed, this, [i, this]() {
       ButtonPressed(i);
     });
@@ -80,11 +80,11 @@ void ItemBar::UpdateIcons() {
 
   int size = std::min(static_cast<int>(storage_->GetItems().size()),
                       constants::kMaxElementsInItemBar);
-  for (int i = 0; i < size; i++) {
+  for (int i = 0; i < size; ++i) {
     QPixmap image = storage_->GetItems().at(i).GetImage();
     QString name = storage_->GetItems().at(i).GetName();
 
-    QIcon icon{};
+    QIcon icon;
     icon.addPixmap(image, QIcon::Active);
     icon.addPixmap(image, QIcon::Disabled);
     buttons_.at(i)->setToolTip(name);
@@ -95,26 +95,27 @@ void ItemBar::UpdateIcons() {
 }
 
 void ItemBar::ClearIconsFromIndex(int index) {
-  for (int i = index; i < constants::kMaxElementsInItemBar; i++) {
+  for (int i = index; i < constants::kMaxElementsInItemBar; ++i) {
     buttons_.at(i)->setIcon(QIcon());
   }
 }
 
 void ItemBar::UseItem(int) {
-  // todo::make items usable
+  // TODO::make items usable
 }
 
 void ItemBar::resizeEvent(QResizeEvent* event) {
-  layout_->setSpacing(static_cast<int>(0.01 * width()));
+  layout_->setSpacing(width() / 100);
 }
 
 void ItemBar::SetButtonsSize(int width, int max_height) {
   int size = std::min(width / constants::kMaxElementsInItemBar, max_height);
-  int space_between_buttons = size / 25;
+  int space_between_buttons =
+      size / constants::kCoeffitientForSpaceBetweenButtons;
 
   size -= space_between_buttons;
   for (auto& button : buttons_) {
     button->setFixedSize(size, size);
-    button->setIconSize(button->size() * 0.8);
+    button->setIconSize(button->size() * constants::kCoeffitientForIconSize);
   }
 }

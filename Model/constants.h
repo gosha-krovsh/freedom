@@ -36,7 +36,15 @@ namespace constants {
 
   const int kTicksInMinute = 300;
 
+  // ItemBar constants
   const int kMaxElementsInItemBar = 7;
+  const int kBarPackDefaultCenteredX = kWindowWidth / 2;
+  const int kBarPackDefaultY = 3 * kWindowHeight / 5;
+  const int kBarPackDefaultWidth = kWindowWidth / 2;
+  const int kBarPackDefaultHeight = 2 * kWindowHeight / 5;
+
+  const int kCoeffitientForSpaceBetweenButtons = 25;
+  const double kCoeffitientForIconSize = 0.8;
 }  // namespace constants
 
 #endif  // MODEL_CONSTANTS_H_
