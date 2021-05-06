@@ -119,11 +119,11 @@ Object* Controller::FindIfNearestObject(
     const std::function<bool(Object*)>& predicate) {
   Hero& hero = model_->GetHero();
   Point view_vector = hero.GetViewVector() *
-      constants::kDistanceToDetectBlock;
+                      constants::kDistanceToDetectBlock;
   Point hero_coords = hero.GetCoordinates() + view_vector;
 
   double min_distance_squared = (1 + constants::kDistanceToDetectBlock) *
-      (1 + constants::kDistanceToDetectBlock);
+                                (1 + constants::kDistanceToDetectBlock);
   Object* nearest_block = nullptr;
 
   int floored_x = std::floor(hero.GetX());
@@ -136,7 +136,7 @@ Object* Controller::FindIfNearestObject(
       if (block && predicate(block)) {
         // TODO:change to new functionality
         double distance_squared = (hero_coords.x - x) * (hero_coords.x - x) +
-            (hero_coords.y - y) * (hero_coords.y - y);
+                                  (hero_coords.y - y) * (hero_coords.y - y);
         if (distance_squared < min_distance_squared + constants::kEps) {
           min_distance_squared = distance_squared;
           nearest_block = block;
