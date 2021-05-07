@@ -35,8 +35,9 @@ class ConversationWindow : public QWidget {
   QLabel* CreateConversationLabel(const QString& text);
   QPushButton* CreateAnswerButton(int answer_index, const QString& answer_text);
   QPushButton* CreateFinishConversationButton();
-  void AnswerButtonPress(int answer_index);
-  void UpdateCurrentAnswerButtons(const Conversation::Node& current_node);
+  void AnswerButtonPress(int answer_index,
+                         const std::shared_ptr<Action>& action);
+  void UpdateCurrentAnswerButtons();
   void ConnectCurrentAnswerButtonsPresses();
 
  private:
@@ -46,7 +47,9 @@ class ConversationWindow : public QWidget {
   QScrollArea* scroll_area_;
   QWidget* content_;
   QVBoxLayout* layout_;
+
   std::vector<QPushButton*> current_ans_buttons_;
+  Conversation::Node current_node_;
 };
 
 #endif  // VIEW_CONVERSATION_WINDOW_H_

@@ -11,6 +11,8 @@
 class Conversation {
  public:
   struct Answer {
+    QString GetFormattedText() const;
+
     QString text;
     int next_node_id;
     std::shared_ptr<Action> action{nullptr};

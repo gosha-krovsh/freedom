@@ -53,22 +53,22 @@ void ConversationWindow::AddNextNode(int answer_index) {
     conversation_.MoveToNextNode(answer_index);
   }
 
-  auto current_node = conversation_.GetCurrentNode();
-  CreateConversationLabel(current_node.text);
+  current_node_ = conversation_.GetCurrentNode();
+  CreateConversationLabel(current_node_.text);
 
   if (conversation_.IsLastNode()) {
     CreateFinishConversationButton();
   }
 
-  UpdateCurrentAnswerButtons(current_node);
+  UpdateCurrentAnswerButtons();
   ConnectCurrentAnswerButtonsPresses();
 }
 
-void ConversationWindow::UpdateCurrentAnswerButtons(
-    const Conversation::Node& current_node) {
+void ConversationWindow::UpdateCurrentAnswerButtons() {
   current_ans_buttons_.clear();
-  for (int i = 0; i < current_node.answers.size(); ++i) {
-    auto button = CreateAnswerButton(i, current_node.answers[i].text);
+  for (int i = 0; i < current_node_.answers.size(); ++i) {
+    auto button = CreateAnswerButton(i, current_node_.answers[i].
+                                                      GetFormattedText());
     current_ans_buttons_.emplace_back(button);
   }
 }
@@ -77,12 +77,13 @@ void ConversationWindow::ConnectCurrentAnswerButtonsPresses() {
   for (int i = 0; i < current_ans_buttons_.size(); ++i) {
     connect(current_ans_buttons_[i], &QPushButton::pressed,
             this, [this, i] {
-              AnswerButtonPress(i);
+              AnswerButtonPress(i, current_node_.answers[i].action);
             });
   }
 }
 
-void ConversationWindow::AnswerButtonPress(int answer_index) {
+void ConversationWindow::AnswerButtonPress(
+    int answer_index, const std::shared_ptr<Action>& action) {
   // Disable all buttons
   for (const auto& button : current_ans_buttons_) {
     button->setDisabled(true);
@@ -95,6 +96,9 @@ void ConversationWindow::AnswerButtonPress(int answer_index) {
   current_ans_buttons_[answer_index]->style()->
       polish(current_ans_buttons_[answer_index]);
 
+  if (action) {
+    controller_->ExecuteAction(*action);
+  }
   AddNextNode(answer_index);
 }
 
@@ -141,7 +145,7 @@ void ConversationWindow::keyPressEvent(QKeyEvent* event) {
     case Qt::Key_9: {
       int index = event->key() - Qt::Key_1;
       if (index < current_ans_buttons_.size()) {
-        AnswerButtonPress(index);
+        AnswerButtonPress(index, current_node_.answers[index].action);
       }
       break;
     }

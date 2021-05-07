@@ -2,15 +2,16 @@
 #define CONTROLLER_ABSTRACT_CONTROLLER_H_
 
 #include <memory>
-#include <vector>
 
-#include "GameObject/hero.h"
+#include <Conversations/conversation.h>
 
 class AbstractController {
  public:
   virtual ~AbstractController() = default;
 
   virtual void Tick() = 0;
+
+  virtual void ExecuteAction(const Action& action) = 0;
 
   virtual void HeroAttack() = 0;
   virtual std::shared_ptr<Conversation> StartConversation() = 0;

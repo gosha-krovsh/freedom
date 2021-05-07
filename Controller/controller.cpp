@@ -227,3 +227,7 @@ std::shared_ptr<Conversation> Controller::StartConversation() {
 void Controller::FinishConversation() {
   view_->CloseConversationWindow();
 }
+
+void Controller::ExecuteAction(const Action& action) {
+  actions_controller_->Call(action);
+}
