@@ -8,9 +8,17 @@ View::View(AbstractController* controller,
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
 
   connect(timer_, &QTimer::timeout, this, &View::TimerEvent);
-  timer_->start(1000 / constants::kFPS);
+  StartTickTimer();
 
   show();
+}
+
+void View::StartTickTimer() {
+  timer_->start(1000 / constants::kFPS);
+}
+
+void View::StopTickTimer() {
+  timer_->stop();
 }
 
 void View::paintEvent(QPaintEvent*) {
@@ -107,6 +115,7 @@ void View::keyPressEvent(QKeyEvent* event) {
     case Qt::Key_Q: {
       auto conversation = controller_->StartConversation();
       if (conversation) {
+        StopTickTimer();
         conversation_window_ = std::make_unique<ConversationWindow>(
             *conversation, controller_, this);
         InterruptAllInput();
@@ -188,4 +197,5 @@ void View::InterruptAllInput() {
 
 void View::CloseConversationWindow() {
   conversation_window_ = nullptr;
+  StartTickTimer();
 }

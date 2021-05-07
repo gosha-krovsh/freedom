@@ -30,6 +30,9 @@ class View : public QMainWindow {
   void resizeEvent(QResizeEvent*) override;
   void TimerEvent();
 
+  void StartTickTimer();
+  void StopTickTimer();
+
   void CenterCameraOnHero(QPainter* camera) const;
   bool IsInputBlocked() const;
   void InterruptAllInput();
