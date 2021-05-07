@@ -108,7 +108,7 @@ void View::keyPressEvent(QKeyEvent* event) {
       auto conversation = controller_->StartConversation();
       if (conversation) {
         conversation_window_ = std::make_unique<ConversationWindow>(
-            conversation, controller_, this);
+            *conversation, controller_, this);
         InterruptAllInput();
         resizeEvent(nullptr);
       }
