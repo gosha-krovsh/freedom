@@ -8,6 +8,7 @@
 #include <QFile>
 #include <QScrollArea>
 #include <QStyle>
+#include <QKeyEvent>
 
 #include <vector>
 
@@ -24,6 +25,7 @@ class ConversationWindow : public QWidget {
 
  private:
   void resizeEvent(QResizeEvent*) override;
+  void keyPressEvent(QKeyEvent*) override;
 
   void SetUi();
   void SetStyles();
@@ -32,8 +34,7 @@ class ConversationWindow : public QWidget {
   QLabel* CreateConversationLabel(const QString& text);
   QPushButton* CreateAnswerButton(int answer_index, const QString& answer_text);
   QPushButton* CreateFinishConversationButton();
-  void AnswerButtonPress(const std::vector<QPushButton*>& ans_buttons,
-                         int answer_index);
+  void AnswerButtonPress(int answer_index);
 
  private:
   Conversation conversation_;
@@ -42,6 +43,7 @@ class ConversationWindow : public QWidget {
   QScrollArea* scroll_area_;
   QWidget* content_;
   QVBoxLayout* layout_;
+  std::vector<QPushButton*> current_ans_buttons_;
 };
 
 #endif  // VIEW_CONVERSATION_WINDOW_H_

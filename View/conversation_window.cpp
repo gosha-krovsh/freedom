@@ -23,6 +23,8 @@ void ConversationWindow::SetUi() {
 
   scroll_area_->setWidget(content_);
   scroll_area_->setWidgetResizable(true);
+
+  setFocus();
 }
 
 void ConversationWindow::SetStyles() {
@@ -48,32 +50,31 @@ void ConversationWindow::AddNextNode(int answer_index) {
   }
 
   // Creates all answer buttons
-  std::vector<QPushButton*> ans_buttons;
+  current_ans_buttons_.clear();
   for (int i = 0; i < current_node.answers.size(); ++i) {
     auto button = CreateAnswerButton(i, current_node.answers[i].text);
-    ans_buttons.emplace_back(button);
+    current_ans_buttons_.emplace_back(button);
   }
 
   // Connects all answer buttons presses
-  for (int i = 0; i < ans_buttons.size(); ++i) {
-    connect(ans_buttons[i], &QPushButton::pressed,
-            this, [this, ans_buttons, i] {
-          AnswerButtonPress(ans_buttons, i);
+  for (int i = 0; i < current_ans_buttons_.size(); ++i) {
+    connect(current_ans_buttons_[i], &QPushButton::pressed,
+            this, [this, i] {
+          AnswerButtonPress(i);
     });
   }
 }
 
-void ConversationWindow::AnswerButtonPress(
-    const std::vector<QPushButton*>& ans_buttons, int answer_index) {
+void ConversationWindow::AnswerButtonPress(int answer_index) {
   // Disable all buttons
-  for (const auto& bt : ans_buttons) {
-    bt->setDisabled(true);
+  for (const auto& button : current_ans_buttons_) {
+    button->setDisabled(true);
   }
 
   // Update StyleSheets for selected button
-  ans_buttons[answer_index]->setObjectName("selected_answer_button");
-  ans_buttons[answer_index]->style()->unpolish(ans_buttons[answer_index]);
-  ans_buttons[answer_index]->style()->polish(ans_buttons[answer_index]);
+  current_ans_buttons_[answer_index]->setObjectName("selected_answer_button");
+  current_ans_buttons_[answer_index]->style()->unpolish(current_ans_buttons_[answer_index]);
+  current_ans_buttons_[answer_index]->style()->polish(current_ans_buttons_[answer_index]);
 
   AddNextNode(answer_index);
 }
@@ -106,4 +107,21 @@ QPushButton* ConversationWindow::CreateFinishConversationButton() {
             controller_->FinishConversation();
           });
   return button;
+}
+
+void ConversationWindow::keyPressEvent(QKeyEvent* event) {
+  switch (event->key()) {
+    case Qt::Key_1:
+    case Qt::Key_2:
+    case Qt::Key_3:
+    case Qt::Key_4:
+    case Qt::Key_5:
+    case Qt::Key_6:
+    case Qt::Key_7:
+    case Qt::Key_8:
+    case Qt::Key_9: {
+      AnswerButtonPress(event->key() - Qt::Key_1);
+      break;
+    }
+  }
 }
