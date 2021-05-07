@@ -24,11 +24,16 @@ QScrollBar::handle {
     margin: 5%;
 }
 
-QPushButton#answer_button {
+QPushButton#answer_button,
+QPushButton#selected_answer_button {
     background: none;
+    padding: 8%;
+    text-align: left;
+}
+
+QPushButton#answer_button {
     color: lightcoral;
     border: none;
-    padding: 8%;
 }
 
 QPushButton#answer_button:hover {
@@ -37,10 +42,8 @@ QPushButton#answer_button:hover {
 }
 
 QPushButton#selected_answer_button {
-    background: none;
     color: rgba(255, 0, 0, 1);
     border: 2px solid red;
-    padding: 8%;
 }
 
 QPushButton#finish_button {

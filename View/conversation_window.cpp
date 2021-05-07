@@ -82,7 +82,7 @@ QPushButton* ConversationWindow::CreateAnswerButton(
     int answer_index, const QString& answer_text) {
   QString button_text = QString::number(answer_index + 1) + ". " + answer_text;
   QPushButton* ans_button = new QPushButton(button_text, this);
-  ans_button->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  ans_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
   ans_button->setObjectName("answer_button");
   layout_->addWidget(ans_button);
   return ans_button;
