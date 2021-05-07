@@ -132,6 +132,27 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
   return std::make_unique<GameMap>(x_size, y_size, z_size, objects, rooms);
 }
 
+
+// conversations.json structure:
+// [
+//   [  // Conversation.id = 0
+//     [0, "Question/text 1", [
+//       ["Answer1", id1],
+//       ["Answer2", id2, "MyAction(p1,p2,...)],
+//       ["Answer3", id3],
+//       ...
+//     ]],
+//     [id1, "Question/text 2", [
+//       ["Answer1", id4],
+//       ...
+//     ]],
+//     ...
+//   ],
+//   [  // Conversation.id = 1
+//     ...
+//   ]
+//   ...
+// ]
 std::vector<std::shared_ptr<Conversation>>
     DataController::ParseConversations() {
   QFile file(":conversations.json");

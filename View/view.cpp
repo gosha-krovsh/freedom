@@ -188,8 +188,11 @@ void View::changeEvent(QEvent* event) {
 
 void View::resizeEvent(QResizeEvent*) {
   if (conversation_window_) {
-    conversation_window_->setGeometry(0.25 * width(), 0.65 * height(),
-                                      0.5 * width(), 0.3 * height());
+    conversation_window_->setGeometry(
+        constants::kXConversationWindowMultiplier * width(),
+        constants::kYConversationWindowMultiplier * height(),
+        constants::kWidthConversationWindowMultiplier * width(),
+        constants::kHeightConversationWindowMultiplier * height());
   }
 }
 

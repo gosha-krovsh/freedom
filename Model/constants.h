@@ -42,6 +42,11 @@ namespace constants {
   const int kWindowHeight = 500;
   const int kFPS = 60;
 
+  const double kXConversationWindowMultiplier = 0.25;
+  const double kYConversationWindowMultiplier = 0.65;
+  const double kWidthConversationWindowMultiplier = 0.5;
+  const double kHeightConversationWindowMultiplier = 0.3;
+
   const int kTicksInMinute = 300;
 
   const int kCountOfBots = 3;
