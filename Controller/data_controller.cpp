@@ -31,17 +31,7 @@ std::unique_ptr<Schedule> DataController::ParseSchedule() {
 
     std::vector<Action> actions;
     for (const auto& element : methods_array) {
-      QJsonObject jparametres = element.toObject();
-
-      QString name = jparametres.value("action").toString();
-      std::vector<QString> parameters;
-
-      for (const auto& param : jparametres.value("arguments").toArray()) {
-        parameters.emplace_back(param.toString());
-      }
-
-      Action action{name, parameters};
-      actions.push_back(action);
+      actions.emplace_back(ParseAction(element.toString()));
     }
 
     schedule[Time(time_array.at(0).toInt(0),

@@ -22,7 +22,7 @@ class Time {
   bool operator>(const Time&) const;
   bool operator>=(const Time&) const;
 
-  std::string ToString() const;  // Fromat HH:MM
+  std::string ToString() const;  // Format HH:MM
 
  private:
   int minutes_ = 0;
