@@ -9,6 +9,7 @@
 #include <QScrollArea>
 #include <QStyle>
 #include <QKeyEvent>
+#include <QScrollBar>
 
 #include <vector>
 
@@ -35,6 +36,8 @@ class ConversationWindow : public QWidget {
   QPushButton* CreateAnswerButton(int answer_index, const QString& answer_text);
   QPushButton* CreateFinishConversationButton();
   void AnswerButtonPress(int answer_index);
+  void UpdateCurrentAnswerButtons(const Conversation::Node& current_node);
+  void ConnectCurrentAnswerButtonsPresses();
 
  private:
   Conversation conversation_;

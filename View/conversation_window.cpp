@@ -23,6 +23,17 @@ void ConversationWindow::SetUi() {
 
   scroll_area_->setWidget(content_);
   scroll_area_->setWidgetResizable(true);
+  scroll_area_->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
+  // Autoscroll to the end. When there are many answers on a small screen, the
+  // question can be not seen. Can memorize position of question labels and set
+  // value here somehow, but on big screens with a few answers everything
+  // will be OK.
+  auto scroll_bar = scroll_area_->verticalScrollBar();
+  connect(scroll_bar, &QScrollBar::rangeChanged,
+          this, [scroll_bar]() {
+            scroll_bar->setValue(scroll_bar->maximum());
+          });
 
   setFocus();
 }
@@ -38,7 +49,7 @@ void ConversationWindow::resizeEvent(QResizeEvent*) {
 }
 
 void ConversationWindow::AddNextNode(int answer_index) {
-  if (answer_index != - 1) {
+  if (answer_index != -1) {
     conversation_.MoveToNextNode(answer_index);
   }
 
@@ -49,19 +60,25 @@ void ConversationWindow::AddNextNode(int answer_index) {
     CreateFinishConversationButton();
   }
 
-  // Creates all answer buttons
+  UpdateCurrentAnswerButtons(current_node);
+  ConnectCurrentAnswerButtonsPresses();
+}
+
+void ConversationWindow::UpdateCurrentAnswerButtons(
+    const Conversation::Node& current_node) {
   current_ans_buttons_.clear();
   for (int i = 0; i < current_node.answers.size(); ++i) {
     auto button = CreateAnswerButton(i, current_node.answers[i].text);
     current_ans_buttons_.emplace_back(button);
   }
+}
 
-  // Connects all answer buttons presses
+void ConversationWindow::ConnectCurrentAnswerButtonsPresses() {
   for (int i = 0; i < current_ans_buttons_.size(); ++i) {
     connect(current_ans_buttons_[i], &QPushButton::pressed,
             this, [this, i] {
-          AnswerButtonPress(i);
-    });
+              AnswerButtonPress(i);
+            });
   }
 }
 
@@ -73,8 +90,10 @@ void ConversationWindow::AnswerButtonPress(int answer_index) {
 
   // Update StyleSheets for selected button
   current_ans_buttons_[answer_index]->setObjectName("selected_answer_button");
-  current_ans_buttons_[answer_index]->style()->unpolish(current_ans_buttons_[answer_index]);
-  current_ans_buttons_[answer_index]->style()->polish(current_ans_buttons_[answer_index]);
+  current_ans_buttons_[answer_index]->style()->
+      unpolish(current_ans_buttons_[answer_index]);
+  current_ans_buttons_[answer_index]->style()->
+      polish(current_ans_buttons_[answer_index]);
 
   AddNextNode(answer_index);
 }
@@ -120,7 +139,10 @@ void ConversationWindow::keyPressEvent(QKeyEvent* event) {
     case Qt::Key_7:
     case Qt::Key_8:
     case Qt::Key_9: {
-      AnswerButtonPress(event->key() - Qt::Key_1);
+      int index = event->key() - Qt::Key_1;
+      if (index < current_ans_buttons_.size()) {
+        AnswerButtonPress(index);
+      }
       break;
     }
   }
