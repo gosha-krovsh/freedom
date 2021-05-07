@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QString>
 
+#include <memory>
 #include <vector>
 
 #include "../GameObject/action.h"

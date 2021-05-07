@@ -11,6 +11,7 @@
 #include <QKeyEvent>
 #include <QScrollBar>
 
+#include <memory>
 #include <vector>
 
 #include "Controller/abstract_controller.h"
