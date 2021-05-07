@@ -33,15 +33,14 @@ std::unique_ptr<Schedule> DataController::ParseSchedule() {
     for (const auto& element : methods_array) {
       QJsonObject jparametres = element.toObject();
 
-      std::string name = jparametres.value("action").toString().toStdString();
-      std::vector<std::string> parametres;
+      QString name = jparametres.value("action").toString();
+      std::vector<QString> parameters;
 
       for (const auto& param : jparametres.value("arguments").toArray()) {
-        std::string str = param.toString().toStdString();
-        parametres.push_back(str);
+        parameters.emplace_back(param.toString());
       }
 
-      Action action{name, parametres};
+      Action action{name, parameters};
       actions.push_back(action);
     }
 
@@ -170,14 +169,18 @@ std::vector<std::shared_ptr<Conversation>>
       QJsonArray j_answers = j_node[2].toArray();
       for (const auto& j_ans_obj : j_answers) {
         QJsonArray j_ans = j_ans_obj.toArray();
-        if (j_ans.size() != 2) {
+        if (j_ans.size() != 2 && j_ans.size() != 3) {
           qDebug() << "Invalid node: conversation_id = " << i;
         }
 
         Conversation::Answer answer;
         answer.text = j_ans[0].toString();
         answer.next_node_id = j_ans[1].toInt();
-        node.answers.emplace_back(answer);
+        if (j_ans.size() == 3) {
+          answer.action = std::make_shared<Action>(
+              ParseAction(j_ans[2].toString()));
+        }
+        node.answers.emplace_back(std::move(answer));  // CHECK IF PTR CORRECT
       }
 
       nodes.emplace_back(node);
@@ -186,4 +189,12 @@ std::vector<std::shared_ptr<Conversation>>
   }
 
   return conversations;
+}
+
+// "Name(p1,p2...)" --> Action("Name", {"p1", "p2"})
+Action DataController::ParseAction(const QString& j_str) {
+  QString name = j_str.split("(")[0];
+  QStringList list_params = (j_str.split("(")[1]).split(")")[0].split(",");
+  std::vector<QString> params(list_params.begin(), list_params.end());
+  return Action(name, params);
 }

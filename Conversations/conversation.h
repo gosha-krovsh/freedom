@@ -6,11 +6,14 @@
 
 #include <vector>
 
+#include "../GameObject/action.h"
+
 class Conversation {
  public:
   struct Answer {
     QString text;
     int next_node_id;
+    std::shared_ptr<Action> action{nullptr};
   };
 
   struct Node {

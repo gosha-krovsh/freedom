@@ -6,7 +6,7 @@
       ["You are not my friend", 2]
     ]],
     [1, "I can tell you a lot of things about this prison. But not today. I want to sleep.", [
-      ["Ok", 3],
+      ["Ok", 3, "Move(-1,1,1,1)"],
       ["Ugu, sleep, sleep while you can!", 2]
     ]],
     [2, "You'll regret about this!", []],

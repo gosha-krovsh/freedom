@@ -29,6 +29,8 @@ class DataController {
   std::vector<std::shared_ptr<Conversation>> ParseConversations();
 
  private:
+  Action ParseAction(const QString& j_str);
+
   std::shared_ptr<Model> model_;
 };
 
