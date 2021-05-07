@@ -35,6 +35,16 @@ void Model::SetConversations(
   bots_.at(0).SetCurrentConversation(conversations_[0]);
 }
 
+void Model::CreateFightingPair(Creature* first, Creature* second) {
+  fighting_pairs_.emplace_back(first, second);
+}
+std::pair<Creature*, Creature*> Model::GetFightingPairWithIndex(int index) {
+  return fighting_pairs_.at(index);
+}
+int Model::GetNumberOfFightingPairs() const {
+  return fighting_pairs_.size();
+}
+
 const GameMap& Model::GetMap() const {
   return *map_;
 }
@@ -85,4 +95,8 @@ const std::vector<Quest>& Model::GetCurrentQuests() const {
 
 std::vector<Quest>& Model::GetCurrentQuests() {
   return current_quests_;
+}
+
+void Model::DeleteFightingPairWithIndex(int index) {
+  fighting_pairs_.erase(fighting_pairs_.begin() + index);
 }

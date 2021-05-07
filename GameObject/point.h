@@ -35,7 +35,8 @@ class Point {
   // about the origin of a 2-dimensional Cartesian coordinate system.
   void Rotate(double angle);
 
-  double DistanceFrom(const Point&) const;
+  double SquaredDistanceFrom(const Point& other) const;
+  double DistanceFrom(const Point& other) const;
 
   bool operator==(const Point& rhs) const;
   bool operator!=(const Point& rhs) const;

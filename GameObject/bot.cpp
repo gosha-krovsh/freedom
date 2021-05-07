@@ -31,4 +31,6 @@ void Bot::MakeStep() {
   NormalizeSpeedVector(speed_vector);
 }
 
-void Bot::OnDead() {}
+void Bot::OnDead() {
+  Creature::OnDead();
+}

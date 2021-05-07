@@ -20,14 +20,13 @@ void Hero::UpdateMovement(bool left, bool up, bool right, bool down) {
   UpdateViewDirection();
 }
 
-void Hero::OnDead() {}
-
 int Hero::GetRoundedX() const {
   return Object::GetRoundedX();
 }
 int Hero::GetRoundedY() const {
   return Object::GetRoundedY();
 }
+
 int Hero::GetAttack() const {
   return Creature::GetAttack();
 }
@@ -35,4 +34,8 @@ int Hero::GetAttack() const {
 void Hero::UpdateSpeedVector(const Point& screen_vector) {
   Point speed_vector = Point::FromScreenPoint(screen_vector);
   NormalizeSpeedVector(speed_vector);
+}
+
+void Hero::OnDead() {
+  Creature::OnDead();
 }

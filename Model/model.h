@@ -18,8 +18,6 @@
 #include "GameObject/schedule.h"
 #include "Quests/quest.h"
 
-#include "GameObject/creature.h"  // temp
-
 class Model {
  public:
   Model();
@@ -27,6 +25,11 @@ class Model {
   void SetMap(std::unique_ptr<GameMap>&&);
   void SetSchedule(std::unique_ptr<Schedule>&&);
   void SetConversations(std::vector<std::shared_ptr<Conversation>>&&);
+
+  void CreateFightingPair(Creature* first, Creature* second);
+  void DeleteFightingPairWithIndex(int index);
+  std::pair<Creature*, Creature*> GetFightingPairWithIndex(int index);
+  int GetNumberOfFightingPairs() const;
 
   const GameMap& GetMap() const;
   GameMap& GetMap();
@@ -53,6 +56,7 @@ class Model {
   std::vector<Bot> bots_;
   std::vector<Quest> quests_;
   std::vector<Quest> current_quests_;
+  std::vector<std::pair<Creature*, Creature*>> fighting_pairs_;
   std::vector<std::shared_ptr<Conversation>> conversations_;
 };
 

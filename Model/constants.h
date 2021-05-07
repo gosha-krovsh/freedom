@@ -11,10 +11,16 @@ namespace constants {
   const int kAttack = 25;
   const double kSpeed = 0.05;
   const int kAttackCooldown = 40;
+  const double kAttackRadius = 0.65;
+
+  // Shift circle attack of Hero to forward
+  // to avoid attacking bots which are behind Hero.
+  const double kCoefficientForShiftingCircleAttack = 0.5;
 
   // All durations are measured in ticks
   const int kDurationOfOneAnimationFrame = 15;
-  const int kDurationOfWallShaking = 10;
+  const int kDurationOfShaking = 10;
+
   const double kShakeAmplitude = 0.01;
   const double kDistanceToDetectBlock = 2 * kSpeed;
 
