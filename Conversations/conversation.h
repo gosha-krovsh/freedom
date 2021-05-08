@@ -7,7 +7,7 @@
 #include <memory>
 #include <vector>
 
-#include "../GameObject/action.h"
+#include "GameObject/action.h"
 
 class Conversation {
  public:
