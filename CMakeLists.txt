@@ -21,6 +21,7 @@ add_executable(${PROJECT_NAME}
         Model/image_manager.cpp
 
         View/view.cpp
+        View/conversation_window.cpp
 
         Controller/action_controller.cpp
         Controller/controller.cpp
@@ -43,6 +44,7 @@ add_executable(${PROJECT_NAME}
 
         Quests/quest.cpp
         Quests/quest_node.cpp
+        Conversations/conversation.cpp
         )
 
 if (NOT CMAKE_PREFIX_PATH)

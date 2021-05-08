@@ -9,6 +9,7 @@
 
 #include "image_manager.h"
 
+#include "Conversations/conversation.h"
 #include "GameObject/action.h"
 #include "GameObject/bot.h"
 #include "GameObject/game_map.h"
@@ -21,8 +22,9 @@ class Model {
  public:
   Model();
 
-  void SetMap(std::unique_ptr<GameMap>&& game_map);
-  void SetSchedule(std::unique_ptr<Schedule>&& schedule);
+  void SetMap(std::unique_ptr<GameMap>&&);
+  void SetSchedule(std::unique_ptr<Schedule>&&);
+  void SetConversations(std::vector<std::shared_ptr<Conversation>>&&);
 
   void CreateFightingPair(Creature* first, Creature* second);
   void DeleteFightingPairWithIndex(int index);
@@ -55,6 +57,7 @@ class Model {
   std::vector<Quest> quests_;
   std::vector<Quest> current_quests_;
   std::vector<std::pair<Creature*, Creature*>> fighting_pairs_;
+  std::vector<std::shared_ptr<Conversation>> conversations_;
 };
 
 #endif  // MODEL_MODEL_H_

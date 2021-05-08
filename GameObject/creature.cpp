@@ -106,6 +106,7 @@ void Creature::SetAction(Creature::Action action) {
 bool Creature::IsDestroyed() const {
   return Destroyable::IsDestroyed();
 }
+
 int Creature::GetHP() const {
   return Destroyable::GetHP();
 }
@@ -113,6 +114,16 @@ int Creature::GetHP() const {
 void Creature::OnDead() {
   action_ = Action::kDead;
 }
+
 Point Creature::GetDrawOffset() const {
   return ShakingObject::GetOffset();
+}
+
+std::shared_ptr<Conversation> Creature::GetCurrentConversation() const {
+  return current_conversation_;
+}
+
+void Creature::SetCurrentConversation(
+    const std::shared_ptr<Conversation>& conversation) {
+  current_conversation_ = conversation;
 }

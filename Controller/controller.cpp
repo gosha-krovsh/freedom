@@ -9,6 +9,7 @@ Controller::Controller()
       current_tick_(0) {
   model_->SetMap(std::move(data_controller_->ParseGameMap()));
   model_->SetSchedule(std::move(data_controller_->ParseSchedule()));
+  model_->SetConversations(std::move(data_controller_->ParseConversations()));
 }
 
 void Controller::Tick() {
@@ -143,14 +144,14 @@ void Controller::HeroAttack() {
   }
 }
 
-Creature* Controller::FindNearestBotInRadius(double radius) {
+Bot* Controller::FindNearestBotInRadius(double radius) {
   Hero& hero = model_->GetHero();
   Point hero_coords = hero.GetCoordinates() +
                       constants::kCoefficientForShiftingCircleAttack * radius *
                       hero.GetViewVector();
   double squared_radius = radius * radius;
 
-  Creature* nearest_bot = nullptr;
+  Bot* nearest_bot = nullptr;
   double squared_distance = squared_radius;
   for (auto& bot : model_->GetBots()) {
     double new_squared_distance =
@@ -216,4 +217,20 @@ void Controller::UpdateHeroMovingDirection() {
                                    control_key_states_.up,
                                    control_key_states_.right,
                                    control_key_states_.down);
+}
+
+std::shared_ptr<Conversation> Controller::StartConversation() {
+  auto bot = FindNearestBotInRadius(constants::kStartConversationRadius);
+  if (!bot) {
+    return nullptr;
+  }
+  return bot->GetCurrentConversation();
+}
+
+void Controller::FinishConversation() {
+  view_->CloseConversationWindow();
+}
+
+void Controller::ExecuteAction(const Action& action) {
+  actions_controller_->Call(action);
 }

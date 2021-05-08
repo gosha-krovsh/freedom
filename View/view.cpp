@@ -1,15 +1,24 @@
 #include "view.h"
 
 View::View(AbstractController* controller,
-           const std::shared_ptr<Model>& model) : controller_(controller),
-                                                  model_(model),
-                                                  timer_(new QTimer(this)) {
+           const std::shared_ptr<Model>& model) :
+           controller_(controller),
+           model_(model),
+           timer_(new QTimer(this)) {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
 
   connect(timer_, &QTimer::timeout, this, &View::TimerEvent);
-  timer_->start(1000 / constants::kFPS);
+  StartTickTimer();
 
   show();
+}
+
+void View::StartTickTimer() {
+  timer_->start(1000 / constants::kFPS);
+}
+
+void View::StopTickTimer() {
+  timer_->stop();
 }
 
 void View::paintEvent(QPaintEvent*) {
@@ -53,9 +62,8 @@ void View::paintEvent(QPaintEvent*) {
           if (current_bot.GetRoundedX() == x &&
               current_bot.GetRoundedY() == y &&
               current_bot.GetRoundedZ() == z) {
-            double dist =
-                hero.GetCoordinates().
-                    DistanceFrom(current_bot.GetCoordinates());
+            double dist = hero.GetCoordinates().
+                               DistanceFrom(current_bot.GetCoordinates());
             painter.setOpacity(std::max(dist / 2,
                                         constants::kBotOpacity));
             current_bot.Draw(&painter);
@@ -104,9 +112,24 @@ void View::TimerEvent() {
 }
 
 void View::keyPressEvent(QKeyEvent* event) {
+  if (IsInputBlocked()) {
+    return;
+  }
+
   switch (event->key()) {
     case Qt::Key_Space: {
       controller_->HeroAttack();
+      break;
+    }
+    case Qt::Key_Q: {
+      auto conversation = controller_->StartConversation();
+      if (conversation) {
+        StopTickTimer();
+        conversation_window_ = std::make_unique<ConversationWindow>(
+            *conversation, controller_, this);
+        InterruptAllInput();
+        resizeEvent(nullptr);
+      }
       break;
     }
     case Qt::Key_Up:
@@ -159,9 +182,32 @@ void View::keyReleaseEvent(QKeyEvent* event) {
 
 void View::changeEvent(QEvent* event) {
   if (event->type() == QEvent::ActivationChange && !isActiveWindow()) {
-    controller_->SetControlUpKeyState(false);
-    controller_->SetControlRightKeyState(false);
-    controller_->SetControlDownKeyState(false);
-    controller_->SetControlLeftKeyState(false);
+    InterruptAllInput();
   }
+}
+
+void View::resizeEvent(QResizeEvent*) {
+  if (conversation_window_) {
+    conversation_window_->setGeometry(
+        constants::kXConversationWindowMultiplier * width(),
+        constants::kYConversationWindowMultiplier * height(),
+        constants::kWidthConversationWindowMultiplier * width(),
+        constants::kHeightConversationWindowMultiplier * height());
+  }
+}
+
+bool View::IsInputBlocked() const {
+  return (conversation_window_ != nullptr);
+}
+
+void View::InterruptAllInput() {
+  controller_->SetControlUpKeyState(false);
+  controller_->SetControlRightKeyState(false);
+  controller_->SetControlDownKeyState(false);
+  controller_->SetControlLeftKeyState(false);
+}
+
+void View::CloseConversationWindow() {
+  conversation_window_ = nullptr;
+  StartTickTimer();
 }

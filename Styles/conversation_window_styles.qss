@@ -1,0 +1,58 @@
+* {
+    font-size: 18px;
+    color: white;
+}
+
+QScrollArea {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+/* Box of the slider */
+QScrollBar:vertical {
+    background: rgb(121, 121, 121);
+    width: 12%;
+}
+
+/* Horizontal and vertical slider itself */
+QScrollBar::handle {
+    background: lightcoral;
+    border-radius: 6px;
+}
+
+#content {
+    background: rgba(0, 0, 0, 0);  /* opaque */
+    margin: 5%;
+}
+
+QPushButton#answer_button,
+QPushButton#selected_answer_button {
+    background: none;
+    padding: 8%;
+    text-align: left;
+}
+
+QPushButton#answer_button {
+    color: lightcoral;
+    border: none;
+}
+
+QPushButton#answer_button:hover {
+    color: rgba(255, 0, 0, 1);
+    border: 2px dashed red;
+}
+
+QPushButton#selected_answer_button {
+    color: rgba(255, 0, 0, 1);
+    border: 2px solid red;
+}
+
+QPushButton#finish_button {
+    background: rgba(255, 0, 0, 1);
+    color: white;
+    border: 2px solid red;
+    border-radius: 12px;
+}
+
+QPushButton#finish_button:hover {
+    background: rgba(255, 0, 0, 0.5);
+}

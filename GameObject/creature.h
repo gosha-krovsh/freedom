@@ -11,6 +11,7 @@
 #include "destroyable.h"
 #include "dynamic_object.h"
 #include "shaking_object.h"
+#include "Conversations/conversation.h"
 
 class Creature : public DynamicObject,
                  public Destroyable,
@@ -41,6 +42,9 @@ class Creature : public DynamicObject,
   void OnDead() override;
   Point GetDrawOffset() const override;
 
+  std::shared_ptr<Conversation> GetCurrentConversation() const;
+  void SetCurrentConversation(const std::shared_ptr<Conversation>&);
+
  protected:
   Action action_{Action::kIdle};
   void NormalizeSpeedVector(const Point& speed_vector);
@@ -55,6 +59,7 @@ class Creature : public DynamicObject,
   Animator<State> animator_{GetState()};
   int attack_cooldown_{0};
   int attack_{constants::kAttack};
+  std::shared_ptr<Conversation> current_conversation_;
 };
 
 #endif  // GAMEOBJECT_CREATURE_H_

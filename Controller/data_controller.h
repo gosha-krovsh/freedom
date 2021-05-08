@@ -12,6 +12,7 @@
 #include <utility>
 #include <vector>
 
+#include "Conversations/conversation.h"
 #include "GameObject/action.h"
 #include "GameObject/game_time.h"
 #include "GameObject/schedule.h"
@@ -25,8 +26,11 @@ class DataController {
 
   std::unique_ptr<Schedule> ParseSchedule();
   std::unique_ptr<GameMap> ParseGameMap();
+  std::vector<std::shared_ptr<Conversation>> ParseConversations();
 
  private:
+  Action ParseAction(const QString& j_str);
+
   std::shared_ptr<Model> model_;
 };
 

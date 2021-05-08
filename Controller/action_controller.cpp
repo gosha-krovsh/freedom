@@ -3,21 +3,25 @@
 ActionController::ActionController(const std::shared_ptr<Model>& model) :
     model_(model) {}
 
-void ActionController::Call(const std::vector<Action>& command) {
-  for (const auto& method_to_call : command) {
-    switch (method_to_call.GetActionType()) {
-      case Action::ActionType::kMove: {
-        Move(std::stoi(method_to_call.GetParameters().at(0)),
-             Point(std::stoi(method_to_call.GetParameters().at(1)),
-                   std::stoi(method_to_call.GetParameters().at(2)),
-                   std::stoi(method_to_call.GetParameters().at(3))));
-        break;
-      }
-      case Action::ActionType::kWrongArg: {
-        qDebug() << "Wrong Action";
-        break;
-      }
+void ActionController::Call(const Action& method) {
+  switch (method.GetActionType()) {
+    case Action::ActionType::kMove: {
+      Move(method.GetParameters().at(0).toInt(),
+           Point(method.GetParameters().at(1).toInt(),
+                 method.GetParameters().at(2).toInt(),
+                 method.GetParameters().at(3).toInt()));
+      break;
     }
+    case Action::ActionType::kWrongArg: {
+      qDebug() << "Wrong Action";
+      break;
+    }
+  }
+}
+
+void ActionController::Call(const std::vector<Action>& methods) {
+  for (const auto& method : methods) {
+    Call(method);
   }
 }
 

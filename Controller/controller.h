@@ -22,7 +22,11 @@ class Controller : public AbstractController {
 
   void Tick() override;
 
+  void ExecuteAction(const Action& action) override;
+
   void HeroAttack() override;
+  std::shared_ptr<Conversation> StartConversation() override;
+  void FinishConversation() override;
 
   void SetControlUpKeyState(bool state) override;
   void SetControlRightKeyState(bool state) override;
@@ -43,7 +47,7 @@ class Controller : public AbstractController {
   void ProcessFighting();
   void ProcessFighting(Creature* attacker, Creature* victim, int* i);
   Object* FindNearestObjectWithType(Object::Type type);
-  Creature* FindNearestBotInRadius(double radius);
+  Bot* FindNearestBotInRadius(double radius);
 
  private:
   std::shared_ptr<Model> model_;

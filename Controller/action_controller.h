@@ -15,7 +15,8 @@
 class ActionController {
  public:
   explicit ActionController(const std::shared_ptr<Model>& model);
-  void Call(const std::vector<Action>& command);
+  void Call(const Action& method);
+  void Call(const std::vector<Action>& methods);
   void Tick(int current_tick);
 
   // Methods for actions

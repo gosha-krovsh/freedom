@@ -2,6 +2,7 @@
 #include "image_manager.h"
 
 Model::Model() {
+  // TODO: Parse bots from JSON
   bots_.emplace_back("Hero", Point(4, 1, 1),
                      std::vector<Point>(
                          {Point(4, 6, 1),
@@ -28,6 +29,12 @@ void Model::SetSchedule(std::unique_ptr<Schedule>&& schedule) {
   schedule_ = std::move(schedule);
 }
 
+void Model::SetConversations(
+    std::vector<std::shared_ptr<Conversation>>&& conversations) {
+  conversations_ = std::move(conversations);
+  bots_.at(0).SetCurrentConversation(conversations_[0]);
+}
+
 void Model::CreateFightingPair(Creature* first, Creature* second) {
   fighting_pairs_.emplace_back(first, second);
 }
@@ -50,6 +57,10 @@ const Hero& Model::GetHero() const {
 }
 Hero& Model::GetHero() {
   return hero_;
+}
+
+std::vector<Bot>& Model::GetBots() {
+  return bots_;
 }
 const std::vector<Bot>& Model::GetBots() const {
   return bots_;
@@ -88,8 +99,4 @@ std::vector<Quest>& Model::GetCurrentQuests() {
 
 void Model::DeleteFightingPairWithIndex(int index) {
   fighting_pairs_.erase(fighting_pairs_.begin() + index);
-}
-
-std::vector<Bot>& Model::GetBots() {
-  return bots_;
 }
