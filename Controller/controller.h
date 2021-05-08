@@ -47,7 +47,7 @@ class Controller : public AbstractController {
   void ProcessFighting();
   void ProcessFighting(Creature* attacker, Creature* victim, int* i);
   Object* FindNearestObjectWithType(Object::Type type);
-  Creature* FindNearestBotInRadius(double radius);
+  Bot* FindNearestBotInRadius(double radius);
 
  private:
   std::shared_ptr<Model> model_;

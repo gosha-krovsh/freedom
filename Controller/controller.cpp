@@ -144,14 +144,14 @@ void Controller::HeroAttack() {
   }
 }
 
-Creature* Controller::FindNearestBotInRadius(double radius) {
+Bot* Controller::FindNearestBotInRadius(double radius) {
   Hero& hero = model_->GetHero();
   Point hero_coords = hero.GetCoordinates() +
                       constants::kCoefficientForShiftingCircleAttack * radius *
                       hero.GetViewVector();
   double squared_radius = radius * radius;
 
-  Creature* nearest_bot = nullptr;
+  Bot* nearest_bot = nullptr;
   double squared_distance = squared_radius;
   for (auto& bot : model_->GetBots()) {
     double new_squared_distance =
@@ -220,8 +220,11 @@ void Controller::UpdateHeroMovingDirection() {
 }
 
 std::shared_ptr<Conversation> Controller::StartConversation() {
-  Bot bot = model_->GetBots().at(0);  // temp, replace with |FindNearestBot()|
-  return bot.GetCurrentConversation();
+  auto bot = FindNearestBotInRadius(constants::kStartConversationRadius);
+  if (!bot) {
+    return nullptr;
+  }
+  return bot->GetCurrentConversation();
 }
 
 void Controller::FinishConversation() {

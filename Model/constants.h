@@ -12,6 +12,7 @@ namespace constants {
   const double kSpeed = 0.05;
   const int kAttackCooldown = 40;
   const double kAttackRadius = 0.65;
+  const double kStartConversationRadius = 1.75;
 
   // Shift circle attack of Hero to forward
   // to avoid attacking bots which are behind Hero.
