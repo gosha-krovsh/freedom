@@ -101,7 +101,7 @@ void ItemBar::ClearIconsFromIndex(int index) {
 }
 
 void ItemBar::UseItem(int) {
-  // TODO::make items usable
+  // TODO: make items usable
 }
 
 void ItemBar::resizeEvent(QResizeEvent* event) {

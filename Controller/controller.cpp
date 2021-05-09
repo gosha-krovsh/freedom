@@ -197,7 +197,7 @@ Object* Controller::FindIfNearestObject(
       auto block = map.GetBlock(x, y, hero.GetRoundedZ());
 
       if (block && predicate(block)) {
-        // TODO:change to new functionality
+        // TODO: change to new functionality
         double distance_squared = (hero_coords.x - x) * (hero_coords.x - x) +
                                   (hero_coords.y - y) * (hero_coords.y - y);
         if (distance_squared < min_distance_squared + constants::kEps) {
