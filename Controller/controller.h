@@ -34,6 +34,11 @@ class Controller : public AbstractController {
   void SetControlLeftKeyState(bool state) override;
   void UpdateHeroMovingDirection();
 
+  void OnItemPress(int id, int index) override;
+  Object* FindNearestObjectWithType(Object::Type type) override;
+  Object* FindIfNearestObject(
+      const std::function<bool(Object*)>& predicate) override;
+
  private:
   struct ControlKeyStates {
     bool up{false};
@@ -44,9 +49,12 @@ class Controller : public AbstractController {
 
  private:
   void CheckHeroCollision();
+  // Moves item from one object to another via index.
+  void MoveItem(int item_index,
+                const std::shared_ptr<Storage>& destination,
+                const std::shared_ptr<Storage>& source) override;
   void ProcessFighting();
   void ProcessFighting(Creature* attacker, Creature* victim, int* i);
-  Object* FindNearestObjectWithType(Object::Type type);
   Bot* FindNearestBotInRadius(double radius);
 
  private:

@@ -1,6 +1,8 @@
 #ifndef MODEL_MODEL_H_
 #define MODEL_MODEL_H_
 
+#include <QString>
+
 #include <list>
 #include <map>
 #include <memory>
@@ -14,6 +16,7 @@
 #include "GameObject/bot.h"
 #include "GameObject/game_map.h"
 #include "GameObject/hero.h"
+#include "GameObject/chest.h"
 #include "GameObject/wall.h"
 #include "GameObject/schedule.h"
 #include "Quests/quest.h"

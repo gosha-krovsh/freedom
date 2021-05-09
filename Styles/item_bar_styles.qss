@@ -1,0 +1,13 @@
+QPushButton#item_bar_button {
+  background-color: rgba(0, 0, 0, 0.3);
+
+  border: 2px solid gray;
+  border-radius: 12px;
+  margin-left: 2%;
+  margin-right: 2%;
+  position: relative;
+}
+
+QPushButton#item_bar_button:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}

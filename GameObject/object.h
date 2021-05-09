@@ -8,13 +8,15 @@
 #include "Model/constants.h"
 #include "point.h"
 #include "interacting_object.h"
+#include "storage.h"
 
 class Object {
  public:
   enum class Type {
     kNone,
     kFloor,
-    kWall
+    kWall,
+    kChest
   };
 
  public:
@@ -40,7 +42,10 @@ class Object {
   void SetY(double y);
   void SetZ(double z);
 
+  std::shared_ptr<Storage> GetStorage();
+
   bool IsTouchable() const;
+  bool IsStorable() const;
   bool IsType(Type object_type) const;
   bool ToDelete() const;
 
@@ -52,6 +57,8 @@ class Object {
   bool is_touchable_{true};
   bool delete_on_next_tick_{false};
   Type type_{Type::kNone};
+
+  std::shared_ptr<Storage> storage_ = nullptr;
 
  private:
   Point coordinates_;

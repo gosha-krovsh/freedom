@@ -120,6 +120,14 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
                                           model_->GetImage("brick")));
             break;
           }
+          case Object::Type::kChest: {
+            // Temporary code
+            objects.emplace_back(new Chest(
+                Point(x, y, z),
+                model_->GetImage("brick"),
+                {Item(0, "Block", model_->GetImage("brick"))}));
+            break;
+          }
           default: {
             qDebug() << "Not handled type of object";
             break;

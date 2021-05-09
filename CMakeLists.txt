@@ -20,6 +20,8 @@ add_executable(${PROJECT_NAME}
         Model/model.cpp
         Model/image_manager.cpp
 
+        View/bar_pack.cpp
+        View/item_bar.cpp
         View/view.cpp
         View/conversation_window.cpp
 
@@ -36,6 +38,9 @@ add_executable(${PROJECT_NAME}
         GameObject/game_map.cpp
         GameObject/game_time.cpp
         GameObject/hero.cpp
+        GameObject/item.cpp
+        GameObject/storage.cpp
+        GameObject/chest.cpp
         GameObject/object.cpp
         GameObject/point.cpp
         GameObject/schedule.cpp

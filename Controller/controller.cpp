@@ -40,6 +40,13 @@ void Controller::Tick() {
     qDebug() << "Quest started";  // message to test
   }
 
+  Object* nearest_storage = FindIfNearestObject([](Object* block) {
+    return block->IsStorable();
+  });
+  if (view_->IsItemDialogOpen() && nearest_storage == nullptr) {
+    view_->ItemDialogEvent();
+  }
+
   ++current_tick_;
 }
 
@@ -166,6 +173,13 @@ Bot* Controller::FindNearestBotInRadius(double radius) {
 }
 
 Object* Controller::FindNearestObjectWithType(Object::Type type) {
+  return FindIfNearestObject([type] (Object* object) {
+    return object->IsType(type);
+  });
+}
+
+Object* Controller::FindIfNearestObject(
+    const std::function<bool(Object*)>& predicate) {
   Hero& hero = model_->GetHero();
   Point view_vector = hero.GetViewVector() *
                       constants::kDistanceToDetectBlock;
@@ -182,7 +196,8 @@ Object* Controller::FindNearestObjectWithType(Object::Type type) {
     for (int y = floored_y - 1; y <= floored_y + 2; ++y) {
       auto block = map.GetBlock(x, y, hero.GetRoundedZ());
 
-      if (block && block->IsType(type)) {
+      if (block && predicate(block)) {
+        // TODO: change to new functionality
         double distance_squared = (hero_coords.x - x) * (hero_coords.x - x) +
                                   (hero_coords.y - y) * (hero_coords.y - y);
         if (distance_squared < min_distance_squared + constants::kEps) {
@@ -212,11 +227,30 @@ void Controller::SetControlLeftKeyState(bool state) {
   control_key_states_.left = state;
   UpdateHeroMovingDirection();
 }
+
 void Controller::UpdateHeroMovingDirection() {
   model_->GetHero().UpdateMovement(control_key_states_.left,
                                    control_key_states_.up,
                                    control_key_states_.right,
                                    control_key_states_.down);
+}
+
+void Controller::OnItemPress(int bar_id, int index) {
+  std::pair<ItemBar*, ItemBar*> source_dest = view_->GetSrcDestBars(bar_id);
+  if (source_dest.first != nullptr && source_dest.second != nullptr) {
+    MoveItem(index, source_dest.first->GetStorage(),
+             source_dest.second->GetStorage());
+    source_dest.first->UpdateIcons();
+    source_dest.second->UpdateIcons();
+  }
+}
+
+void Controller::MoveItem(int index,
+                          const std::shared_ptr<Storage>& source,
+                          const std::shared_ptr<Storage>& destination) {
+  if (source->IsValidIndex(index)) {
+    destination->PutItem(source->RemoveItem(index));
+  }
 }
 
 std::shared_ptr<Conversation> Controller::StartConversation() {

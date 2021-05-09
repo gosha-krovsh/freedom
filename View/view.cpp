@@ -2,15 +2,17 @@
 
 View::View(AbstractController* controller,
            const std::shared_ptr<Model>& model) :
-           controller_(controller),
-           model_(model),
-           timer_(new QTimer(this)) {
+    controller_(controller),
+    model_(model),
+    timer_(new QTimer(this)),
+    item_bar_pack_(new BarPack(controller, this,
+                               model_->GetHero().GetStorage())) {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
+  show();
 
   connect(timer_, &QTimer::timeout, this, &View::TimerEvent);
   StartTickTimer();
-
-  show();
+  item_bar_pack_->show();
 }
 
 void View::StartTickTimer() {
@@ -152,6 +154,22 @@ void View::keyPressEvent(QKeyEvent* event) {
       controller_->SetControlLeftKeyState(true);
       break;
     }
+    case Qt::Key_E: {
+      ItemDialogEvent();
+      break;
+    }
+      // Following keys are used to use items,
+      // this feature will be updated in future
+    case Qt::Key_1 :
+    case Qt::Key_2 :
+    case Qt::Key_3 :
+    case Qt::Key_4 :
+    case Qt::Key_5 :
+    case Qt::Key_6 :
+    case Qt::Key_7 : {
+      item_bar_pack_->GetHeroBar()->UseItem(event->key() - Qt::Key_1);
+      break;
+    }
   }
 }
 
@@ -194,6 +212,10 @@ void View::resizeEvent(QResizeEvent*) {
         constants::kWidthConversationWindowMultiplier * width(),
         constants::kHeightConversationWindowMultiplier * height());
   }
+  item_bar_pack_->SetCenterGeometry(width() / 2,
+                                    height() - 2 * constants::kWindowHeight / 5,
+                                    constants::kWindowWidth / 2,
+                                    2 * constants::kWindowHeight / 5);
 }
 
 bool View::IsInputBlocked() const {
@@ -210,4 +232,42 @@ void View::InterruptAllInput() {
 void View::CloseConversationWindow() {
   conversation_window_ = nullptr;
   StartTickTimer();
+}
+
+std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id) {
+  switch (id) {
+    case 0: {
+      return std::make_pair(item_bar_pack_->GetHeroBar(),
+                            item_bar_pack_->GetObjectBar());
+    }
+    case 1: {
+      return std::make_pair(item_bar_pack_->GetObjectBar(),
+                            item_bar_pack_->GetHeroBar());
+    }
+    default: {
+      return std::make_pair(nullptr, nullptr);
+    }
+  }
+}
+
+bool View::IsItemDialogOpen() const {
+  return is_item_dialog_open_;
+}
+
+void View::ItemDialogEvent() {
+  Object* chest = controller_->FindIfNearestObject([](Object* block) {
+    return block->IsStorable();
+  });
+
+  if (!is_item_dialog_open_ && chest) {
+    is_item_dialog_open_ = true;
+    std::shared_ptr<Storage> storage = chest->GetStorage();
+    item_bar_pack_->GetObjectBar()->AssignStorage(storage);
+    item_bar_pack_->GetObjectBar()->show();
+  } else {
+    is_item_dialog_open_ = false;
+    item_bar_pack_->GetObjectBar()->hide();
+  }
+  item_bar_pack_->GetHeroBar()->setEnabled(is_item_dialog_open_);
+  item_bar_pack_->GetObjectBar()->setEnabled(is_item_dialog_open_);
 }

@@ -3,7 +3,10 @@
 
 #include <QDebug>
 
+#include <memory>
+
 #include "creature.h"
+#include "storage.h"
 #include "interacting_object.h"
 
 class Hero : public Creature, public InteractingObject {
