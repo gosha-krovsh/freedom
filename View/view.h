@@ -38,7 +38,6 @@ class View : public QMainWindow {
   void keyPressEvent(QKeyEvent*) override;
   void keyReleaseEvent(QKeyEvent*) override;
   void changeEvent(QEvent*) override;
-  void resizeEvent(QResizeEvent*) override;
   void TimerEvent();
 
   void StartTickTimer();

@@ -6,19 +6,20 @@
 
 #include <string>
 #include <utility>
+#include <memory>
 
 class Item {
  public:
-  Item(int id, const QString& name, const QPixmap& image);
+  Item(int id, const QString& name, const std::weak_ptr<QPixmap>& image);
 
-  const QPixmap& GetImage() const;
+  const std::weak_ptr<QPixmap>& GetImage() const;
   int GetId() const;
   QString GetName() const;
 
  private:
   QString name_;
   int id_;
-  QPixmap image_;
+  std::weak_ptr<QPixmap> image_;
 };
 
 #endif  // GAMEOBJECT_ITEM_H_

@@ -81,12 +81,12 @@ void ItemBar::UpdateIcons() {
   int size = std::min(static_cast<int>(storage_->GetItems().size()),
                       constants::kMaxElementsInItemBar);
   for (int i = 0; i < size; ++i) {
-    QPixmap image = storage_->GetItems().at(i).GetImage();
+    std::weak_ptr<QPixmap> image = storage_->GetItems().at(i).GetImage();
     QString name = storage_->GetItems().at(i).GetName();
 
     QIcon icon;
-    icon.addPixmap(image, QIcon::Active);
-    icon.addPixmap(image, QIcon::Disabled);
+    icon.addPixmap(*image.lock(), QIcon::Active);
+    icon.addPixmap(*image.lock(), QIcon::Disabled);
     buttons_.at(i)->setToolTip(name);
     buttons_.at(i)->setIcon(icon);
   }

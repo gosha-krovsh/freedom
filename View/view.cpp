@@ -2,12 +2,9 @@
 
 View::View(AbstractController* controller,
            const std::shared_ptr<Model>& model) :
-           controller_(controller),
-           model_(model),
-           timer_(new QTimer(this)) {
-           const std::shared_ptr<Model>& model) :
     controller_(controller),
     model_(model),
+    timer_(new QTimer(this)),
     item_bar_pack_(new BarPack(controller, this,
                                model_->GetHero().GetStorage())) {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
@@ -69,7 +66,7 @@ void View::paintEvent(QPaintEvent*) {
               current_bot.GetRoundedY() == y &&
               current_bot.GetRoundedZ() == z) {
             double dist = hero.GetCoordinates().
-                               DistanceFrom(current_bot.GetCoordinates());
+                DistanceFrom(current_bot.GetCoordinates());
             painter.setOpacity(std::max(dist / 2,
                                         constants::kBotOpacity));
             current_bot.Draw(&painter);
@@ -162,8 +159,8 @@ void View::keyPressEvent(QKeyEvent* event) {
       ItemDialogEvent();
       break;
     }
-    // Following keys are used to use items,
-    // this feature will be updated in future
+      // Following keys are used to use items,
+      // this feature will be updated in future
     case Qt::Key_1 :
     case Qt::Key_2 :
     case Qt::Key_3 :
@@ -216,6 +213,10 @@ void View::resizeEvent(QResizeEvent*) {
         constants::kWidthConversationWindowMultiplier * width(),
         constants::kHeightConversationWindowMultiplier * height());
   }
+  item_bar_pack_->SetCenterGeometry(width() / 2,
+                                    height() - 2 * constants::kWindowHeight / 5,
+                                    constants::kWindowWidth / 2,
+                                    2 * constants::kWindowHeight / 5);
 }
 
 bool View::IsInputBlocked() const {
@@ -232,13 +233,6 @@ void View::InterruptAllInput() {
 void View::CloseConversationWindow() {
   conversation_window_ = nullptr;
   StartTickTimer();
-}
-
-void View::resizeEvent(QResizeEvent*) {
-  item_bar_pack_->SetCenterGeometry(width() / 2,
-                                    height() - 2 * constants::kWindowHeight / 5,
-                                    constants::kWindowWidth / 2,
-                                    2 * constants::kWindowHeight / 5);
 }
 
 std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id) {

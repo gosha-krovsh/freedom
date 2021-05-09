@@ -123,7 +123,9 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
           case Object::Type::kChest: {
             // Temporary code
             objects.emplace_back(new Chest(
-                Point(x, y, z), {Item(0, "Block", QPixmap(":brick.png"))}));
+                Point(x, y, z),
+                model_->GetImage("brick"),
+                {Item(0, "Block", model_->GetImage("brick"))}));
             break;
           }
           default: {

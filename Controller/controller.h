@@ -55,7 +55,6 @@ class Controller : public AbstractController {
                 const std::shared_ptr<Storage>& source) override;
   void ProcessFighting();
   void ProcessFighting(Creature* attacker, Creature* victim, int* i);
-  Object* FindNearestObjectWithType(Object::Type type);
   Bot* FindNearestBotInRadius(double radius);
 
  private:
