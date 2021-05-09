@@ -1,7 +1,8 @@
 #ifndef GAMEOBJECT_ACTION_H_
 #define GAMEOBJECT_ACTION_H_
 
-#include <string>
+#include <QString>
+
 #include <utility>
 #include <vector>
 
@@ -12,17 +13,16 @@ class Action {
     kMove = 1
   };
 
-  Action(const std::string&, const std::vector<std::string>&);
+  Action(const QString& name, const std::vector<QString>& parameters);
 
   ActionType GetActionType() const;
-  std::vector<std::string> GetParameters() const;
+  std::vector<QString> GetParameters() const;
 
  private:
-  ActionType ChooseActionType(const std::string& name);
-  bool Equals(const std::string& lhs, const std::string& rhs);
+  ActionType ChooseActionType(const QString& name);
 
   ActionType action_type_;
-  std::vector<std::string> parametres_;
+  std::vector<QString> parameters_;
 };
 
 #endif  // GAMEOBJECT_ACTION_H_

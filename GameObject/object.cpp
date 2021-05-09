@@ -11,9 +11,10 @@ void Object::Draw(QPainter* painter) const {
   }
   painter->save();
 
-  int x = static_cast<int>(coordinates_.GetIsometricX() *
+  Point coords_to_draw = coordinates_ + GetDrawOffset();
+  int x = static_cast<int>(coords_to_draw.GetIsometricX() *
                            (constants::kSizeOfBlock / 2.));
-  int y = static_cast<int>(coordinates_.GetIsometricY() *
+  int y = static_cast<int>(coords_to_draw.GetIsometricY() *
                            (constants::kSizeOfBlock / 2.));
 
   painter->drawPixmap(x, y,
@@ -22,6 +23,10 @@ void Object::Draw(QPainter* painter) const {
                       *image_.lock());
 
   painter->restore();
+}
+
+Point Object::GetDrawOffset() const {
+  return Point(0, 0);
 }
 
 Point Object::GetCoordinates() const {

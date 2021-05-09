@@ -8,6 +8,14 @@
         <file alias="Hero_225.png">Hero/Hero_225.png</file>
         <file alias="Hero_270.png">Hero/Hero_270.png</file>
         <file alias="Hero_315.png">Hero/Hero_315.png</file>
+        <file alias="Hero_0_dead.png">Hero/Hero_0_dead.png</file>
+        <file alias="Hero_45_dead.png">Hero/Hero_45_dead.png</file>
+        <file alias="Hero_90_dead.png">Hero/Hero_90_dead.png</file>
+        <file alias="Hero_135_dead.png">Hero/Hero_135_dead.png</file>
+        <file alias="Hero_180_dead.png">Hero/Hero_180_dead.png</file>
+        <file alias="Hero_225_dead.png">Hero/Hero_225_dead.png</file>
+        <file alias="Hero_270_dead.png">Hero/Hero_270_dead.png</file>
+        <file alias="Hero_315_dead.png">Hero/Hero_315_dead.png</file>
         <file alias="Hero_0_run_1.png">Hero/Hero_0_run_1.png</file>
         <file alias="Hero_45_run_1.png">Hero/Hero_45_run_1.png</file>
         <file alias="Hero_90_run_1.png">Hero/Hero_90_run_1.png</file>
@@ -25,9 +33,14 @@
         <file alias="Hero_270_run_2.png">Hero/Hero_270_run_2.png</file>
         <file alias="Hero_315_run_2.png">Hero/Hero_315_run_2.png</file>
 
+        <file>cloud.png</file>
         <file>brick.png</file>
+        <file>floor.png</file>
         <file>schedule.json</file>
         <file>game_map.json</file>
         <file alias = "item_bar_styles">../Styles/item_bar_styles.qss</file>
+        <file>conversations.json</file>
+
+        <file alias = "conversation_window_styles">../Styles/conversation_window_styles.qss</file>
     </qresource>
 </RCC>

@@ -11,15 +11,24 @@ namespace constants {
   const int kAttack = 25;
   const double kSpeed = 0.05;
   const int kAttackCooldown = 40;
+  const double kAttackRadius = 0.65;
+  const double kStartConversationRadius = 1.75;
+
+  // Shift circle attack of Hero to forward
+  // to avoid attacking bots which are behind Hero.
+  const double kCoefficientForShiftingCircleAttack = 0.5;
 
   // All durations are measured in ticks
   const int kDurationOfOneAnimationFrame = 15;
-  const int kDurationOfWallShaking = 10;
+  const int kDurationOfShaking = 10;
+
   const double kShakeAmplitude = 0.01;
   const double kDistanceToDetectBlock = 2 * kSpeed;
 
   // The opacity of the block, when it's considered transparent.
   const double kBlockOpacity = 0.1;
+  const double kBotOpacity = 0.4;
+  const double kBotOpacityDistance = 2;
 
   // Needed to make |DynamicObject| movement in Right/Left direction more
   // realistic in isometric view.
@@ -34,6 +43,11 @@ namespace constants {
   const int kWindowHeight = 500;
   const int kFPS = 60;
 
+  const double kXConversationWindowMultiplier = 0.25;
+  const double kYConversationWindowMultiplier = 0.65;
+  const double kWidthConversationWindowMultiplier = 0.5;
+  const double kHeightConversationWindowMultiplier = 0.3;
+
   const int kTicksInMinute = 300;
 
   // ItemBar constants
@@ -45,6 +59,8 @@ namespace constants {
 
   const int kCoeffitientForSpaceBetweenButtons = 25;
   const double kCoeffitientForIconSize = 0.8;
+
+  const int kCountOfBots = 3;
 }  // namespace constants
 
 #endif  // MODEL_CONSTANTS_H_

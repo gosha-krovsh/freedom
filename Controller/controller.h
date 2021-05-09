@@ -1,6 +1,8 @@
 #ifndef CONTROLLER_CONTROLLER_H_
 #define CONTROLLER_CONTROLLER_H_
 
+#include <QDebug>
+
 #include <memory>
 #include <utility>
 #include <vector>
@@ -20,7 +22,11 @@ class Controller : public AbstractController {
 
   void Tick() override;
 
+  void ExecuteAction(const Action& action) override;
+
   void HeroAttack() override;
+  std::shared_ptr<Conversation> StartConversation() override;
+  void FinishConversation() override;
 
   void SetControlUpKeyState(bool state) override;
   void SetControlRightKeyState(bool state) override;
@@ -47,6 +53,10 @@ class Controller : public AbstractController {
   void MoveItem(int item_index,
                 const std::shared_ptr<Storage>& destination,
                 const std::shared_ptr<Storage>& source) override;
+  void ProcessFighting();
+  void ProcessFighting(Creature* attacker, Creature* victim, int* i);
+  Object* FindNearestObjectWithType(Object::Type type);
+  Bot* FindNearestBotInRadius(double radius);
 
  private:
   std::shared_ptr<Model> model_;

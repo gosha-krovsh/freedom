@@ -9,7 +9,11 @@
 #include <utility>
 #include <vector>
 
+#include "image_manager.h"
+
+#include "Conversations/conversation.h"
 #include "GameObject/action.h"
+#include "GameObject/bot.h"
 #include "GameObject/game_map.h"
 #include "GameObject/hero.h"
 #include "GameObject/chest.h"
@@ -19,29 +23,44 @@
 
 class Model {
  public:
-  Model(const Schedule& schedule, std::unique_ptr<GameMap> game_map);
-  ~Model();
+  Model();
+
+  void SetMap(std::unique_ptr<GameMap>&&);
+  void SetSchedule(std::unique_ptr<Schedule>&&);
+  void SetConversations(std::vector<std::shared_ptr<Conversation>>&&);
+
+  void CreateFightingPair(Creature* first, Creature* second);
+  void DeleteFightingPairWithIndex(int index);
+  std::pair<Creature*, Creature*> GetFightingPairWithIndex(int index);
+  int GetNumberOfFightingPairs() const;
 
   const GameMap& GetMap() const;
   GameMap& GetMap();
   const Hero& GetHero() const;
+  const std::vector<Bot>& GetBots() const;
+  std::vector<Bot>& GetBots();
+
   Hero& GetHero();
   const Schedule& GetSchedule() const;
   Time& GetTime();
   const Time& GetTime() const;
+  std::weak_ptr<QPixmap> GetImage(const QString& name);
 
   const Quest& GetQuestById(int id) const;
-  const std::list<Quest>& GetCurrentQuests() const;
-  std::list<Quest>& GetCurrentQuests();
+  const std::vector<Quest>& GetCurrentQuests() const;
+  std::vector<Quest>& GetCurrentQuests();
 
  private:
-  Hero hero_{Point(1, 1, 1)};
   std::unique_ptr<GameMap> map_;
-  Schedule schedule_;
-  Time time_;
-
+  std::unique_ptr<Schedule> schedule_;
+  Hero hero_{Point(1, 1, 1)};
+  Time time_{Time(8, 30)};
+  ImageManager image_manager;
+  std::vector<Bot> bots_;
   std::vector<Quest> quests_;
-  std::list<Quest> current_quests_;
+  std::vector<Quest> current_quests_;
+  std::vector<std::pair<Creature*, Creature*>> fighting_pairs_;
+  std::vector<std::shared_ptr<Conversation>> conversations_;
 };
 
 #endif  // MODEL_MODEL_H_

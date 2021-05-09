@@ -18,10 +18,12 @@ add_executable(${PROJECT_NAME}
         Resources/resources.qrc
 
         Model/model.cpp
+        Model/image_manager.cpp
 
         View/bar_pack.cpp
         View/item_bar.cpp
         View/view.cpp
+        View/conversation_window.cpp
 
         Controller/action_controller.cpp
         Controller/controller.cpp
@@ -29,6 +31,7 @@ add_executable(${PROJECT_NAME}
         Controller/quest_controller.cpp
 
         GameObject/action.cpp
+        GameObject/bot.cpp
         GameObject/creature.cpp
         GameObject/destroyable.cpp
         GameObject/dynamic_object.cpp
@@ -41,10 +44,12 @@ add_executable(${PROJECT_NAME}
         GameObject/object.cpp
         GameObject/point.cpp
         GameObject/schedule.cpp
+        GameObject/shaking_object.cpp
         GameObject/wall.cpp
 
         Quests/quest.cpp
         Quests/quest_node.cpp
+        Conversations/conversation.cpp
         )
 
 if (NOT CMAKE_PREFIX_PATH)

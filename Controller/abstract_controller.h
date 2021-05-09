@@ -6,6 +6,7 @@
 
 #include "GameObject/hero.h"
 #include "GameObject/storage.h"
+#include "Conversations/conversation.h"
 
 class AbstractController {
  public:
@@ -13,7 +14,11 @@ class AbstractController {
 
   virtual void Tick() = 0;
 
+  virtual void ExecuteAction(const Action& action) = 0;
+
   virtual void HeroAttack() = 0;
+  virtual std::shared_ptr<Conversation> StartConversation() = 0;
+  virtual void FinishConversation() = 0;
 
   virtual void SetControlUpKeyState(bool state) = 0;
   virtual void SetControlRightKeyState(bool state) = 0;

@@ -2,6 +2,10 @@
 
 View::View(AbstractController* controller,
            const std::shared_ptr<Model>& model) :
+           controller_(controller),
+           model_(model),
+           timer_(new QTimer(this)) {
+           const std::shared_ptr<Model>& model) :
     controller_(controller),
     model_(model),
     item_bar_pack_(new BarPack(controller, this,
@@ -10,9 +14,17 @@ View::View(AbstractController* controller,
   show();
 
   connect(timer_, &QTimer::timeout, this, &View::TimerEvent);
-  timer_->start(1000 / constants::kFPS);
+  StartTickTimer();
 
   item_bar_pack_->show();
+}
+
+void View::StartTickTimer() {
+  timer_->start(1000 / constants::kFPS);
+}
+
+void View::StopTickTimer() {
+  timer_->stop();
 }
 
 void View::paintEvent(QPaintEvent*) {
@@ -21,6 +33,7 @@ void View::paintEvent(QPaintEvent*) {
 
   const Hero& hero = model_->GetHero();
   const GameMap& map = model_->GetMap();
+  const auto& bots = model_->GetBots();
   std::unordered_set<const Object*>
       transparent_blocks = map.GetTransparentBlocks();
 
@@ -36,10 +49,48 @@ void View::paintEvent(QPaintEvent*) {
           painter.setOpacity(1);
         }
 
-        if (hero.GetRoundedX() == x &&
+        bool hero_drown = false;
+        Point camera = Point(map.GetXSize(), map.GetYSize());
+        double hero_distance_to_camera =
+            hero.GetCoordinates().DistanceFrom(camera);
+
+        for (const auto& current_bot : bots) {
+          double bot_distance_to_camera =
+              current_bot.GetCoordinates().DistanceFrom(camera);
+
+          if (hero.GetRoundedX() == x &&
+              hero.GetRoundedY() == y &&
+              hero.GetRoundedZ() == z &&
+              hero_distance_to_camera > bot_distance_to_camera) {
+            hero.Draw(&painter);
+            hero_drown = true;
+          }
+          if (current_bot.GetRoundedX() == x &&
+              current_bot.GetRoundedY() == y &&
+              current_bot.GetRoundedZ() == z) {
+            double dist = hero.GetCoordinates().
+                               DistanceFrom(current_bot.GetCoordinates());
+            painter.setOpacity(std::max(dist / 2,
+                                        constants::kBotOpacity));
+            current_bot.Draw(&painter);
+            painter.setOpacity(1);
+          }
+        }
+
+        if (!hero_drown &&
+            hero.GetRoundedX() == x &&
             hero.GetRoundedY() == y &&
             hero.GetRoundedZ() == z) {
           hero.Draw(&painter);
+        }
+
+        // Temp code for adding bots
+        for (const auto& bot : model_->GetBots()) {
+          if (bot.GetRoundedX() == x &&
+              bot.GetRoundedY() == y &&
+              bot.GetRoundedZ() == z) {
+            bot.Draw(&painter);
+          }
         }
       }
     }
@@ -67,9 +118,24 @@ void View::TimerEvent() {
 }
 
 void View::keyPressEvent(QKeyEvent* event) {
+  if (IsInputBlocked()) {
+    return;
+  }
+
   switch (event->key()) {
     case Qt::Key_Space: {
       controller_->HeroAttack();
+      break;
+    }
+    case Qt::Key_Q: {
+      auto conversation = controller_->StartConversation();
+      if (conversation) {
+        StopTickTimer();
+        conversation_window_ = std::make_unique<ConversationWindow>(
+            *conversation, controller_, this);
+        InterruptAllInput();
+        resizeEvent(nullptr);
+      }
       break;
     }
     case Qt::Key_Up:
@@ -138,11 +204,34 @@ void View::keyReleaseEvent(QKeyEvent* event) {
 
 void View::changeEvent(QEvent* event) {
   if (event->type() == QEvent::ActivationChange && !isActiveWindow()) {
-    controller_->SetControlUpKeyState(false);
-    controller_->SetControlRightKeyState(false);
-    controller_->SetControlDownKeyState(false);
-    controller_->SetControlLeftKeyState(false);
+    InterruptAllInput();
   }
+}
+
+void View::resizeEvent(QResizeEvent*) {
+  if (conversation_window_) {
+    conversation_window_->setGeometry(
+        constants::kXConversationWindowMultiplier * width(),
+        constants::kYConversationWindowMultiplier * height(),
+        constants::kWidthConversationWindowMultiplier * width(),
+        constants::kHeightConversationWindowMultiplier * height());
+  }
+}
+
+bool View::IsInputBlocked() const {
+  return (conversation_window_ != nullptr);
+}
+
+void View::InterruptAllInput() {
+  controller_->SetControlUpKeyState(false);
+  controller_->SetControlRightKeyState(false);
+  controller_->SetControlDownKeyState(false);
+  controller_->SetControlLeftKeyState(false);
+}
+
+void View::CloseConversationWindow() {
+  conversation_window_ = nullptr;
+  StartTickTimer();
 }
 
 void View::resizeEvent(QResizeEvent*) {
