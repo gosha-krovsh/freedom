@@ -1,5 +1,5 @@
-#ifndef CONTROLLER_ITEM_CONTROLLER_H
-#define CONTROLLER_ITEM_CONTROLLER_H
+#ifndef CONTROLLER_ITEM_CONTROLLER_H_
+#define CONTROLLER_ITEM_CONTROLLER_H_
 
 #include <QDebug>
 
@@ -20,4 +20,4 @@ class ItemController {
   std::shared_ptr<Model> model_;
 };
 
-#endif  // CONTROLLER_ITEM_CONTROLLER_H
+#endif  // CONTROLLER_ITEM_CONTROLLER_H_

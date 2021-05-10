@@ -4,6 +4,7 @@
 #include <QDebug>
 
 #include <memory>
+#include <utility>
 
 #include "creature.h"
 #include "storage.h"

@@ -1,6 +1,8 @@
 #include "item.h"
 
-Item::Item(Type type, const QString& name, const std::weak_ptr<QPixmap>& image) :
+Item::Item(Type type,
+           const QString& name,
+           const std::weak_ptr<QPixmap>& image) :
     type_(type),
     name_(name),
     image_(image) {}
