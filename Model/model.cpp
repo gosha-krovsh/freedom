@@ -35,33 +35,38 @@ void Model::SetConversations(
   bots_.at(0).SetCurrentConversation(conversations_[0]);
 }
 
+void Model::SetHeroStorage(std::shared_ptr<Storage>&& storage) {
+  hero_.SetStorage(std::move(storage));
+}
+
 void Model::CreateFightingPair(Creature* first, Creature* second) {
   fighting_pairs_.emplace_back(first, second);
 }
 std::pair<Creature*, Creature*> Model::GetFightingPairWithIndex(int index) {
   return fighting_pairs_.at(index);
 }
+
 int Model::GetNumberOfFightingPairs() const {
   return fighting_pairs_.size();
 }
-
 const GameMap& Model::GetMap() const {
   return *map_;
 }
+
 GameMap& Model::GetMap() {
   return *map_;
 }
-
 const Hero& Model::GetHero() const {
   return hero_;
 }
+
 Hero& Model::GetHero() {
   return hero_;
 }
-
 std::vector<Bot>& Model::GetBots() {
   return bots_;
 }
+
 const std::vector<Bot>& Model::GetBots() const {
   return bots_;
 }

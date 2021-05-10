@@ -10,15 +10,20 @@
 
 class Item {
  public:
-  Item(int id, const QString& name, const std::weak_ptr<QPixmap>& image);
+  enum Type {
+    kApple,
+    kBrick
+  };
+
+  Item(Type type, const QString& name, const std::weak_ptr<QPixmap>& image);
 
   const std::weak_ptr<QPixmap>& GetImage() const;
-  int GetId() const;
   QString GetName() const;
+  Type GetType() const;
 
  private:
   QString name_;
-  int id_;
+  Type type_;
   std::weak_ptr<QPixmap> image_;
 };
 

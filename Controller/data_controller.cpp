@@ -93,6 +93,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
   }
   objects.reserve(z_size * x_size * y_size);
 
+  std::map<Point, std::shared_ptr<Storage>> chests_storage = ParseMapStorage();
   for (int z = 0; z < z_size; ++z) {
     QJsonArray surface = map[z].toArray();
     if (surface.size() != x_size) {
@@ -121,11 +122,16 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
             break;
           }
           case Object::Type::kChest: {
-            // Temporary code
+            Point point{x, y, z};
+            auto storage_it = chests_storage.find(point);
+            std::shared_ptr<Storage> storage = std::make_shared<Storage>();
+            if (storage_it != chests_storage.end()) {
+              storage = storage_it->second;
+            }
             objects.emplace_back(new Chest(
-                Point(x, y, z),
+                point,
                 model_->GetImage("brick"),
-                {Item(0, "Block", model_->GetImage("brick"))}));
+                storage));
             break;
           }
           default: {
@@ -216,4 +222,61 @@ Action DataController::ParseAction(const QString& j_str) {
   QStringList list_params = (j_str.split("(")[1]).split(")")[0].split(",");
   std::vector<QString> params(list_params.begin(), list_params.end());
   return Action(name, params);
+}
+
+// From items.json parses "hero-items" key
+std::shared_ptr<Storage> DataController::ParseHeroStorage() {
+  QFile file(":items.json");
+  file.open(QIODevice::ReadOnly | QIODevice::Text);
+
+  QJsonDocument document = QJsonDocument::fromJson(file.readAll());
+  QJsonObject jobject_items_map = document.object();
+
+  QJsonObject jobject_dictionary =
+      jobject_items_map.value(QString("dictionary")).toObject();
+  QJsonArray items_array =
+      jobject_items_map.value(QString("hero-items")).toArray();
+
+  std::vector<Item> result;
+  for (auto item : items_array) {
+    QString name = item.toString();
+    int id = jobject_dictionary.value(name).toInt();
+    result.emplace_back(Item(static_cast<Item::Type>(id),
+                             name,
+                             model_->GetImage(name.toLower())));
+  }
+  return std::make_shared<Storage>(result);
+}
+
+std::map<Point, std::shared_ptr<Storage>> DataController::ParseMapStorage() {
+  QFile file(":items.json");
+  file.open(QIODevice::ReadOnly | QIODevice::Text);
+
+  QJsonDocument document = QJsonDocument::fromJson(file.readAll());
+  QJsonObject jobject_items_map = document.object();
+
+  QJsonObject jobject_dictionary =
+      jobject_items_map.value(QString("dictionary")).toObject();
+  QJsonArray points_array =
+      jobject_items_map.value(QString("map-items")).toArray();
+
+  std::map<Point, std::shared_ptr<Storage>> result;
+  for (auto point_storage : points_array) {
+    QJsonArray point_array = point_storage.toArray().at(0).toArray();
+    Point point{point_array.at(0).toInt(),
+                point_array.at(1).toInt(),
+                point_array.at(2).toInt()};
+
+    QJsonArray items_array = point_storage.toArray().at(1).toArray();
+    std::vector<Item> items;
+    for (auto item : items_array) {
+      QString name = item.toString();
+      int id = jobject_dictionary.value(name).toInt();
+      items.emplace_back(Item(static_cast<Item::Type>(id),
+                              name,
+                              model_->GetImage(name.toLower())));
+    }
+    result[point] = std::make_shared<Storage>(items);
+  }
+  return result;
 }

@@ -15,6 +15,10 @@ class Hero : public Creature, public InteractingObject {
 
   void Tick(int current_tick) override;
 
+  void SetStorage(std::shared_ptr<Storage>&& storage) {
+    storage_ = std::move(storage);
+  }
+
   Point GetViewVector() const;
   void UpdateMovement(bool left, bool up, bool right, bool down);
   void OnDead() override;

@@ -29,6 +29,7 @@ add_executable(${PROJECT_NAME}
         Controller/controller.cpp
         Controller/data_controller.cpp
         Controller/quest_controller.cpp
+        Controller/item_controller.cpp
 
         GameObject/action.cpp
         GameObject/bot.cpp
@@ -49,8 +50,8 @@ add_executable(${PROJECT_NAME}
 
         Quests/quest.cpp
         Quests/quest_node.cpp
-        Conversations/conversation.cpp
-        )
+
+        Conversations/conversation.cpp)
 
 if (NOT CMAKE_PREFIX_PATH)
     message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "

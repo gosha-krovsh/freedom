@@ -271,3 +271,7 @@ void View::ItemDialogEvent() {
   item_bar_pack_->GetHeroBar()->setEnabled(is_item_dialog_open_);
   item_bar_pack_->GetObjectBar()->setEnabled(is_item_dialog_open_);
 }
+
+void View::ReAssignHeroStorage() {
+  item_bar_pack_->GetHeroBar()->AssignStorage(model_->GetHero().GetStorage());
+}

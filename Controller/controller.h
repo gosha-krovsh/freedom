@@ -11,6 +11,7 @@
 #include "action_controller.h"
 #include "data_controller.h"
 #include "quest_controller.h"
+#include "item_controller.h"
 
 #include "View/view.h"
 #include "Model/model.h"
@@ -35,6 +36,7 @@ class Controller : public AbstractController {
   void UpdateHeroMovingDirection();
 
   void OnItemPress(int id, int index) override;
+  void UseItem(const Item& item) override;
   Object* FindNearestObjectWithType(Object::Type type) override;
   Object* FindIfNearestObject(
       const std::function<bool(Object*)>& predicate) override;
@@ -64,6 +66,7 @@ class Controller : public AbstractController {
   std::unique_ptr<ActionController> actions_controller_;
   std::unique_ptr<DataController> data_controller_;
   std::unique_ptr<QuestController> quest_controller_;
+  std::unique_ptr<ItemController> item_controller_;
 
   ControlKeyStates control_key_states_;
   int current_tick_;

@@ -118,9 +118,16 @@ bool Point::operator!=(const Point& rhs) const {
   return !(*this == rhs);
 }
 
+bool Point::operator<(const Point& rhs) const {
+  double lhs_distance = x * x + y * y + z * z;
+  double rhs_distance = rhs.x * rhs.x + rhs.y * rhs.y + rhs.z * rhs.z;
+  return (lhs_distance < rhs_distance - constants::kEps);
+}
+
 double Point::SquaredDistanceFrom(const Point& other) const {
   return (x - other.x) * (x - other.x) + (y - other.y) * (y - other.y);
 }
+
 double Point::DistanceFrom(const Point& other) const {
   return std::sqrt(SquaredDistanceFrom(other));
 }
