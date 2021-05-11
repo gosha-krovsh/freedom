@@ -41,6 +41,14 @@ std::unique_ptr<Schedule> DataController::ParseSchedule() {
   return std::make_unique<Schedule>(schedule);
 }
 
+#define Case(object_type, point, image_name) \
+case Object::Type::object_type: { \
+  objects.emplace_back(new Object(point, \
+                                  model_->GetImage(image_name), \
+                                  Object::Type::object_type)); \
+  break; \
+} \
+
 // game_map.json structure:
 // {
 //   "rooms": [
@@ -112,7 +120,8 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
           }
           case Object::Type::kFloor: {
             objects.emplace_back(new Object(Point(x, y, z),
-                                            model_->GetImage("floor")));
+                                            model_->GetImage("floor"),
+                                            object_type));
             break;
           }
           case Object::Type::kWall: {
@@ -128,6 +137,8 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
                 {Item(0, "Block", model_->GetImage("brick"))}));
             break;
           }
+          Case(kBasketRing225, Point(x, y, z), "basket_ring_225")
+          Case(kBasketRing315, Point(x, y, z), "basket_ring_315")
           default: {
             qDebug() << "Not handled type of object";
             break;
@@ -140,6 +151,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
   return std::make_unique<GameMap>(x_size, y_size, z_size, objects, rooms);
 }
 
+#undef Case
 
 // conversations.json structure:
 // [

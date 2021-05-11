@@ -16,13 +16,16 @@ class Object {
     kNone,
     kFloor,
     kWall,
-    kChest
+    kChest,
+    kBasketRing225 = 4,
+    kBasketRing315 = 5,
   };
 
  public:
   explicit Object(const Point& coords,
                   const std::weak_ptr<QPixmap>& image =
-                      std::weak_ptr<QPixmap>());
+                      std::weak_ptr<QPixmap>(),
+                  Type type = Type::kNone);
   virtual ~Object() = default;
 
   virtual void Tick(int current_time);

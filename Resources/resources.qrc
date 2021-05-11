@@ -33,6 +33,9 @@
         <file alias="Hero_270_run_2.png">Hero/Hero_270_run_2.png</file>
         <file alias="Hero_315_run_2.png">Hero/Hero_315_run_2.png</file>
 
+        <file>basket_ring_225.png</file>
+        <file>basket_ring_315.png</file>
+
         <file>cloud.png</file>
         <file>brick.png</file>
         <file>floor.png</file>
