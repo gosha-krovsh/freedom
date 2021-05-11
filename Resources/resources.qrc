@@ -36,6 +36,8 @@
         <file>cloud.png</file>
         <file>brick.png</file>
         <file>floor.png</file>
+        <file>ost.mp3</file>
+        <file>wall.mp3</file>
         <file>schedule.json</file>
         <file>game_map.json</file>
         <file alias = "item_bar_styles">../Styles/item_bar_styles.qss</file>

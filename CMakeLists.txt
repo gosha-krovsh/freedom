@@ -7,8 +7,9 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 set(QT_VERSION 5)
-set(REQUIRED_LIBS Core Gui Widgets)
-set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Gui Qt5::Widgets)
+set(REQUIRED_LIBS Core Gui Widgets Multimedia MultimediaWidgets)
+set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Multimedia
+        Qt5::MultimediaWidgets)
 
 include_directories(./)
 
@@ -44,6 +45,7 @@ add_executable(${PROJECT_NAME}
         GameObject/object.cpp
         GameObject/point.cpp
         GameObject/schedule.cpp
+        GameObject/sound.cpp
         GameObject/shaking_object.cpp
         GameObject/wall.cpp
 

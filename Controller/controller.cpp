@@ -146,6 +146,7 @@ void Controller::HeroAttack() {
 
   auto nearest_wall = FindNearestObjectWithType(Object::Type::kWall);
   if (nearest_wall) {
+    model_->GetSound().SetTrack(1);
     nearest_wall->Interact(hero);
     hero.RefreshAttackCooldown();
   }
