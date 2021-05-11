@@ -4,7 +4,10 @@
     "Brick" : 1
   },
   "map-items" : [
-    [[4, 3, 1], ["Apple", "Apple"]]
+    [[3, 4, 1], ["Apple", "Apple"]]
   ],
-  "hero-items" : ["Apple", "Brick"]
+  "creature-items" : [
+    ["hero", ["Apple", "Brick"]],
+    ["Hero", ["Apple", "Brick"]]
+  ]
 }

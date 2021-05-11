@@ -93,7 +93,8 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
   }
   objects.reserve(z_size * x_size * y_size);
 
-  std::map<Point, std::shared_ptr<Storage>> chests_storage = ParseMapStorage();
+  std::map<QString, std::shared_ptr<Storage>> chests_storage =
+      ParseMapStorage();
   for (int z = 0; z < z_size; ++z) {
     QJsonArray surface = map[z].toArray();
     if (surface.size() != x_size) {
@@ -123,7 +124,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
           }
           case Object::Type::kChest: {
             Point point{x, y, z};
-            auto storage_it = chests_storage.find(point);
+            auto storage_it = chests_storage.find(point.ToString());
             std::shared_ptr<Storage> storage = std::make_shared<Storage>();
             if (storage_it != chests_storage.end()) {
               storage = storage_it->second;
@@ -145,7 +146,6 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
 
   return std::make_unique<GameMap>(x_size, y_size, z_size, objects, rooms);
 }
-
 
 // conversations.json structure:
 // [
@@ -225,7 +225,8 @@ Action DataController::ParseAction(const QString& j_str) {
 }
 
 // From items.json parses "hero-items" key
-std::shared_ptr<Storage> DataController::ParseHeroStorage() {
+std::map<QString, std::shared_ptr<Storage>>
+    DataController::ParseCreatureStorage() {
   QFile file(":items.json");
   file.open(QIODevice::ReadOnly | QIODevice::Text);
 
@@ -234,21 +235,28 @@ std::shared_ptr<Storage> DataController::ParseHeroStorage() {
 
   QJsonObject jobject_dictionary =
       jobject_items_map.value(QString("dictionary")).toObject();
-  QJsonArray items_array =
-      jobject_items_map.value(QString("hero-items")).toArray();
+  QJsonArray creatures_array =
+      jobject_items_map.value(QString("creature-items")).toArray();
 
-  std::vector<Item> result;
-  for (auto item : items_array) {
-    QString name = item.toString();
-    int id = jobject_dictionary.value(name).toInt();
-    result.emplace_back(Item(static_cast<Item::Type>(id),
-                             name,
-                             model_->GetImage(name.toLower())));
+  std::map<QString, std::shared_ptr<Storage>> result;
+  for (auto point_storage : creatures_array) {
+    QString creature_name = point_storage.toArray().at(0).toString();
+
+    QJsonArray items_array = point_storage.toArray().at(1).toArray();
+    std::vector<Item> items;
+    for (auto item : items_array) {
+      QString name = item.toString();
+      int id = jobject_dictionary.value(name).toInt();
+      items.emplace_back(Item(static_cast<Item::Type>(id),
+                              name,
+                              model_->GetImage(name.toLower())));
+    }
+    result[creature_name] = std::make_shared<Storage>(items);
   }
-  return std::make_shared<Storage>(result);
+  return result;
 }
 
-std::map<Point, std::shared_ptr<Storage>> DataController::ParseMapStorage() {
+std::map<QString, std::shared_ptr<Storage>> DataController::ParseMapStorage() {
   QFile file(":items.json");
   file.open(QIODevice::ReadOnly | QIODevice::Text);
 
@@ -260,7 +268,7 @@ std::map<Point, std::shared_ptr<Storage>> DataController::ParseMapStorage() {
   QJsonArray points_array =
       jobject_items_map.value(QString("map-items")).toArray();
 
-  std::map<Point, std::shared_ptr<Storage>> result;
+  std::map<QString, std::shared_ptr<Storage>> result;
   for (auto point_storage : points_array) {
     QJsonArray point_array = point_storage.toArray().at(0).toArray();
     Point point{point_array.at(0).toInt(),
@@ -276,7 +284,7 @@ std::map<Point, std::shared_ptr<Storage>> DataController::ParseMapStorage() {
                               name,
                               model_->GetImage(name.toLower())));
     }
-    result[point] = std::make_shared<Storage>(items);
+    result[point.ToString()] = std::make_shared<Storage>(items);
   }
   return result;
 }

@@ -35,8 +35,22 @@ void Model::SetConversations(
   bots_.at(0).SetCurrentConversation(conversations_[0]);
 }
 
-void Model::SetHeroStorage(std::shared_ptr<Storage>&& storage) {
-  hero_.SetStorage(std::move(storage));
+void Model::SetCreatureStorage(std::map<QString,
+                               std::shared_ptr<Storage>>&& items) {
+  for (auto name_storage : items) {
+    if (name_storage.first == QString("hero")) {
+      hero_.SetStorage(std::move(name_storage.second));
+    } else {
+      auto it = std::find_if(bots_.begin(), bots_.end(),
+                             [name_storage] (const Bot& bot) {
+        return bot.GetName() == name_storage.first;
+      });
+
+      if (it != bots_.end()) {
+        it->SetStorage(std::move(name_storage.second));
+      }
+    }
+  }
 }
 
 void Model::CreateFightingPair(Creature* first, Creature* second) {

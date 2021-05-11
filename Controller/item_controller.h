@@ -12,7 +12,7 @@ class ItemController {
  public:
   explicit ItemController(const std::shared_ptr<Model>& model);
 
-  void UseItem(Item::Type type);
+  void UseItem(const Item& item);
 
  private:
   void Eat(int hp);

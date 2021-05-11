@@ -101,11 +101,13 @@ void ItemBar::ClearIconsFromIndex(int index) {
 }
 
 void ItemBar::UseItem(int index) {
-  if (storage_->IsValidIndex(index)) {
-    controller_->UseItem(storage_->GetItems().at(index));
-    storage_->RemoveItem(index);
-    UpdateIcons();
+  if (!storage_->IsValidIndex(index)) {
+    return;
   }
+
+  controller_->UseItem(storage_->GetItems().at(index));
+  storage_->RemoveItem(index);
+  UpdateIcons();
 }
 
 void ItemBar::resizeEvent(QResizeEvent* event) {

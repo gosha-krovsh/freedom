@@ -1,7 +1,11 @@
 #ifndef GAMEOBJECT_POINT_H_
 #define GAMEOBJECT_POINT_H_
 
+#include <QString>
+
 #include <cmath>
+#include <string>
+
 #include "Model/constants.h"
 
 // Representation of 3D point in Cartesian coordinate system.
@@ -42,8 +46,6 @@ class Point {
   bool operator==(const Point& rhs) const;
   bool operator!=(const Point& rhs) const;
 
-  bool operator<(const Point& rhs) const;
-
   Point operator+() const;
   Point operator-() const;
   Point& operator+=(const Point& rhs);
@@ -56,6 +58,8 @@ class Point {
   friend Point operator*(double lhs, Point rhs);
   friend Point operator/(Point lhs, double rhs);
   friend Point operator/(double lhs, Point rhs);
+
+  QString ToString() const;
 
  public:
   double x{0};

@@ -12,7 +12,8 @@ Controller::Controller()
   model_->SetSchedule(std::move(data_controller_->ParseSchedule()));
   model_->SetConversations(std::move(data_controller_->ParseConversations()));
 
-  model_->SetHeroStorage(std::move(data_controller_->ParseHeroStorage()));
+  model_->SetCreatureStorage(
+      std::move(data_controller_->ParseCreatureStorage()));
   view_->ReAssignHeroStorage();
 }
 
@@ -250,7 +251,7 @@ void Controller::OnItemPress(int bar_id, int index) {
 }
 
 void Controller::UseItem(const Item& item) {
-  item_controller_->UseItem(item.GetType());
+  item_controller_->UseItem(item);
 }
 
 void Controller::MoveItem(int index,
