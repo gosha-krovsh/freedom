@@ -16,12 +16,7 @@ void Controller::Tick() {
   data_controller_->Tick(current_tick_);
   quest_controller_->Tick(current_tick_);
   model_->GetHero().Tick(current_tick_);
-  if (model_->GetSound().GetDuration() > 0) {
-    --model_->GetSound().GetDuration();
-  }
-  if (model_->GetSound().GetDuration() == 0) {
-    model_->GetSound().SetTrack(Sound::kIdle, constants::kInfty);
-  }
+  model_->GetSound().Tick(current_tick_);
 
   for (auto& bot : model_->GetBots()) {
     bot.Tick(current_tick_);
@@ -59,7 +54,7 @@ void Controller::Tick() {
 void Controller::ProcessFighting(Creature* attacker, Creature* victim, int* i) {
   if (attacker->IsAbleToAttack() &&
       !victim->IsDestroyed() && !attacker->IsDestroyed()) {
-    model_->GetSound().SetTrack(Sound::kFightHero, constants::kInfty);
+    model_->GetSound().SetTrack(Sound::kFight, constants::kInfty);
     victim->DecreaseHP(attacker->GetAttack());
     attacker->RefreshAttackCooldown();
 
@@ -154,7 +149,7 @@ void Controller::HeroAttack() {
 
   auto nearest_wall = FindNearestObjectWithType(Object::Type::kWall);
   if (nearest_wall) {
-    model_->GetSound().SetTrack(Sound::kFightWall,
+    model_->GetSound().SetTrack(Sound::kWallAttack,
                                 constants::kDurationOfShaking);
     nearest_wall->Interact(hero);
     hero.RefreshAttackCooldown();
@@ -192,11 +187,11 @@ Object* Controller::FindIfNearestObject(
     const std::function<bool(Object*)>& predicate) {
   Hero& hero = model_->GetHero();
   Point view_vector = hero.GetViewVector() *
-      constants::kDistanceToDetectBlock;
+                      constants::kDistanceToDetectBlock;
   Point hero_coords = hero.GetCoordinates() + view_vector;
 
   double min_distance_squared = (1 + constants::kDistanceToDetectBlock) *
-      (1 + constants::kDistanceToDetectBlock);
+                                (1 + constants::kDistanceToDetectBlock);
   Object* nearest_block = nullptr;
 
   int floored_x = std::floor(hero.GetX());
@@ -209,7 +204,7 @@ Object* Controller::FindIfNearestObject(
       if (block && predicate(block)) {
         // TODO: change to new functionality
         double distance_squared = (hero_coords.x - x) * (hero_coords.x - x) +
-            (hero_coords.y - y) * (hero_coords.y - y);
+                                  (hero_coords.y - y) * (hero_coords.y - y);
         if (distance_squared < min_distance_squared + constants::kEps) {
           min_distance_squared = distance_squared;
           nearest_block = block;

@@ -37,7 +37,10 @@ class Model {
 
   const GameMap& GetMap() const;
   GameMap& GetMap();
+
   Sound& GetSound();
+  const Sound& GetSound() const;
+
   const Hero& GetHero() const;
   const std::vector<Bot>& GetBots() const;
   std::vector<Bot>& GetBots();

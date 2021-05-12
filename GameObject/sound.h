@@ -10,20 +10,23 @@ class Sound {
  public:
   enum SoundAction {
     kIdle = 0,
-    kFightWall = 1,
-    kFightHero = 2
+    kWallAttack= 1,
+    kFight = 2
   };
 
   Sound();
 
   void SetTrack(SoundAction action, int duration);
-  int& GetDuration();
-  const int& GetDuration() const;
 
+  const int GetDuration() const;
+  void Tick(int);
+
+  int duration_{constants::kInfty};
  private:
-  QMediaPlayer* player_;
-  QMediaPlaylist* playlist_;
-  int duration_;
+  void Load();
+
+  QMediaPlayer* player_ = new QMediaPlayer;
+  QMediaPlaylist* playlist_ = new QMediaPlaylist;
 };
 
 #endif  // GAMEOBJECT_SOUND_H_

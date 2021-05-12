@@ -100,6 +100,11 @@ std::vector<Quest>& Model::GetCurrentQuests() {
 void Model::DeleteFightingPairWithIndex(int index) {
   fighting_pairs_.erase(fighting_pairs_.begin() + index);
 }
+
 Sound& Model::GetSound() {
+  return sound_;
+}
+
+const Sound& Model::GetSound() const {
   return sound_;
 }
