@@ -23,7 +23,7 @@ void Sound::Load() {
   // now kWallAttack and kFight are the same
 }
 void Sound::Tick(int) {
-  for(auto& item : tracks_) {
+  for (auto& item : tracks_) {
     --item.duration;
     if (item.duration == 0) {
       item.player->stop();
@@ -42,8 +42,7 @@ void Sound::Pop() {
 }
 
 void Sound::SetVolume(int volume) {
-  for(auto& item : tracks_) {
+  for (auto& item : tracks_) {
     item.player->setVolume(volume);
   }
 }
-

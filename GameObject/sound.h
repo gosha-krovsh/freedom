@@ -6,6 +6,8 @@
 #include <QSound>
 
 #include <memory>
+#include <vector>
+#include <utility>
 
 #include "Model/constants.h"
 
