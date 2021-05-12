@@ -10,7 +10,7 @@ class Sound {
  public:
   enum SoundAction {
     kIdle = 0,
-    kWallAttack= 1,
+    kWallAttack = 1,
     kFight = 2
   };
 
