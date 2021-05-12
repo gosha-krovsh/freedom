@@ -21,10 +21,9 @@ class Sound {
 
   void AddTrack(SoundAction action, int duration);
 
-  int GetDuration() const;
+  void Pop();
   void Tick(int);
-
-  int duration_{0};
+  void SetVolume(int volume);
 
  private:
   struct Track {
