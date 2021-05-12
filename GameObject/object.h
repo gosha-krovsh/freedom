@@ -27,6 +27,8 @@ class Object {
     kBasketballFloorWithLine225 = 11,
     kBasketballFloorWithLine315 = 12,
     kBasketballFloor = 13,
+    kTable = 14,
+    kChair = 15,
   };
 
  public:

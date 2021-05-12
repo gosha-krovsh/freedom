@@ -147,6 +147,8 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
           Case(kBasketballFloorWithLine225, Point(x, y, z), "basketball_floor_with_line_225")
           Case(kBasketballFloorWithLine315, Point(x, y, z), "basketball_floor_with_line_315")
           Case(kBasketballFloor, Point(x, y, z), "basketball_floor")
+          Case(kTable, Point(x, y, z), "table")
+          Case(kChair, Point(x, y, z), "chair")
           default: {
             qDebug() << "Not handled type of object";
             break;
