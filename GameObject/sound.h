@@ -9,8 +9,7 @@
 
 #include "Model/constants.h"
 
-class Sound : public QObject{
-  Q_OBJECT
+class Sound {
  public:
   enum SoundAction {
     kWallAttack = 0,
@@ -25,6 +24,7 @@ class Sound : public QObject{
   void Tick(int);
 
   int duration_{0};
+
  private:
   void Load();
 
