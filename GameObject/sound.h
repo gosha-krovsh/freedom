@@ -1,5 +1,5 @@
-#ifndef GAMEOBJECT_SOUND_H
-#define GAMEOBJECT_SOUND_H
+#ifndef GAMEOBJECT_SOUND_H_
+#define GAMEOBJECT_SOUND_H_
 
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
@@ -13,14 +13,17 @@ class Sound {
     kFightWall = 1,
     kFightHero = 2
   };
-  explicit Sound();
+
+  Sound();
+
   void SetTrack(SoundAction action, int duration);
   int& GetDuration();
-  const int& GetDuration() const ;
+  const int& GetDuration() const;
+
  private:
   QMediaPlayer* player_;
   QMediaPlaylist* playlist_;
   int duration_;
 };
 
-#endif  // GAMEOBJECT_SOUND_H
+#endif  // GAMEOBJECT_SOUND_H_
