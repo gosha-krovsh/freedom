@@ -4,11 +4,11 @@ Sound::Sound() {
   Load();
 
   playlist_->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
-  player_->setPlaylist(playlist_);
+  player_->setPlaylist(playlist_.get());
   player_->play();
 
   background_playlist_->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
-  background_player_->setPlaylist(background_playlist_);
+  background_player_->setPlaylist(background_playlist_.get());
   background_player_->setVolume(50);
   background_player_->play();
 }

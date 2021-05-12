@@ -5,9 +5,12 @@
 #include <QMediaPlaylist>
 #include <QSound>
 
+#include <memory>
+
 #include "Model/constants.h"
 
-class Sound {
+class Sound : public QObject{
+  Q_OBJECT
  public:
   enum SoundAction {
     kWallAttack = 0,
@@ -25,10 +28,13 @@ class Sound {
  private:
   void Load();
 
-  QMediaPlayer* player_ = new QMediaPlayer;
-  QMediaPlaylist* playlist_ = new QMediaPlaylist;
-  QMediaPlayer* background_player_ = new QMediaPlayer;
-  QMediaPlaylist* background_playlist_ = new QMediaPlaylist;
+  std::unique_ptr<QMediaPlayer> player_ = std::make_unique<QMediaPlayer>();
+  std::unique_ptr<QMediaPlaylist> playlist_ =
+      std::make_unique<QMediaPlaylist>();
+  std::unique_ptr<QMediaPlayer> background_player_ =
+      std::make_unique<QMediaPlayer>();
+  std::unique_ptr<QMediaPlaylist> background_playlist_ =
+      std::make_unique<QMediaPlaylist>();
 };
 
 #endif  // GAMEOBJECT_SOUND_H_
