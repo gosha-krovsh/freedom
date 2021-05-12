@@ -2,8 +2,7 @@
 #define MODEL_CONSTANTS_H_
 
 #include <cmath>
-#include <climits>
-#include <cstdint>
+#include <limits>
 
 namespace constants {
   const int kNumberOfViewDirections = 8;
