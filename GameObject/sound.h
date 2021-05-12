@@ -3,30 +3,32 @@
 
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
+#include <QSound>
 
 #include "Model/constants.h"
 
 class Sound {
  public:
   enum SoundAction {
-    kIdle = 0,
-    kWallAttack = 1,
-    kFight = 2
+    kWallAttack = 0,
+    kFight = 1
   };
 
   Sound();
 
   void SetTrack(SoundAction action, int duration);
 
-  const int GetDuration() const;
+  int GetDuration() const;
   void Tick(int);
 
-  int duration_{constants::kInfty};
+  int duration_{0};
  private:
   void Load();
 
   QMediaPlayer* player_ = new QMediaPlayer;
   QMediaPlaylist* playlist_ = new QMediaPlaylist;
+  QMediaPlayer* background_player_ = new QMediaPlayer;
+  QMediaPlaylist* background_playlist_ = new QMediaPlaylist;
 };
 
 #endif  // GAMEOBJECT_SOUND_H_

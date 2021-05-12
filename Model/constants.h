@@ -61,7 +61,7 @@ namespace constants {
   const int kCoeffitientForSpaceBetweenButtons = 25;
   const double kCoeffitientForIconSize = 0.8;
 
-  const int kInfty = std::numeric_limits<int>::max();
+  const int kInfinity = std::numeric_limits<int>::max();
 }  // namespace constants
 
 #endif  // MODEL_CONSTANTS_H_

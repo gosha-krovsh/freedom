@@ -54,12 +54,12 @@ void Controller::Tick() {
 void Controller::ProcessFighting(Creature* attacker, Creature* victim, int* i) {
   if (attacker->IsAbleToAttack() &&
       !victim->IsDestroyed() && !attacker->IsDestroyed()) {
-    model_->GetSound().SetTrack(Sound::kFight, constants::kInfty);
+    model_->GetSound().SetTrack(Sound::kFight, constants::kInfinity);
     victim->DecreaseHP(attacker->GetAttack());
     attacker->RefreshAttackCooldown();
 
     if (victim->IsDestroyed()) {
-      model_->GetSound().SetTrack(Sound::kIdle, constants::kInfty);
+      model_->GetSound().SetTrack(Sound::kFight, 0);
       attacker->StopFighting();
       model_->DeleteFightingPairWithIndex(*i);
       --*i;
