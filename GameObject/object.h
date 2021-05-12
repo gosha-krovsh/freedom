@@ -19,6 +19,14 @@ class Object {
     kChest,
     kBasketRing225 = 4,
     kBasketRing315 = 5,
+    kFence225 = 6,
+    kFence315 = 7,
+    kGrass = 8,
+    kBasketballFloorWithLine45 = 9,
+    kBasketballFloorWithLine135 = 10,
+    kBasketballFloorWithLine225 = 11,
+    kBasketballFloorWithLine315 = 12,
+    kBasketballFloor = 13,
   };
 
  public:
