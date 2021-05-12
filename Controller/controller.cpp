@@ -14,7 +14,7 @@ Controller::Controller()
 
   model_->SetCreatureStorage(
       std::move(data_controller_->ParseCreatureStorage()));
-  view_->ReAssignHeroStorage();
+  view_->AssignHeroStorage();
 }
 
 void Controller::Tick() {
