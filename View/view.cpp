@@ -47,6 +47,7 @@ void View::paintEvent(QPaintEvent*) {
 
         bool hero_drown = false;
         Point camera = Point(map.GetXSize(), map.GetYSize());
+        // qDebug() << camera.x << ' ' << camera.y << '\n';
         double hero_distance_to_camera =
             hero.GetCoordinates().DistanceFrom(camera);
 
@@ -66,6 +67,7 @@ void View::paintEvent(QPaintEvent*) {
               current_bot.GetRoundedZ() == z) {
             double dist = hero.GetCoordinates().
                                DistanceFrom(current_bot.GetCoordinates());
+            qDebug() << dist << '\n';
             painter.setOpacity(std::max(dist / 2,
                                         constants::kBotOpacity));
             current_bot.Draw(&painter);

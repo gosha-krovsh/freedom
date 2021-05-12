@@ -12,13 +12,14 @@
 class Sound {
  public:
   enum SoundAction {
-    kWallAttack = 0,
+    kIdle = 0,
+    kWallAttack = 1,
     kFight = 1
   };
 
   Sound();
 
-  void SetTrack(SoundAction action, int duration);
+  void AddTrack(SoundAction action, int duration);
 
   int GetDuration() const;
   void Tick(int);
@@ -26,15 +27,17 @@ class Sound {
   int duration_{0};
 
  private:
+  struct Track {
+    std::unique_ptr<QMediaPlayer> player;
+    std::unique_ptr<QMediaPlaylist> playlist;
+    int duration;
+  };
+
   void Load();
 
-  std::unique_ptr<QMediaPlayer> player_ = std::make_unique<QMediaPlayer>();
-  std::unique_ptr<QMediaPlaylist> playlist_ =
-      std::make_unique<QMediaPlaylist>();
-  std::unique_ptr<QMediaPlayer> background_player_ =
-      std::make_unique<QMediaPlayer>();
-  std::unique_ptr<QMediaPlaylist> background_playlist_ =
-      std::make_unique<QMediaPlaylist>();
+  std::vector<Track> tracks_;
+  std::vector<QString>
+  names_of_avaliable_songs_ {"qrc:idle.mp3", "qrc:wall.mp3"};
 };
 
 #endif  // GAMEOBJECT_SOUND_H_

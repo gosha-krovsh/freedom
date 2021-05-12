@@ -54,12 +54,12 @@ void Controller::Tick() {
 void Controller::ProcessFighting(Creature* attacker, Creature* victim, int* i) {
   if (attacker->IsAbleToAttack() &&
       !victim->IsDestroyed() && !attacker->IsDestroyed()) {
-    model_->GetSound().SetTrack(Sound::kFight, constants::kInfinity);
+    model_->GetSound().AddTrack(Sound::kFight, constants::kInfinity);
     victim->DecreaseHP(attacker->GetAttack());
     attacker->RefreshAttackCooldown();
 
     if (victim->IsDestroyed()) {
-      model_->GetSound().SetTrack(Sound::kFight, 0);
+      model_->GetSound().AddTrack(Sound::kFight, 0);
       attacker->StopFighting();
       model_->DeleteFightingPairWithIndex(*i);
       --*i;
@@ -76,7 +76,7 @@ void Controller::ProcessFighting() {
     auto second = fighting_pair.second;
     ProcessFighting(first, second, &i);
     ProcessFighting(second, first, &i);
-    // model_->GetSound().SetTrack(Sound::kIdle, int(1e9));
+    // model_->GetSound().AddTrack(Sound::kIdle, int(1e9));
   }
 }
 
@@ -149,7 +149,7 @@ void Controller::HeroAttack() {
 
   auto nearest_wall = FindNearestObjectWithType(Object::Type::kWall);
   if (nearest_wall) {
-    model_->GetSound().SetTrack(Sound::kWallAttack,
+    model_->GetSound().AddTrack(Sound::kWallAttack,
                                 constants::kDurationOfShaking);
     nearest_wall->Interact(hero);
     hero.RefreshAttackCooldown();
