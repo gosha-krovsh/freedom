@@ -54,7 +54,7 @@ void Controller::Tick() {
 void Controller::ProcessFighting(Creature* attacker, Creature* victim, int* i) {
   if (attacker->IsAbleToAttack() &&
       !victim->IsDestroyed() && !attacker->IsDestroyed()) {
-    model_->GetSound().AddTrack(Sound::kFight, constants::kAttackCooldown);
+    model_->GetSound().PlayTrack(Sound::kFight, constants::kAttackCooldown);
     victim->DecreaseHP(attacker->GetAttack());
     attacker->RefreshAttackCooldown();
 
@@ -147,8 +147,8 @@ void Controller::HeroAttack() {
 
   auto nearest_wall = FindNearestObjectWithType(Object::Type::kWall);
   if (nearest_wall) {
-    model_->GetSound().AddTrack(Sound::kWallAttack,
-                                constants::kDurationOfShaking);
+    model_->GetSound().PlayTrack(Sound::kWallAttack,
+                                 constants::kDurationOfShaking);
     nearest_wall->Interact(hero);
     hero.RefreshAttackCooldown();
   }
@@ -158,7 +158,7 @@ Bot* Controller::FindNearestBotInRadius(double radius) {
   Hero& hero = model_->GetHero();
   Point hero_coords = hero.GetCoordinates() +
       constants::kCoefficientForShiftingCircleAttack * radius *
-          hero.GetViewVector();
+      hero.GetViewVector();
   double squared_radius = radius * radius;
 
   Bot* nearest_bot = nullptr;

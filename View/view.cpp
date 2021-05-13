@@ -47,7 +47,6 @@ void View::paintEvent(QPaintEvent*) {
 
         bool hero_drown = false;
         Point camera = Point(map.GetXSize(), map.GetYSize());
-        // qDebug() << camera.x << ' ' << camera.y << '\n';
         double hero_distance_to_camera =
             hero.GetCoordinates().DistanceFrom(camera);
 

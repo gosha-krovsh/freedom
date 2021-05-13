@@ -21,11 +21,10 @@ class Sound {
 
   Sound();
 
-  void AddTrack(SoundAction action, int duration);
+  void PlayTrack(SoundAction action, int duration, int volume = 100);
 
-  void Pop();
   void Tick(int);
-  void SetVolume(int volume);
+  void SetVolume(double volume);
 
  private:
   struct Track {
@@ -34,11 +33,11 @@ class Sound {
     int duration;
   };
 
-  void Load();
-
+  double volume_coefficient_ = 1;
   std::vector<Track> tracks_;
   std::vector<QString>
-  names_of_avaliable_songs_ {"qrc:idle.mp3", "qrc:wall_attack.mp3"};
+  names_of_avaliable_songs_{"qrc:idle.mp3",
+                            "qrc:wall_attack.mp3"};
 };
 
 #endif  // GAMEOBJECT_SOUND_H_
