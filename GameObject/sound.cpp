@@ -27,11 +27,12 @@ void Sound::Tick(int) {
     --item.duration;
     if (item.duration == 0) {
       item.player->stop();
-      Track temp = std::move(tracks_.back());
+    }
+  }
 
-      tracks_.back() = std::move(item);
-      tracks_.pop_back();
-      item = std::move(temp);
+  for (int i = 0; i < tracks_.size(); ++i) {
+    if (tracks_[i].duration == 0) {
+      tracks_.erase(tracks_.begin() + i, tracks_.begin() + i + 1);
     }
   }
 }

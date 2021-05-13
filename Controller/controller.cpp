@@ -75,7 +75,6 @@ void Controller::ProcessFighting() {
     auto second = fighting_pair.second;
     ProcessFighting(first, second, &i);
     ProcessFighting(second, first, &i);
-    // model_->GetSound().AddTrack(Sound::kIdle, int(1e9));
   }
 }
 
