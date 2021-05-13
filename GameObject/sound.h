@@ -6,8 +6,8 @@
 #include <QSound>
 
 #include <memory>
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include "Model/constants.h"
 
@@ -38,7 +38,7 @@ class Sound {
 
   std::vector<Track> tracks_;
   std::vector<QString>
-  names_of_avaliable_songs_ {"qrc:idle.mp3", "qrc:wall.mp3"};
+  names_of_avaliable_songs_ {"qrc:idle.mp3", "qrc:wall_attack.mp3"};
 };
 
 #endif  // GAMEOBJECT_SOUND_H_
