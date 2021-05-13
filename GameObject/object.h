@@ -29,6 +29,9 @@ class Object {
     kBasketballFloor = 13,
     kTable = 14,
     kChair = 15,
+    kStoneRoad = 16,
+    kMud = 17,
+    kBall = 18,
   };
 
  public:

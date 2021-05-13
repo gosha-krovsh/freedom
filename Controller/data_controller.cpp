@@ -118,12 +118,6 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
           case Object::Type::kNone: {
             break;
           }
-          case Object::Type::kFloor: {
-            objects.emplace_back(new Object(Point(x, y, z),
-                                            model_->GetImage("floor"),
-                                            object_type));
-            break;
-          }
           case Object::Type::kWall: {
             objects.emplace_back(new Wall(Point(x, y, z),
                                           model_->GetImage("brick")));
@@ -137,6 +131,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
                 {Item(0, "Block", model_->GetImage("brick"))}));
             break;
           }
+          Case(kFloor, Point(x, y, z), "floor")
           Case(kBasketRing225, Point(x, y, z), "basket_ring_225")
           Case(kBasketRing315, Point(x, y, z), "basket_ring_315")
           Case(kFence225, Point(x, y, z), "fence_225")
@@ -149,6 +144,9 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
           Case(kBasketballFloor, Point(x, y, z), "basketball_floor")
           Case(kTable, Point(x, y, z), "table")
           Case(kChair, Point(x, y, z), "chair")
+          Case(kStoneRoad, Point(x, y, z), "stone_road")
+          Case(kMud, Point(x, y, z), "mud")
+          Case(kBall, Point(x, y, z), "ball")
           default: {
             qDebug() << "Not handled type of object";
             break;
