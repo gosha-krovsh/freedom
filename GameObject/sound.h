@@ -24,7 +24,7 @@ class Sound {
   void PlayTrack(SoundAction action, int duration, int volume = 100);
 
   void Tick(int);
-  void SetVolume(double volume);
+  void SetVolumeCoefficient(double volume_coefficient);
 
  private:
   struct Track {

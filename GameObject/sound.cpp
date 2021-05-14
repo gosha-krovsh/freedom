@@ -28,6 +28,6 @@ void Sound::Tick(int) {
   }
 }
 
-void Sound::SetVolume(double volume) {
-  volume_coefficient_ = volume;
+void Sound::SetVolumeCoefficient(double volume_coefficient) {
+  volume_coefficient_ = volume_coefficient;
 }
