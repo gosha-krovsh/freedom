@@ -157,8 +157,8 @@ void Controller::HeroAttack() {
 Bot* Controller::FindNearestBotInRadius(double radius) {
   Hero& hero = model_->GetHero();
   Point hero_coords = hero.GetCoordinates() +
-      constants::kCoefficientForShiftingCircleAttack * radius *
-      hero.GetViewVector();
+                      constants::kCoefficientForShiftingCircleAttack * radius *
+                      hero.GetViewVector();
   double squared_radius = radius * radius;
 
   Bot* nearest_bot = nullptr;
