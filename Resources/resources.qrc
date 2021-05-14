@@ -37,6 +37,7 @@
         <file alias="brick.png">images/brick.png</file>
         <file alias="floor.png">images/floor.png</file>
         <file alias="apple.png">images/apple.png</file>
+        <file alias="soap.png">images/soap.png</file>
 
         <file>schedule.json</file>
         <file>game_map.json</file>

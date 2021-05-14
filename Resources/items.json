@@ -1,10 +1,11 @@
 {
   "dictionary" : {
     "Apple" : 0,
-    "Brick" : 1
+    "Brick" : 1,
+    "Soap" : 2
   },
   "map-items" : [
-    [[3, 4, 1], ["Apple", "Apple"]]
+    [[3, 4, 1], ["Apple", "Apple", "Soap"]]
   ],
   "creature-items" : [
     ["hero", ["Apple", "Brick"]],

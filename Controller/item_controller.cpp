@@ -16,6 +16,10 @@ void ItemController::UseItem(const Item& item) {
       qDebug() << "Added 100 hp";
       break;
     }
+    default: {
+      model_->GetHero().SetSpeedVector(Point(1, 1));
+      break;
+    }
   }
 }
 
