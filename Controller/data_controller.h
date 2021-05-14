@@ -27,9 +27,11 @@ class DataController {
   std::unique_ptr<Schedule> ParseSchedule();
   std::unique_ptr<GameMap> ParseGameMap();
   std::vector<std::shared_ptr<Conversation>> ParseConversations();
+  std::vector<Quest> ParseQuests();
 
  private:
   Action ParseAction(const QString& j_str);
+  QuestNode ParseQuestNode(const QJsonArray& j_arr);
 
   std::shared_ptr<Model> model_;
 };

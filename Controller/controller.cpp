@@ -10,6 +10,7 @@ Controller::Controller()
   model_->SetMap(std::move(data_controller_->ParseGameMap()));
   model_->SetSchedule(std::move(data_controller_->ParseSchedule()));
   model_->SetConversations(std::move(data_controller_->ParseConversations()));
+  model_->SetQuests(std::move(data_controller_->ParseQuests()));
 }
 
 void Controller::Tick() {

@@ -8,10 +8,8 @@ void DataController::Tick(int) {}
 // schedule.json structure:
 // [
 //   [8, 32, [
-//     {
-//       "action" : "MethodsName",
-//       "arguments": ["", "", ""]
-//     },
+//     "MyAction1(p1,p2,...)",
+//     "MyAction2(p1,p2,...)",
 //     ...
 //   ]],
 //   ...
@@ -146,7 +144,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
 //   [  // Conversation.id = 0
 //     [0, "Question/text 1", [
 //       ["Answer1", id1],
-//       ["Answer2", id2, "MyAction(p1,p2,...)],
+//       ["Answer2", id2, "MyAction(p1,p2,...)"],
 //       ["Answer3", id3],
 //       ...
 //     ]],
@@ -199,7 +197,7 @@ std::vector<std::shared_ptr<Conversation>>
           answer.action = std::make_shared<Action>(
               ParseAction(j_ans[2].toString()));
         }
-        node.answers.emplace_back(std::move(answer));  // CHECK IF PTR CORRECT
+        node.answers.emplace_back(std::move(answer));
       }
 
       nodes.emplace_back(node);
@@ -210,10 +208,62 @@ std::vector<std::shared_ptr<Conversation>>
   return conversations;
 }
 
+// TODO: delete id in QuestNode ?
+// quests.json structure:
+// [
+//    [id1, "MyQuestName1", [
+//      [0, "MyQuestNodeName1", "QuestNodeType1(p1, p2, ...)"],
+//      [1, "MyQuestNodeName1", "QuestNodeType1(p1, p2, ...)"],
+//      ...
+//    ]],
+//    ...
+// ]
+std::vector<Quest> DataController::ParseQuests() {
+  QFile file(":quests.json");
+  file.open(QIODevice::ReadOnly | QIODevice::Text);
+
+  QJsonArray j_quests = QJsonDocument::fromJson(file.readAll()).array();
+  std::vector<Quest> quests;
+  quests.reserve(j_quests.size());
+  for (int i = 0; i < j_quests.size(); ++i) {
+    QJsonArray j_quest = j_quests[i].toArray();
+    if (j_quest.size() != 3) {
+      qDebug() << "Invalid quest: index = " << i;
+    }
+
+    QJsonArray j_quest_nodes = j_quest[2].toArray();
+    std::vector<QuestNode> quest_nodes;
+    quest_nodes.reserve(j_quest_nodes.size());
+    for (int j = 0; j < j_quest_nodes.size(); ++j) {
+      QJsonArray j_quest_node = j_quest_nodes[j].toArray();
+      quest_nodes.emplace_back(ParseQuestNode(j_quest_node));
+    }
+
+    quests.emplace_back(j_quest[0].toInt(), j_quest[1].toString(), quest_nodes);
+  }
+
+  return quests;
+}
+
 // "Name(p1,p2...)" --> Action("Name", {"p1", "p2"})
 Action DataController::ParseAction(const QString& j_str) {
   QString name = j_str.split("(")[0];
   QStringList list_params = (j_str.split("(")[1]).split(")")[0].split(",");
   std::vector<QString> params(list_params.begin(), list_params.end());
   return Action(name, params);
+}
+
+// Ex: [0, "MyQuestNodeName", "MoveToDestination(7, 9, 1)"]
+QuestNode DataController::ParseQuestNode(const QJsonArray& j_arr) {
+  if (j_arr.size() != 3) {
+    qDebug() << "Invalid number of QuestNode arguments";
+  }
+
+  QString j_type_and_params_str = j_arr[2].toString();
+  QString name = j_type_and_params_str.split("(")[0];
+  QStringList list_params = (j_type_and_params_str.split("(")[1]).
+                            split(")")[0].split(",");
+  std::vector<QString> params(list_params.begin(), list_params.end());
+
+  return QuestNode(j_arr[0].toInt(), j_arr[1].toString(), name, params);
 }

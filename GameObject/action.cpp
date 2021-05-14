@@ -14,7 +14,7 @@ std::vector<QString> Action::GetParameters() const {
 }
 
 Action::ActionType Action::ChooseActionType(const QString& name) {
-  if (name.toLower() == "move") {
+  if (name == "Move") {
     return kMove;
   }
   return kWrongArg;

@@ -13,13 +13,6 @@ Model::Model() {
                           Point(2, 6, 1),
                           Point(2, 9, 1),
                           Point(7, 9, 1)}));
-
-  // TODO: parse it from json
-  std::vector<QuestNode> quest_nodes{
-      QuestNode(0, "MyQuestNodeName", QuestNode::Type::kMoveToDestination,
-                std::vector<QString>{"7", "9", "1"})
-  };
-  quests_.emplace_back(0, "MyQuestName", quest_nodes);
 }
 
 void Model::SetMap(std::unique_ptr<GameMap>&& game_map) {
@@ -33,6 +26,10 @@ void Model::SetConversations(
     std::vector<std::shared_ptr<Conversation>>&& conversations) {
   conversations_ = std::move(conversations);
   bots_.at(0).SetCurrentConversation(conversations_[0]);
+}
+
+void Model::SetQuests(std::vector<Quest>&& quests) {
+  quests_ = std::move(quests);
 }
 
 void Model::CreateFightingPair(Creature* first, Creature* second) {
