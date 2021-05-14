@@ -35,9 +35,8 @@ class Sound {
 
   double volume_coefficient_ = 1;
   std::vector<Track> tracks_;
-  std::vector<QString>
-  names_of_avaliable_songs_{"qrc:idle.mp3",
-                            "qrc:wall_attack.mp3"};
+  std::vector<QString> names_of_avaliable_songs_{
+    "qrc:idle.mp3", "qrc:wall_attack.mp3"};
 };
 
 #endif  // GAMEOBJECT_SOUND_H_
