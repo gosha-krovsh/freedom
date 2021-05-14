@@ -6,12 +6,12 @@ ItemController::ItemController(const std::shared_ptr<Model>& model) :
 void ItemController::UseItem(const Item& item) {
   switch (item.GetType()) {
     // Temp code
-    case Item::kApple : {
+    case Item::Type::kApple : {
       Eat(10);
       qDebug() << "Added 10 hp";
       break;
     }
-    case Item::kBrick : {
+    case Item::Type::kBrick : {
       Eat(100);
       qDebug() << "Added 100 hp";
       break;
