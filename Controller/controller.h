@@ -37,6 +37,7 @@ class Controller : public AbstractController {
 
   void OnItemPress(int id, int index) override;
   void UseItem(const Item& item) override;
+
   Object* FindNearestObjectWithType(Object::Type type) override;
   Object* FindIfNearestObject(
       const std::function<bool(Object*)>& predicate) override;
