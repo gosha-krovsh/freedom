@@ -224,7 +224,7 @@ Action DataController::ParseAction(const QString& j_str) {
   return Action(name, params);
 }
 
-// From items.json parses "hero-items" key
+// From items.json parses "creature-items" key
 std::map<QString, std::shared_ptr<Storage>>
     DataController::ParseCreatureStorage() {
   QFile file(":items.json");

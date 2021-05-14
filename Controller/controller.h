@@ -10,8 +10,8 @@
 #include "abstract_controller.h"
 #include "action_controller.h"
 #include "data_controller.h"
-#include "quest_controller.h"
 #include "item_controller.h"
+#include "quest_controller.h"
 
 #include "View/view.h"
 #include "Model/model.h"

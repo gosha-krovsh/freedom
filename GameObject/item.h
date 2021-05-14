@@ -10,7 +10,7 @@
 
 class Item {
  public:
-  enum Type {
+  enum class Type {
     kApple,
     kBrick
   };
