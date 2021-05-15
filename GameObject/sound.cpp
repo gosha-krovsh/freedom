@@ -24,6 +24,7 @@ void Sound::Tick(int) {
     --tracks_[i].duration;
     if (tracks_[i].duration == 0) {
       tracks_.erase(tracks_.begin() + i);
+      --i;
     }
   }
 }
