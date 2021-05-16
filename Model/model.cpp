@@ -96,7 +96,7 @@ const Time& Model::GetTime() const {
 }
 
 std::weak_ptr<QPixmap> Model::GetImage(const QString& name) {
-  return image_manager.GetImage(name);
+  return image_manager_.GetImage(name);
 }
 
 const Quest& Model::GetQuestById(int id) const {
@@ -147,4 +147,12 @@ void Model::AddCurrentQuest(int id) {
 
 std::shared_ptr<Conversation> Model::GetConversationById(int id) {
   return conversations_.at(id);
+}
+
+Sound& Model::GetSound() {
+  return sound_;
+}
+
+const Sound& Model::GetSound() const {
+  return sound_;
 }

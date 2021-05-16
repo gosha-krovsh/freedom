@@ -2,6 +2,7 @@
 #define MODEL_CONSTANTS_H_
 
 #include <cmath>
+#include <limits>
 
 namespace constants {
   const int kNumberOfViewDirections = 8;
@@ -60,7 +61,7 @@ namespace constants {
   const int kCoeffitientForSpaceBetweenButtons = 25;
   const double kCoeffitientForIconSize = 0.8;
 
-  const int kCountOfBots = 3;
+  const int kInfinity = std::numeric_limits<int>::max();
 }  // namespace constants
 
 #endif  // MODEL_CONSTANTS_H_
