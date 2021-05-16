@@ -31,7 +31,9 @@ class DataController {
 
  private:
   Action ParseAction(const QString& j_str);
+  std::vector<Action> ParseActions(const QJsonArray& j_arr);
   QuestNode ParseQuestNode(const QJsonArray& j_arr);
+  std::vector<QuestNode> ParseQuestNodes(const QJsonArray& j_arr);
 
   std::shared_ptr<Model> model_;
 };

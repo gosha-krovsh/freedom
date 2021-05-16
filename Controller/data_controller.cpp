@@ -27,13 +27,8 @@ std::unique_ptr<Schedule> DataController::ParseSchedule() {
     QJsonArray time_array = time.toArray();
     QJsonArray methods_array = time_array.at(2).toArray();
 
-    std::vector<Action> actions;
-    for (const auto& element : methods_array) {
-      actions.emplace_back(ParseAction(element.toString()));
-    }
-
     schedule[Time(time_array.at(0).toInt(0),
-                  time_array.at(1).toInt(0))] = actions;
+                  time_array.at(1).toInt(0))] = ParseActions(methods_array);
   }
 
   return std::make_unique<Schedule>(schedule);
@@ -211,12 +206,19 @@ std::vector<std::shared_ptr<Conversation>>
 // TODO: delete id in QuestNode ?
 // quests.json structure:
 // [
-//    [id1, "MyQuestName1", [
-//      [0, "MyQuestNodeName1", "QuestNodeType1(p1, p2, ...)"],
-//      [1, "MyQuestNodeName1", "QuestNodeType1(p1, p2, ...)"],
-//      ...
-//    ]],
-//    ...
+//   {
+//      "Id": 0,
+//      "Name": "MyQuestName",
+//      "OnStart": [
+//        "MyAction(p1,p2...)"
+//      ],
+//      "Nodes": [
+//        [0, "MyQuestNodeName", "MyQuestNodeType(p1,p2...)"]
+//      ],
+//      "OnFinish": [
+//        "MyAction(p1,p2...)"
+//      ]
+//   }
 // ]
 std::vector<Quest> DataController::ParseQuests() {
   QFile file(":quests.json");
@@ -225,23 +227,14 @@ std::vector<Quest> DataController::ParseQuests() {
   QJsonArray j_quests = QJsonDocument::fromJson(file.readAll()).array();
   std::vector<Quest> quests;
   quests.reserve(j_quests.size());
-  for (int i = 0; i < j_quests.size(); ++i) {
-    QJsonArray j_quest = j_quests[i].toArray();
-    if (j_quest.size() != 3) {
-      qDebug() << "Invalid quest: index = " << i;
-    }
-
-    QJsonArray j_quest_nodes = j_quest[2].toArray();
-    std::vector<QuestNode> quest_nodes;
-    quest_nodes.reserve(j_quest_nodes.size());
-    for (int j = 0; j < j_quest_nodes.size(); ++j) {
-      QJsonArray j_quest_node = j_quest_nodes[j].toArray();
-      quest_nodes.emplace_back(ParseQuestNode(j_quest_node));
-    }
-
-    quests.emplace_back(j_quest[0].toInt(), j_quest[1].toString(), quest_nodes);
+  for (const auto& j_quest : j_quests) {
+    QJsonObject j_quest_obj = j_quest.toObject();
+    quests.emplace_back(j_quest_obj["Id"].toInt(),
+                        j_quest_obj["Name"].toString(),
+                        ParseQuestNodes(j_quest_obj["Nodes"].toArray()),
+                        ParseActions(j_quest_obj["OnStart"].toArray()),
+                        ParseActions(j_quest_obj["OnFinish"].toArray()));
   }
-
   return quests;
 }
 
@@ -251,6 +244,15 @@ Action DataController::ParseAction(const QString& j_str) {
   QStringList list_params = (j_str.split("(")[1]).split(")")[0].split(",");
   std::vector<QString> params(list_params.begin(), list_params.end());
   return Action(name, params);
+}
+
+std::vector<Action> DataController::ParseActions(const QJsonArray& j_arr) {
+  std::vector<Action> actions;
+  actions.reserve(j_arr.size());
+  for (const auto& element : j_arr) {
+    actions.emplace_back(ParseAction(element.toString()));
+  }
+  return actions;
 }
 
 // Ex: [0, "MyQuestNodeName", "MoveToDestination(7, 9, 1)"]
@@ -266,4 +268,13 @@ QuestNode DataController::ParseQuestNode(const QJsonArray& j_arr) {
   std::vector<QString> params(list_params.begin(), list_params.end());
 
   return QuestNode(j_arr[0].toInt(), j_arr[1].toString(), name, params);
+}
+
+std::vector<QuestNode> DataController::ParseQuestNodes(const QJsonArray& j_arr) {
+  std::vector<QuestNode> quest_nodes;
+  quest_nodes.reserve(j_arr.size());
+  for (const auto& j_quest_node : j_arr) {
+    quest_nodes.emplace_back(ParseQuestNode(j_quest_node.toArray()));
+  }
+  return quest_nodes;
 }

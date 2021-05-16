@@ -1,5 +1,15 @@
 [
-  [0, "MyQuestName", [
+  {
+    "Id": 0,
+    "Name": "MyQuestName",
+    "OnStart": [
+      "Move(-1,1,1,1)"
+    ],
+    "Nodes": [
       [0, "MyQuestNodeName", "MoveToDestination(7, 9, 1)"]
-  ]]
+    ],
+    "OnFinish": [
+      "Move(-1,1,1,1)"
+    ]
+  }
 ]
