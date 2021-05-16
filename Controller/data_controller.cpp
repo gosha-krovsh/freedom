@@ -125,7 +125,8 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
             objects.emplace_back(new Chest(
                 Point(x, y, z),
                 model_->GetImage("brick"),
-                {Item(0, "Block", model_->GetImage("brick"))}));
+                {Item(0, "Block", model_->GetImage("brick")),
+                       Item(1, "Roba", model_->GetImage("roba"))}));
             break;
           }
           default: {

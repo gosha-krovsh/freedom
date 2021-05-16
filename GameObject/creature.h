@@ -6,6 +6,8 @@
 
 #include <memory>
 #include <utility>
+#include <tuple>
+#include <vector>
 
 #include "animator.h"
 #include "destroyable.h"
@@ -23,7 +25,7 @@ class Creature : public DynamicObject,
     kFight,
     kDead,
   };
-  using State = std::pair<Action, DynamicObject::ViewDirection>;
+  using State = std::tuple<Action, DynamicObject::ViewDirection, QString>;
 
   Creature(const Point& coords, const QString& name, int hp);
 
@@ -48,6 +50,7 @@ class Creature : public DynamicObject,
  protected:
   Action action_{Action::kIdle};
   void NormalizeSpeedVector(const Point& speed_vector);
+  QString name_of_clothes_;
 
  private:
   State GetState() const;
