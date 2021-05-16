@@ -1,10 +1,8 @@
 #include "wall.h"
 
 Wall::Wall(const Point& coords, const std::weak_ptr<QPixmap>& image)
-  : Object(coords, image),
-    Destroyable(constants::kHP) {
-  type_ = Type::kWall;
-}
+  : Object(coords, image, Type::kWall),
+    Destroyable(constants::kHP) {}
 
 void Wall::Tick(int current_tick) {
   Object::Tick(current_tick);

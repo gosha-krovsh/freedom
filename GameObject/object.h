@@ -16,13 +16,29 @@ class Object {
     kNone,
     kFloor,
     kWall,
-    kChest
+    kChest,
+    kBasketRing225 = 4,
+    kBasketRing315 = 5,
+    kFence225 = 6,
+    kFence315 = 7,
+    kGrass = 8,
+    kBasketballFloorWithLine45 = 9,
+    kBasketballFloorWithLine135 = 10,
+    kBasketballFloorWithLine225 = 11,
+    kBasketballFloorWithLine315 = 12,
+    kBasketballFloor = 13,
+    kTable = 14,
+    kChair = 15,
+    kStoneRoad = 16,
+    kMud = 17,
+    kBall = 18,
   };
 
  public:
   explicit Object(const Point& coords,
                   const std::weak_ptr<QPixmap>& image =
-                      std::weak_ptr<QPixmap>());
+                      std::weak_ptr<QPixmap>(),
+                  Type type = Type::kNone);
   virtual ~Object() = default;
 
   virtual void Tick(int current_time);

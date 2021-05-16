@@ -41,6 +41,14 @@ std::unique_ptr<Schedule> DataController::ParseSchedule() {
   return std::make_unique<Schedule>(schedule);
 }
 
+#define Case(object_type, point, image_name) \
+case Object::Type::object_type: { \
+  objects.emplace_back(new Object(point, \
+                                  model_->GetImage(image_name), \
+                                  Object::Type::object_type)); \
+  break; \
+} \
+
 // game_map.json structure:
 // {
 //   "rooms": [
@@ -110,11 +118,6 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
           case Object::Type::kNone: {
             break;
           }
-          case Object::Type::kFloor: {
-            objects.emplace_back(new Object(Point(x, y, z),
-                                            model_->GetImage("floor")));
-            break;
-          }
           case Object::Type::kWall: {
             objects.emplace_back(new Wall(Point(x, y, z),
                                           model_->GetImage("brick")));
@@ -129,6 +132,26 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
                        Item(1, "Roba", model_->GetImage("roba"))}));
             break;
           }
+          Case(kFloor, Point(x, y, z), "floor")
+          Case(kBasketRing225, Point(x, y, z), "basket_ring_225")
+          Case(kBasketRing315, Point(x, y, z), "basket_ring_315")
+          Case(kFence225, Point(x, y, z), "fence_225")
+          Case(kFence315, Point(x, y, z), "fence_315")
+          Case(kGrass, Point(x, y, z), "grass")
+          Case(kBasketballFloorWithLine45, Point(x, y, z),
+               "basketball_floor_with_line_45")
+          Case(kBasketballFloorWithLine135, Point(x, y, z),
+               "basketball_floor_with_line_135")
+          Case(kBasketballFloorWithLine225, Point(x, y, z),
+               "basketball_floor_with_line_225")
+          Case(kBasketballFloorWithLine315, Point(x, y, z),
+               "basketball_floor_with_line_315")
+          Case(kBasketballFloor, Point(x, y, z), "basketball_floor")
+          Case(kTable, Point(x, y, z), "table")
+          Case(kChair, Point(x, y, z), "chair")
+          Case(kStoneRoad, Point(x, y, z), "stone_road")
+          Case(kMud, Point(x, y, z), "mud")
+          Case(kBall, Point(x, y, z), "ball")
           default: {
             qDebug() << "Not handled type of object";
             break;
@@ -141,6 +164,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
   return std::make_unique<GameMap>(x_size, y_size, z_size, objects, rooms);
 }
 
+#undef Case
 
 // conversations.json structure:
 // [
