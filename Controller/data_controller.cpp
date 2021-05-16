@@ -270,7 +270,8 @@ QuestNode DataController::ParseQuestNode(const QJsonArray& j_arr) {
   return QuestNode(j_arr[0].toString(), type_str, params);
 }
 
-std::vector<QuestNode> DataController::ParseQuestNodes(const QJsonArray& j_arr) {
+std::vector<QuestNode>
+    DataController::ParseQuestNodes(const QJsonArray& j_arr) {
   std::vector<QuestNode> quest_nodes;
   quest_nodes.reserve(j_arr.size());
   for (const auto& j_quest_node : j_arr) {
