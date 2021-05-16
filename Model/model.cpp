@@ -79,7 +79,7 @@ const Time& Model::GetTime() const {
 }
 
 std::weak_ptr<QPixmap> Model::GetImage(const QString& name) {
-  return image_manager.GetImage(name);
+  return image_manager_.GetImage(name);
 }
 
 const Quest& Model::GetQuestById(int id) const {
@@ -99,4 +99,12 @@ std::vector<Quest>& Model::GetCurrentQuests() {
 
 void Model::DeleteFightingPairWithIndex(int index) {
   fighting_pairs_.erase(fighting_pairs_.begin() + index);
+}
+
+Sound& Model::GetSound() {
+  return sound_;
+}
+
+const Sound& Model::GetSound() const {
+  return sound_;
 }
