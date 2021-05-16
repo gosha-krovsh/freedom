@@ -15,6 +15,7 @@ class AbstractController {
   virtual void Tick() = 0;
 
   virtual void ExecuteAction(const Action& action) = 0;
+  virtual void ExecuteActions(const std::vector<Action>& actions) = 0;
 
   virtual void HeroAttack() = 0;
   virtual std::shared_ptr<Conversation> StartConversation() = 0;

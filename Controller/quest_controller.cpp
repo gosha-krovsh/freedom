@@ -1,11 +1,14 @@
 #include "quest_controller.h"
 
-QuestController::QuestController(const std::shared_ptr<Model>& model) :
-    model_(model) {}
+QuestController::QuestController(AbstractController* controller,
+                                 const std::shared_ptr<Model>& model) :
+                                 controller_(controller),
+                                 model_(model) {}
 
 void QuestController::StartQuest(int id) {
-  model_->GetCurrentQuests().emplace_back(model_->GetQuestById(id));
-  // TODO: handle current_quest_->OnStart();
+  auto quest = model_->GetQuestById(id);
+  model_->GetCurrentQuests().emplace_back(quest);
+  controller_->ExecuteActions(quest.GetStartActions());
 }
 
 void QuestController::FinishQuest(int id) {

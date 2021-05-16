@@ -19,6 +19,7 @@ class Quest {
   QString GetName() const;
   const QuestNode* GetCurrentQuestNode() const;
   void MoveToNextQuestNode();
+  std::vector<Action> GetStartActions() const;
 
  private:
   int id_;

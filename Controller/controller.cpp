@@ -5,7 +5,7 @@ Controller::Controller()
       view_(std::make_unique<View>(this, model_)),
       actions_controller_(std::make_unique<ActionController>(model_)),
       data_controller_(std::make_unique<DataController>(model_)),
-      quest_controller_(std::make_unique<QuestController>(model_)),
+      quest_controller_(std::make_unique<QuestController>(this, model_)),
       current_tick_(0) {
   model_->SetMap(std::move(data_controller_->ParseGameMap()));
   model_->SetSchedule(std::move(data_controller_->ParseSchedule()));
@@ -268,4 +268,8 @@ void Controller::FinishConversation() {
 
 void Controller::ExecuteAction(const Action& action) {
   actions_controller_->Call(action);
+}
+
+void Controller::ExecuteActions(const std::vector<Action>& actions) {
+  actions_controller_->Call(actions);
 }

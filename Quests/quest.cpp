@@ -26,3 +26,7 @@ const QuestNode* Quest::GetCurrentQuestNode() const {
 void Quest::MoveToNextQuestNode() {
   ++current_node_index_;
 }
+
+std::vector<Action> Quest::GetStartActions() const {
+  return start_actions_;
+}

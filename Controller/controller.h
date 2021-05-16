@@ -23,6 +23,7 @@ class Controller : public AbstractController {
   void Tick() override;
 
   void ExecuteAction(const Action& action) override;
+  void ExecuteActions(const std::vector<Action>& actions) override;
 
   void HeroAttack() override;
   std::shared_ptr<Conversation> StartConversation() override;

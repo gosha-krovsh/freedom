@@ -1,7 +1,7 @@
 #include "data_controller.h"
 
-DataController::DataController(
-    const std::shared_ptr<Model>& model) : model_(model) {}
+DataController::DataController(const std::shared_ptr<Model>& model) :
+                               model_(model) {}
 
 void DataController::Tick(int) {}
 
