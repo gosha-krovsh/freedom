@@ -3,7 +3,7 @@
 Controller::Controller()
     : model_(std::make_shared<Model>()),
       view_(std::make_unique<View>(this, model_)),
-      actions_controller_(std::make_unique<ActionController>(model_)),
+      actions_controller_(std::make_unique<ActionController>(this, model_)),
       data_controller_(std::make_unique<DataController>(model_)),
       quest_controller_(std::make_unique<QuestController>(this, model_)),
       current_tick_(0) {
@@ -34,12 +34,6 @@ void Controller::Tick() {
   ProcessFighting();
 
   model_->GetMap().Tick(current_tick_);
-
-  // TEMP_CODE: starting the quest 1 minute after the start of the game.
-  if (current_tick_ == 1 * constants::kTicksInMinute) {
-    quest_controller_->StartQuest(0);
-    qDebug() << "Quest started";  // message to test
-  }
 
   Object* nearest_storage = FindIfNearestObject([](Object* block) {
     return block->IsStorable();
@@ -272,4 +266,8 @@ void Controller::ExecuteAction(const Action& action) {
 
 void Controller::ExecuteActions(const std::vector<Action>& actions) {
   actions_controller_->Call(actions);
+}
+
+void Controller::StartQuest(int id) {
+  quest_controller_->StartQuest(0);
 }

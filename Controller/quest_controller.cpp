@@ -9,6 +9,7 @@ void QuestController::StartQuest(int id) {
   model_->AddCurrentQuest(id);
   controller_->ExecuteActions(model_->GetCurrentQuestById(id).
                                       GetStartActions());
+  qDebug() << "Quest started";  // message to test
 }
 
 void QuestController::FinishQuest(int id) {

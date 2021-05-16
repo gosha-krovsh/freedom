@@ -10,7 +10,6 @@
 #include <vector>
 
 #include "image_manager.h"
-
 #include "Conversations/conversation.h"
 #include "GameObject/action.h"
 #include "GameObject/bot.h"
@@ -38,8 +37,11 @@ class Model {
   const GameMap& GetMap() const;
   GameMap& GetMap();
   const Hero& GetHero() const;
+
   const std::vector<Bot>& GetBots() const;
   std::vector<Bot>& GetBots();
+  const Bot& GetBotByName(const QString& name) const;
+  Bot& GetBotByName(const QString& name);
 
   Hero& GetHero();
   const Schedule& GetSchedule() const;
@@ -52,6 +54,8 @@ class Model {
   void AddCurrentQuest(int id);
   const Quest& GetCurrentQuestById(int id) const;
   void EraseCurrentQuest(int id);
+
+  std::shared_ptr<Conversation> GetConversationById(int id);
 
  private:
   const Quest& GetQuestById(int id) const;

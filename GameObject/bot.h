@@ -12,8 +12,7 @@
 
 class Bot : public Creature {
  public:
-  Bot(const QString& name,
-               const Point& coords, std::vector<Point> targets);
+  Bot(const QString& name, const Point& coords, std::vector<Point> targets);
 
   void Tick(int current_tick) override;
 

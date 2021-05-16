@@ -1,5 +1,4 @@
 #include "model.h"
-#include "image_manager.h"
 
 Model::Model() {
   // TODO: Parse bots from JSON
@@ -68,6 +67,22 @@ const std::vector<Bot>& Model::GetBots() const {
   return bots_;
 }
 
+Bot& Model::GetBotByName(const QString& name) {
+  return const_cast<Bot&>(const_cast<const Model&>(*this).GetBotByName(name));
+}
+
+// NO: Now only bots with name "Hero" are available
+const Bot& Model::GetBotByName(const QString& name) const {
+  auto it = std::find_if(bots_.begin(), bots_.end(),
+                         [name](const Bot& bot) {
+                           return (bot.GetName() == name);
+                         });
+  if (it == bots_.end()) {
+    qDebug() << "Invalid bot name";
+  }
+  return *it;
+}
+
 const Schedule& Model::GetSchedule() const {
   return *schedule_;
 }
@@ -128,4 +143,8 @@ void Model::EraseCurrentQuest(int id) {
 
 void Model::AddCurrentQuest(int id) {
   current_quests_.emplace_back(GetQuestById(id));
+}
+
+std::shared_ptr<Conversation> Model::GetConversationById(int id) {
+  return conversations_.at(id);
 }
