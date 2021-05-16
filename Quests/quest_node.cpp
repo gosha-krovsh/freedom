@@ -1,13 +1,9 @@
 #include "quest_node.h"
 
-QuestNode::QuestNode(int id, const QString& name, const QString& type_str,
+QuestNode::QuestNode(const QString& name, const QString& type_str,
                      const std::vector<QString>& params) :
-                     id_(id), name_(name), params_(params) {
+                     name_(name), params_(params) {
   SetType(type_str);
-}
-
-int QuestNode::GetId() const {
-  return id_;
 }
 
 QString QuestNode::GetName() const {

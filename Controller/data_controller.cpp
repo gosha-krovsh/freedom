@@ -255,19 +255,19 @@ std::vector<Action> DataController::ParseActions(const QJsonArray& j_arr) {
   return actions;
 }
 
-// Ex: [0, "MyQuestNodeName", "MoveToDestination(7, 9, 1)"]
+// Ex: ["MyQuestNodeName", "MoveToDestination(7, 9, 1)"]
 QuestNode DataController::ParseQuestNode(const QJsonArray& j_arr) {
-  if (j_arr.size() != 3) {
+  if (j_arr.size() != 2) {
     qDebug() << "Invalid number of QuestNode arguments";
   }
 
-  QString j_type_and_params_str = j_arr[2].toString();
-  QString name = j_type_and_params_str.split("(")[0];
+  QString j_type_and_params_str = j_arr[1].toString();
+  QString type_str = j_type_and_params_str.split("(")[0];
   QStringList list_params = (j_type_and_params_str.split("(")[1]).
                             split(")")[0].split(",");
   std::vector<QString> params(list_params.begin(), list_params.end());
 
-  return QuestNode(j_arr[0].toInt(), j_arr[1].toString(), name, params);
+  return QuestNode(j_arr[0].toString(), type_str, params);
 }
 
 std::vector<QuestNode> DataController::ParseQuestNodes(const QJsonArray& j_arr) {

@@ -13,10 +13,9 @@ class QuestNode {
   };
 
  public:
-  QuestNode(int id, const QString& name, const QString& type_str,
+  QuestNode(const QString& name, const QString& type_str,
             const std::vector<QString>& params);
 
-  int GetId() const;
   QString GetName() const;
   Type GetType() const;
   std::vector<QString> GetParams() const;
@@ -24,7 +23,6 @@ class QuestNode {
  private:
   void SetType(const QString& type_str);
 
-  int id_;
   QString name_;
   Type type_;
   std::vector<QString> params_;
