@@ -2,16 +2,18 @@
 
 Model::Model() {
   // TODO: Parse bots from JSON
-  bots_.emplace_back("Hero", Point(4, 1, 1),
+  bots_.emplace_back("Hero", Point(4, 3, 1),
                      std::vector<Point>(
-                         {Point(4, 6, 1),
-                          Point(1, 6, 1),
-                          Point(1, 1, 1),
-                          Point(4, 1, 1),
-                          Point(4, 6, 1),
-                          Point(2, 6, 1),
-                          Point(2, 9, 1),
-                          Point(7, 9, 1)}));
+                         {Point(7, 3, 1),
+                          Point(7, 4, 1),
+                          Point(10, 4, 1),
+                          Point(10, 1, 1),
+                          Point(14, 1, 1),
+                          Point(14, 7, 1),
+                          Point(12, 7, 1),
+                          Point(12, 12, 1),
+                          Point(4, 12, 1),
+                          Point(4, 3, 1)}));
 }
 
 void Model::SetMap(std::unique_ptr<GameMap>&& game_map) {

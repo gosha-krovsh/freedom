@@ -6,8 +6,8 @@
       "Move(-1,1,1,1)"
     ],
     "Nodes": [
-      ["MyQuestNodeName1", "MoveToDestination(7, 9, 1)"],
-      ["MyQuestNodeName2", "MoveToDestination(1, 10, 1)"]
+      ["MyQuestNodeName1", "MoveToDestination(15, 14, 1)"],
+      ["MyQuestNodeName2", "MoveToDestination(2, 14, 1)"]
     ],
     "OnFinish": [
       "Move(-1,1,1,1)",

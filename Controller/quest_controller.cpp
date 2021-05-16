@@ -26,6 +26,7 @@ void QuestController::Tick(int) {
     if (quest_node) {
       if (CheckCondition(quest_node)) {
         current_quests[i].MoveToNextQuestNode();
+        qDebug() << "Quest node completed";  // message to test
       }
     } else {
       FinishQuest(current_quests[i].GetId());
