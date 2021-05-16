@@ -35,12 +35,6 @@ void Controller::Tick() {
 
   model_->GetMap().Tick(current_tick_);
 
-  // TEMP_CODE: starting the quest 1 minute after the start of the game.
-  if (current_tick_ == 1 * constants::kTicksInMinute) {
-    quest_controller_->StartQuest(0);
-    qDebug() << "Quest started";  // message to test
-  }
-
   Object* nearest_storage = FindIfNearestObject([](Object* block) {
     return block->IsStorable();
   });
