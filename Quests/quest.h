@@ -20,6 +20,7 @@ class Quest {
   const QuestNode* GetCurrentQuestNode() const;
   void MoveToNextQuestNode();
   std::vector<Action> GetStartActions() const;
+  std::vector<Action> GetFinishActions() const;
 
  private:
   int id_;

@@ -7,8 +7,8 @@ QuestController::QuestController(AbstractController* controller,
 
 void QuestController::StartQuest(int id) {
   auto quest = model_->GetQuestById(id);
-  model_->GetCurrentQuests().emplace_back(quest);
   controller_->ExecuteActions(quest.GetStartActions());
+  model_->GetCurrentQuests().emplace_back(quest);
 }
 
 void QuestController::FinishQuest(int id) {
@@ -21,9 +21,9 @@ void QuestController::FinishQuest(int id) {
     qDebug() << "Invalid quest id";
     return;
   }
-  current_quests.erase(it);
 
-  // TODO: handle current_quest_->OnFinish();
+  controller_->ExecuteActions(it->GetFinishActions());
+  current_quests.erase(it);
   qDebug() << "Quest finished";  // message to test
 }
 

@@ -30,3 +30,7 @@ void Quest::MoveToNextQuestNode() {
 std::vector<Action> Quest::GetStartActions() const {
   return start_actions_;
 }
+
+std::vector<Action> Quest::GetFinishActions() const {
+  return finish_actions_;
+}
