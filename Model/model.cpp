@@ -18,6 +18,7 @@ Model::Model() {
 void Model::SetMap(std::unique_ptr<GameMap>&& game_map) {
   map_ = std::move(game_map);
 }
+
 void Model::SetSchedule(std::unique_ptr<Schedule>&& schedule) {
   schedule_ = std::move(schedule);
 }
@@ -35,9 +36,11 @@ void Model::SetQuests(std::vector<Quest>&& quests) {
 void Model::CreateFightingPair(Creature* first, Creature* second) {
   fighting_pairs_.emplace_back(first, second);
 }
+
 std::pair<Creature*, Creature*> Model::GetFightingPairWithIndex(int index) {
   return fighting_pairs_.at(index);
 }
+
 int Model::GetNumberOfFightingPairs() const {
   return fighting_pairs_.size();
 }
@@ -45,6 +48,7 @@ int Model::GetNumberOfFightingPairs() const {
 const GameMap& Model::GetMap() const {
   return *map_;
 }
+
 GameMap& Model::GetMap() {
   return *map_;
 }
@@ -59,6 +63,7 @@ Hero& Model::GetHero() {
 std::vector<Bot>& Model::GetBots() {
   return bots_;
 }
+
 const std::vector<Bot>& Model::GetBots() const {
   return bots_;
 }
@@ -96,4 +101,31 @@ std::vector<Quest>& Model::GetCurrentQuests() {
 
 void Model::DeleteFightingPairWithIndex(int index) {
   fighting_pairs_.erase(fighting_pairs_.begin() + index);
+}
+
+const Quest& Model::GetCurrentQuestById(int id) const {
+  auto it = std::find_if(current_quests_.begin(), current_quests_.end(),
+                         [id](const Quest& quest) {
+                           return (quest.GetId() == id);
+                         });
+  if (it == current_quests_.end()) {
+    qDebug() << "Invalid quest id";
+  }
+  return *it;
+}
+
+void Model::EraseCurrentQuest(int id) {
+  auto it = std::find_if(current_quests_.begin(), current_quests_.end(),
+                         [id](const Quest& quest) {
+                           return (quest.GetId() == id);
+                         });
+  if (it == current_quests_.end()) {
+    qDebug() << "Invalid quest id";
+    return;
+  }
+  current_quests_.erase(it);
+}
+
+void Model::AddCurrentQuest(int id) {
+  current_quests_.emplace_back(GetQuestById(id));
 }

@@ -47,11 +47,15 @@ class Model {
   const Time& GetTime() const;
   std::weak_ptr<QPixmap> GetImage(const QString& name);
 
-  const Quest& GetQuestById(int id) const;
   const std::vector<Quest>& GetCurrentQuests() const;
   std::vector<Quest>& GetCurrentQuests();
+  void AddCurrentQuest(int id);
+  const Quest& GetCurrentQuestById(int id) const;
+  void EraseCurrentQuest(int id);
 
  private:
+  const Quest& GetQuestById(int id) const;
+
   std::unique_ptr<GameMap> map_;
   std::unique_ptr<Schedule> schedule_;
   Hero hero_{Point(1, 1, 1)};

@@ -6,24 +6,15 @@ QuestController::QuestController(AbstractController* controller,
                                  model_(model) {}
 
 void QuestController::StartQuest(int id) {
-  auto quest = model_->GetQuestById(id);
-  controller_->ExecuteActions(quest.GetStartActions());
-  model_->GetCurrentQuests().emplace_back(quest);
+  model_->AddCurrentQuest(id);
+  controller_->ExecuteActions(model_->GetCurrentQuestById(id).
+                                      GetStartActions());
 }
 
 void QuestController::FinishQuest(int id) {
-  auto& current_quests = model_->GetCurrentQuests();
-  auto it = std::find_if(current_quests.begin(), current_quests.end(),
-                         [id](const Quest& quest) {
-                           return (quest.GetId() == id);
-                         });
-  if (it == current_quests.end()) {
-    qDebug() << "Invalid quest id";
-    return;
-  }
-
-  controller_->ExecuteActions(it->GetFinishActions());
-  current_quests.erase(it);
+  controller_->ExecuteActions(model_->GetCurrentQuestById(id).
+                                      GetFinishActions());
+  model_->EraseCurrentQuest(id);
   qDebug() << "Quest finished";  // message to test
 }
 
