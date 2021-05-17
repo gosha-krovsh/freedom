@@ -121,10 +121,17 @@ bool Point::operator!=(const Point& rhs) const {
 double Point::SquaredDistanceFrom(const Point& other) const {
   return (x - other.x) * (x - other.x) + (y - other.y) * (y - other.y);
 }
+
 double Point::DistanceFrom(const Point& other) const {
   return std::sqrt(SquaredDistanceFrom(other));
 }
 
 Point Point::GetRounded() const {
   return {std::round(x), std::round(y), std::round(z)};
+}
+
+QString Point::ToString() const {
+  return "(" + QString::number(x) + ", " +
+               QString::number(y) + ", " +
+               QString::number(z) + ")";
 }
