@@ -21,6 +21,7 @@ void Controller::Tick() {
   data_controller_->Tick(current_tick_);
   quest_controller_->Tick(current_tick_);
   model_->GetHero().Tick(current_tick_);
+  model_->GetSound().Tick(current_tick_);
 
   for (auto& bot : model_->GetBots()) {
     bot.Tick(current_tick_);
@@ -39,12 +40,6 @@ void Controller::Tick() {
 
   model_->GetMap().Tick(current_tick_);
 
-  // TEMP_CODE: starting the quest 1 minute after the start of the game.
-  if (current_tick_ == 1 * constants::kTicksInMinute) {
-    quest_controller_->StartQuest(0);
-    qDebug() << "Quest started";  // message to test
-  }
-
   Object* nearest_storage = FindIfNearestObject([](Object* block) {
     return block->IsStorable();
   });
@@ -58,6 +53,7 @@ void Controller::Tick() {
 void Controller::ProcessFighting(Creature* attacker, Creature* victim, int* i) {
   if (attacker->IsAbleToAttack() &&
       !victim->IsDestroyed() && !attacker->IsDestroyed()) {
+    model_->GetSound().PlayTrack(Sound::kFight, constants::kAttackCooldown);
     victim->DecreaseHP(attacker->GetAttack());
     attacker->RefreshAttackCooldown();
 
@@ -76,7 +72,6 @@ void Controller::ProcessFighting() {
     auto fighting_pair = model_->GetFightingPairWithIndex(i);
     auto first = fighting_pair.first;
     auto second = fighting_pair.second;
-
     ProcessFighting(first, second, &i);
     ProcessFighting(second, first, &i);
   }
@@ -151,6 +146,8 @@ void Controller::HeroAttack() {
 
   auto nearest_wall = FindNearestObjectWithType(Object::Type::kWall);
   if (nearest_wall) {
+    model_->GetSound().PlayTrack(Sound::kWallAttack,
+                                 constants::kDurationOfShaking);
     nearest_wall->Interact(hero);
     hero.RefreshAttackCooldown();
   }
@@ -178,7 +175,7 @@ Bot* Controller::FindNearestBotInRadius(double radius) {
 }
 
 Object* Controller::FindNearestObjectWithType(Object::Type type) {
-  return FindIfNearestObject([type] (Object* object) {
+  return FindIfNearestObject([type](Object* object) {
     return object->IsType(type);
   });
 }

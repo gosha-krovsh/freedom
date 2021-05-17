@@ -19,6 +19,7 @@
 #include "GameObject/chest.h"
 #include "GameObject/wall.h"
 #include "GameObject/schedule.h"
+#include "GameObject/sound.h"
 #include "Quests/quest.h"
 
 class Model {
@@ -38,6 +39,10 @@ class Model {
 
   const GameMap& GetMap() const;
   GameMap& GetMap();
+
+  Sound& GetSound();
+  const Sound& GetSound() const;
+
   const Hero& GetHero() const;
   const std::vector<Bot>& GetBots() const;
   std::vector<Bot>& GetBots();
@@ -57,7 +62,8 @@ class Model {
   std::unique_ptr<Schedule> schedule_;
   Hero hero_{Point(1, 1, 1)};
   Time time_{Time(8, 30)};
-  ImageManager image_manager;
+  ImageManager image_manager_;
+  Sound sound_;
   std::vector<Bot> bots_;
   std::vector<Quest> quests_;
   std::vector<Quest> current_quests_;

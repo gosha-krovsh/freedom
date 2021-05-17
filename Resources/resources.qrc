@@ -38,7 +38,29 @@
         <file alias="floor.png">images/floor.png</file>
         <file alias="apple.png">images/apple.png</file>
         <file alias="soap.png">images/soap.png</file>
+        
+        <file>basket_ring_225.png</file>
+        <file>basket_ring_315.png</file>
+        <file>fence_225.png</file>
+        <file>fence_315.png</file>
+        <file>grass.png</file>
+        <file>basketball_floor_with_line_45.png</file>
+        <file>basketball_floor_with_line_135.png</file>
+        <file>basketball_floor_with_line_225.png</file>
+        <file>basketball_floor_with_line_315.png</file>
+        <file>basketball_floor.png</file>
+        <file>table.png</file>
+        <file>chair.png</file>
+        <file>stone_road.png</file>
+        <file>mud.png</file>
+        <file>ball.png</file>
 
+        <file>cloud.png</file>
+        <file>brick.png</file>
+        <file>floor.png</file>
+        <file>idle.mp3</file>
+        <file>wall_attack.mp3</file>
+        
         <file>schedule.json</file>
         <file>game_map.json</file>
         <file>conversations.json</file>

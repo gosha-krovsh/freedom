@@ -66,8 +66,13 @@ void View::paintEvent(QPaintEvent*) {
               current_bot.GetRoundedZ() == z) {
             double dist = hero.GetCoordinates().
                                DistanceFrom(current_bot.GetCoordinates());
-            painter.setOpacity(std::max(dist / 2,
-                                        constants::kBotOpacity));
+
+            if (!current_bot.IsAbleToAttack()) {
+              painter.setOpacity(1);
+            } else {
+              painter.setOpacity(std::max(dist / 2,
+                                          constants::kBotOpacity));
+            }
             current_bot.Draw(&painter);
             painter.setOpacity(1);
           }
@@ -78,15 +83,6 @@ void View::paintEvent(QPaintEvent*) {
             hero.GetRoundedY() == y &&
             hero.GetRoundedZ() == z) {
           hero.Draw(&painter);
-        }
-
-        // Temp code for adding bots
-        for (const auto& bot : model_->GetBots()) {
-          if (bot.GetRoundedX() == x &&
-              bot.GetRoundedY() == y &&
-              bot.GetRoundedZ() == z) {
-            bot.Draw(&painter);
-          }
         }
       }
     }
