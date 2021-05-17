@@ -13,10 +13,10 @@
 class Object {
  public:
   enum class Type {
-    kNone,
-    kFloor,
-    kWall,
-    kChest,
+    kNone = 0,
+    kFloor = 1,
+    kWall = 2,
+    kChest = 3,
     kBasketRing225 = 4,
     kBasketRing315 = 5,
     kFence225 = 6,
@@ -32,6 +32,14 @@ class Object {
     kStoneRoad = 16,
     kMud = 17,
     kBall = 18,
+    kBed_45 = 19,
+    kBed_135 = 20,
+    kBed_225 = 21,
+    kBed_315 = 22,
+    kWardrobe_225 = 23,
+    kWardrobe_315 = 24,
+    kGrating_225 = 25,
+    kGrating_315 = 26,
   };
 
  public:

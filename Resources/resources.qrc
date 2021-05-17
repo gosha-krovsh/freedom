@@ -54,7 +54,16 @@
         <file alias="stone_road.png">Images/stone_road.png</file>
         <file alias="mud.png">Images/mud.png</file>
         <file alias="ball.png">Images/ball.png</file>
-        
+        <file alias="bed_45.png">Images/bed_45.png</file>
+        <file alias="bed_135.png">Images/bed_135.png</file>
+        <file alias="bed_225.png">Images/bed_225.png</file>
+        <file alias="bed_315.png">Images/bed_315.png</file>
+        <file alias="wardrobe_225.png">Images/wardrobe_225.png</file>
+        <file alias="wardrobe_315.png">Images/wardrobe_315.png</file>
+        <file alias="chest.png">Images/chest.png</file>
+        <file alias="grating_225.png">Images/grating_225.png</file>
+        <file alias="grating_315.png">Images/grating_315.png</file>
+
         <file alias="schedule.json">Jsons/schedule.json</file>
         <file alias="game_map.json">Jsons/game_map.json</file>
         <file alias="conversations.json">Jsons/conversations.json</file>
