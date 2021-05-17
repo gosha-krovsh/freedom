@@ -18,10 +18,21 @@ void Controller::Tick() {
   model_->GetHero().Tick(current_tick_);
   model_->GetSound().Tick(current_tick_);
 
-  if (current_tick_ == 0) {
-    BuildPath(&(*model_->GetBots().begin()), Point(3, 4, 1));
-  }
   for (auto& bot : model_->GetBots()) {
+    if (bot.targets_.empty()) {
+      BuildPath(&bot, bot.GetFinish());
+      bot.need_to_rebuild_ = false;
+    }
+
+    if (bot.need_to_return_) {
+      BuildPath(&bot, bot.base_start_);
+      for(auto& i : bot.targets_) {
+        qDebug() << i.x << ' ' << i.y << endl;
+      }
+      bot.RebuildPath(bot.base_finish_);
+      bot.need_to_return_ = false;
+    }
+
     bot.Tick(current_tick_);
   }
   model_->GetMap().UpdateCurrentRoom(model_->GetHero().GetRoundedX(),
@@ -32,6 +43,16 @@ void Controller::Tick() {
     model_->GetTime().AddMinutes(1);
     actions_controller_->Tick(current_tick_);
   }
+
+  Point canteen = {2, 12, 1};
+  if (model_->GetTime().GetMinutes() == 34) {
+    for(auto& bot : model_->GetBots()) {
+      if (bot.targets_.back() != canteen) {
+        bot.RebuildPath(canteen, constants::kDurationOfLunch);
+      }
+    }
+  }
+
 
   CheckHeroCollision();
   ProcessFighting();
@@ -179,6 +200,8 @@ Object* Controller::FindNearestObjectWithType(Object::Type type) {
 }
 
 void Controller::BuildPath(Bot* bot, const Point& finish) {
+  // qDebug() << '*' << endl;
+  bot->Normalize();
   Point start = bot->GetCoordinates();
   std::map<Point, Point> prev;
   std::deque<Point> current;
@@ -213,11 +236,17 @@ void Controller::BuildPath(Bot* bot, const Point& finish) {
   std::vector<Point> result;
   while (current_point != Point(-1, -1, -1)) {
     result.push_back(current_point);
-    qDebug() << current_point.x << ' ' << current_point.y << ' ' << current_point.z << '\n';
     current_point = prev[current_point];
   }
   std::reverse(result.begin(), result.end());
+
+  // for(auto i : result) {
+  //   qDebug() << i.x << ' ' << i.y << endl;
+  // }
+  // qDebug() << endl;
+
   bot->targets_ = result;
+  bot->need_to_rebuild_ = false;
 }
 
 Object* Controller::FindIfNearestObject(

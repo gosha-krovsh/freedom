@@ -3,16 +3,9 @@
 
 Model::Model() {
   // TODO: Parse bots from JSON
-  bots_.emplace_back("Hero", Point(4, 1, 1),
-                     std::vector<Point>(
-                         {Point(4, 6, 1),
-                          Point(1, 6, 1),
-                          Point(1, 1, 1),
-                          Point(4, 1, 1),
-                          Point(4, 6, 1),
-                          Point(2, 6, 1),
-                          Point(2, 9, 1),
-                          Point(7, 9, 1)}));
+  bots_.emplace_back("Hero", Point(4, 1, 1), Point(7, 9, 1));
+  bots_.emplace_back("Hero", Point(2, 7, 1), Point(4, 1, 1));
+
 
   // TODO: parse it from json
   std::vector<QuestNode> quest_nodes{
