@@ -9,7 +9,8 @@ Creature::Creature(const Point& coords, const QString& name, int hp) :
     QString image_name = name_ + "_" + QString::number(i * 45);
 
     for (const auto& clothes_name : constants::kClothes) {
-      std::string clothes_suffix = (clothes_name.empty() ? "" : "_") + clothes_name;
+      std::string clothes_suffix = (clothes_name.empty() ? "" : "_") +
+                                    clothes_name;
       image_name += QString::fromStdString(clothes_suffix);
       animator_.AssignStateToAnimation(State(Action::kIdle,
                                              view_direction,

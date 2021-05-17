@@ -8,6 +8,7 @@
 #include <utility>
 #include <tuple>
 #include <vector>
+#include <string>
 
 #include "animator.h"
 #include "destroyable.h"
