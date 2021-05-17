@@ -55,9 +55,6 @@
         <file>mud.png</file>
         <file>ball.png</file>
 
-        <file>cloud.png</file>
-        <file>brick.png</file>
-        <file>floor.png</file>
         <file>idle.mp3</file>
         <file>wall_attack.mp3</file>
         
