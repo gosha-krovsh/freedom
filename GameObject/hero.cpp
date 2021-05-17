@@ -17,9 +17,9 @@ void Hero::Tick(int current_tick) {
     }
   }
   if (is_roba) {
-    name_of_clothes_ = "roba";
+    clothes_name_ = "roba";
   } else {
-    name_of_clothes_ = "";
+    clothes_name_ = "";
   }
 }
 

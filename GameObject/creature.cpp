@@ -4,21 +4,28 @@ Creature::Creature(const Point& coords, const QString& name, int hp) :
     DynamicObject(coords),
     Destroyable(hp),
     name_(name) {
-  std::vector<QString> clothes = {"", "roba"};
   for (int i = 0; i < constants::kNumberOfViewDirections; ++i) {
     auto view_direction = static_cast<ViewDirection>(i);
     QString image_name = name_ + "_" + QString::number(i * 45);
 
-    for (const auto& c : clothes) {
-      QString clothes_suffix = (c.isEmpty() ? "" : "_") + c;
-      image_name += clothes_suffix;
-      animator_.AssignStateToAnimation(State(Action::kIdle, view_direction, c),
+    for (const auto& clothes_name : constants::kClothes) {
+      std::string clothes_suffix = (clothes_name.empty() ? "" : "_") + clothes_name;
+      image_name += QString::fromStdString(clothes_suffix);
+      animator_.AssignStateToAnimation(State(Action::kIdle,
+                                             view_direction,
+                                             clothes_name),
                                        {image_name});
-      animator_.AssignStateToAnimation(State(Action::kDead, view_direction, c),
+      animator_.AssignStateToAnimation(State(Action::kDead,
+                                             view_direction,
+                                             clothes_name),
                                        {image_name + "_dead"});
-      animator_.AssignStateToAnimation(State(Action::kFight, view_direction, c),
+      animator_.AssignStateToAnimation(State(Action::kFight,
+                                             view_direction,
+                                             clothes_name),
                                        {"cloud"});
-      animator_.AssignStateToAnimation(State(Action::kRun, view_direction, c),
+      animator_.AssignStateToAnimation(State(Action::kRun,
+                                             view_direction,
+                                             clothes_name),
                                        {image_name,
                                         image_name + "_run_1",
                                         image_name,
@@ -55,7 +62,7 @@ void Creature::SetSpeedVector(const Point& speed_vector) {
 }
 
 Creature::State Creature::GetState() const {
-  return State(action_, view_direction_, name_of_clothes_);
+  return State(action_, view_direction_, clothes_name_);
 }
 
 void Creature::NormalizeSpeedVector(const Point& speed_vector) {
