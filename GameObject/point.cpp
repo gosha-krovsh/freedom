@@ -128,3 +128,17 @@ double Point::DistanceFrom(const Point& other) const {
 Point Point::GetRounded() const {
   return {std::round(x), std::round(y), std::round(z)};
 }
+bool Point::operator<(const Point& rhs) const {
+  if (x != rhs.x) {
+    return x < rhs.x;
+  }
+  if (y != rhs.y) {
+    return y < rhs.y;
+  }
+  return z < rhs.z;
+}
+Point::Point(const Point& other) {
+  x = other.x;
+  y = other.y;
+  z = other.z;
+}

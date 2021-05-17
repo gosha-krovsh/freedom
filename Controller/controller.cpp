@@ -18,6 +18,9 @@ void Controller::Tick() {
   model_->GetHero().Tick(current_tick_);
   model_->GetSound().Tick(current_tick_);
 
+  if (current_tick_ == 0) {
+    BuildPath(&(*model_->GetBots().begin()), Point(3, 4, 1));
+  }
   for (auto& bot : model_->GetBots()) {
     bot.Tick(current_tick_);
   }
@@ -173,6 +176,48 @@ Object* Controller::FindNearestObjectWithType(Object::Type type) {
   return FindIfNearestObject([type](Object* object) {
     return object->IsType(type);
   });
+}
+
+void Controller::BuildPath(Bot* bot, const Point& finish) {
+  Point start = bot->GetCoordinates();
+  std::map<Point, Point> prev;
+  std::deque<Point> current;
+  std::map<Point, bool> used;
+
+  prev[start] = Point(-1, -1, -1);
+  used[start] = true;
+
+  current.push_front(start);
+  while (!current.empty()) {
+    Point current_point = current.front();
+    current.pop_front();
+    for(int delta_x = -1; delta_x <= 1; ++delta_x) {
+      for(int delta_y = -1; delta_y <= 1; ++delta_y) {
+        int new_x = current_point.x + delta_x;
+        int new_y = current_point.y + delta_y;
+        if (!used[Point(new_x,new_y, 1)] && model_->GetMap().GetBlock(new_x, new_y, 1) == nullptr) {
+          used[Point(new_x, new_y, 1)] = true;
+          prev[Point(new_x, new_y, 1)] = current_point;
+          if (delta_x * delta_y == 0) {
+            current.push_front(Point(new_x, new_y, 1));
+          } else {
+            current.push_back(Point(new_x, new_y, 1));
+          }
+        }
+      }
+    }
+  }
+
+  Point current_point = finish;
+
+  std::vector<Point> result;
+  while (current_point != Point(-1, -1, -1)) {
+    result.push_back(current_point);
+    qDebug() << current_point.x << ' ' << current_point.y << ' ' << current_point.z << '\n';
+    current_point = prev[current_point];
+  }
+  std::reverse(result.begin(), result.end());
+  bot->targets_ = result;
 }
 
 Object* Controller::FindIfNearestObject(

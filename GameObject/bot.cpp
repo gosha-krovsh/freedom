@@ -1,4 +1,6 @@
 #include "bot.h"
+#include <unordered_map>
+#include <queue>
 
 Bot::Bot(const QString& name, const Point& coords, std::vector<Point> targets) :
     Creature(coords, name, constants::kHP), targets_(targets) {}
@@ -34,3 +36,5 @@ void Bot::MakeStep() {
 void Bot::OnDead() {
   Creature::OnDead();
 }
+
+

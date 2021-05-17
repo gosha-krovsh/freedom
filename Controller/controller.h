@@ -3,6 +3,9 @@
 
 #include <QDebug>
 
+#include <algorithm>
+#include <deque>
+#include <map>
 #include <memory>
 #include <utility>
 #include <vector>
@@ -56,6 +59,7 @@ class Controller : public AbstractController {
   void ProcessFighting();
   void ProcessFighting(Creature* attacker, Creature* victim, int* i);
   Bot* FindNearestBotInRadius(double radius);
+  void BuildPath(Bot* bot, const Point& finish);
 
  private:
   std::shared_ptr<Model> model_;

@@ -85,6 +85,9 @@ bool Object::IsStorable() const {
 }
 
 bool Object::IsType(Object::Type object_type) const {
+  if (this == nullptr) {
+    return true;
+  }
   return type_ == object_type;
 }
 

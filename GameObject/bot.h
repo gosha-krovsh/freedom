@@ -19,12 +19,13 @@ class Bot : public Creature {
 
   void OnDead() override;
 
+  std::vector<Point> targets_;
+
  private:
   void MakeStep();
 
   int current_direction_ = 0;
   int order_ = 1;
-  std::vector<Point> targets_;
 };
 
 #endif  // GAMEOBJECT_BOT_H_
