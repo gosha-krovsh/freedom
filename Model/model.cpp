@@ -36,7 +36,7 @@ void Model::SetConversations(
 }
 
 void Model::SetCreatureStorage(std::map<QString,
-                               std::shared_ptr<Storage>>&& items) {
+                                        std::shared_ptr<Storage>>&& items) {
   for (auto name_storage : items) {
     if (name_storage.first == "hero") {
       hero_.SetStorage(std::move(name_storage.second));

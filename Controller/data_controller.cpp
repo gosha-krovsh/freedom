@@ -247,9 +247,9 @@ std::map<QString, std::shared_ptr<Storage>>
     for (auto item : items_array) {
       QString name = item.toString();
       int id = jobject_dictionary.value(name).toInt();
-      items.emplace_back(Item(static_cast<Item::Type>(id),
-                              name,
-                              model_->GetImage(name.toLower())));
+      items.emplace_back(static_cast<Item::Type>(id),
+                         name,
+                         model_->GetImage(name.toLower()));
     }
     result[creature_name] = std::make_shared<Storage>(items);
   }

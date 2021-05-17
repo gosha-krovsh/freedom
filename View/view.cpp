@@ -131,6 +131,8 @@ void View::keyPressEvent(QKeyEvent* event) {
             *conversation, controller_, this);
         InterruptAllInput();
         resizeEvent(nullptr);
+
+        item_bar_pack_->hide();
       }
       break;
     }
@@ -231,6 +233,7 @@ void View::InterruptAllInput() {
 
 void View::CloseConversationWindow() {
   conversation_window_ = nullptr;
+  item_bar_pack_->show();
   StartTickTimer();
 }
 
