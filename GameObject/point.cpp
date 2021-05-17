@@ -131,9 +131,7 @@ Point Point::GetRounded() const {
 }
 
 QString Point::ToString() const {
-  return QString("(") +
-         QString::number(x) + ", " +
-         QString::number(y) + ", " +
-         QString::number(z) +
-         QString(")");
+  return "(" + QString::number(x) + ", " +
+               QString::number(y) + ", " +
+               QString::number(z) + ")";
 }
