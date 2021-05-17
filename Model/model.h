@@ -29,6 +29,8 @@ class Model {
   void SetMap(std::unique_ptr<GameMap>&&);
   void SetSchedule(std::unique_ptr<Schedule>&&);
   void SetConversations(std::vector<std::shared_ptr<Conversation>>&&);
+  void SetCreatureStorage(std::map<QString,
+                               std::shared_ptr<Storage>>&& items);
 
   void CreateFightingPair(Creature* first, Creature* second);
   void DeleteFightingPairWithIndex(int index);
