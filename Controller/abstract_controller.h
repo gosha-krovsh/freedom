@@ -27,6 +27,8 @@ class AbstractController {
 
   virtual void OnItemPress(int id, int index) = 0;
   virtual void UseItem(const Item& item) = 0;
+  virtual void InteractWithDoor() = 0;
+
   virtual Object* FindNearestObjectWithType(Object::Type type) = 0;
   virtual Object* FindIfNearestObject(
       const std::function<bool(Object*)>& predicate) = 0;

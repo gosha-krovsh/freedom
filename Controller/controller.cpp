@@ -274,3 +274,25 @@ void Controller::FinishConversation() {
 void Controller::ExecuteAction(const Action& action) {
   actions_controller_->Call(action);
 }
+
+void Controller::InteractWithDoor() {
+  auto door = GetNearestOfTwoObjects(
+      FindNearestObjectWithType(Object::Type::kDoor_225),
+      FindNearestObjectWithType(Object::Type::kDoor_315));
+  if (door) {
+    door->Interact(model_->GetHero());
+  }
+}
+
+Object* Controller::GetNearestOfTwoObjects(Object* obj1, Object* obj2) const {
+  Point hero_coords = model_->GetHero().GetCoordinates();
+
+  auto result = obj1;
+  if ((obj1 && obj2 &&
+       hero_coords.DistanceFrom(obj2->GetCoordinates()) <=
+       hero_coords.DistanceFrom(obj1->GetCoordinates())) || obj2) {
+    result = obj2;
+  }
+  return result;
+}
+

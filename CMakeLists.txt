@@ -49,6 +49,7 @@ add_executable(${PROJECT_NAME}
         GameObject/sound.cpp
         GameObject/shaking_object.cpp
         GameObject/wall.cpp
+        GameObject/door.cpp
 
         Quests/quest.cpp
         Quests/quest_node.cpp

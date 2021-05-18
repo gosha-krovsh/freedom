@@ -63,6 +63,8 @@
         <file alias="chest.png">Images/chest.png</file>
         <file alias="grating_225.png">Images/grating_225.png</file>
         <file alias="grating_315.png">Images/grating_315.png</file>
+        <file alias="door_225.png">Images/door_225.png</file>
+        <file alias="door_315.png">Images/door_315.png</file>
 
         <file alias="schedule.json">Jsons/schedule.json</file>
         <file alias="game_map.json">Jsons/game_map.json</file>

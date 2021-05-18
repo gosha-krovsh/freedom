@@ -173,6 +173,18 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
           Case(kBed_315, Point(x, y, z), "bed_315")
           Case(kGrating_225, Point(x, y, z), "grating_225")
           Case(kGrating_315, Point(x, y, z), "grating_315")
+          case Object::Type::kDoor_225: {
+            objects.emplace_back(new Door(Point(x, y, z),
+                                          model_->GetImage("door_225"),
+                                          Object::Type::kDoor_225));
+            break;
+          }
+          case Object::Type::kDoor_315: {
+            objects.emplace_back(new Door(Point(x, y, z),
+                                          model_->GetImage("door_315"),
+                                          Object::Type::kDoor_315));
+            break;
+          }
           default: {
             qDebug() << "Not handled type of object";
             break;

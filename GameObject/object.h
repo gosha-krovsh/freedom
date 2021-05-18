@@ -40,6 +40,8 @@ class Object {
     kWardrobe_315 = 24,
     kGrating_225 = 25,
     kGrating_315 = 26,
+    kDoor_225 = 27,
+    kDoor_315 = 28,
   };
 
  public:
