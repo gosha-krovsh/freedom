@@ -19,6 +19,7 @@ class GameMap {
     bool IsInside(int x, int y) const;
     bool IsInsideOrOnTheEdge(int x, int y) const;
     bool IsOnTheEdge(int x, int y) const;
+    bool IsInside(const Room& room) const;
 
     bool operator==(const Room& rhs) const;
     bool operator!=(const Room& rhs) const;
@@ -66,6 +67,8 @@ class GameMap {
   // Assigns to |transparent_blocks_| left and right bottom walls of the
   // |current_room_|.
   void UpdateTransparentBlocks();
+  std::vector<Room>::const_iterator GetEdgeRoom(int hero_x, int hero_y) const;
+  Room GetMostInnerRoom(int hero_x, int hero_y) const;
 
  private:
   std::vector<std::vector<std::vector<Object*>>> map_;
