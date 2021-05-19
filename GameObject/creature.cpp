@@ -2,9 +2,9 @@
 
 namespace {
 
-void AddClothesSuffix(QString& name, const char* suffix) {
+void AddClothesSuffix(QString* name, const char* suffix) {
   QString string_suffix = QString(suffix);
-  name += (string_suffix.isEmpty() ? "" : "_") + string_suffix;
+  *name += (string_suffix.isEmpty() ? "" : "_") + string_suffix;
 }
 
 }  // namespace
