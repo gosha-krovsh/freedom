@@ -18,7 +18,7 @@ Creature::Creature(const Point& coords, const QString& name, int hp) :
     QString image_name = name_ + "_" + QString::number(i * 45);
 
     for (const auto& clothes_name : constants::kClothes) {
-      AddClothesSuffix(image_name, clothes_name);
+      AddClothesSuffix(&image_name, clothes_name);
       animator_.AssignStateToAnimation(State(Action::kIdle,
                                              view_direction,
                                              clothes_name),
