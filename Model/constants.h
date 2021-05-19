@@ -16,6 +16,9 @@ namespace constants {
   const double kStartConversationRadius = 1.75;
   const double kDoorOpenOffset = -0.4;
 
+  // To avoid going through the closed door.
+  const double kDoorInteractingDistanceCoefficient = 0.9;
+
   // Shift circle attack of Hero to forward
   // to avoid attacking bots which are behind Hero.
   const double kCoefficientForShiftingCircleAttack = 0.5;

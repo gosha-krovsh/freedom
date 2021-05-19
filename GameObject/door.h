@@ -19,6 +19,7 @@ class Door : public Object {
  private:
   State GetState() const;
   void SetDrawOffset();
+  bool IsObjectVeryClose(double object_x, double object_y) const;
 
  private:
   Animator<State> animator_{GetState()};

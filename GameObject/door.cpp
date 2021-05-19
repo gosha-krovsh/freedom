@@ -23,15 +23,19 @@ void Door::Tick(int current_tick) {
 }
 
 void Door::Interact(const InteractingObject& interacting_object) {
-  // TODO: make something more accurate
-  if (interacting_object.GetRoundedX() == GetRoundedX() &&
-      interacting_object.GetRoundedY() == GetRoundedY()) {
+  if (IsObjectVeryClose(interacting_object.GetX(), interacting_object.GetY())) {
     return;
   }
-
   is_opened_ = !is_opened_;
   is_touchable_ = !is_opened_;
   SetDrawOffset();
+}
+
+bool Door::IsObjectVeryClose(double object_x, double object_y) const {
+  return ((std::abs(object_x - GetX()) <
+           constants::kDoorInteractingDistanceCoefficient) &&
+          (std::abs(object_y - GetY()) <
+           constants::kDoorInteractingDistanceCoefficient));
 }
 
 void Door::SetDrawOffset() {
