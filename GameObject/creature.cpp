@@ -1,9 +1,13 @@
 #include "creature.h"
 
-void AddClothesSuffix(QString& name, const std::string& suffix) {
-  std::string clothes_suffix = (suffix.empty() ? "" : "_") + suffix;
-  name += QString::fromStdString(clothes_suffix);
+namespace {
+
+void AddClothesSuffix(QString& name, const char* suffix) {
+  QString string_suffix = QString(suffix);
+  name += (string_suffix.isEmpty() ? "" : "_") + string_suffix;
 }
+
+}  // namespace
 
 Creature::Creature(const Point& coords, const QString& name, int hp) :
     DynamicObject(coords),
