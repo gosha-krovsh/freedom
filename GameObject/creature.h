@@ -24,6 +24,7 @@ class Creature : public DynamicObject,
     kRun,
     kFight,
     kDead,
+    kBotLunch
   };
   using State = std::tuple<Action, DynamicObject::ViewDirection, QString>;
 

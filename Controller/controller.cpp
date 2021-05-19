@@ -12,6 +12,8 @@ Controller::Controller()
   model_->SetConversations(std::move(data_controller_->ParseConversations()));
 }
 
+
+
 void Controller::Tick() {
   data_controller_->Tick(current_tick_);
   quest_controller_->Tick(current_tick_);
@@ -21,16 +23,6 @@ void Controller::Tick() {
   for (auto& bot : model_->GetBots()) {
     if (bot.targets_.empty()) {
       BuildPath(&bot, bot.GetFinish());
-      bot.need_to_rebuild_ = false;
-    }
-
-    if (bot.need_to_return_) {
-      BuildPath(&bot, bot.base_start_);
-      for(auto& i : bot.targets_) {
-        qDebug() << i.x << ' ' << i.y << endl;
-      }
-      bot.RebuildPath(bot.base_finish_);
-      bot.need_to_return_ = false;
     }
 
     bot.Tick(current_tick_);
@@ -46,13 +38,8 @@ void Controller::Tick() {
 
   Point canteen = {2, 12, 1};
   if (model_->GetTime().GetMinutes() == 34) {
-    for(auto& bot : model_->GetBots()) {
-      if (bot.targets_.back() != canteen) {
-        bot.RebuildPath(canteen, constants::kDurationOfLunch);
-      }
-    }
-  }
 
+  }
 
   CheckHeroCollision();
   ProcessFighting();
@@ -200,8 +187,6 @@ Object* Controller::FindNearestObjectWithType(Object::Type type) {
 }
 
 void Controller::BuildPath(Bot* bot, const Point& finish) {
-  // qDebug() << '*' << endl;
-  bot->Normalize();
   Point start = bot->GetCoordinates();
   std::map<Point, Point> prev;
   std::deque<Point> current;
@@ -246,7 +231,6 @@ void Controller::BuildPath(Bot* bot, const Point& finish) {
   // qDebug() << endl;
 
   bot->targets_ = result;
-  bot->need_to_rebuild_ = false;
 }
 
 Object* Controller::FindIfNearestObject(
@@ -338,4 +322,10 @@ void Controller::FinishConversation() {
 
 void Controller::ExecuteAction(const Action& action) {
   actions_controller_->Call(action);
+}
+void Controller::MoveAllBotsToPoint(const Point& point) {
+  for(auto& bot : model_->GetBots()) {
+    if (bot.targets_.back() != point) {
+    }
+  }
 }

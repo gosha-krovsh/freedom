@@ -42,6 +42,7 @@ class Controller : public AbstractController {
   Object* FindIfNearestObject(
       const std::function<bool(Object*)>& predicate) override;
 
+  void MoveAllBotsToPoint(const Point& point);
  private:
   struct ControlKeyStates {
     bool up{false};
