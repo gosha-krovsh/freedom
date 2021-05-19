@@ -39,3 +39,7 @@ const Point& Bot::GetFinish() const {
 void Bot::SetFinish(const Point& new_finish) {
   finish_ = new_finish;
 }
+void Bot::Rebuild() {
+  targets_.clear();
+  current_direction_ = 0;
+}

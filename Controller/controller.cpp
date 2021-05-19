@@ -36,9 +36,10 @@ void Controller::Tick() {
     actions_controller_->Tick(current_tick_);
   }
 
-  Point canteen = {2, 12, 1};
+  Point canteen = {3, 13, 1};
   if (model_->GetTime().GetMinutes() == 34) {
-
+    MoveAllBotsToPoint(canteen);
+    model_->GetHero().GetViewDirection()
   }
 
   CheckHeroCollision();
@@ -188,6 +189,8 @@ Object* Controller::FindNearestObjectWithType(Object::Type type) {
 
 void Controller::BuildPath(Bot* bot, const Point& finish) {
   Point start = bot->GetCoordinates();
+  bot->Rebuild();
+
   std::map<Point, Point> prev;
   std::deque<Point> current;
   std::map<Point, bool> used;
@@ -224,12 +227,6 @@ void Controller::BuildPath(Bot* bot, const Point& finish) {
     current_point = prev[current_point];
   }
   std::reverse(result.begin(), result.end());
-
-  // for(auto i : result) {
-  //   qDebug() << i.x << ' ' << i.y << endl;
-  // }
-  // qDebug() << endl;
-
   bot->targets_ = result;
 }
 
@@ -324,8 +321,18 @@ void Controller::ExecuteAction(const Action& action) {
   actions_controller_->Call(action);
 }
 void Controller::MoveAllBotsToPoint(const Point& point) {
-  for(auto& bot : model_->GetBots()) {
-    if (bot.targets_.back() != point) {
+  std::set<std::pair<double, Point>> targets_near_point;
+  for(int x = 0; x < model_->GetMap().GetXSize(); ++x) {
+    for(int y = 0; y < model_->GetMap().GetYSize(); ++y) {
+      if (model_->GetMap().GetBlock(x, y, 1) == nullptr) {
+        targets_near_point.insert({point.DistanceFrom({x, y, 1}), {x, y, 1}});
+      }
     }
+  }
+
+  auto current_point = targets_near_point.begin();
+  for(int i = 0; i < model_->GetBots().size(); ++i) {
+    BuildPath(&model_->GetBots()[i], current_point->second);
+    ++current_point;
   }
 }

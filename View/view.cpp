@@ -41,6 +41,7 @@ void View::paintEvent(QPaintEvent*) {
           if (transparent_blocks.find(curr_block) != transparent_blocks.end()) {
             painter.setOpacity(constants::kBlockOpacity);
           }
+
           curr_block->Draw(&painter);
           painter.setOpacity(1);
         }

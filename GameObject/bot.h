@@ -21,6 +21,7 @@ class Bot : public Creature {
 
   const Point& GetFinish() const;
   void SetFinish(const Point& new_finish);
+  void Rebuild();
 
   std::vector<Point> targets_;
 
