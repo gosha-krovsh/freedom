@@ -75,7 +75,7 @@ class GameMap {
   std::unordered_set<const Object*> transparent_blocks_;
   std::vector<Room> rooms_;
   // Change default value to the room, where hero is spawned.
-  Room current_room_{*rooms_.begin()};
+  Room current_room_{rooms_.at(0)};
   bool is_hero_on_the_room_edge_{false};
   int hero_z_{1};
 };
