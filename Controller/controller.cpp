@@ -281,6 +281,9 @@ void Controller::SetControlLeftKeyState(bool state) {
 }
 
 void Controller::UpdateHeroMovingDirection() {
+  if (model_->GetHero().IsDestroyed()) {
+    return;
+  }
   model_->GetHero().UpdateMovement(control_key_states_.left,
                                    control_key_states_.up,
                                    control_key_states_.right,

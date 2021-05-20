@@ -68,7 +68,7 @@ void View::paintEvent(QPaintEvent*) {
             double dist = hero.GetCoordinates().
                                DistanceFrom(current_bot.GetCoordinates());
 
-            if (!current_bot.IsAbleToAttack()) {
+            if (!current_bot.IsAbleToAttack() && !current_bot.IsDestroyed()) {
               painter.setOpacity(1);
             } else {
               painter.setOpacity(std::max(dist / 2,
