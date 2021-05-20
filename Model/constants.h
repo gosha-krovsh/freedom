@@ -3,6 +3,8 @@
 
 #include <cmath>
 #include <limits>
+#include <string>
+#include <array>
 
 namespace constants {
   const int kNumberOfViewDirections = 8;
@@ -14,6 +16,7 @@ namespace constants {
   const int kAttackCooldown = 40;
   const double kAttackRadius = 0.65;
   const double kStartConversationRadius = 1.75;
+  const std::array<const char*, 2> kClothes{"", "roba"};
   const double kDoorOpenOffset = -0.4;
 
   // To avoid going through the closed door.
