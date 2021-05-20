@@ -1,4 +1,3 @@
-#include <vector>
 #include "game_map.h"
 
 GameMap::Room::Room(const QString& name,

@@ -285,14 +285,11 @@ void Controller::InteractWithDoor() {
 }
 
 Object* Controller::GetNearestOfTwoObjects(Object* obj1, Object* obj2) const {
-  Point hero_coords = model_->GetHero().GetCoordinates();
-
-  auto result = obj1;
-  if ((obj1 && obj2 &&
-       hero_coords.DistanceFrom(obj2->GetCoordinates()) <=
-       hero_coords.DistanceFrom(obj1->GetCoordinates())) || obj2) {
-    result = obj2;
+  if (obj1 && obj2) {
+    Point hero_coords = model_->GetHero().GetCoordinates();
+    return (hero_coords.DistanceFrom(obj1->GetCoordinates()) <=
+            hero_coords.DistanceFrom(obj2->GetCoordinates())) ? obj1 : obj2;
   }
-  return result;
+  return obj1 ? obj1 : obj2;
 }
 
