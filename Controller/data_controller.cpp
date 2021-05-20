@@ -242,3 +242,26 @@ Action DataController::ParseAction(const QString& j_str) {
   std::vector<QString> params(list_params.begin(), list_params.end());
   return Action(name, params);
 }
+std::vector<Bot> DataController::ParseBots() {
+  QFile file(":bots.json");
+  file.open(QIODevice::ReadOnly | QIODevice::Text);
+  QJsonObject json_bots = QJsonDocument::fromJson(file.readAll()).object();
+  QJsonArray bots_array = json_bots["bots"].toArray();
+
+  std::vector<Bot> bots;
+
+  for(int i = 0; i < bots_array.size(); ++i) {
+    QJsonArray current_bot = bots_array[i].toArray();
+    qDebug() << '*' << endl;
+    if (current_bot.size() != 7) {
+      qDebug() << "Wrong data about bot number" << i + 1 << ' ' << current_bot.size() << endl;
+    }
+    Point start{current_bot[1].toInt(), current_bot[2].toInt(),
+                current_bot[3].toInt()};
+    Point finish{current_bot[4].toInt(), current_bot[5].toInt(),
+                current_bot[6].toInt()};
+
+    bots.emplace_back(current_bot[0].toString(), start, finish);
+  }
+  return bots;
+}

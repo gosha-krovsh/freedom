@@ -29,6 +29,7 @@ class Model {
   void SetMap(std::unique_ptr<GameMap>&&);
   void SetSchedule(std::unique_ptr<Schedule>&&);
   void SetConversations(std::vector<std::shared_ptr<Conversation>>&&);
+  void SetBots(std::vector<Bot>&& bots);
 
   void CreateFightingPair(Creature* first, Creature* second);
   void DeleteFightingPairWithIndex(int index);

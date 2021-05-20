@@ -23,6 +23,9 @@ void Bot::MakeStep() {
       (std::abs(GetY() - next_point.y) <= constants::kSpeed)) {
     SetCoordinates(next_point);
     current_direction_ += order_;
+    if (current_direction_ == targets_.size()) {
+      SetViewDirection({next_point.x, next_point.y});
+    }
   }
   Point speed_vector = next_point - GetCoordinates();
   NormalizeSpeedVector(speed_vector);

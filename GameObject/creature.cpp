@@ -78,7 +78,7 @@ void Creature::NormalizeSpeedVector(const Point& speed_vector) {
   UpdateViewDirection();
 }
 bool Creature::IsAbleToAttack() const {
-  return attack_cooldown_ == 0;
+  return attack_cooldown_ == 0 && !IsDestroyed();
 }
 
 void Creature::RefreshAttackCooldown() {

@@ -26,6 +26,7 @@ class DataController {
 
   std::unique_ptr<Schedule> ParseSchedule();
   std::unique_ptr<GameMap> ParseGameMap();
+  std::vector<Bot> ParseBots();
   std::vector<std::shared_ptr<Conversation>> ParseConversations();
 
  private:

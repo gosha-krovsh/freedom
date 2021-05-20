@@ -9,6 +9,7 @@ Controller::Controller()
       current_tick_(0) {
   model_->SetMap(std::move(data_controller_->ParseGameMap()));
   model_->SetSchedule(std::move(data_controller_->ParseSchedule()));
+  model_->SetBots(std::move(data_controller_->ParseBots()));
   model_->SetConversations(std::move(data_controller_->ParseConversations()));
 }
 
@@ -39,7 +40,6 @@ void Controller::Tick() {
   Point canteen = {3, 13, 1};
   if (model_->GetTime().GetMinutes() == 34) {
     MoveAllBotsToPoint(canteen);
-    model_->GetHero().GetViewDirection()
   }
 
   CheckHeroCollision();
@@ -331,8 +331,8 @@ void Controller::MoveAllBotsToPoint(const Point& point) {
   }
 
   auto current_point = targets_near_point.begin();
-  for(int i = 0; i < model_->GetBots().size(); ++i) {
-    BuildPath(&model_->GetBots()[i], current_point->second);
+  for(auto& bot : model_ -> GetBots()) {
+    BuildPath(&bot, current_point->second);
     ++current_point;
   }
 }

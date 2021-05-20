@@ -90,6 +90,7 @@
         <file>wall_attack.mp3</file>
         <file>schedule.json</file>
         <file>game_map.json</file>
+        <file>bots.json</file>
         <file alias = "item_bar_styles">../Styles/item_bar_styles.qss</file>
         <file>conversations.json</file>
 

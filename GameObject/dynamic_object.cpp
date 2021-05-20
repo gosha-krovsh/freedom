@@ -46,3 +46,9 @@ void DynamicObject::Move() {
 void DynamicObject::SetSpeedVector(const Point& speed_vector) {
   speed_vector_ = speed_vector;
 }
+void DynamicObject::SetViewDirection(const Point& point) {
+  auto temp = speed_vector_;
+  speed_vector_ = GetCoordinates() - point;
+  UpdateViewDirection();
+  speed_vector_ = temp;
+}

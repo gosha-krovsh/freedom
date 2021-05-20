@@ -2,12 +2,6 @@
 #include "image_manager.h"
 
 Model::Model() {
-  // TODO: Parse bots from JSON
-  bots_.emplace_back("Hero", Point(4, 1, 1), Point(7, 9, 1));
-  bots_.emplace_back("Hero", Point(2, 7, 1), Point(4, 1, 1));
-  bots_.emplace_back("Hero", Point(7, 9, 1), Point(4, 1, 1));
-
-
   // TODO: parse it from json
   std::vector<QuestNode> quest_nodes{
       QuestNode(0, "MyQuestNodeName", QuestNode::Type::kMoveToDestination,
@@ -101,4 +95,8 @@ Sound& Model::GetSound() {
 
 const Sound& Model::GetSound() const {
   return sound_;
+}
+
+void Model::SetBots(std::vector<Bot>&& bots) {
+  bots_ = std::move(bots);
 }
