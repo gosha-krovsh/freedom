@@ -6,11 +6,16 @@ Controller::Controller()
       actions_controller_(std::make_unique<ActionController>(this, model_)),
       data_controller_(std::make_unique<DataController>(model_)),
       quest_controller_(std::make_unique<QuestController>(this, model_)),
+      item_controller_(std::make_unique<ItemController>(model_)),
       current_tick_(0) {
   model_->SetMap(std::move(data_controller_->ParseGameMap()));
   model_->SetSchedule(std::move(data_controller_->ParseSchedule()));
   model_->SetConversations(std::move(data_controller_->ParseConversations()));
   model_->SetQuests(std::move(data_controller_->ParseQuests()));
+
+  model_->SetCreatureStorage(
+      std::move(data_controller_->ParseCreatureStorage()));
+  view_->AssignHeroStorage();
 }
 
 void Controller::Tick() {
@@ -241,6 +246,10 @@ void Controller::OnItemPress(int bar_id, int index) {
     source_dest.first->UpdateIcons();
     source_dest.second->UpdateIcons();
   }
+}
+
+void Controller::UseItem(const Item& item) {
+  item_controller_->UseItem(item);
 }
 
 void Controller::MoveItem(int index,

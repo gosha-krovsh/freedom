@@ -29,6 +29,7 @@ class Model {
   void SetSchedule(std::unique_ptr<Schedule>&&);
   void SetConversations(std::vector<std::shared_ptr<Conversation>>&&);
   void SetQuests(std::vector<Quest>&&);
+  void SetCreatureStorage(std::map<QString, std::shared_ptr<Storage>>&& items);
 
   void CreateFightingPair(Creature* first, Creature* second);
   void DeleteFightingPairWithIndex(int index);
@@ -42,17 +43,18 @@ class Model {
   const Sound& GetSound() const;
 
   const Hero& GetHero() const;
+  Hero& GetHero();
+
+  Time& GetTime();
+  const Time& GetTime() const;
+
+  const Schedule& GetSchedule() const;
+  std::weak_ptr<QPixmap> GetImage(const QString& name);
 
   const std::vector<Bot>& GetBots() const;
   std::vector<Bot>& GetBots();
   const Bot& GetBotByName(const QString& name) const;
   Bot& GetBotByName(const QString& name);
-
-  Hero& GetHero();
-  const Schedule& GetSchedule() const;
-  Time& GetTime();
-  const Time& GetTime() const;
-  std::weak_ptr<QPixmap> GetImage(const QString& name);
 
   const std::vector<Quest>& GetCurrentQuests() const;
   std::vector<Quest>& GetCurrentQuests();

@@ -30,6 +30,9 @@ class View : public QMainWindow {
   void ItemDialogEvent();
   bool IsItemDialogOpen() const;
 
+  // After storage is parsed from json it should be reassigned to hero
+  void AssignHeroStorage();
+
  private:
   void paintEvent(QPaintEvent*) override;
   void resizeEvent(QResizeEvent*) override;

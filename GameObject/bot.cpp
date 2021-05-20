@@ -1,7 +1,10 @@
 #include "bot.h"
 
-Bot::Bot(const QString& name, const Point& coords, std::vector<Point> targets) :
-    Creature(coords, name, constants::kHP), targets_(targets) {}
+Bot::Bot(const QString& name, const Point& coords,
+         const std::vector<Point>& targets) :
+    Creature(coords, name, constants::kHP), targets_(targets) {
+  storage_ = std::make_shared<Storage>();
+}
 
 void Bot::Tick(int current_tick) {
   Creature::Tick(current_tick);
@@ -29,6 +32,10 @@ void Bot::MakeStep() {
 
   Point speed_vector = next_point - GetCoordinates();
   NormalizeSpeedVector(speed_vector);
+}
+
+void Bot::SetStorage(std::shared_ptr<Storage>&& storage) {
+  storage_ = std::move(storage);
 }
 
 void Bot::OnDead() {

@@ -11,7 +11,7 @@ class Chest : public Object {
  public:
   Chest(const Point& coords,
         const std::weak_ptr<QPixmap>& image,
-        const std::vector<Item>& items = {});
+        const std::shared_ptr<Storage>& storage = {});
 };
 
 #endif  // GAMEOBJECT_CHEST_H_

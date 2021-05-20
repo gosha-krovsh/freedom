@@ -94,6 +94,8 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
   }
   objects.reserve(z_size * x_size * y_size);
 
+  std::map<QString, std::shared_ptr<Storage>> chests_storage =
+      ParseMapStorage();
   for (int z = 0; z < z_size; ++z) {
     QJsonArray surface = map[z].toArray();
     if (surface.size() != x_size) {
@@ -117,11 +119,16 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
             break;
           }
           case Object::Type::kChest: {
-            // Temporary code
+            Point point{x, y, z};
+            auto storage_it = chests_storage.find(point.ToString());
+            std::shared_ptr<Storage> storage = std::make_shared<Storage>();
+            if (storage_it != chests_storage.end()) {
+              storage = storage_it->second;
+            }
             objects.emplace_back(new Chest(
-                Point(x, y, z),
+                point,
                 model_->GetImage("brick"),
-                {Item(0, "Block", model_->GetImage("brick"))}));
+                storage));
             break;
           }
           Case(kFloor, Point(x, y, z), "floor")
@@ -227,7 +234,6 @@ std::vector<std::shared_ptr<Conversation>>
   return conversations;
 }
 
-// TODO: delete id in QuestNode ?
 // quests.json structure:
 // [
 //   {
@@ -268,6 +274,71 @@ Action DataController::ParseAction(const QString& j_str) {
   QStringList list_params = (j_str.split("(")[1]).split(")")[0].split(",");
   std::vector<QString> params(list_params.begin(), list_params.end());
   return Action(name, params);
+}
+
+// From items.json parses "creature-items" key
+std::map<QString, std::shared_ptr<Storage>>
+    DataController::ParseCreatureStorage() {
+  QFile file(":items.json");
+  file.open(QIODevice::ReadOnly | QIODevice::Text);
+
+  QJsonDocument document = QJsonDocument::fromJson(file.readAll());
+  QJsonObject jobject_items_map = document.object();
+
+  QJsonObject jobject_dictionary =
+      jobject_items_map.value(QString("dictionary")).toObject();
+  QJsonArray creatures_array =
+      jobject_items_map.value(QString("creature-items")).toArray();
+
+  std::map<QString, std::shared_ptr<Storage>> result;
+  for (auto point_storage : creatures_array) {
+    QString creature_name = point_storage.toArray().at(0).toString();
+
+    QJsonArray items_array = point_storage.toArray().at(1).toArray();
+    std::vector<Item> items;
+    for (auto item : items_array) {
+      QString name = item.toString();
+      int id = jobject_dictionary.value(name).toInt();
+      items.emplace_back(static_cast<Item::Type>(id),
+                         name,
+                         model_->GetImage(name.toLower()));
+    }
+    result[creature_name] = std::make_shared<Storage>(items);
+  }
+  return result;
+}
+
+std::map<QString, std::shared_ptr<Storage>> DataController::ParseMapStorage() {
+  QFile file(":items.json");
+  file.open(QIODevice::ReadOnly | QIODevice::Text);
+
+  QJsonDocument document = QJsonDocument::fromJson(file.readAll());
+  QJsonObject jobject_items_map = document.object();
+
+  QJsonObject jobject_dictionary =
+      jobject_items_map.value(QString("dictionary")).toObject();
+  QJsonArray points_array =
+      jobject_items_map.value(QString("map-items")).toArray();
+
+  std::map<QString, std::shared_ptr<Storage>> result;
+  for (auto point_storage : points_array) {
+    QJsonArray point_array = point_storage.toArray().at(0).toArray();
+    Point point{point_array.at(0).toInt(),
+                point_array.at(1).toInt(),
+                point_array.at(2).toInt()};
+
+    QJsonArray items_array = point_storage.toArray().at(1).toArray();
+    std::vector<Item> items;
+    for (auto item : items_array) {
+      QString name = item.toString();
+      int id = jobject_dictionary.value(name).toInt();
+      items.emplace_back(Item(static_cast<Item::Type>(id),
+                              name,
+                              model_->GetImage(name.toLower())));
+    }
+    result[point.ToString()] = std::make_shared<Storage>(items);
+  }
+  return result;
 }
 
 std::vector<Action> DataController::ParseActions(const QJsonArray& j_arr) {

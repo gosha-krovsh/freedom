@@ -34,6 +34,24 @@ void Model::SetQuests(std::vector<Quest>&& quests) {
   quests_ = std::move(quests);
 }
 
+void Model::SetCreatureStorage(std::map<QString,
+                                        std::shared_ptr<Storage>>&& items) {
+  for (auto name_storage : items) {
+    if (name_storage.first == "hero") {
+      hero_.SetStorage(std::move(name_storage.second));
+    } else {
+      auto it = std::find_if(bots_.begin(), bots_.end(),
+                             [name_storage] (const Bot& bot) {
+        return bot.GetName() == name_storage.first;
+      });
+
+      if (it != bots_.end()) {
+        it->SetStorage(std::move(name_storage.second));
+      }
+    }
+  }
+}
+
 void Model::CreateFightingPair(Creature* first, Creature* second) {
   fighting_pairs_.emplace_back(first, second);
 }
@@ -57,6 +75,7 @@ GameMap& Model::GetMap() {
 const Hero& Model::GetHero() const {
   return hero_;
 }
+
 Hero& Model::GetHero() {
   return hero_;
 }

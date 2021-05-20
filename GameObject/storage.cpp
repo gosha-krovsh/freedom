@@ -12,8 +12,9 @@ void Storage::PutItem(const Item& item) {
 
 Item Storage::RemoveItem(int index) {
   auto it = items_.begin() + index;
+  Item item = *it;
   items_.erase(it);
-  return *it;
+  return item;
 }
 
 bool Storage::IsValidIndex(int index) const {

@@ -1,5 +1,14 @@
 #include "creature.h"
 
+namespace {
+
+void AddClothesSuffix(QString* name, const char* suffix) {
+  QString string_suffix = QString(suffix);
+  *name += (string_suffix.isEmpty() ? "" : "_") + string_suffix;
+}
+
+}  // namespace
+
 Creature::Creature(const Point& coords, const QString& name, int hp) :
     DynamicObject(coords),
     Destroyable(hp),
@@ -8,17 +17,28 @@ Creature::Creature(const Point& coords, const QString& name, int hp) :
     auto view_direction = static_cast<ViewDirection>(i);
     QString image_name = name_ + "_" + QString::number(i * 45);
 
-    animator_.AssignStateToAnimation(State(Action::kIdle, view_direction),
-                                     {image_name});
-    animator_.AssignStateToAnimation(State(Action::kDead, view_direction),
-                                     {image_name + "_dead"});
-    animator_.AssignStateToAnimation(State(Action::kFight, view_direction),
-                                     {"cloud"});
-    animator_.AssignStateToAnimation(State(Action::kRun, view_direction),
-                                     {image_name,
-                                      image_name + "_run_1",
-                                      image_name,
-                                      image_name + "_run_2"});
+    for (const auto& clothes_name : constants::kClothes) {
+      AddClothesSuffix(&image_name, clothes_name);
+      animator_.AssignStateToAnimation(State(Action::kIdle,
+                                             view_direction,
+                                             clothes_name),
+                                       {image_name});
+      animator_.AssignStateToAnimation(State(Action::kDead,
+                                             view_direction,
+                                             clothes_name),
+                                       {image_name + "_dead"});
+      animator_.AssignStateToAnimation(State(Action::kFight,
+                                             view_direction,
+                                             clothes_name),
+                                       {"cloud"});
+      animator_.AssignStateToAnimation(State(Action::kRun,
+                                             view_direction,
+                                             clothes_name),
+                                       {image_name,
+                                        image_name + "_run_1",
+                                        image_name,
+                                        image_name + "_run_2"});
+    }
   }
 }
 const QString& Creature::GetName() const {
@@ -50,7 +70,7 @@ void Creature::SetSpeedVector(const Point& speed_vector) {
 }
 
 Creature::State Creature::GetState() const {
-  return State(action_, view_direction_);
+  return State(action_, view_direction_, clothes_name_);
 }
 
 void Creature::NormalizeSpeedVector(const Point& speed_vector) {
