@@ -97,3 +97,11 @@ void Object::Interact(const InteractingObject& interacting_object) {}
 std::shared_ptr<Storage> Object::GetStorage() {
   return storage_;
 }
+
+std::shared_ptr<Storage> Object::GetClothingStorage() {
+  return clothing_storage_;
+}
+
+std::shared_ptr<Storage> Object::GetGunStorage() {
+  return gun_storage_;
+}

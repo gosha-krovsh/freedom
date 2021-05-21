@@ -2,6 +2,8 @@
 Hero::Hero(const Point& coords)
   : Creature(coords, "Hero", constants::kHP) {
   storage_ = std::make_shared<Storage>();
+  gun_storage_ = std::make_shared<Storage>();
+  clothing_storage_ = std::make_shared<Storage>();
 }
 
 void Hero::Tick(int current_tick) {

@@ -5,8 +5,10 @@ View::View(AbstractController* controller,
     controller_(controller),
     model_(model),
     timer_(new QTimer(this)),
-    item_bar_pack_(new BarPack(controller, this,
-                               model_->GetHero().GetStorage())) {
+    item_bar_pack_(new BarPack(controller, model, this,
+                               model_->GetHero().GetStorage(),
+                               model_->GetHero().GetClothingStorage(),
+                               model_->GetHero().GetGunStorage())) {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
   show();
 
@@ -212,7 +214,7 @@ void View::resizeEvent(QResizeEvent*) {
   }
   item_bar_pack_->SetCenterGeometry(width() / 2,
                                     height() - 2 * constants::kWindowHeight / 5,
-                                    constants::kWindowWidth / 2,
+                                    9 * constants::kWindowWidth / 14,
                                     2 * constants::kWindowHeight / 5);
 }
 
