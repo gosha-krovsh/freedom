@@ -84,6 +84,13 @@ void View::keyPressEvent(QKeyEvent* event) {
       controller_->InteractWithDoor();
       break;
     }
+    case Qt::Key_Escape: {
+      StopTickTimer();
+      main_menu_ = std::make_unique<MainMenu>(controller_, this);
+      InterruptAllInput();
+      resizeEvent(nullptr);
+      break;
+    }
       // Following keys are used to use items,
       // this feature will be updated in future
     case Qt::Key_1 :
@@ -138,6 +145,9 @@ void View::resizeEvent(QResizeEvent*) {
         constants::kWidthConversationWindowMultiplier * width(),
         constants::kHeightConversationWindowMultiplier * height());
   }
+  if (main_menu_) {
+    main_menu_->setGeometry(0, 0, width(), height());
+  }
   item_bar_pack_->SetCenterGeometry(width() / 2,
                                     height() - 2 * constants::kWindowHeight / 5,
                                     constants::kWindowWidth / 2,
@@ -157,6 +167,12 @@ void View::InterruptAllInput() {
 
 void View::CloseConversationWindow() {
   conversation_window_ = nullptr;
+  item_bar_pack_->show();
+  StartTickTimer();
+}
+
+void View::CloseMainMenu() {
+  main_menu_ = nullptr;
   item_bar_pack_->show();
   StartTickTimer();
 }

@@ -26,6 +26,7 @@ add_executable(${PROJECT_NAME}
         View/game_widget.cpp
         View/view.cpp
         View/conversation_window.cpp
+        View/main_menu.cpp
 
         Controller/action_controller.cpp
         Controller/controller.cpp
