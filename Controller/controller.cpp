@@ -218,13 +218,11 @@ void Controller::BuildPath(Bot* bot, const Point& finish) {
     }
   }
 
-  std::vector<Point> path = CollectPath(finish, prev);
-  bot->targets_ =
-      std::move(std::vector(path.rbegin(), path.rend()));
+  bot->targets_ = std::move(CollectPath(finish, prev));
 }
 
 std::vector<Point> Controller::CollectPath(const Point& finish,
-                                           std::map<Point, Point>& prev) {
+                                           std::map<Point, Point>& prev) const {
   Point current_point = finish;
 
   std::vector<Point> result;
@@ -233,6 +231,7 @@ std::vector<Point> Controller::CollectPath(const Point& finish,
     current_point = prev[current_point];
   }
 
+  std::reverse(result.begin(), result.end());
   return result;
 }
 Object* Controller::FindIfNearestObject(

@@ -1,13 +1,11 @@
  [
    {
      "name":  "Hero",
-     "coords" : [4, 1, 1],
-     "storage" : []
+     "coords": [4, 1, 1]
    },
 
    {
      "name": "Hero",
-     "coords" : [2, 7, 1],
-     "storage" : []
+     "coords": [2, 7, 1]
    }
  ]

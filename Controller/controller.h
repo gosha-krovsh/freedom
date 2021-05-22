@@ -65,7 +65,7 @@ class Controller : public AbstractController {
 
  private:
   std::vector<Point> CollectPath(const Point& finish,
-                                 std::map<Point, Point>& prev);
+                                 std::map<Point, Point>& prev) const;
 
   std::shared_ptr<Model> model_;
   std::unique_ptr<View> view_;
