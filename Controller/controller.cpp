@@ -231,7 +231,7 @@ void Controller::BuildPath(Bot* bot, const Point& finish) {
 
 std::vector<Point> Controller::CollectPath(const Point& finish,
                                            const std::unordered_map
-                                           <Point, Point,Point::HashFunc>&
+                                           <Point, Point, Point::HashFunc>&
                                            prev) const {
   Point current_point = finish;
 
