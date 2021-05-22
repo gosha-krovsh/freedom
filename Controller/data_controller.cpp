@@ -118,17 +118,26 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
                                           model_->GetImage("brick")));
             break;
           }
-          case Object::Type::kChest: {
+          case Object::Type::kChest:
+          case Object::Type::kWardrobe_225:
+          case Object::Type::kWardrobe_315: {
             Point point{x, y, z};
             auto storage_it = chests_storage.find(point.ToString());
             std::shared_ptr<Storage> storage = std::make_shared<Storage>();
             if (storage_it != chests_storage.end()) {
               storage = storage_it->second;
             }
-            objects.emplace_back(new Chest(
-                point,
-                model_->GetImage("brick"),
-                storage));
+
+            std::weak_ptr<QPixmap> image;
+            if (object_type == Object::Type::kChest) {
+              image = model_->GetImage("chest");
+            } else if (object_type == Object::Type::kWardrobe_225) {
+              image = model_->GetImage("wardrobe_225");
+            } else if (object_type == Object::Type::kWardrobe_315) {
+              image = model_->GetImage("wardrobe_315");
+            }
+
+            objects.emplace_back(new Chest(point, image, storage));
             break;
           }
           Case(kFloor, Point(x, y, z), "floor")
@@ -151,6 +160,24 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
           Case(kStoneRoad, Point(x, y, z), "stone_road")
           Case(kMud, Point(x, y, z), "mud")
           Case(kBall, Point(x, y, z), "ball")
+          Case(kBed_45, Point(x, y, z), "bed_45")
+          Case(kBed_135, Point(x, y, z), "bed_135")
+          Case(kBed_225, Point(x, y, z), "bed_225")
+          Case(kBed_315, Point(x, y, z), "bed_315")
+          Case(kGrating_225, Point(x, y, z), "grating_225")
+          Case(kGrating_315, Point(x, y, z), "grating_315")
+          case Object::Type::kDoor_225: {
+            objects.emplace_back(new Door(Point(x, y, z),
+                                          model_->GetImage("door_225"),
+                                          Object::Type::kDoor_225));
+            break;
+          }
+          case Object::Type::kDoor_315: {
+            objects.emplace_back(new Door(Point(x, y, z),
+                                          model_->GetImage("door_315"),
+                                          Object::Type::kDoor_315));
+            break;
+          }
           default: {
             qDebug() << "Not handled type of object";
             break;

@@ -17,6 +17,10 @@ namespace constants {
   const double kAttackRadius = 0.65;
   const double kStartConversationRadius = 1.75;
   const std::array<const char*, 2> kClothes{"", "roba"};
+  const double kDoorOpenOffset = -0.4;
+
+  // To avoid going through the closed door.
+  const double kDoorInteractingDistanceCoefficient = 0.9;
 
   // Shift circle attack of Hero to forward
   // to avoid attacking bots which are behind Hero.
