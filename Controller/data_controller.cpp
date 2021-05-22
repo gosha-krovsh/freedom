@@ -127,7 +127,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
             if (storage_it != chests_storage.end()) {
               storage = storage_it->second;
             }
-            
+
             objects.emplace_back(new Chest(
                 point,
                 model_->GetImage("brick"), storage));
