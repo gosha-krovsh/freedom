@@ -129,7 +129,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
                 Point(x, y, z),
                 model_->GetImage("brick"),
                 {Item(0, "Block", model_->GetImage("brick")),
-                       Item(1, "Roba", model_->GetImage("roba"))}));
+                 Item(1, "Roba", model_->GetImage("roba"))}));
             break;
           }
           Case(kFloor, Point(x, y, z), "floor")
@@ -187,7 +187,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
 //   ...
 // ]
 std::vector<std::shared_ptr<Conversation>>
-    DataController::ParseConversations() {
+DataController::ParseConversations() {
   QFile file(":conversations.json");
   file.open(QIODevice::ReadOnly | QIODevice::Text);
 
@@ -246,20 +246,20 @@ Action DataController::ParseAction(const QString& j_str) {
 std::vector<Bot> DataController::ParseBots() {
   QFile file(":bots.json");
   file.open(QIODevice::ReadOnly | QIODevice::Text);
-  QJsonObject json_bots = QJsonDocument::fromJson(file.readAll()).object();
-  QJsonArray bots_array = json_bots["bots"].toArray();
+  QJsonArray json_bots = QJsonDocument::fromJson(file.readAll()).array();
 
   std::vector<Bot> bots;
-
-  for(int i = 0; i < bots_array.size(); ++i) {
-    QJsonArray current_bot_params = bots_array[i].toArray();
-    if (current_bot_params.size() != 7) {
+  for (int i = 0; i < json_bots.size(); ++i) {
+    QJsonObject current_bot_params = json_bots[i].toObject();
+    QJsonArray current_bot_coords = current_bot_params["coords"].toArray();
+    if (current_bot_coords.size() != 3) {
       qDebug() << "Invalid data about bot number "
-      << i + 1 << ' ' << current_bot_params.size() << endl;
+               << i + 1 << ' ' << current_bot_params.size() << endl;
     }
-    Point start{current_bot_params[1].toInt(), current_bot_params[2].toInt(),
-                current_bot_params[3].toInt()};
-    bots.emplace_back(current_bot_params[0].toString(), start);
+    Point start{current_bot_coords[0].toInt(), current_bot_coords[1].toInt(),
+                current_bot_coords[2].toInt()};
+
+    bots.emplace_back(current_bot_params["name"].toString(), start);
   }
   return bots;
 }

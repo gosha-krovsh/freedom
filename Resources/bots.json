@@ -1,6 +1,13 @@
-{
-  "bots":  [
-            ["Hero", 4, 1, 1, 7, 9, 1],
-            ["Hero", 2, 7, 1, 4, 1, 1]
-           ]
-}
+ [
+   {
+     "name":  "Hero",
+     "coords" : [4, 1, 1],
+     "storage" : []
+   },
+
+   {
+     "name": "Hero",
+     "coords" : [2, 7, 1],
+     "storage" : []
+   }
+ ]
