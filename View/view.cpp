@@ -80,6 +80,10 @@ void View::keyPressEvent(QKeyEvent* event) {
       ItemDialogEvent();
       break;
     }
+    case Qt::Key_R: {
+      controller_->InteractWithDoor();
+      break;
+    }
       // Following keys are used to use items,
       // this feature will be updated in future
     case Qt::Key_1 :

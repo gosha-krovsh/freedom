@@ -24,6 +24,8 @@ class Hero : public Creature, public InteractingObject {
   void UpdateMovement(bool left, bool up, bool right, bool down);
   void OnDead() override;
 
+  double GetX() const override;
+  double GetY() const override;
   int GetRoundedX() const override;
   int GetRoundedY() const override;
   int GetAttack() const override;

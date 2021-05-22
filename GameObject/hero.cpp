@@ -6,6 +6,21 @@ Hero::Hero(const Point& coords)
 
 void Hero::Tick(int current_tick) {
   Creature::Tick(current_tick);
+
+  // Temp code.
+  // TODO: In the future, there will be separate cell in inventory for clothes.
+  bool is_roba = false;
+  for (const auto& item : storage_->GetItems()) {
+    if (item.GetName() == "roba") {
+      is_roba = true;
+      break;
+    }
+  }
+  if (is_roba) {
+    clothes_name_ = "roba";
+  } else {
+    clothes_name_ = "";
+  }
 }
 
 Point Hero::GetViewVector() const {
@@ -20,6 +35,14 @@ void Hero::UpdateMovement(bool left, bool up, bool right, bool down) {
   Point screen_vector{x, y};
   UpdateSpeedVector(screen_vector);
   UpdateViewDirection();
+}
+
+double Hero::GetX() const {
+  return Object::GetX();
+}
+
+double Hero::GetY() const {
+  return Object::GetY();
 }
 
 int Hero::GetRoundedX() const {

@@ -8,6 +8,7 @@ class ShakingObject {
   void Tick(int current_tick);
   void Shake(const Point& direction_of_shake);
 
+  void SetOffset(const Point& offset);
   Point GetOffset() const;
 
  private:

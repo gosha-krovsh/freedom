@@ -3,11 +3,13 @@
 
 #include <memory>
 
+#include "abstract_controller.h"
 #include "Model/model.h"
 
 class QuestController {
  public:
-  explicit QuestController(const std::shared_ptr<Model>& model);
+  QuestController(AbstractController* controller,
+                  const std::shared_ptr<Model>& model);
 
   // Checks each tick the condition of the current node of every quest in
   // |Model.current_quests|. If all quest nodes in some quest were
@@ -24,6 +26,7 @@ class QuestController {
   bool CheckMoveToDestination(const Point& destination);
 
  private:
+  AbstractController* controller_;
   std::shared_ptr<Model> model_;
 };
 

@@ -1,10 +1,9 @@
 #ifndef GAMEOBJECT_STORAGE_H_
 #define GAMEOBJECT_STORAGE_H_
 
-#include <vector>
-
 #include <QDebug>
 #include <QString>
+#include <vector>
 
 #include "item.h"
 #include "Model/constants.h"

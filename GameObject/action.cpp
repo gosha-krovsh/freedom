@@ -14,8 +14,13 @@ std::vector<QString> Action::GetParameters() const {
 }
 
 Action::ActionType Action::ChooseActionType(const QString& name) {
-  if (name.toLower() == "move") {
+  if (name == "Move") {
     return kMove;
+  } else if (name == "StartQuest") {
+    return kStartQuest;
+  } else if (name == "SetBotConversation") {
+    return kSetBotConversation;
   }
+  qDebug() << "Invalid action name";
   return kWrongArg;
 }

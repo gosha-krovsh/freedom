@@ -24,6 +24,8 @@ class Controller : public AbstractController {
   void Tick() override;
 
   void ExecuteAction(const Action& action) override;
+  void ExecuteActions(const std::vector<Action>& actions) override;
+  void StartQuest(int id) override;
 
   void HeroAttack() override;
   std::shared_ptr<Conversation> StartConversation() override;
@@ -37,6 +39,7 @@ class Controller : public AbstractController {
 
   void OnItemPress(int id, int index) override;
   void UseItem(const Item& item) override;
+  void InteractWithDoor() override;
 
   Object* FindNearestObjectWithType(Object::Type type) override;
   Object* FindIfNearestObject(
@@ -59,6 +62,7 @@ class Controller : public AbstractController {
   void ProcessFighting();
   void ProcessFighting(Creature* attacker, Creature* victim, int* i);
   Bot* FindNearestBotInRadius(double radius);
+  Object* GetNearestOfTwoObjects(Object* obj1, Object* obj2) const;
 
  private:
   std::shared_ptr<Model> model_;
