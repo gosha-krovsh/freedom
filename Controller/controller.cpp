@@ -195,9 +195,9 @@ void Controller::BuildPath(Bot* bot, const Point& finish) {
   Point start = bot->GetCoordinates();
   bot->Rebuild();
 
-  std::unordered_map<Point, Point, HashFunc> prev;
+  std::unordered_map<Point, Point, Point::HashFunc> prev;
   std::deque<Point> current;
-  std::unordered_map<Point, bool, HashFunc> used;
+  std::unordered_map<Point, bool, Point::HashFunc> used;
 
   prev[start] = Point(-1, -1, -1);
   used[start] = true;
@@ -230,8 +230,9 @@ void Controller::BuildPath(Bot* bot, const Point& finish) {
 }
 
 std::vector<Point> Controller::CollectPath(const Point& finish,
-                                           const std::unordered_map<Point,
-                                           Point, HashFunc>& prev) const {
+                                           const std::unordered_map
+                                           <Point, Point,Point::HashFunc>&
+                                           prev) const {
   Point current_point = finish;
 
   std::vector<Point> result;

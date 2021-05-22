@@ -21,15 +21,6 @@
 #include "View/view.h"
 #include "Model/model.h"
 
-namespace {
-class HashFunc {
- public:
-    long double operator() (Point point) const {
-      return 29 * point.x + 31 * point.y + 37 * point.z;
-    }
-};
-}  // namespace
-
 class Controller : public AbstractController {
  public:
   Controller();
@@ -81,7 +72,7 @@ class Controller : public AbstractController {
   void BuildPath(Bot* bot, const Point& finish);
   std::vector<Point> CollectPath(const Point& finish,
                                  const std::unordered_map<Point, Point,
-                                 HashFunc>& prev) const;
+                                 Point::HashFunc>& prev) const;
   Object* GetNearestOfTwoObjects(Object* obj1, Object* obj2) const;
 
  private:
