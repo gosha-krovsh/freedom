@@ -103,14 +103,7 @@
         <file alias="conversations.json">Jsons/conversations.json</file>
         <file alias="items.json">Jsons/items.json</file>
         <file alias="quests.json">Jsons/quests.json</file>
-
-        <file alias="schedule.json">Jsons/schedule.json</file>
-        <file alias="game_map.json">Jsons/game_map.json</file>
-        <file alias="conversations.json">Jsons/conversations.json</file>
-        <file alias="items.json">Jsons/items.json</file>
-        <file alias="quests.json">Jsons/quests.json</file>
-
-        <file>bots.json</file>
+        <file alias="bots.json">Jsons/bots.json</file>
 
         <file alias="idle.mp3">Sounds/idle.mp3</file>
         <file alias="wall_attack.mp3">Sounds/wall_attack.mp3</file>
