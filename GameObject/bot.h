@@ -23,11 +23,13 @@ class Bot : public Creature {
   void SetFinish(const Point& new_finish);
   void Rebuild();
 
-  std::vector<Point> targets_;
+  const std::vector<Point>& GetTargets();
+  void SetTargets(const std::vector<Point>& targets);
 
  private:
   void MakeStep();
 
+  std::vector<Point> targets_;
   int current_index_in_path_{0};
   Point finish_;
 };

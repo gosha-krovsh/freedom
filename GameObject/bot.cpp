@@ -46,7 +46,16 @@ Point Bot::GetFinish() const {
 void Bot::SetFinish(const Point& new_finish) {
   finish_ = new_finish;
 }
+
 void Bot::Rebuild() {
   targets_.clear();
   current_index_in_path_ = 0;
+}
+
+const std::vector<Point>& Bot::GetTargets() {
+  return targets_;
+}
+
+void Bot::SetTargets(const std::vector<Point>& targets) {
+  targets_ = targets;
 }

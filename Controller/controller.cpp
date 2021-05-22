@@ -226,7 +226,7 @@ void Controller::BuildPath(Bot* bot, const Point& finish) {
     }
   }
 
-  bot->targets_ = std::move(CollectPath(finish, prev));
+  bot->SetTargets(CollectPath(finish, prev));
 }
 
 std::vector<Point> Controller::CollectPath(const Point& finish,
