@@ -294,8 +294,8 @@ std::vector<Bot> DataController::ParseBots() {
     bots.emplace_back(current_bot_params["name"].toString(), start);
   }
   return bots;
-=======
-// From items.json parses "creature-items" key
+}
+  // From items.json parses "creature-items" key
 std::map<QString, std::shared_ptr<Storage>>
     DataController::ParseCreatureStorage() {
   QFile file(":items.json");

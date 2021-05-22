@@ -193,9 +193,9 @@ void Controller::BuildPath(Bot* bot, const Point& finish) {
   Point start = bot->GetCoordinates();
   bot->Rebuild();
 
-  std::map<Point, Point> prev;
+  std::unordered_map<Point, Point, HashFunc> prev;
   std::deque<Point> current;
-  std::map<Point, bool> used;
+  std::unordered_map<Point, bool, HashFunc> used;
 
   prev[start] = Point(-1, -1, -1);
   used[start] = true;
@@ -228,13 +228,14 @@ void Controller::BuildPath(Bot* bot, const Point& finish) {
 }
 
 std::vector<Point> Controller::CollectPath(const Point& finish,
-                                           std::map<Point, Point>& prev) const {
+                                           const std::unordered_map<Point,
+                                           Point, HashFunc>& prev) const {
   Point current_point = finish;
 
   std::vector<Point> result;
   while (current_point != Point(-1, -1, -1)) {
     result.push_back(current_point);
-    current_point = prev[current_point];
+    current_point = prev.at(current_point);
   }
 
   std::reverse(result.begin(), result.end());
@@ -339,7 +340,11 @@ void Controller::ExecuteAction(const Action& action) {
 }
 
 void Controller::MoveAllBotsToPoint(const Point& point) {
-  std::set<std::pair<double, Point>> targets_near_point;
+  auto cmp = [](std::pair<double, Point> lhs, std::pair<double, Point> rhs) {
+    return lhs.first < rhs.first;
+  };
+  std::set<std::pair<double, Point>, decltype(cmp)> targets_near_point(cmp);
+
   for(int x = 0; x < model_->GetMap().GetXSize(); ++x) {
     for(int y = 0; y < model_->GetMap().GetYSize(); ++y) {
       if (model_->GetMap().GetBlock(x, y, 1) == nullptr) {

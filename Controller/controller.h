@@ -69,8 +69,17 @@ class Controller : public AbstractController {
   void BuildPath(Bot* bot, const Point& finish);
 
  private:
+
+  class HashFunc {
+   public:
+    long double operator() (Point point) const {
+      return 29 * point.x + 31 * point.y + 37 * point.z;
+    }
+  };
+
   std::vector<Point> CollectPath(const Point& finish,
-                                 std::map<Point, Point>& prev) const;
+                                 const std::unordered_map<Point, Point,
+                                 HashFunc>& prev) const;
 
   std::shared_ptr<Model> model_;
   std::unique_ptr<View> view_;

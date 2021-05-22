@@ -130,16 +130,6 @@ Point Point::GetRounded() const {
   return {std::round(x), std::round(y), std::round(z)};
 }
 
-bool Point::operator<(const Point& rhs) const {
-  if (x != rhs.x) {
-    return x < rhs.x;
-  }
-  if (y != rhs.y) {
-    return y < rhs.y;
-  }
-  return z < rhs.z;
-}
-
 QString Point::ToString() const {
   return "(" + QString::number(x) + ", " +
                QString::number(y) + ", " +

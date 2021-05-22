@@ -15,7 +15,6 @@ class Point {
   Point() = default;
   Point(double x, double y, double z = 0);
   Point(int x, int y, int z = 0);
-  Point() = default;
 
   Point GetRounded() const;
 
@@ -48,6 +47,9 @@ class Point {
   bool operator!=(const Point& rhs) const;
 
   bool operator < (const Point& rhs) const;
+  bool operator <= (const Point& rhs) const;
+  bool operator > (const Point& rhs) const;
+  bool operator >= (const Point& rhs) const;
 
   Point operator+() const;
   Point operator-() const;

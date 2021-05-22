@@ -1,13 +1,6 @@
 #include "model.h"
 
-Model::Model() {
-  // TODO: parse it from json
-  std::vector<QuestNode> quest_nodes{
-      QuestNode(0, "MyQuestNodeName", QuestNode::Type::kMoveToDestination,
-                std::vector<QString>{"7", "9", "1"})
-  };
-  quests_.emplace_back(0, "MyQuestName", quest_nodes);
-}
+Model::Model() {};
 
 void Model::SetMap(std::unique_ptr<GameMap>&& game_map) {
   map_ = std::move(game_map);
