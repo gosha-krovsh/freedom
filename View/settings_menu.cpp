@@ -25,7 +25,8 @@ void SettingsMenu::SetUi() {
 
   fps_combo_box_->addItem(QString::number(30));
   fps_combo_box_->addItem(QString::number(60));
-  layout_->addWidget(new QLabel("Количество кадров в секунду", this), 3, 1, 1, 2);
+  layout_->addWidget(new QLabel("Количество кадров в секунду", this),
+                     3, 1, 1, 2);
   layout_->addWidget(fps_combo_box_, 3, 3, 1, 2);
 
   layout_->addWidget(new QLabel("Приближение", this), 5, 1, 1, 2);
@@ -50,7 +51,7 @@ void SettingsMenu::SetUi() {
   layout_->setRowStretch(4, 2);
   layout_->setRowStretch(5, 1);  // zoom_edit_
   layout_->setRowStretch(6, 2);
-  layout_->setRowStretch(7, 1);
+  layout_->setRowStretch(7, 1);  // submit_button_ & back_button_
   layout_->setRowStretch(8, 2);
 
   layout_->setMargin(0);
@@ -73,12 +74,28 @@ void SettingsMenu::paintEvent(QPaintEvent*) {
 
 void SettingsMenu::ConnectButtons() {
   connect(back_button_, &QPushButton::pressed, this, &QWidget::hide);
+  connect(submit_button_, &QPushButton::pressed, this, [this]() {
+    SaveData();
+    controller_->UpdateVolume();
+    hide();
+  });
+}
+
+void SettingsMenu::SaveData() {
+  Settings::kVolume = volume_slider_->value();
+  Settings::kFPS = fps_combo_box_->currentText().toInt();
+
+  bool is_zoom_value_conversion_valid;
+  int zoom_value = zoom_edit_->text().toInt(&is_zoom_value_conversion_valid);
+  if (is_zoom_value_conversion_valid) {
+    Settings::kSizeOfBlock = zoom_value;
+  }
 }
 
 void SettingsMenu::UpdateContent() {
-  volume_slider_->setValue(50); // TODO
-  fps_combo_box_->setCurrentText(QString::number(constants::kFPS));
-  zoom_edit_->setText(QString::number(constants::kSizeOfBlock));
+  volume_slider_->setValue(Settings::kVolume);
+  fps_combo_box_->setCurrentText(QString::number(Settings::kFPS));
+  zoom_edit_->setText(QString::number(Settings::kSizeOfBlock));
 }
 
 void SettingsMenu::showEvent(QShowEvent* ev) {

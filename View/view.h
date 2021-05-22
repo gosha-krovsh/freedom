@@ -16,6 +16,7 @@
 #include "main_menu.h"
 #include "Controller/abstract_controller.h"
 #include "Model/model.h"
+#include "Model/settings.h"
 #include "GameObject/object.h"
 
 class View : public QMainWindow {
@@ -50,6 +51,8 @@ class View : public QMainWindow {
 
   bool IsInputBlocked() const;
   void InterruptAllInput();
+
+  void ShowMainMenu();
 
  private:
   QTimer* timer_{new QTimer(this)};

@@ -17,7 +17,8 @@ MainMenu::MainMenu(AbstractController* controller,
 
 void MainMenu::SetUi() {
   play_button_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  settings_button_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  settings_button_->setSizePolicy(QSizePolicy::Expanding,
+                                  QSizePolicy::Expanding);
   exit_button_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   settings_menu_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 

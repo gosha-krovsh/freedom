@@ -11,9 +11,9 @@ void GameWidget::CenterCameraOnHero(QPainter* camera) const {
 
   // Center camera on center of |Hero|
   x_camera_offset -= (model_->GetHero().GetCoordinates().GetIsometricX() + 1)
-      * (constants::kSizeOfBlock / 2.);
+      * (Settings::kSizeOfBlock / 2.);
   y_camera_offset -= (model_->GetHero().GetCoordinates().GetIsometricY() + 1)
-      * (constants::kSizeOfBlock / 2.);
+      * (Settings::kSizeOfBlock / 2.);
 
   // Make camera follow |Hero|
   camera->translate(x_camera_offset, y_camera_offset);

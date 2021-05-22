@@ -9,7 +9,6 @@
 namespace constants {
   const int kNumberOfViewDirections = 8;
   const double kEps = 1e-7;
-  const int kSizeOfBlock = 220;
   const double kMaxBlockOffset = 0.15;
   const int kHP = 100;
   const int kBlockHP = kHP * 5;
@@ -51,7 +50,6 @@ namespace constants {
 
   const int kWindowWidth = 850;
   const int kWindowHeight = 500;
-  const int kFPS = 60;
 
   const double kXConversationWindowMultiplier = 0.25;
   const double kYConversationWindowMultiplier = 0.65;
@@ -71,6 +69,8 @@ namespace constants {
   const double kCoeffitientForIconSize = 0.8;
 
   const int kInfinity = std::numeric_limits<int>::max();
+
+  const int kInitVolume = 50;
 }  // namespace constants
 
 #endif  // MODEL_CONSTANTS_H_

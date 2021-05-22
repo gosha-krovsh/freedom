@@ -307,3 +307,8 @@ Object* Controller::GetNearestOfTwoObjects(Object* obj1, Object* obj2) const {
 void Controller::CloseMainMenu() {
   view_->CloseMainMenu();
 }
+
+void Controller::UpdateVolume() {
+  model_->GetSound().SetVolumeCoefficient(
+      static_cast<double>(Settings::kVolume) / constants::kInitVolume);
+}

@@ -3,18 +3,18 @@
 
 #include <QWidget>
 #include <QFile>
-#include <QGridLayout>
 #include <QLabel>
-#include <QGraphicsBlurEffect>
+#include <QGridLayout>
 #include <QPushButton>
 #include <QStyleOption>
-#include <QApplication>
 #include <QSlider>
 #include <QTextEdit>
 #include <QComboBox>
 #include <QLineEdit>
+#include <QSettings>
 
 #include "Controller/abstract_controller.h"
+#include "Model//settings.h"
 
 class SettingsMenu : public QWidget {
   Q_OBJECT
@@ -34,6 +34,7 @@ class SettingsMenu : public QWidget {
   void SetStyles();
   void ConnectButtons();
   void UpdateContent();
+  void SaveData();
 
  private:
   AbstractController* controller_;

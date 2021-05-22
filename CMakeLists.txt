@@ -57,7 +57,7 @@ add_executable(${PROJECT_NAME}
         Quests/quest.cpp
         Quests/quest_node.cpp
 
-        Conversations/conversation.cpp)
+        Conversations/conversation.cpp Model/settings.cpp Model/settings.h)
 
 if (NOT CMAKE_PREFIX_PATH)
     message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "

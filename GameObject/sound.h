@@ -21,7 +21,8 @@ class Sound {
 
   Sound();
 
-  void PlayTrack(SoundAction action, int duration, int volume = 100);
+  void PlayTrack(SoundAction action, int duration,
+                 int volume = constants::kInitVolume);
 
   void Tick(int);
   void SetVolumeCoefficient(double volume_coefficient);
@@ -31,6 +32,7 @@ class Sound {
     std::unique_ptr<QMediaPlayer> player;
     std::unique_ptr<QMediaPlaylist> playlist;
     int duration;
+    int volume;
   };
 
   double volume_coefficient_ = 1;

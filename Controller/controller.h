@@ -46,6 +46,7 @@ class Controller : public AbstractController {
       const std::function<bool(Object*)>& predicate) override;
 
   void CloseMainMenu() override;
+  void UpdateVolume() override;
 
  private:
   struct ControlKeyStates {

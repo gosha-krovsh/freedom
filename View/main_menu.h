@@ -22,9 +22,6 @@ class MainMenu : public QWidget {
   ~MainMenu() override = default;
 
  private:
-  // void resizeEvent(QResizeEvent*) override;
-  // void keyPressEvent(QKeyEvent*) override;
-
   // Needs to be overrided in order to have possibility to work with
   // |QWidget#main_menu| in |main_menu_styles.qss|.
   void paintEvent(QPaintEvent*) override;

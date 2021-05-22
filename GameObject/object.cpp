@@ -17,13 +17,13 @@ void Object::Draw(QPainter* painter) const {
 
   Point coords_to_draw = coordinates_ + GetDrawOffset();
   int x = static_cast<int>(coords_to_draw.GetIsometricX() *
-                           (constants::kSizeOfBlock / 2.));
+                           (Settings::kSizeOfBlock / 2.));
   int y = static_cast<int>(coords_to_draw.GetIsometricY() *
-                           (constants::kSizeOfBlock / 2.));
+                           (Settings::kSizeOfBlock / 2.));
 
   painter->drawPixmap(x, y,
-                      constants::kSizeOfBlock,
-                      constants::kSizeOfBlock,
+                      Settings::kSizeOfBlock,
+                      Settings::kSizeOfBlock,
                       *image_.lock());
 
   painter->restore();
