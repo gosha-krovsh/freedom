@@ -7,9 +7,13 @@
     ]],
     [1, "I can tell you a lot of things about this prison. But not today. I want to sleep.", [
       ["Move to (3, 3, 1)", 3, "Move(-1,3,3,1)"],
+      ["Start quest", 3, "StartQuest(0)"],
       ["Ugu, sleep, sleep while you can!", 2]
     ]],
     [2, "You'll regret about this!", []],
     [3, "Good night", []]
+  ],
+  [
+    [0, "I don't speak!", []]
   ]
 ]
