@@ -3,7 +3,12 @@
 
 #include <QDebug>
 
+#include <algorithm>
+#include <deque>
+#include <map>
 #include <memory>
+#include <set>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -45,6 +50,8 @@ class Controller : public AbstractController {
   Object* FindIfNearestObject(
       const std::function<bool(Object*)>& predicate) override;
 
+  void MoveAllBotsToPoint(const Point& point);
+
  private:
   struct ControlKeyStates {
     bool up{false};
@@ -62,6 +69,10 @@ class Controller : public AbstractController {
   void ProcessFighting();
   void ProcessFighting(Creature* attacker, Creature* victim, int* i);
   Bot* FindNearestBotInRadius(double radius);
+  void BuildPath(Bot* bot, const Point& finish);
+  std::vector<Point> CollectPath(const Point& finish,
+                                 const std::unordered_map<Point, Point,
+                                 Point::HashFunc>& prev) const;
   Object* GetNearestOfTwoObjects(Object* obj1, Object* obj2) const;
 
  private:

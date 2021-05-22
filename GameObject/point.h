@@ -12,6 +12,14 @@
 // It also can be used as a vector with the beginning at the origin.
 class Point {
  public:
+  class HashFunc {
+   public:
+    long double operator()(const Point& point) const {
+      return 29 * point.x + 31 * point.y + 37 * point.z;
+    }
+  };
+
+ public:
   Point() = default;
   Point(double x, double y, double z = 0);
   Point(int x, int y, int z = 0);
@@ -45,6 +53,11 @@ class Point {
 
   bool operator==(const Point& rhs) const;
   bool operator!=(const Point& rhs) const;
+
+  bool operator<(const Point& rhs) const;
+  bool operator<=(const Point& rhs) const;
+  bool operator>(const Point& rhs) const;
+  bool operator>=(const Point& rhs) const;
 
   Point operator+() const;
   Point operator-() const;

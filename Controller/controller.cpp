@@ -10,6 +10,7 @@ Controller::Controller()
       current_tick_(0) {
   model_->SetMap(std::move(data_controller_->ParseGameMap()));
   model_->SetSchedule(std::move(data_controller_->ParseSchedule()));
+  model_->SetBots(std::move(data_controller_->ParseBots()));
   model_->SetConversations(std::move(data_controller_->ParseConversations()));
   model_->SetQuests(std::move(data_controller_->ParseQuests()));
 
@@ -36,6 +37,13 @@ void Controller::Tick() {
       current_tick_ != 0) {
     model_->GetTime().AddMinutes(1);
     actions_controller_->Tick(current_tick_);
+  }
+
+
+  // temp code
+  Point canteen = {3, 13, 1};
+  if (model_->GetTime().GetMinutes() == 34) {
+    MoveAllBotsToPoint(canteen);
   }
 
   CheckHeroCollision();
@@ -183,6 +191,59 @@ Object* Controller::FindNearestObjectWithType(Object::Type type) {
   });
 }
 
+void Controller::BuildPath(Bot* bot, const Point& finish) {
+  Point start = bot->GetCoordinates();
+  bot->Rebuild();
+
+  std::unordered_map<Point, Point, Point::HashFunc> prev;
+  std::deque<Point> current;
+  std::unordered_map<Point, bool, Point::HashFunc> used;
+
+  prev[start] = Point(-1, -1, -1);
+  used[start] = true;
+
+  current.push_front(start);
+  while (!current.empty()) {
+    Point current_point = current.front();
+    current.pop_front();
+    for (int delta_x = -1; delta_x <= 1; ++delta_x) {
+      for (int delta_y = -1; delta_y <= 1; ++delta_y) {
+        int new_x = current_point.x + delta_x;
+        int new_y = current_point.y + delta_y;
+        Point next_point = Point(new_x, new_y, 1);
+
+        if (!used[next_point] &&
+            model_->GetMap().GetBlock(next_point) == nullptr) {
+          used[next_point] = true;
+          prev[next_point] = current_point;
+          if (delta_x == 0 || delta_y == 0) {
+            current.push_front(next_point);
+          } else {
+            current.push_back(next_point);
+          }
+        }
+      }
+    }
+  }
+
+  bot->SetTargets(CollectPath(finish, prev));
+}
+
+std::vector<Point> Controller::CollectPath(const Point& finish,
+                                           const std::unordered_map
+                                           <Point, Point, Point::HashFunc>&
+                                           prev) const {
+  Point current_point = finish;
+
+  std::vector<Point> result;
+  while (current_point != Point(-1, -1, -1)) {
+    result.push_back(current_point);
+    current_point = prev.at(current_point);
+  }
+
+  std::reverse(result.begin(), result.end());
+  return result;
+}
 Object* Controller::FindIfNearestObject(
     const std::function<bool(Object*)>& predicate) {
   Hero& hero = model_->GetHero();
@@ -234,6 +295,9 @@ void Controller::SetControlLeftKeyState(bool state) {
 }
 
 void Controller::UpdateHeroMovingDirection() {
+  if (model_->GetHero().IsDestroyed()) {
+    return;
+  }
   model_->GetHero().UpdateMovement(control_key_states_.left,
                                    control_key_states_.up,
                                    control_key_states_.right,
@@ -276,6 +340,27 @@ void Controller::FinishConversation() {
 
 void Controller::ExecuteAction(const Action& action) {
   actions_controller_->Call(action);
+}
+
+void Controller::MoveAllBotsToPoint(const Point& point) {
+  auto cmp = [](std::pair<double, Point> lhs, std::pair<double, Point> rhs) {
+    return lhs.first < rhs.first;
+  };
+  std::set<std::pair<double, Point>, decltype(cmp)> targets_near_point(cmp);
+
+  for (int x = 0; x < model_->GetMap().GetXSize(); ++x) {
+    for (int y = 0; y < model_->GetMap().GetYSize(); ++y) {
+      if (model_->GetMap().GetBlock(x, y, 1) == nullptr) {
+        targets_near_point.insert({point.DistanceFrom({x, y, 1}), {x, y, 1}});
+      }
+    }
+  }
+
+  auto current_point_iter = targets_near_point.begin();
+  for (auto& bot : model_->GetBots()) {
+    BuildPath(&bot, current_point_iter->second);
+    ++current_point_iter;
+  }
 }
 
 void Controller::ExecuteActions(const std::vector<Action>& actions) {

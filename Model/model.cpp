@@ -1,21 +1,5 @@
 #include "model.h"
 
-Model::Model() {
-  // TODO: Parse bots from JSON
-  bots_.emplace_back("Hero", Point(4, 3, 1),
-                     std::vector<Point>(
-                         {Point(7, 3, 1),
-                          Point(7, 4, 1),
-                          Point(10, 4, 1),
-                          Point(10, 1, 1),
-                          Point(14, 1, 1),
-                          Point(14, 7, 1),
-                          Point(12, 7, 1),
-                          Point(12, 12, 1),
-                          Point(4, 12, 1),
-                          Point(4, 3, 1)}));
-}
-
 void Model::SetMap(std::unique_ptr<GameMap>&& game_map) {
   map_ = std::move(game_map);
 }
@@ -176,4 +160,8 @@ Sound& Model::GetSound() {
 
 const Sound& Model::GetSound() const {
   return sound_;
+}
+
+void Model::SetBots(std::vector<Bot>&& bots) {
+  bots_ = std::move(bots);
 }

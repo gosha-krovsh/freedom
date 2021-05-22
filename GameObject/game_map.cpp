@@ -195,3 +195,11 @@ void GameMap::UpdateTransparentBlocks() {
     transparent_blocks_.insert(column.begin(), column.end());
   }
 }
+
+Object* GameMap::GetBlock(const Point& coords) {
+  return GetBlock(coords.x, coords.y, coords.z);
+}
+
+const Object* GameMap::GetBlock(const Point& coords) const {
+  return GetBlock(coords.x, coords.y, coords.z);
+}

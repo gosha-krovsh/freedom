@@ -1,0 +1,11 @@
+ [
+   {
+     "name":  "Hero",
+     "coords": [4, 1, 1]
+   },
+
+   {
+     "name": "Hero",
+     "coords": [2, 7, 1]
+   }
+ ]
