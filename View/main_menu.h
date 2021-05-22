@@ -5,6 +5,9 @@
 #include <QFile>
 #include <QGridLayout>
 #include <QLabel>
+#include <QGraphicsBlurEffect>
+#include <QPushButton>
+#include <QStyleOption>
 
 #include "Controller/abstract_controller.h"
 
@@ -19,6 +22,7 @@ class MainMenu : public QWidget {
  private:
   // void resizeEvent(QResizeEvent*) override;
   // void keyPressEvent(QKeyEvent*) override;
+  void paintEvent(QPaintEvent*) override;
 
   void SetUi();
   void SetStyles();
@@ -26,6 +30,9 @@ class MainMenu : public QWidget {
  private:
   AbstractController* controller_;
   QGridLayout* layout_;
+  QPushButton* play_button_;
+  QPushButton* settings_button_;
+  QPushButton* exit_button_;
 };
 
 #endif  // VIEW_MAIN_MENU_H_

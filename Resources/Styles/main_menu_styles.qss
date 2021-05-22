@@ -4,6 +4,10 @@
     background: red;
 }
 
+QWidget#main_menu {
+    background-image: url(:main_menu_background.png);
+}
+
 QScrollArea {
     background: rgba(0, 0, 0, 0.6);
 }

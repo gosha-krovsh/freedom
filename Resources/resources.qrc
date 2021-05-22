@@ -100,6 +100,8 @@
         <file alias="door_225.png">Images/door_225.png</file>
         <file alias="door_315.png">Images/door_315.png</file>
 
+        <file alias="main_menu_background.png">Images/main_menu_background.png</file>
+
         <file alias="schedule.json">Jsons/schedule.json</file>
         <file alias="game_map.json">Jsons/game_map.json</file>
         <file alias="conversations.json">Jsons/conversations.json</file>
