@@ -22,12 +22,12 @@
 #include "Model/model.h"
 
 namespace {
-  class HashFunc {
-  public:
+class HashFunc {
+ public:
     long double operator() (Point point) const {
       return 29 * point.x + 31 * point.y + 37 * point.z;
     }
-  };
+};
 }  // namespace
 
 class Controller : public AbstractController {
