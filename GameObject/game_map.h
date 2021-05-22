@@ -51,6 +51,9 @@ class GameMap {
   const Object* GetBlock(int x, int y, int z) const;
   Object* GetBlock(int x, int y, int z);
 
+  Object* GetBlock(const Point& coords);
+  const Object* GetBlock(const Point& coords) const;
+
   // Updates |current_room_| by hero coordinates. If hero is on the edge of the
   // room (usually it means in the doorway), we assume that he wants to go to
   // another room and that's why also update room in this case. This also makes

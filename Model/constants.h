@@ -22,7 +22,6 @@ namespace constants {
   // All durations are measured in ticks
   const int kDurationOfOneAnimationFrame = 15;
   const int kDurationOfShaking = 10;
-  const int kDurationOfLunch = 250;
 
   const double kShakeAmplitude = 0.01;
   const double kDistanceToDetectBlock = 2 * kSpeed;

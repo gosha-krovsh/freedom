@@ -12,14 +12,13 @@
 
 class Bot : public Creature {
  public:
-  Bot(const QString& name,
-               const Point& coords, const Point& finish);
+  Bot(const QString& name, const Point& coords);
 
   void Tick(int current_tick) override;
 
   void OnDead() override;
 
-  const Point& GetFinish() const;
+  Point GetFinish() const;
   void SetFinish(const Point& new_finish);
   void Rebuild();
 
@@ -28,8 +27,7 @@ class Bot : public Creature {
  private:
   void MakeStep();
 
-  int current_direction_{0};
-  int order_{1};
+  int current_index_in_path_{0};
   Point finish_;
 };
 

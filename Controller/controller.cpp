@@ -13,8 +13,6 @@ Controller::Controller()
   model_->SetConversations(std::move(data_controller_->ParseConversations()));
 }
 
-
-
 void Controller::Tick() {
   data_controller_->Tick(current_tick_);
   quest_controller_->Tick(current_tick_);
@@ -22,10 +20,6 @@ void Controller::Tick() {
   model_->GetSound().Tick(current_tick_);
 
   for (auto& bot : model_->GetBots()) {
-    if (bot.targets_.empty()) {
-      BuildPath(&bot, bot.GetFinish());
-    }
-
     bot.Tick(current_tick_);
   }
   model_->GetMap().UpdateCurrentRoom(model_->GetHero().GetRoundedX(),
@@ -37,6 +31,8 @@ void Controller::Tick() {
     actions_controller_->Tick(current_tick_);
   }
 
+
+  // temp code
   Point canteen = {3, 13, 1};
   if (model_->GetTime().GetMinutes() == 34) {
     MoveAllBotsToPoint(canteen);
@@ -206,19 +202,29 @@ void Controller::BuildPath(Bot* bot, const Point& finish) {
       for(int delta_y = -1; delta_y <= 1; ++delta_y) {
         int new_x = current_point.x + delta_x;
         int new_y = current_point.y + delta_y;
-        if (!used[Point(new_x,new_y, 1)] && model_->GetMap().GetBlock(new_x, new_y, 1) == nullptr) {
-          used[Point(new_x, new_y, 1)] = true;
-          prev[Point(new_x, new_y, 1)] = current_point;
-          if (delta_x * delta_y == 0) {
-            current.push_front(Point(new_x, new_y, 1));
+        Point next_point = Point(new_x, new_y, 1);
+
+        if (!used[next_point] &&
+            model_->GetMap().GetBlock(next_point) == nullptr) {
+          used[next_point] = true;
+          prev[next_point] = current_point;
+          if (delta_x == 0 || delta_y == 0) {
+            current.push_front(next_point);
           } else {
-            current.push_back(Point(new_x, new_y, 1));
+            current.push_back(next_point);
           }
         }
       }
     }
   }
 
+  std::vector<Point> path = CollectPath(finish, prev);
+  bot->targets_ =
+      std::move(std::vector(path.rbegin(), path.rend()));
+}
+
+std::vector<Point> Controller::CollectPath(const Point& finish,
+                                           std::map<Point, Point>& prev) {
   Point current_point = finish;
 
   std::vector<Point> result;
@@ -226,10 +232,9 @@ void Controller::BuildPath(Bot* bot, const Point& finish) {
     result.push_back(current_point);
     current_point = prev[current_point];
   }
-  std::reverse(result.begin(), result.end());
-  bot->targets_ = result;
-}
 
+  return result;
+}
 Object* Controller::FindIfNearestObject(
     const std::function<bool(Object*)>& predicate) {
   Hero& hero = model_->GetHero();
@@ -323,6 +328,7 @@ void Controller::FinishConversation() {
 void Controller::ExecuteAction(const Action& action) {
   actions_controller_->Call(action);
 }
+
 void Controller::MoveAllBotsToPoint(const Point& point) {
   std::set<std::pair<double, Point>> targets_near_point;
   for(int x = 0; x < model_->GetMap().GetXSize(); ++x) {
@@ -333,9 +339,9 @@ void Controller::MoveAllBotsToPoint(const Point& point) {
     }
   }
 
-  auto current_point = targets_near_point.begin();
-  for(auto& bot : model_ -> GetBots()) {
-    BuildPath(&bot, current_point->second);
-    ++current_point;
+  auto current_point_iter = targets_near_point.begin();
+  for(auto& bot : model_->GetBots()) {
+    BuildPath(&bot, current_point_iter->second);
+    ++current_point_iter;
   }
 }

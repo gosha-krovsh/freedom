@@ -1,4 +1,3 @@
-
 #ifndef GAMEOBJECT_ANIMATOR_H_
 #define GAMEOBJECT_ANIMATOR_H_
 

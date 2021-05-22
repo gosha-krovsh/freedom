@@ -137,8 +137,3 @@ bool Point::operator<(const Point& rhs) const {
   }
   return z < rhs.z;
 }
-Point::Point(const Point& other) {
-  x = other.x;
-  y = other.y;
-  z = other.z;
-}

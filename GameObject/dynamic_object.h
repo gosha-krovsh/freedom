@@ -27,7 +27,6 @@ class DynamicObject : public Object {
   void Tick(int current_tick) override;
 
   ViewDirection GetViewDirection() const;
-  void SetViewDirection(const Point& point);
 
   virtual void SetSpeedVector(const Point& speed_vector);
 

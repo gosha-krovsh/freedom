@@ -64,6 +64,9 @@ class Controller : public AbstractController {
   void BuildPath(Bot* bot, const Point& finish);
 
  private:
+  std::vector<Point> CollectPath(const Point& finish,
+                                 std::map<Point, Point>& prev);
+
   std::shared_ptr<Model> model_;
   std::unique_ptr<View> view_;
 
