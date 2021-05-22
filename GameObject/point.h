@@ -14,7 +14,7 @@ class Point {
  public:
   class HashFunc {
    public:
-    long double operator()(Point point) const {
+    long double operator()(const Point& point) const {
       return 29 * point.x + 31 * point.y + 37 * point.z;
     }
   };
