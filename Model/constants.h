@@ -9,7 +9,7 @@
 namespace constants {
   const int kNumberOfViewDirections = 8;
   const double kEps = 1e-7;
-  const int kSizeOfBlock = 140;
+  const int kSizeOfBlock = 220;
   const double kMaxBlockOffset = 0.15;
   const int kHP = 100;
   const int kBlockHP = kHP * 5;

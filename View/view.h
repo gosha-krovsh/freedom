@@ -10,6 +10,7 @@
 #include <unordered_set>
 #include <utility>
 
+#include "View/game_widget.h"
 #include "View/bar_pack.h"
 #include "conversation_window.h"
 #include "Controller/abstract_controller.h"
@@ -21,6 +22,8 @@ class View : public QMainWindow {
 
  public:
   View(AbstractController* controller, const std::shared_ptr<Model>& model);
+  void Show();
+
   void CloseConversationWindow();
   // Makes a pair of 2 bars, where first argument is a source
   // and second is a destination
@@ -34,7 +37,6 @@ class View : public QMainWindow {
   void AssignHeroStorage();
 
  private:
-  void paintEvent(QPaintEvent*) override;
   void resizeEvent(QResizeEvent*) override;
   void keyPressEvent(QKeyEvent*) override;
   void keyReleaseEvent(QKeyEvent*) override;
@@ -44,7 +46,6 @@ class View : public QMainWindow {
   void StartTickTimer();
   void StopTickTimer();
 
-  void CenterCameraOnHero(QPainter* camera) const;
   bool IsInputBlocked() const;
   void InterruptAllInput();
 
@@ -52,6 +53,7 @@ class View : public QMainWindow {
   QTimer* timer_{new QTimer(this)};
   AbstractController* controller_;
   std::shared_ptr<Model> model_;
+  std::unique_ptr<GameWidget> game_widget_;
 
   bool is_item_dialog_open_{false};
   BarPack* item_bar_pack_;
