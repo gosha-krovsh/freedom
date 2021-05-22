@@ -23,7 +23,7 @@
 
 class Model {
  public:
-  Model();
+  Model() = default;
 
   void SetMap(std::unique_ptr<GameMap>&&);
   void SetSchedule(std::unique_ptr<Schedule>&&);

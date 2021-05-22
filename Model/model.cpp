@@ -1,7 +1,5 @@
 #include "model.h"
 
-Model::Model() {};
-
 void Model::SetMap(std::unique_ptr<GameMap>&& game_map) {
   map_ = std::move(game_map);
 }

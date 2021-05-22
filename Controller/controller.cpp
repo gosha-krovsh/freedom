@@ -206,8 +206,8 @@ void Controller::BuildPath(Bot* bot, const Point& finish) {
   while (!current.empty()) {
     Point current_point = current.front();
     current.pop_front();
-    for(int delta_x = -1; delta_x <= 1; ++delta_x) {
-      for(int delta_y = -1; delta_y <= 1; ++delta_y) {
+    for (int delta_x = -1; delta_x <= 1; ++delta_x) {
+      for (int delta_y = -1; delta_y <= 1; ++delta_y) {
         int new_x = current_point.x + delta_x;
         int new_y = current_point.y + delta_y;
         Point next_point = Point(new_x, new_y, 1);
@@ -347,8 +347,8 @@ void Controller::MoveAllBotsToPoint(const Point& point) {
   };
   std::set<std::pair<double, Point>, decltype(cmp)> targets_near_point(cmp);
 
-  for(int x = 0; x < model_->GetMap().GetXSize(); ++x) {
-    for(int y = 0; y < model_->GetMap().GetYSize(); ++y) {
+  for (int x = 0; x < model_->GetMap().GetXSize(); ++x) {
+    for (int y = 0; y < model_->GetMap().GetYSize(); ++y) {
       if (model_->GetMap().GetBlock(x, y, 1) == nullptr) {
         targets_near_point.insert({point.DistanceFrom({x, y, 1}), {x, y, 1}});
       }
@@ -356,10 +356,10 @@ void Controller::MoveAllBotsToPoint(const Point& point) {
   }
 
   auto current_point_iter = targets_near_point.begin();
-  for(auto& bot : model_->GetBots()) {
+  for (auto& bot : model_->GetBots()) {
     BuildPath(&bot, current_point_iter->second);
     ++current_point_iter;
-   }
+  }
 }
 
 void Controller::ExecuteActions(const std::vector<Action>& actions) {

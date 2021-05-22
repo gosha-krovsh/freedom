@@ -8,6 +8,7 @@
 #include <map>
 #include <memory>
 #include <set>
+#include <unordered_map>
 #include <utility>
 #include <vector>
 
@@ -50,12 +51,20 @@ class Controller : public AbstractController {
       const std::function<bool(Object*)>& predicate) override;
 
   void MoveAllBotsToPoint(const Point& point);
+
  private:
   struct ControlKeyStates {
     bool up{false};
     bool right{false};
     bool down{false};
     bool left{false};
+  };
+
+  class HashFunc {
+   public:
+    long double operator() (Point point) const {
+      return 29 * point.x + 31 * point.y + 37 * point.z;
+    }
   };
 
  private:
@@ -68,21 +77,12 @@ class Controller : public AbstractController {
   void ProcessFighting(Creature* attacker, Creature* victim, int* i);
   Bot* FindNearestBotInRadius(double radius);
   void BuildPath(Bot* bot, const Point& finish);
-  Object* GetNearestOfTwoObjects(Object* obj1, Object* obj2) const;
-
- private:
-
-  class HashFunc {
-   public:
-    long double operator() (Point point) const {
-      return 29 * point.x + 31 * point.y + 37 * point.z;
-    }
-  };
-
   std::vector<Point> CollectPath(const Point& finish,
                                  const std::unordered_map<Point, Point,
                                  HashFunc>& prev) const;
+  Object* GetNearestOfTwoObjects(Object* obj1, Object* obj2) const;
 
+ private:
   std::shared_ptr<Model> model_;
   std::unique_ptr<View> view_;
 
