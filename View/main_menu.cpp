@@ -5,9 +5,10 @@ MainMenu::MainMenu(AbstractController* controller,
                    QWidget(parent),
                    controller_(controller),
                    layout_(new QGridLayout(this)),
-                   play_button_(new QPushButton("Play", this)),
-                   settings_button_(new QPushButton("Settings", this)),
-                   exit_button_(new QPushButton("Exit", this)) {
+                   play_button_(new QPushButton("Играть", this)),
+                   settings_button_(new QPushButton("Настройки", this)),
+                   exit_button_(new QPushButton("Выход", this)),
+                   settings_menu_(new SettingsMenu(controller_, this)) {
   SetUi();
   SetStyles();
   ConnectButtons();
@@ -18,14 +19,16 @@ void MainMenu::SetUi() {
   play_button_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   settings_button_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
   exit_button_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  settings_menu_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
   layout_->addWidget(play_button_, 1, 2);
   layout_->addWidget(settings_button_, 3, 2);
   layout_->addWidget(exit_button_, 5, 2);
+  layout_->addWidget(settings_menu_, 1, 1, 5, 1);
 
   // Adjust horizontal margins for buttons
-  layout_->setColumnStretch(0, 6);
-  layout_->setColumnStretch(1, 6);
+  layout_->setColumnStretch(0, 1);
+  layout_->setColumnStretch(1, 18);  // settings_menu
   layout_->setColumnStretch(2, 6);  // all buttons here
   layout_->setColumnStretch(3, 1);
 
@@ -56,7 +59,7 @@ void MainMenu::ConnectButtons() {
   connect(exit_button_, &QPushButton::pressed,
           QApplication::instance(), &QCoreApplication::quit);
   connect(settings_button_, &QPushButton::pressed, this, [this]() {
-    // TODO
+    settings_menu_->show();
   });
 }
 

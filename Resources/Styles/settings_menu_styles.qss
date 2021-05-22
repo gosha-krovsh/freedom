@@ -1,0 +1,45 @@
+* {
+    color: white;
+    font-size: 26px;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+QWidget#settings_menu {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+QSlider::groove:horizontal {
+    margin: 2px 0;
+}
+
+QSlider::handle:horizontal {
+    background: blue;
+    width: 10px;
+    margin: -2px 0; /* Expand outside the groove */
+    border-radius: 6px;
+}
+
+QSlider::sub-page:horizontal {
+    background: lightcoral;
+    border-radius: 3px;
+}
+
+QSlider::add-page:horizontal {
+    background: lightgray;
+    border-radius: 3px;
+}
+
+QPushButton {
+    background: rgba(255, 0, 0, 1);
+    color: white;
+    border: 2px solid red;
+    border-radius: 12px;
+}
+
+QPushButton:hover {
+    background: rgba(255, 0, 0, 0.5);
+}
+
+QComboBox {
+    border: 2px solid white;
+}

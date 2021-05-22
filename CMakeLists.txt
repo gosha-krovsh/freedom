@@ -27,6 +27,7 @@ add_executable(${PROJECT_NAME}
         View/view.cpp
         View/conversation_window.cpp
         View/main_menu.cpp
+        View/settings_menu.cpp
 
         Controller/action_controller.cpp
         Controller/controller.cpp

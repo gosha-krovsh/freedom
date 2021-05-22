@@ -10,6 +10,7 @@
 #include <QStyleOption>
 #include <QApplication>
 
+#include "settings_menu.h"
 #include "Controller/abstract_controller.h"
 
 class MainMenu : public QWidget {
@@ -24,7 +25,8 @@ class MainMenu : public QWidget {
   // void resizeEvent(QResizeEvent*) override;
   // void keyPressEvent(QKeyEvent*) override;
 
-  // Needs to be overrided in order to have possibility to set background image.
+  // Needs to be overrided in order to have possibility to work with
+  // |QWidget#main_menu| in |main_menu_styles.qss|.
   void paintEvent(QPaintEvent*) override;
 
   void SetUi();
@@ -37,6 +39,7 @@ class MainMenu : public QWidget {
   QPushButton* play_button_;
   QPushButton* settings_button_;
   QPushButton* exit_button_;
+  SettingsMenu* settings_menu_;
 };
 
 #endif  // VIEW_MAIN_MENU_H_
