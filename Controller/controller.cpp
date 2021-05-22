@@ -17,6 +17,8 @@ Controller::Controller()
   model_->SetCreatureStorage(
       std::move(data_controller_->ParseCreatureStorage()));
   view_->AssignHeroStorage();
+
+  view_->Show();
 }
 
 void Controller::Tick() {
@@ -366,4 +368,22 @@ void Controller::ExecuteActions(const std::vector<Action>& actions) {
 
 void Controller::StartQuest(int id) {
   quest_controller_->StartQuest(0);
+}
+
+void Controller::InteractWithDoor() {
+  auto door = GetNearestOfTwoObjects(
+      FindNearestObjectWithType(Object::Type::kDoor_225),
+      FindNearestObjectWithType(Object::Type::kDoor_315));
+  if (door) {
+    door->Interact(model_->GetHero());
+  }
+}
+
+Object* Controller::GetNearestOfTwoObjects(Object* obj1, Object* obj2) const {
+  if (obj1 && obj2) {
+    Point hero_coords = model_->GetHero().GetCoordinates();
+    return (hero_coords.DistanceFrom(obj1->GetCoordinates()) <=
+            hero_coords.DistanceFrom(obj2->GetCoordinates())) ? obj1 : obj2;
+  }
+  return obj1 ? obj1 : obj2;
 }

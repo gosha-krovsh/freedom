@@ -23,6 +23,7 @@ add_executable(${PROJECT_NAME}
 
         View/bar_pack.cpp
         View/item_bar.cpp
+        View/game_widget.cpp
         View/view.cpp
         View/conversation_window.cpp
 
@@ -49,6 +50,7 @@ add_executable(${PROJECT_NAME}
         GameObject/sound.cpp
         GameObject/shaking_object.cpp
         GameObject/wall.cpp
+        GameObject/door.cpp
 
         Quests/quest.cpp
         Quests/quest_node.cpp

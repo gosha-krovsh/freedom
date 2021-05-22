@@ -18,6 +18,7 @@
 #include "GameObject/game_time.h"
 #include "GameObject/schedule.h"
 #include "GameObject/storage.h"
+#include "GameObject/door.h"
 #include "Model/model.h"
 
 class DataController {

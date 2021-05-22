@@ -70,7 +70,7 @@ class Model {
 
   std::unique_ptr<GameMap> map_;
   std::unique_ptr<Schedule> schedule_;
-  Hero hero_{Point(1, 1, 1)};
+  Hero hero_{Point(17, 14, 1)};
   Time time_{Time(8, 30)};
   ImageManager image_manager_;
   Sound sound_;

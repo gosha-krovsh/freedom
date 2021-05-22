@@ -43,6 +43,7 @@ class Controller : public AbstractController {
 
   void OnItemPress(int id, int index) override;
   void UseItem(const Item& item) override;
+  void InteractWithDoor() override;
 
   Object* FindNearestObjectWithType(Object::Type type) override;
   Object* FindIfNearestObject(
@@ -67,6 +68,7 @@ class Controller : public AbstractController {
   void ProcessFighting(Creature* attacker, Creature* victim, int* i);
   Bot* FindNearestBotInRadius(double radius);
   void BuildPath(Bot* bot, const Point& finish);
+  Object* GetNearestOfTwoObjects(Object* obj1, Object* obj2) const;
 
  private:
 

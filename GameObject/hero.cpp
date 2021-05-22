@@ -37,6 +37,14 @@ void Hero::UpdateMovement(bool left, bool up, bool right, bool down) {
   UpdateViewDirection();
 }
 
+double Hero::GetX() const {
+  return Object::GetX();
+}
+
+double Hero::GetY() const {
+  return Object::GetY();
+}
+
 int Hero::GetRoundedX() const {
   return Object::GetRoundedX();
 }
