@@ -21,6 +21,15 @@
 #include "View/view.h"
 #include "Model/model.h"
 
+namespace {
+  class HashFunc {
+  public:
+    long double operator() (Point point) const {
+      return 29 * point.x + 31 * point.y + 37 * point.z;
+    }
+  };
+}  // namespace
+
 class Controller : public AbstractController {
  public:
   Controller();
@@ -58,13 +67,6 @@ class Controller : public AbstractController {
     bool right{false};
     bool down{false};
     bool left{false};
-  };
-
-  class HashFunc {
-   public:
-    long double operator() (Point point) const {
-      return 29 * point.x + 31 * point.y + 37 * point.z;
-    }
   };
 
  private:
