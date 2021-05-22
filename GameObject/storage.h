@@ -3,7 +3,6 @@
 
 #include <QDebug>
 #include <QString>
-
 #include <vector>
 
 #include "item.h"
