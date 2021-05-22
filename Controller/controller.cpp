@@ -303,3 +303,7 @@ Object* Controller::GetNearestOfTwoObjects(Object* obj1, Object* obj2) const {
   }
   return obj1 ? obj1 : obj2;
 }
+
+void Controller::CloseMainMenu() {
+  view_->CloseMainMenu();
+}

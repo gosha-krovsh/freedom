@@ -8,6 +8,7 @@
 #include <QGraphicsBlurEffect>
 #include <QPushButton>
 #include <QStyleOption>
+#include <QApplication>
 
 #include "Controller/abstract_controller.h"
 
@@ -22,10 +23,13 @@ class MainMenu : public QWidget {
  private:
   // void resizeEvent(QResizeEvent*) override;
   // void keyPressEvent(QKeyEvent*) override;
+
+  // Needs to be overrided in order to have possibility to set background image.
   void paintEvent(QPaintEvent*) override;
 
   void SetUi();
   void SetStyles();
+  void ConnectButtons();
 
  private:
   AbstractController* controller_;

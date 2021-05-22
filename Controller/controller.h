@@ -45,6 +45,8 @@ class Controller : public AbstractController {
   Object* FindIfNearestObject(
       const std::function<bool(Object*)>& predicate) override;
 
+  void CloseMainMenu() override;
+
  private:
   struct ControlKeyStates {
     bool up{false};

@@ -35,6 +35,8 @@ class AbstractController {
   virtual Object* FindIfNearestObject(
       const std::function<bool(Object*)>& predicate) = 0;
 
+  virtual void CloseMainMenu() = 0;
+
  private:
   virtual void MoveItem(int index,
                         const std::shared_ptr<Storage>& source,

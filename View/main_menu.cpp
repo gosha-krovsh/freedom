@@ -10,16 +10,35 @@ MainMenu::MainMenu(AbstractController* controller,
                    exit_button_(new QPushButton("Exit", this)) {
   SetUi();
   SetStyles();
+  ConnectButtons();
   show();
 }
 
 void MainMenu::SetUi() {
-  layout_->addWidget(play_button_);
-  layout_->addWidget(settings_button_);
-  layout_->addWidget(exit_button_);
+  play_button_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  settings_button_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  exit_button_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+  layout_->addWidget(play_button_, 1, 2);
+  layout_->addWidget(settings_button_, 3, 2);
+  layout_->addWidget(exit_button_, 5, 2);
+
+  // Adjust horizontal margins for buttons
+  layout_->setColumnStretch(0, 6);
+  layout_->setColumnStretch(1, 6);
+  layout_->setColumnStretch(2, 6);  // all buttons here
+  layout_->setColumnStretch(3, 1);
+
+  // Adjust vertical margins for buttons
+  layout_->setRowStretch(0, 2);
+  layout_->setRowStretch(1, 1);  // play_button
+  layout_->setRowStretch(2, 2);
+  layout_->setRowStretch(3, 1);  // settings_button_
+  layout_->setRowStretch(4, 2);
+  layout_->setRowStretch(5, 1);  // exit_button_
+  layout_->setRowStretch(6, 2);
 
   layout_->setMargin(0);
-  // layout_->setSpacing(0);
   setLayout(layout_);
 }
 
@@ -30,9 +49,20 @@ void MainMenu::SetStyles() {
   setStyleSheet(styles.readAll());
 }
 
+void MainMenu::ConnectButtons() {
+  connect(play_button_, &QPushButton::pressed, this, [this]() {
+    controller_->CloseMainMenu();
+  });
+  connect(exit_button_, &QPushButton::pressed,
+          QApplication::instance(), &QCoreApplication::quit);
+  connect(settings_button_, &QPushButton::pressed, this, [this]() {
+    // TODO
+  });
+}
+
 void MainMenu::paintEvent(QPaintEvent*) {
-  QStyleOption opt;
-  opt.init(this);
-  QPainter p(this);
-  style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+  QStyleOption option;
+  option.init(this);
+  QPainter painter(this);
+  style()->drawPrimitive(QStyle::PE_Widget, &option, &painter, this);
 }
