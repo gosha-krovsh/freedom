@@ -72,7 +72,7 @@
         <file alias="floor.png">images/floor.png</file>
         <file alias="apple.png">images/apple.png</file>
         <file alias="soap.png">images/soap.png</file>
-        
+
         <file alias="basket_ring_225.png">images/basket_ring_225.png</file>
         <file alias="basket_ring_315.png">images/basket_ring_315.png</file>
         <file alias="fence_225.png">images/fence_225.png</file>
@@ -91,11 +91,12 @@
 
         <file>idle.mp3</file>
         <file>wall_attack.mp3</file>
-        
+
         <file>schedule.json</file>
         <file>game_map.json</file>
         <file>conversations.json</file>
         <file>items.json</file>
+        <file>quests.json</file>
 
         <file alias = "item_bar_styles">../Styles/item_bar_styles.qss</file>
         <file alias = "conversation_window_styles">../Styles/conversation_window_styles.qss</file>

@@ -14,7 +14,8 @@
 
 class ActionController {
  public:
-  explicit ActionController(const std::shared_ptr<Model>& model);
+  ActionController(AbstractController* controller,
+                   const std::shared_ptr<Model>& model);
   void Call(const Action& method);
   void Call(const std::vector<Action>& methods);
   void Tick(int current_tick);
@@ -22,8 +23,11 @@ class ActionController {
   // Methods for actions
  private:
   void Move(int id, const Point& place);
+  void StartQuest(int id);
+  void SetBotConversation(const QString& bot_name, int conversation_id);
 
  private:
+  AbstractController* controller_;
   std::shared_ptr<Model> model_;
 };
 

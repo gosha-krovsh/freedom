@@ -16,9 +16,8 @@ class Bot : public Creature {
   Bot(const QString& name, const Point& coords,
       const std::vector<Point>& targets);
 
-  void SetStorage(std::shared_ptr<Storage>&& storage);
-
   void Tick(int current_tick) override;
+  void SetStorage(std::shared_ptr<Storage>&& storage);
   void OnDead() override;
 
  private:

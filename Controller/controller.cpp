@@ -3,14 +3,15 @@
 Controller::Controller()
     : model_(std::make_shared<Model>()),
       view_(std::make_unique<View>(this, model_)),
-      actions_controller_(std::make_unique<ActionController>(model_)),
+      actions_controller_(std::make_unique<ActionController>(this, model_)),
       data_controller_(std::make_unique<DataController>(model_)),
-      quest_controller_(std::make_unique<QuestController>(model_)),
+      quest_controller_(std::make_unique<QuestController>(this, model_)),
       item_controller_(std::make_unique<ItemController>(model_)),
       current_tick_(0) {
   model_->SetMap(std::move(data_controller_->ParseGameMap()));
   model_->SetSchedule(std::move(data_controller_->ParseSchedule()));
   model_->SetConversations(std::move(data_controller_->ParseConversations()));
+  model_->SetQuests(std::move(data_controller_->ParseQuests()));
 
   model_->SetCreatureStorage(
       std::move(data_controller_->ParseCreatureStorage()));
@@ -273,4 +274,12 @@ void Controller::FinishConversation() {
 
 void Controller::ExecuteAction(const Action& action) {
   actions_controller_->Call(action);
+}
+
+void Controller::ExecuteActions(const std::vector<Action>& actions) {
+  actions_controller_->Call(actions);
+}
+
+void Controller::StartQuest(int id) {
+  quest_controller_->StartQuest(0);
 }
