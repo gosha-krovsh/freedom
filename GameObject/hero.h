@@ -4,6 +4,7 @@
 #include <QDebug>
 
 #include <memory>
+#include <utility>
 
 #include "creature.h"
 #include "storage.h"
@@ -14,6 +15,10 @@ class Hero : public Creature, public InteractingObject {
   explicit Hero(const Point& coords);
 
   void Tick(int current_tick) override;
+
+  void SetStorage(std::shared_ptr<Storage>&& storage) {
+    storage_ = std::move(storage);
+  }
 
   Point GetViewVector() const;
   void UpdateMovement(bool left, bool up, bool right, bool down);

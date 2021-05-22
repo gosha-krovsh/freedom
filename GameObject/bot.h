@@ -4,6 +4,7 @@
 #include <QDebug>
 
 #include <memory>
+#include <utility>
 #include <vector>
 
 #include "creature.h"
@@ -15,7 +16,7 @@ class Bot : public Creature {
   Bot(const QString& name, const Point& coords);
 
   void Tick(int current_tick) override;
-
+  void SetStorage(std::shared_ptr<Storage>&& storage);
   void OnDead() override;
 
   Point GetFinish() const;

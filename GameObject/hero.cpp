@@ -11,15 +11,15 @@ void Hero::Tick(int current_tick) {
   // TODO: In the future, there will be separate cell in inventory for clothes.
   bool is_roba = false;
   for (const auto& item : storage_->GetItems()) {
-    if (item.GetId() == 1) {
+    if (item.GetName() == "roba") {
       is_roba = true;
       break;
     }
   }
   if (is_roba) {
-    name_of_clothes_ = "roba";
+    clothes_name_ = "roba";
   } else {
-    name_of_clothes_ = "";
+    clothes_name_ = "";
   }
 }
 

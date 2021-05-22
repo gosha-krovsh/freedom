@@ -3,14 +3,20 @@
 Controller::Controller()
     : model_(std::make_shared<Model>()),
       view_(std::make_unique<View>(this, model_)),
-      actions_controller_(std::make_unique<ActionController>(model_)),
+      actions_controller_(std::make_unique<ActionController>(this, model_)),
       data_controller_(std::make_unique<DataController>(model_)),
-      quest_controller_(std::make_unique<QuestController>(model_)),
+      quest_controller_(std::make_unique<QuestController>(this, model_)),
+      item_controller_(std::make_unique<ItemController>(model_)),
       current_tick_(0) {
   model_->SetMap(std::move(data_controller_->ParseGameMap()));
   model_->SetSchedule(std::move(data_controller_->ParseSchedule()));
   model_->SetBots(std::move(data_controller_->ParseBots()));
   model_->SetConversations(std::move(data_controller_->ParseConversations()));
+  model_->SetQuests(std::move(data_controller_->ParseQuests()));
+
+  model_->SetCreatureStorage(
+      std::move(data_controller_->ParseCreatureStorage()));
+  view_->AssignHeroStorage();
 }
 
 void Controller::Tick() {
@@ -304,6 +310,10 @@ void Controller::OnItemPress(int bar_id, int index) {
   }
 }
 
+void Controller::UseItem(const Item& item) {
+  item_controller_->UseItem(item);
+}
+
 void Controller::MoveItem(int index,
                           const std::shared_ptr<Storage>& source,
                           const std::shared_ptr<Storage>& destination) {
@@ -342,5 +352,13 @@ void Controller::MoveAllBotsToPoint(const Point& point) {
   for(auto& bot : model_->GetBots()) {
     BuildPath(&bot, current_point_iter->second);
     ++current_point_iter;
-  }
+   }
+}
+
+void Controller::ExecuteActions(const std::vector<Action>& actions) {
+  actions_controller_->Call(actions);
+}
+
+void Controller::StartQuest(int id) {
+  quest_controller_->StartQuest(0);
 }

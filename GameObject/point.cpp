@@ -121,6 +121,7 @@ bool Point::operator!=(const Point& rhs) const {
 double Point::SquaredDistanceFrom(const Point& other) const {
   return (x - other.x) * (x - other.x) + (y - other.y) * (y - other.y);
 }
+
 double Point::DistanceFrom(const Point& other) const {
   return std::sqrt(SquaredDistanceFrom(other));
 }
@@ -128,6 +129,7 @@ double Point::DistanceFrom(const Point& other) const {
 Point Point::GetRounded() const {
   return {std::round(x), std::round(y), std::round(z)};
 }
+
 bool Point::operator<(const Point& rhs) const {
   if (x != rhs.x) {
     return x < rhs.x;
@@ -136,4 +138,10 @@ bool Point::operator<(const Point& rhs) const {
     return y < rhs.y;
   }
   return z < rhs.z;
+}
+
+QString Point::ToString() const {
+  return "(" + QString::number(x) + ", " +
+               QString::number(y) + ", " +
+               QString::number(z) + ")";
 }

@@ -5,6 +5,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonArray>
+#include <QString>
 
 #include <map>
 #include <memory>
@@ -16,6 +17,7 @@
 #include "GameObject/action.h"
 #include "GameObject/game_time.h"
 #include "GameObject/schedule.h"
+#include "GameObject/storage.h"
 #include "Model/model.h"
 
 class DataController {
@@ -28,9 +30,16 @@ class DataController {
   std::unique_ptr<GameMap> ParseGameMap();
   std::vector<Bot> ParseBots();
   std::vector<std::shared_ptr<Conversation>> ParseConversations();
+  std::map<QString, std::shared_ptr<Storage>> ParseCreatureStorage();
+  std::vector<Quest> ParseQuests();
 
  private:
+  // This method used in ParseGameMap to put Storage into Chests
+  std::map<QString, std::shared_ptr<Storage>> ParseMapStorage();
   Action ParseAction(const QString& j_str);
+  std::vector<Action> ParseActions(const QJsonArray& j_arr);
+  QuestNode ParseQuestNode(const QJsonArray& j_arr);
+  std::vector<QuestNode> ParseQuestNodes(const QJsonArray& j_arr);
 
   std::shared_ptr<Model> model_;
 };

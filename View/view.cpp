@@ -128,6 +128,8 @@ void View::keyPressEvent(QKeyEvent* event) {
             *conversation, controller_, this);
         InterruptAllInput();
         resizeEvent(nullptr);
+
+        item_bar_pack_->hide();
       }
       break;
     }
@@ -228,6 +230,7 @@ void View::InterruptAllInput() {
 
 void View::CloseConversationWindow() {
   conversation_window_ = nullptr;
+  item_bar_pack_->show();
   StartTickTimer();
 }
 
@@ -267,4 +270,8 @@ void View::ItemDialogEvent() {
   }
   item_bar_pack_->GetHeroBar()->setEnabled(is_item_dialog_open_);
   item_bar_pack_->GetObjectBar()->setEnabled(is_item_dialog_open_);
+}
+
+void View::AssignHeroStorage() {
+  item_bar_pack_->GetHeroBar()->AssignStorage(model_->GetHero().GetStorage());
 }

@@ -65,35 +65,40 @@
         <file alias="Hero_225_roba_run_2.png">Hero/Hero_225_roba_run_2.png</file>
         <file alias="Hero_270_roba_run_2.png">Hero/Hero_270_roba_run_2.png</file>
         <file alias="Hero_315_roba_run_2.png">Hero/Hero_315_roba_run_2.png</file>
+        <file alias="roba.png">images/roba.png</file>
+        <file alias="cloud.png">images/cloud.png</file>
+        <file alias="brick.png">images/brick.png</file>
+        <file alias="floor.png">images/floor.png</file>
+        <file alias="apple.png">images/apple.png</file>
+        <file alias="soap.png">images/soap.png</file>
 
-        <file>basket_ring_225.png</file>
-        <file>basket_ring_315.png</file>
-        <file>fence_225.png</file>
-        <file>fence_315.png</file>
-        <file>grass.png</file>
-        <file>basketball_floor_with_line_45.png</file>
-        <file>basketball_floor_with_line_135.png</file>
-        <file>basketball_floor_with_line_225.png</file>
-        <file>basketball_floor_with_line_315.png</file>
-        <file>basketball_floor.png</file>
-        <file>table.png</file>
-        <file>chair.png</file>
-        <file>stone_road.png</file>
-        <file>mud.png</file>
-        <file>ball.png</file>
+        <file alias="basket_ring_225.png">images/basket_ring_225.png</file>
+        <file alias="basket_ring_315.png">images/basket_ring_315.png</file>
+        <file alias="fence_225.png">images/fence_225.png</file>
+        <file alias="fence_315.png">images/fence_315.png</file>
+        <file alias="grass.png">images/grass.png</file>
+        <file alias="basketball_floor_with_line_45.png">images/basketball_floor_with_line_45.png</file>
+        <file alias="basketball_floor_with_line_135.png">images/basketball_floor_with_line_135.png</file>
+        <file alias="basketball_floor_with_line_225.png">images/basketball_floor_with_line_225.png</file>
+        <file alias="basketball_floor_with_line_315.png">images/basketball_floor_with_line_315.png</file>
+        <file alias="basketball_floor.png">images/basketball_floor.png</file>
+        <file alias="table.png">images/table.png</file>
+        <file alias="chair.png">images/chair.png</file>
+        <file alias="stone_road.png">images/stone_road.png</file>
+        <file alias="mud.png">images/mud.png</file>
+        <file alias="ball.png">images/ball.png</file>
 
-        <file>cloud.png</file>
-        <file>roba.png</file>
-        <file>brick.png</file>
-        <file>floor.png</file>
         <file>idle.mp3</file>
         <file>wall_attack.mp3</file>
+
         <file>schedule.json</file>
         <file>game_map.json</file>
         <file>bots.json</file>
-        <file alias = "item_bar_styles">../Styles/item_bar_styles.qss</file>
         <file>conversations.json</file>
+        <file>items.json</file>
+        <file>quests.json</file>
 
+        <file alias = "item_bar_styles">../Styles/item_bar_styles.qss</file>
         <file alias = "conversation_window_styles">../Styles/conversation_window_styles.qss</file>
     </qresource>
 </RCC>

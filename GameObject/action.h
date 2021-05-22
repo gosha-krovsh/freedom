@@ -2,6 +2,7 @@
 #define GAMEOBJECT_ACTION_H_
 
 #include <QString>
+#include <QDebug>
 
 #include <utility>
 #include <vector>
@@ -9,8 +10,10 @@
 class Action {
  public:
   enum ActionType {
-    kWrongArg = 0,
-    kMove = 1
+    kWrongArg,
+    kMove,
+    kStartQuest,
+    kSetBotConversation,
   };
 
   Action(const QString& name, const std::vector<QString>& parameters);
