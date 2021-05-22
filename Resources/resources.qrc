@@ -65,14 +65,12 @@
         <file alias="Hero_225_roba_run_2.png">Hero/Hero_225_roba_run_2.png</file>
         <file alias="Hero_270_roba_run_2.png">Hero/Hero_270_roba_run_2.png</file>
         <file alias="Hero_315_roba_run_2.png">Hero/Hero_315_roba_run_2.png</file>
-
         <file alias="roba.png">Images/roba.png</file>
         <file alias="cloud.png">Images/cloud.png</file>
         <file alias="brick.png">Images/brick.png</file>
         <file alias="floor.png">Images/floor.png</file>
         <file alias="apple.png">Images/apple.png</file>
         <file alias="soap.png">Images/soap.png</file>
-
         <file alias="basket_ring_225.png">Images/basket_ring_225.png</file>
         <file alias="basket_ring_315.png">Images/basket_ring_315.png</file>
         <file alias="fence_225.png">Images/fence_225.png</file>
@@ -107,10 +105,10 @@
         <file alias="conversations.json">Jsons/conversations.json</file>
         <file alias="items.json">Jsons/items.json</file>
         <file alias="quests.json">Jsons/quests.json</file>
+        <file alias="bots.json">Jsons/bots.json</file>
 
         <file alias="idle.mp3">Sounds/idle.mp3</file>
         <file alias="wall_attack.mp3">Sounds/wall_attack.mp3</file>
-
         <file alias="item_bar_styles">Styles/item_bar_styles.qss</file>
         <file alias="conversation_window_styles">Styles/conversation_window_styles.qss</file>
         <file alias="main_menu_styles">Styles/main_menu_styles.qss</file>

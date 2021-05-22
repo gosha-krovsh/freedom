@@ -128,6 +128,9 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
               storage = storage_it->second;
             }
 
+            objects.emplace_back(new Chest(
+                point,
+                model_->GetImage("brick"), storage));
             std::weak_ptr<QPixmap> image;
             if (object_type == Object::Type::kChest) {
               image = model_->GetImage("chest");
@@ -213,7 +216,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
 //   ...
 // ]
 std::vector<std::shared_ptr<Conversation>>
-    DataController::ParseConversations() {
+DataController::ParseConversations() {
   QFile file(":conversations.json");
   file.open(QIODevice::ReadOnly | QIODevice::Text);
 
@@ -303,7 +306,27 @@ Action DataController::ParseAction(const QString& j_str) {
   return Action(name, params);
 }
 
-// From items.json parses "creature-items" key
+std::vector<Bot> DataController::ParseBots() {
+  QFile file(":bots.json");
+  file.open(QIODevice::ReadOnly | QIODevice::Text);
+  QJsonArray json_bots = QJsonDocument::fromJson(file.readAll()).array();
+
+  std::vector<Bot> bots;
+  for (int i = 0; i < json_bots.size(); ++i) {
+    QJsonObject current_bot_params = json_bots[i].toObject();
+    QJsonArray current_bot_coords = current_bot_params["coords"].toArray();
+    if (current_bot_coords.size() != 3) {
+      qDebug() << "Invalid data about bot number "
+               << i + 1 << ' ' << current_bot_params.size() << endl;
+    }
+    Point start{current_bot_coords[0].toInt(), current_bot_coords[1].toInt(),
+                current_bot_coords[2].toInt()};
+
+    bots.emplace_back(current_bot_params["name"].toString(), start);
+  }
+  return bots;
+}
+  // From items.json parses "creature-items" key
 std::map<QString, std::shared_ptr<Storage>>
     DataController::ParseCreatureStorage() {
   QFile file(":items.json");
