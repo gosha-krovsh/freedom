@@ -36,12 +36,13 @@ class Object {
     kBed_135 = 20,
     kBed_225 = 21,
     kBed_315 = 22,
-    kWardrobe_225 = 23,
-    kWardrobe_315 = 24,
-    kGrating_225 = 25,
-    kGrating_315 = 26,
-    kDoor_225 = 27,
-    kDoor_315 = 28,
+    kWardrobe_45 = 23,
+    kWardrobe_225 = 24,
+    kWardrobe_315 = 25,
+    kGrating_225 = 26,
+    kGrating_315 = 27,
+    kDoor_225 = 28,
+    kDoor_315 = 29,
   };
 
  public:
