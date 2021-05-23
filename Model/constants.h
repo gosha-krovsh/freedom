@@ -14,7 +14,7 @@ namespace constants {
   const int kHP = 100;
   const int kBlockHP = kHP * 5;
   const int kAttack = 25;
-  const double kSpeed = 0.05;
+  const double kSpeed = 0.2;
   const int kAttackCooldown = 40;
   const double kAttackRadius = 0.65;
   const double kStartConversationRadius = 1.75;

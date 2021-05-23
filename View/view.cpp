@@ -11,6 +11,7 @@ View::View(AbstractController* controller,
 
 void View::Show() {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
+  setWindowState(Qt::WindowFullScreen);
 
   setCentralWidget(game_widget_.get());
   show();

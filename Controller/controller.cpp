@@ -41,8 +41,8 @@ void Controller::Tick() {
 
 
   // temp code
-  Point canteen = {3, 13, 1};
-  if (model_->GetTime().GetMinutes() == 34) {
+  Point canteen = {13, 22, 1};
+  if (model_->GetTime().GetMinutes() == 32) {
     MoveAllBotsToPoint(canteen);
   }
 
