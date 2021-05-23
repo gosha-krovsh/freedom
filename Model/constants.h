@@ -21,12 +21,12 @@ namespace constants {
   const int kAttackCooldown = 40;
   const double kAttackRadius = 0.65;
   const double kStartConversationRadius = 1.75;
-  const char* kPoliceClothesName{"police"};
-  const char* kPrisonerClothesName{"roba"};
-  const char* kEmptyClothesName{""};
-  const std::array<const char*, 3> kClothes{kEmptyClothesName,
-                                            kPrisonerClothesName,
-                                            kPoliceClothesName};
+  const char* const kPoliceClothesName{"police"};
+  const char* const kPrisonerClothesName{"roba"};
+  const char* const kEmptyClothesName{""};
+  const std::array<const char*, 3> kClothes{kEmptyClothesName.c_str(),
+                                            kPrisonerClothesName.c_str(),
+                                            kPoliceClothesName.c_str()};
   const double kDoorOpenOffset = -0.4;
 
   // To avoid going through the closed door.
