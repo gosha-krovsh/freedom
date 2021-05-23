@@ -8,18 +8,18 @@ void AddClothesSuffix(QString* name, const char* suffix) {
 }
 
 }  // namespace
-
+#include <iostream>
 Creature::Creature(const Point& coords, const QString& name, int hp) :
     DynamicObject(coords),
     Destroyable(hp),
     name_(name) {
-  std::vector<QString> clothes = {"", "roba"};
   for (int i = 0; i < constants::kNumberOfViewDirections; ++i) {
     auto view_direction = static_cast<ViewDirection>(i);
-    QString image_name = name_ + "_" + QString::number(i * 45);
-
+    QString angle = QString::number(i * 45);
     for (const auto& clothes_name : constants::kClothes) {
+      QString image_name = angle;
       AddClothesSuffix(&image_name, clothes_name);
+
       animator_.AssignStateToAnimation(State(Action::kIdle,
                                              view_direction,
                                              clothes_name),
@@ -53,6 +53,18 @@ void Creature::Tick(int current_tick) {
   DecrementAttackCooldown();
   if (!IsDestroyed() && action_ != Action::kFight) {
     DynamicObject::Tick(current_tick);
+  }
+
+  // Temp code.
+  // TODO: In the future, there will be separate cell in inventory for clothes.
+  for (const auto& item : storage_->GetItems()) {
+    if (item.GetType() == Item::Type::kPrisonerRoba) {
+      clothes_name_ = "roba";
+      break;
+    } else if (item.GetType() == Item::Type::kPoliceRoba) {
+      clothes_name_ = "police";
+      break;
+    }
   }
 
   animator_.Tick();
