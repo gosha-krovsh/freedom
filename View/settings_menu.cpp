@@ -88,14 +88,14 @@ void SettingsMenu::SaveData() {
   bool is_zoom_value_conversion_valid;
   int zoom_value = zoom_edit_->text().toInt(&is_zoom_value_conversion_valid);
   if (is_zoom_value_conversion_valid) {
-    Settings::kSizeOfBlock = zoom_value;
+    Settings::kBlockSize = zoom_value;
   }
 }
 
 void SettingsMenu::UpdateContent() {
   volume_slider_->setValue(Settings::kVolume);
   fps_combo_box_->setCurrentText(QString::number(Settings::kFPS));
-  zoom_edit_->setText(QString::number(Settings::kSizeOfBlock));
+  zoom_edit_->setText(QString::number(Settings::kBlockSize));
 }
 
 void SettingsMenu::showEvent(QShowEvent* ev) {

@@ -16,14 +16,14 @@ void Bot::MakeStep() {
   }
 
   Point next_point = targets_[current_index_in_path_];
-  if (((std::abs(GetX() - next_point.x) > constants::kSpeed) ||
-        (std::abs(GetY() - next_point.y) > constants::kSpeed)) &&
+  if (((std::abs(GetX() - next_point.x) > Settings::GetSpeed()) ||
+        (std::abs(GetY() - next_point.y) > Settings::GetSpeed())) &&
       !speed_vector_.IsNull()) {
     return;
   }
 
-  if ((std::abs(GetX() - next_point.x) <= constants::kSpeed) &&
-      (std::abs(GetY() - next_point.y) <= constants::kSpeed)) {
+  if ((std::abs(GetX() - next_point.x) <= Settings::GetSpeed()) &&
+      (std::abs(GetY() - next_point.y) <= Settings::GetSpeed())) {
     SetCoordinates(next_point);
     ++current_index_in_path_;
   }

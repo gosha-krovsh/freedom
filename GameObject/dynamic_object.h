@@ -37,7 +37,7 @@ class DynamicObject : public Object {
   void Move();
 
  protected:
-  double speed_value_{constants::kSpeed};
+  double speed_value_{Settings::GetSpeed()};
   Point speed_vector_{0, 0};
   ViewDirection view_direction_{ViewDirection::kDown};
 };

@@ -7,13 +7,17 @@
 #include <array>
 
 namespace constants {
+  const int kInitVolume = 50;
+  const int kInitBlockSize = 220;
+  const int kInitFPS = 60;
+  const double kInitSpeed = 0.07;
+
   const int kNumberOfViewDirections = 8;
   const double kEps = 1e-7;
   const double kMaxBlockOffset = 0.15;
   const int kHP = 100;
   const int kBlockHP = kHP * 5;
   const int kAttack = 25;
-  const double kSpeed = 0.05;
   const int kAttackCooldown = 40;
   const double kAttackRadius = 0.65;
   const double kStartConversationRadius = 1.75;
@@ -32,7 +36,7 @@ namespace constants {
   const int kDurationOfShaking = 10;
 
   const double kShakeAmplitude = 0.01;
-  const double kDistanceToDetectBlock = 2 * kSpeed;
+  const double kDistanceToDetectBlock = 2 * kInitSpeed;
 
   // The opacity of the block, when it's considered transparent.
   const double kBlockOpacity = 0.1;
@@ -69,8 +73,6 @@ namespace constants {
   const double kCoeffitientForIconSize = 0.8;
 
   const int kInfinity = std::numeric_limits<int>::max();
-
-  const int kInitVolume = 50;
 }  // namespace constants
 
 #endif  // MODEL_CONSTANTS_H_

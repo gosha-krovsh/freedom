@@ -317,7 +317,7 @@ std::vector<Bot> DataController::ParseBots() {
     QJsonArray current_bot_coords = current_bot_params["coords"].toArray();
     if (current_bot_coords.size() != 3) {
       qDebug() << "Invalid data about bot number "
-               << i + 1 << ' ' << current_bot_params.size() << endl;
+               << i + 1 << ' ' << current_bot_params.size();
     }
     Point start{current_bot_coords[0].toInt(), current_bot_coords[1].toInt(),
                 current_bot_coords[2].toInt()};

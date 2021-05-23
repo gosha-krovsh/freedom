@@ -5,8 +5,9 @@
 
 struct Settings {
   static int kVolume;
-  static int kSizeOfBlock;
+  static int kBlockSize;
   static int kFPS;
+  static double GetSpeed();
 };
 
 #endif  // MODEL_SETTINGS_H_
