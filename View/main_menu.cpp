@@ -65,8 +65,6 @@ void MainMenu::ConnectButtons() {
 }
 
 void MainMenu::paintEvent(QPaintEvent*) {
-  QStyleOption option;
-  option.init(this);
   QPainter painter(this);
-  style()->drawPrimitive(QStyle::PE_Widget, &option, &painter, this);
+  painter.drawPixmap(0, 0, width(), height(), background_image_);
 }

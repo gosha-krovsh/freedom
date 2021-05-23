@@ -5,7 +5,7 @@
 }
 
 QWidget#settings_menu {
-    background: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.6);
 }
 
 QSlider::groove:horizontal {

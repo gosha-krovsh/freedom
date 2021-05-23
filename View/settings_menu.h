@@ -11,7 +11,6 @@
 #include <QTextEdit>
 #include <QComboBox>
 #include <QLineEdit>
-#include <QSettings>
 
 #include "Controller/abstract_controller.h"
 #include "Model//settings.h"
@@ -28,6 +27,7 @@ class SettingsMenu : public QWidget {
   // Needs to be overrided in order to have possibility to work with
   // |QWidget#settings_menu| in |settings_menu_styles.qss|.
   void paintEvent(QPaintEvent*) override;
+
   void showEvent(QShowEvent*) override;
 
   void SetUi();

@@ -1,7 +1,3 @@
-QWidget#main_menu {
-    background-image: url(:main_menu_background.png);
-}
-
 QPushButton {
     font-size: 26px;
     color: white;

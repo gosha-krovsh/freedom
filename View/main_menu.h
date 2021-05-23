@@ -22,8 +22,7 @@ class MainMenu : public QWidget {
   ~MainMenu() override = default;
 
  private:
-  // Needs to be overrided in order to have possibility to work with
-  // |QWidget#main_menu| in |main_menu_styles.qss|.
+  // Draws background image.
   void paintEvent(QPaintEvent*) override;
 
   void SetUi();
@@ -31,6 +30,7 @@ class MainMenu : public QWidget {
   void ConnectButtons();
 
  private:
+  QPixmap background_image_{":main_menu_background.png"};
   AbstractController* controller_;
   QGridLayout* layout_;
   QPushButton* play_button_;
