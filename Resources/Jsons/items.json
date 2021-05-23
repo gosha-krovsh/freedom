@@ -3,15 +3,15 @@
     "Apple" : 0,
     "Brick" : 1,
     "Soap" : 2,
-    "Roba" : 3,
-    "Police" : 4
+    "PrisonerRoba" : 3,
+    "PoliceUniform" : 4
   },
   "map-items" : [
     [[3, 4, 1], ["Apple", "Apple", "Soap"]]
   ],
   "creature-items" : [
     ["Hero", ["Apple", "Brick"]],
-    ["Igor", ["Apple", "Brick", "Police"]],
-    ["Rob", ["Apple", "Brick", "Roba"]]
+    ["Igor", ["Apple", "Brick", "PoliceUniform"]],
+    ["Rob", ["Apple", "Brick", "PrisonerRoba"]]
   ]
 }

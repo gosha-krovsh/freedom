@@ -60,10 +60,10 @@ void Creature::Tick(int current_tick) {
   clothes_name_ = "";
   for (const auto& item : storage_->GetItems()) {
     if (item.GetType() == Item::Type::kPrisonerRoba) {
-      clothes_name_ = "roba";
+      clothes_name_ = constants::kPrisonerClothesName;
       break;
     } else if (item.GetType() == Item::Type::kPoliceRoba) {
-      clothes_name_ = "police";
+      clothes_name_ = constants::kPoliceClothesName;
       break;
     }
   }
