@@ -8,9 +8,9 @@
 
 namespace constants {
   const int kInitVolume = 50;
-  const int kInitBlockSize = 220;
+  const int kInitBlockSize = 200;
   const int kInitFPS = 60;
-  const double kInitSpeed = 0.07;
+  const double kInitSpeed = 0.05;
 
   const int kNumberOfViewDirections = 8;
   const double kEps = 1e-7;
