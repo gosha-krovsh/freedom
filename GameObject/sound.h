@@ -14,9 +14,9 @@
 class Sound {
  public:
   enum SoundAction {
-    kIdle = 0,
+    kBackground = 0,
     kWallAttack = 1,
-    kFight = 1
+    kFight = 1,
   };
 
   Sound();
@@ -26,6 +26,8 @@ class Sound {
 
   void Tick(int);
   void SetVolumeCoefficient(double volume_coefficient);
+  void PauseAllTracks();
+  void ResumeAllTracks();
 
  private:
   struct Track {
@@ -38,7 +40,8 @@ class Sound {
   double volume_coefficient_ = 1;
   std::vector<Track> tracks_;
   std::vector<QString> names_of_avaliable_songs_{
-    "qrc:idle.mp3", "qrc:wall_attack.mp3"};
+    "qrc:background.mp3",
+    "qrc:wall_attack.mp3"};
 };
 
 #endif  // GAMEOBJECT_SOUND_H_

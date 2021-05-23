@@ -172,6 +172,7 @@ void View::CloseConversationWindow() {
 void View::CloseMainMenu() {
   main_menu_ = nullptr;
   StartTickTimer();
+  model_->GetSound().ResumeAllTracks();
 }
 
 std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id) {
@@ -220,4 +221,5 @@ void View::ShowMainMenu() {
   main_menu_ = std::make_unique<MainMenu>(controller_, this);
   InterruptAllInput();
   resizeEvent(nullptr);
+  model_->GetSound().PauseAllTracks();
 }

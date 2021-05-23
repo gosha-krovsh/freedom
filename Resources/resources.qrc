@@ -107,7 +107,7 @@
         <file alias="quests.json">Jsons/quests.json</file>
         <file alias="bots.json">Jsons/bots.json</file>
 
-        <file alias="idle.mp3">Sounds/idle.mp3</file>
+        <file alias="background.mp3">Sounds/background.mp3</file>
         <file alias="wall_attack.mp3">Sounds/wall_attack.mp3</file>
         <file alias="item_bar_styles">Styles/item_bar_styles.qss</file>
         <file alias="conversation_window_styles">Styles/conversation_window_styles.qss</file>

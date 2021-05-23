@@ -1,7 +1,7 @@
 #include "sound.h"
 
 Sound::Sound() {
-  PlayTrack(kIdle, constants::kInfinity);
+  PlayTrack(kBackground, constants::kInfinity);
 }
 
 void Sound::PlayTrack(SoundAction action, int duration, int volume) {
@@ -34,5 +34,19 @@ void Sound::SetVolumeCoefficient(double volume_coefficient) {
   volume_coefficient_ = volume_coefficient;
   for (auto& track : tracks_) {
     track.player->setVolume(track.volume * volume_coefficient_);
+  }
+}
+
+void Sound::PauseAllTracks() {
+  // The first track is always Background
+  for (int i = 1; i < tracks_.size(); ++i) {
+    tracks_[i].player->pause();
+  }
+}
+
+void Sound::ResumeAllTracks() {
+  // The first track is always Background
+  for (int i = 1; i < tracks_.size(); ++i) {
+    tracks_[i].player->play();
   }
 }
