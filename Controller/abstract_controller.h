@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "GameObject/hero.h"
+#include "GameObject/bot.h"
 #include "GameObject/storage.h"
 #include "Conversations/conversation.h"
 
@@ -34,6 +35,8 @@ class AbstractController {
   virtual Object* FindNearestObjectWithType(Object::Type type) = 0;
   virtual Object* FindIfNearestObject(
       const std::function<bool(Object*)>& predicate) = 0;
+  virtual Bot* FindNearestBotInRadius(double radius,
+                                      bool including_destroyed = false) = 0;
 
  private:
   virtual void MoveItem(int index,

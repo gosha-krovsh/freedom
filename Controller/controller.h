@@ -49,6 +49,8 @@ class Controller : public AbstractController {
   Object* FindNearestObjectWithType(Object::Type type) override;
   Object* FindIfNearestObject(
       const std::function<bool(Object*)>& predicate) override;
+  Bot* FindNearestBotInRadius(double radius,
+                              bool including_destroyed = false) override;
 
   void MoveAllBotsToPoint(const Point& point);
 
@@ -68,7 +70,6 @@ class Controller : public AbstractController {
                 const std::shared_ptr<Storage>& source) override;
   void ProcessFighting();
   void ProcessFighting(Creature* attacker, Creature* victim, int* i);
-  Bot* FindNearestBotInRadius(double radius);
   void BuildPath(Bot* bot, const Point& finish);
   std::vector<Point> CollectPath(const Point& finish,
                                  const std::unordered_map<Point, Point,

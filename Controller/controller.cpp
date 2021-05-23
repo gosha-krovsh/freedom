@@ -49,12 +49,22 @@ void Controller::Tick() {
   CheckHeroCollision();
   ProcessFighting();
 
+  if (model_->GetHero().IsDestroyed()) {
+    model_->GetHero().SetCoordinates({constants::kSpawnX,
+                                      constants::kSpawnY,
+                                      1});
+    model_->GetHero().Respawn();
+    model_->GetHero().StopFighting();
+  }
+
   model_->GetMap().Tick(current_tick_);
 
-  Object* nearest_storage = FindIfNearestObject([](Object* block) {
+  auto nearest_storage = FindIfNearestObject([](Object* block) {
     return block->IsStorable();
   });
-  if (view_->IsItemDialogOpen() && nearest_storage == nullptr) {
+  auto nearest_destroyed_bot = FindNearestBotInRadius(1.0, true);
+  if (view_->IsItemDialogOpen() && nearest_storage == nullptr &&
+                                   nearest_destroyed_bot == nullptr) {
     view_->ItemDialogEvent();
   }
 
@@ -164,7 +174,8 @@ void Controller::HeroAttack() {
   }
 }
 
-Bot* Controller::FindNearestBotInRadius(double radius) {
+Bot* Controller::FindNearestBotInRadius(double radius,
+                                        bool including_destroyed) {
   Hero& hero = model_->GetHero();
   Point hero_coords = hero.GetCoordinates() +
                       constants::kCoefficientForShiftingCircleAttack * radius *
@@ -176,7 +187,8 @@ Bot* Controller::FindNearestBotInRadius(double radius) {
   for (auto& bot : model_->GetBots()) {
     double new_squared_distance =
         hero_coords.SquaredDistanceFrom(bot.GetCoordinates());
-    if (!bot.IsDestroyed() && new_squared_distance < squared_distance) {
+    if ((including_destroyed || !bot.IsDestroyed()) &&
+        new_squared_distance < squared_distance) {
       squared_distance = new_squared_distance;
       nearest_bot = &bot;
     }

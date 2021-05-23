@@ -20,6 +20,8 @@ namespace constants {
   const double kStartConversationRadius = 1.75;
   const std::array<const char*, 2> kClothes{"", "roba"};
   const double kDoorOpenOffset = -0.4;
+  const int kSpawnX = 3;
+  const int kSpawnY = 3;
 
   // To avoid going through the closed door.
   const double kDoorInteractingDistanceCoefficient = 0.9;
