@@ -33,12 +33,50 @@
         <file alias="Hero_270_run_2.png">Hero/Hero_270_run_2.png</file>
         <file alias="Hero_315_run_2.png">Hero/Hero_315_run_2.png</file>
 
+        <file alias="Hero_0_roba.png">Hero/Hero_0_roba.png</file>
+        <file alias="Hero_45_roba.png">Hero/Hero_45_roba.png</file>
+        <file alias="Hero_90_roba.png">Hero/Hero_90_roba.png</file>
+        <file alias="Hero_135_roba.png">Hero/Hero_135_roba.png</file>
+        <file alias="Hero_180_roba.png">Hero/Hero_180_roba.png</file>
+        <file alias="Hero_225_roba.png">Hero/Hero_225_roba.png</file>
+        <file alias="Hero_270_roba.png">Hero/Hero_270_roba.png</file>
+        <file alias="Hero_315_roba.png">Hero/Hero_315_roba.png</file>
+        <file alias="Hero_0_roba_dead.png">Hero/Hero_0_roba_dead.png</file>
+        <file alias="Hero_45_roba_dead.png">Hero/Hero_45_roba_dead.png</file>
+        <file alias="Hero_90_roba_dead.png">Hero/Hero_90_roba_dead.png</file>
+        <file alias="Hero_135_roba_dead.png">Hero/Hero_135_roba_dead.png</file>
+        <file alias="Hero_180_roba_dead.png">Hero/Hero_180_roba_dead.png</file>
+        <file alias="Hero_225_roba_dead.png">Hero/Hero_225_roba_dead.png</file>
+        <file alias="Hero_270_roba_dead.png">Hero/Hero_270_roba_dead.png</file>
+        <file alias="Hero_315_roba_dead.png">Hero/Hero_315_roba_dead.png</file>
+        <file alias="Hero_0_roba_run_1.png">Hero/Hero_0_roba_run_1.png</file>
+        <file alias="Hero_45_roba_run_1.png">Hero/Hero_45_roba_run_1.png</file>
+        <file alias="Hero_90_roba_run_1.png">Hero/Hero_90_roba_run_1.png</file>
+        <file alias="Hero_135_roba_run_1.png">Hero/Hero_135_roba_run_1.png</file>
+        <file alias="Hero_180_roba_run_1.png">Hero/Hero_180_roba_run_1.png</file>
+        <file alias="Hero_225_roba_run_1.png">Hero/Hero_225_roba_run_1.png</file>
+        <file alias="Hero_270_roba_run_1.png">Hero/Hero_270_roba_run_1.png</file>
+        <file alias="Hero_315_roba_run_1.png">Hero/Hero_315_roba_run_1.png</file>
+        <file alias="Hero_0_roba_run_2.png">Hero/Hero_0_roba_run_2.png</file>
+        <file alias="Hero_45_roba_run_2.png">Hero/Hero_45_roba_run_2.png</file>
+        <file alias="Hero_90_roba_run_2.png">Hero/Hero_90_roba_run_2.png</file>
+        <file alias="Hero_135_roba_run_2.png">Hero/Hero_135_roba_run_2.png</file>
+        <file alias="Hero_180_roba_run_2.png">Hero/Hero_180_roba_run_2.png</file>
+        <file alias="Hero_225_roba_run_2.png">Hero/Hero_225_roba_run_2.png</file>
+        <file alias="Hero_270_roba_run_2.png">Hero/Hero_270_roba_run_2.png</file>
+        <file alias="Hero_315_roba_run_2.png">Hero/Hero_315_roba_run_2.png</file>
+
+        <file alias="ak_47_black.png">images/ak_47_black.png</file>
+        <file alias="ak_47.png">images/ak_47.png</file>
+        <file alias="roba.png">images/roba.png</file>
+        <file alias="roba_black.png">images/roba_black.png</file>
+        <file alias="heart.png">images/heart.png</file>
         <file alias="cloud.png">images/cloud.png</file>
         <file alias="brick.png">images/brick.png</file>
         <file alias="floor.png">images/floor.png</file>
         <file alias="apple.png">images/apple.png</file>
         <file alias="soap.png">images/soap.png</file>
-        
+
         <file alias="basket_ring_225.png">images/basket_ring_225.png</file>
         <file alias="basket_ring_315.png">images/basket_ring_315.png</file>
         <file alias="fence_225.png">images/fence_225.png</file>
@@ -64,6 +102,8 @@
         <file>items.json</file>
 
         <file alias = "item_bar_styles">../Styles/item_bar_styles.qss</file>
+        <file alias = "status_bar_styles">../Styles/status_bar_styles.qss</file>
+        <file alias = "view_styles">../Styles/view_styles.qss</file>
         <file alias = "conversation_window_styles">../Styles/conversation_window_styles.qss</file>
     </qresource>
 </RCC>

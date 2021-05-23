@@ -13,7 +13,8 @@ class Item {
   enum class Type {
     kApple,
     kBrick,
-    kSoap
+    kSoap,
+    kRoba
   };
 
   Item(Type type, const QString& name, const std::weak_ptr<QPixmap>& image);
@@ -21,6 +22,8 @@ class Item {
   const std::weak_ptr<QPixmap>& GetImage() const;
   QString GetName() const;
   Type GetType() const;
+
+  bool IsUsable();
 
  private:
   QString name_;

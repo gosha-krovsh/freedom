@@ -21,21 +21,22 @@ BarPack::BarPack(AbstractController* controller,
                             controller,
                             this,
                             object_storage)),
-    clothing_bar_(new ItemBar(1,
+    clothing_bar_(new ItemBar(2,
                               1,
                               controller,
                               this,
                               hero_clothing_storage,
-                              model->GetImage("brick").lock())),
-    gun_bar_(new ItemBar(1,
-                         1,
-                         controller,
-                         this,
-                         hero_gun_storage)) {
+                              model->GetImage("roba_black").lock())),
+    weapon_bar_(new ItemBar(3,
+                            1,
+                            controller,
+                            this,
+                            hero_gun_storage,
+                            model->GetImage("ak_47_black").lock())) {
   SetUi(center_x, y, width, height);
   hero_bar_->show();
   clothing_bar_->show();
-  gun_bar_->show();
+  weapon_bar_->show();
 }
 
 void BarPack::SetUi(int center_x, int y, int width, int height) {
@@ -48,7 +49,7 @@ void BarPack::SetUi(int center_x, int y, int width, int height) {
 
   int real_width = width / (constants::kMaxElementsInItemBar + 2);
   clothing_bar_->SetButtonsSize(real_width * 1.1, height / 2);
-  gun_bar_->SetButtonsSize(real_width * 1.1, height / 2);
+  weapon_bar_->SetButtonsSize(real_width * 1.1, height / 2);
   hero_bar_->SetButtonsSize(real_width * constants::kMaxElementsInItemBar,
                             height / 2);
   object_bar_->SetButtonsSize(real_width * constants::kMaxElementsInItemBar,
@@ -57,7 +58,7 @@ void BarPack::SetUi(int center_x, int y, int width, int height) {
   layout_->addWidget(clothing_bar_, 1, 0,1, 1);
   layout_->addWidget(hero_bar_, 1, 1, 1, 1);
   layout_->addWidget(object_bar_, 0, 1, 1, 1);
-  layout_->addWidget(gun_bar_, 1, 2, 1, 1);
+  layout_->addWidget(weapon_bar_, 1, 2, 1, 1);
 
   layout_->setSpacing(0);
   layout_->setContentsMargins(0,0,0,0);
@@ -75,4 +76,30 @@ ItemBar* BarPack::GetObjectBar() {
 
 void BarPack::SetCenterGeometry(int x, int y, int width, int height) {
   setGeometry(x - width / 2, y, width, height);
+}
+
+ItemBar* BarPack::GetClothingBar() {
+  return clothing_bar_;
+}
+
+ItemBar* BarPack::GetWeaponBar() {
+  return weapon_bar_;
+}
+
+ItemBar* BarPack::GetItemBar(int id) {
+  switch (static_cast<BarType>(id)) {
+    case kHeroBar: {
+      return GetHeroBar();
+    }
+    case kObjectBar: {
+      return GetObjectBar();
+    }
+    case kClothinBar: {
+      return GetClothingBar();
+    }
+    case kWeaponBar: {
+      return GetWeaponBar();
+    }
+  }
+  return nullptr;
 }

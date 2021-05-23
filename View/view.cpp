@@ -8,13 +8,43 @@ View::View(AbstractController* controller,
     item_bar_pack_(new BarPack(controller, model, this,
                                model_->GetHero().GetStorage(),
                                model_->GetHero().GetClothingStorage(),
-                               model_->GetHero().GetGunStorage())) {
+                               model_->GetHero().GetGunStorage())),
+    status_bar_(new StatusBar(model,
+                              {StatusBar::Type::kHealth,
+                               StatusBar::Type::kAttack},
+                              this, constants::kStatusBarDefaultCenteredX,
+                              0,
+                              constants::kStatusBarDefaultWidth,
+                              constants::kStatusBarDefaultHeight)){
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
+  SetUi();
+  SetStyles();
+
   show();
 
   connect(timer_, &QTimer::timeout, this, &View::TimerEvent);
   StartTickTimer();
   item_bar_pack_->show();
+}
+
+void View::SetUi() {
+  // health_bar_->setObjectName("health_bar");
+  // health_bar_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  // health_bar_->setText("❤");
+  // health_bar_->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
+  // health_bar_->setGeometry(2 * constants::kWindowWidth / 85,
+  //                          2 * constants::kWindowHeight / 50,
+  //                          8 * constants::kWindowWidth / 85,
+  //                          2 * constants::kWindowHeight / 50);
+}
+
+void View::SetStyles() {
+  QFile styleFile(":view_styles");
+  styleFile.open(QFile::ReadOnly);
+  QString style(styleFile.readAll());
+
+  setStyleSheet(style);
+  styleFile.close();
 }
 
 void View::StartTickTimer() {
@@ -235,15 +265,30 @@ void View::CloseConversationWindow() {
   StartTickTimer();
 }
 
-std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id) {
+std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id, int index) {
   switch (id) {
     case 0: {
       return std::make_pair(item_bar_pack_->GetHeroBar(),
                             item_bar_pack_->GetObjectBar());
     }
     case 1: {
+      std::shared_ptr<Storage> storage =
+          item_bar_pack_->GetItemBar(id)->GetStorage();
+      if (storage->IsValidIndex(index) &&
+          storage->GetItems().at(index).GetType() == Item::Type::kRoba) {
+        controller_->OnItemPress(
+            static_cast<int>(BarPack::BarType::kClothinBar), 0);
+
+        return std::make_pair(item_bar_pack_->GetObjectBar(),
+                              item_bar_pack_->GetClothingBar());
+      }
+
       return std::make_pair(item_bar_pack_->GetObjectBar(),
                             item_bar_pack_->GetHeroBar());
+    }
+    case 2: {
+      return std::make_pair(item_bar_pack_->GetClothingBar(),
+                            item_bar_pack_->GetObjectBar());
     }
     default: {
       return std::make_pair(nullptr, nullptr);
@@ -269,10 +314,28 @@ void View::ItemDialogEvent() {
     is_item_dialog_open_ = false;
     item_bar_pack_->GetObjectBar()->hide();
   }
+
   item_bar_pack_->GetHeroBar()->setEnabled(is_item_dialog_open_);
   item_bar_pack_->GetObjectBar()->setEnabled(is_item_dialog_open_);
+  item_bar_pack_->GetClothingBar()->setEnabled(is_item_dialog_open_);
+  item_bar_pack_->GetWeaponBar()->setEnabled(is_item_dialog_open_);
 }
 
 void View::AssignHeroStorage() {
   item_bar_pack_->GetHeroBar()->AssignStorage(model_->GetHero().GetStorage());
+  item_bar_pack_->GetClothingBar()->AssignStorage(model_->GetHero().GetClothingStorage());
+  item_bar_pack_->GetWeaponBar()->AssignStorage(model_->GetHero().GetGunStorage());
+}
+
+void View::SetHealth(int health) {
+  // health_bar_->setText(QString::number(health) + "❤");
+  status_bar_->SetPrameter(StatusBar::Type::kHealth, QString::number(health));
+}
+
+void View::SetAttack(int health) {
+  status_bar_->SetPrameter(StatusBar::Type::kAttack, QString::number(health));
+}
+
+BarPack* View::GetBarPack() {
+  return item_bar_pack_;
 }

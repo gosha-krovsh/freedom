@@ -47,6 +47,9 @@ void Controller::Tick() {
     view_->ItemDialogEvent();
   }
 
+  view_->SetHealth(model_->GetHero().GetHP());
+  view_->SetAttack(model_->GetHero().GetAttack());
+
   ++current_tick_;
 }
 
@@ -238,7 +241,8 @@ void Controller::UpdateHeroMovingDirection() {
 }
 
 void Controller::OnItemPress(int bar_id, int index) {
-  std::pair<ItemBar*, ItemBar*> source_dest = view_->GetSrcDestBars(bar_id);
+  std::pair<ItemBar*, ItemBar*> source_dest = view_->GetSrcDestBars(bar_id,
+                                                                    index);
   if (source_dest.first != nullptr && source_dest.second != nullptr) {
     MoveItem(index, source_dest.first->GetStorage(),
              source_dest.second->GetStorage());

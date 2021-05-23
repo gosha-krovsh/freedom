@@ -18,3 +18,14 @@ Item::Type Item::GetType() const {
 const std::weak_ptr<QPixmap>& Item::GetImage() const {
   return image_;
 }
+
+bool Item::IsUsable() {
+  switch (type_) {
+    case Type::kApple: {
+      return true;
+    }
+    default: {
+      return false;
+    }
+  }
+}

@@ -11,6 +11,13 @@ class BarPack : public QWidget {
   Q_OBJECT
 
  public:
+  enum BarType {
+    kHeroBar,
+    kObjectBar,
+    kClothinBar,
+    kWeaponBar
+  };
+
   BarPack(AbstractController* controller,
           const std::shared_ptr<Model>& model,
           QWidget* parent = nullptr,
@@ -25,6 +32,10 @@ class BarPack : public QWidget {
 
   ItemBar* GetHeroBar();
   ItemBar* GetObjectBar();
+  ItemBar* GetClothingBar();
+  ItemBar* GetWeaponBar();
+
+  ItemBar* GetItemBar(int id);
 
   void SetCenterGeometry(int x, int y, int width, int height);
 
@@ -34,7 +45,7 @@ class BarPack : public QWidget {
   std::shared_ptr<Model> model_;
 
   ItemBar* clothing_bar_;
-  ItemBar* gun_bar_;
+  ItemBar* weapon_bar_;
   ItemBar* hero_bar_;
   ItemBar* object_bar_;
   QGridLayout* layout_;

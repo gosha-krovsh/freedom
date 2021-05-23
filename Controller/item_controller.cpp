@@ -16,8 +16,11 @@ void ItemController::UseItem(const Item& item) {
       qDebug() << "Added 100 hp";
       break;
     }
-    default: {
+    case Item::Type::kSoap : {
       model_->GetHero().SetSpeedVector(Point(1, 1));
+      break;
+    }
+    default: {
       break;
     }
   }

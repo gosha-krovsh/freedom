@@ -11,6 +11,7 @@
 #include <utility>
 
 #include "View/bar_pack.h"
+#include "View/status_bar.h"
 #include "conversation_window.h"
 #include "Controller/abstract_controller.h"
 #include "Model/model.h"
@@ -24,7 +25,7 @@ class View : public QMainWindow {
   void CloseConversationWindow();
   // Makes a pair of 2 bars, where first argument is a source
   // and second is a destination
-  std::pair<ItemBar*, ItemBar*> GetSrcDestBars(int id);
+  std::pair<ItemBar*, ItemBar*> GetSrcDestBars(int id, int index);
   // Opens the second bar, when clicked
   // and there is an object that can store something nearby
   void ItemDialogEvent();
@@ -33,7 +34,15 @@ class View : public QMainWindow {
   // After storage is parsed from json it should be reassigned to hero
   void AssignHeroStorage();
 
+  void SetHealth(int health);
+  void SetAttack(int attack);
+
+  BarPack* GetBarPack();
+
  private:
+  void SetUi();
+  void SetStyles();
+
   void paintEvent(QPaintEvent*) override;
   void resizeEvent(QResizeEvent*) override;
   void keyPressEvent(QKeyEvent*) override;
@@ -50,11 +59,14 @@ class View : public QMainWindow {
 
  private:
   QTimer* timer_{new QTimer(this)};
+  // QLabel* health_bar_{new QLabel("100❤",this)};
+
   AbstractController* controller_;
   std::shared_ptr<Model> model_;
 
   bool is_item_dialog_open_{false};
   BarPack* item_bar_pack_;
+  StatusBar* status_bar_;
 
   std::unique_ptr<ConversationWindow> conversation_window_{nullptr};
 };

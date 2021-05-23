@@ -110,13 +110,15 @@ void ItemBar::ClearIconsFromIndex(int index) {
     }
 
     QIcon icon;
-    icon.addPixmap(*no_item_image_);
+    icon.addPixmap(*no_item_image_, QIcon::Disabled);
     buttons_.at(i)->setIcon(icon);
   }
 }
 
 void ItemBar::UseItem(int index) {
   if (!storage_->IsValidIndex(index)) {
+    return;
+  } else if (!storage_->GetItems().at(index).IsUsable()) {
     return;
   }
 
