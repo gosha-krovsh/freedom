@@ -326,9 +326,11 @@ std::vector<std::shared_ptr<Bot>> DataController::ParseBots() {
 
     auto type = current_bot_params["type"].toString();
     if (type == "Prisoner") {
-      bots.push_back(std::make_shared<Bot>(current_bot_params["name"].toString(), start));
+      bots.push_back(std::make_shared<Bot>(
+          current_bot_params["name"].toString(), start));
     } else if (type == "Police") {
-      bots.push_back(std::make_shared<Police>(current_bot_params["name"].toString(), start));
+      bots.push_back(std::make_shared<Police>(
+          current_bot_params["name"].toString(), start));
     }
   }
 
