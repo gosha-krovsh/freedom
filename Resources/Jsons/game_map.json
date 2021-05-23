@@ -1,15 +1,15 @@
 {
   "rooms": [
-    ["basketball_court", 7, 1, 2, 9],
-    ["street", 16, 0, 0, 16],
-    ["prison_cell_1", 26, 0, 16, 6],
-    ["prison_cell_2", 36, 0, 26, 6],
-    ["prison_cell_3", 46, 0, 36, 6],
-    ["prison_cell_4", 56, 0, 46, 6],
-    ["corridor", 56, 6, 16, 9],
-    ["connector", 21, 9, 16, 25],
-    ["kitchen", 14, 25, 10, 29],
-    ["canteen", 26, 25, 10, 34]
+    ["basketball_court", 0, 7, 1, 2, 9],
+    ["street", 0, 16, 0, 0, 16],
+    ["prison_cell_1", 0, 26, 0, 16, 6],
+    ["prison_cell_2", 1, 36, 0, 26, 6],
+    ["prison_cell_3", 1, 46, 0, 36, 6],
+    ["prison_cell_4", 1, 56, 0, 46, 6],
+    ["corridor", 0, 56, 6, 16, 9],
+    ["connector", 0, 21, 9, 16, 25],
+    ["kitchen", 0, 14, 25, 10, 29],
+    ["canteen", 0, 26, 25, 10, 34]
   ],
   "map_array" : [
     [

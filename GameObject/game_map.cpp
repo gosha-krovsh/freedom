@@ -1,9 +1,11 @@
 #include "game_map.h"
 
 GameMap::Room::Room(const QString& name,
+                    bool danger,
                     int bottom_left_x, int bottom_left_y,
                     int up_right_x, int up_right_y) :
     name(name),
+    danger_zone(danger),
     down_left_x(bottom_left_x), down_left_y(bottom_left_y),
     up_right_x(up_right_x), up_right_y(up_right_y) {
   if (bottom_left_x <= up_right_x) {
@@ -12,6 +14,10 @@ GameMap::Room::Room(const QString& name,
   if (bottom_left_y >= up_right_y) {
     qDebug() << "In constructing room: |down_left_y| <= |up_right_y|";
   }
+}
+
+const GameMap::Room& GameMap::GetCurrentRoom() const {
+  return current_room_;
 }
 
 bool GameMap::Room::IsInside(int x, int y) const {
@@ -196,10 +202,12 @@ void GameMap::UpdateTransparentBlocks() {
   }
 }
 
-Object* GameMap::GetBlock(const Point& coords) {
+Object* GameMap::GetBlock(Point coords) {
+  coords = coords.GetRounded();
   return GetBlock(coords.x, coords.y, coords.z);
 }
 
-const Object* GameMap::GetBlock(const Point& coords) const {
+const Object* GameMap::GetBlock(Point coords) const {
+  coords = coords.GetRounded();
   return GetBlock(coords.x, coords.y, coords.z);
 }

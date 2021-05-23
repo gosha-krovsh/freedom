@@ -8,7 +8,7 @@ void AddClothesSuffix(QString* name, const char* suffix) {
 }
 
 }  // namespace
-#include <iostream>
+
 Creature::Creature(const Point& coords, const QString& name, int hp) :
     DynamicObject(coords),
     Destroyable(hp),
@@ -57,6 +57,7 @@ void Creature::Tick(int current_tick) {
 
   // Temp code.
   // TODO: In the future, there will be separate cell in inventory for clothes.
+  clothes_name_ = "";
   for (const auto& item : storage_->GetItems()) {
     if (item.GetType() == Item::Type::kPrisonerRoba) {
       clothes_name_ = "roba";
@@ -82,6 +83,9 @@ void Creature::SetSpeedVector(const Point& speed_vector) {
   }
 }
 
+const std::string& Creature::GetClothesName() const {
+  return clothes_name_;
+}
 Creature::State Creature::GetState() const {
   return State(action_, view_direction_, clothes_name_);
 }
