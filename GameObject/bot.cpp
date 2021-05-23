@@ -8,6 +8,17 @@ Bot::Bot(const QString& name, const Point& coords) :
 void Bot::Tick(int current_tick) {
   Creature::Tick(current_tick);
   MakeStep();
+
+  clothes_name_ = "";
+  for (const auto& item : storage_->GetItems()) {
+    if (item.GetType() == Item::Type::kPrisonerRoba) {
+      clothes_name_ = constants::kPrisonerClothesName;
+      break;
+    } else if (item.GetType() == Item::Type::kPoliceRoba) {
+      clothes_name_ = constants::kPoliceClothesName;
+      break;
+    }
+  }
 }
 
 void Bot::MakeStep() {

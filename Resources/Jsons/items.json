@@ -2,13 +2,15 @@
   "dictionary" : {
     "Apple" : 0,
     "Brick" : 1,
-    "Soap" : 2
+    "Soap" : 2,
+    "Roba" : 3,
+    "Police" : 4
   },
   "map-items" : [
     [[3, 4, 1], ["Apple", "Apple", "Soap"]]
   ],
   "creature-items" : [
-    ["hero", ["Apple", "Brick", "roba"]],
+    ["hero", ["Apple", "Brick", "Roba"]],
     ["Hero", ["Apple", "Brick"]]
   ]
 }

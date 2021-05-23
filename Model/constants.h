@@ -18,7 +18,12 @@ namespace constants {
   const int kAttackCooldown = 40;
   const double kAttackRadius = 0.65;
   const double kStartConversationRadius = 1.75;
-  const std::array<const char*, 2> kClothes{"", "roba"};
+  const std::string kPoliceClothesName{"police"};
+  const std::string kPrisonerClothesName{"roba"};
+  const std::string kEmptyClothesName{""};
+  const std::array<const char*, 3> kClothes{kEmptyClothesName.c_str(),
+                                            kPrisonerClothesName.c_str(),
+                                            kPoliceClothesName.c_str()};
   const double kDoorOpenOffset = -0.4;
   const int kSpawnX = 3;
   const int kSpawnY = 3;
