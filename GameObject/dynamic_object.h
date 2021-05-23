@@ -1,8 +1,6 @@
 #ifndef GAMEOBJECT_DYNAMIC_OBJECT_H_
 #define GAMEOBJECT_DYNAMIC_OBJECT_H_
 
-#include <QDebug>
-
 #include <cmath>
 #include <utility>
 
@@ -27,19 +25,17 @@ class DynamicObject : public Object {
   void Tick(int current_tick) override;
 
   ViewDirection GetViewDirection() const;
-
   virtual void SetSpeedVector(const Point& speed_vector);
 
  protected:
   void UpdateViewDirection();
 
- private:
-  void Move();
-
- protected:
-  double speed_value_{Settings::GetSpeed()};
   Point speed_vector_{0, 0};
   ViewDirection view_direction_{ViewDirection::kDown};
+
+ private:
+  double GetSpeedValue() const;
+  void Move();
 };
 
 #endif  // GAMEOBJECT_DYNAMIC_OBJECT_H_

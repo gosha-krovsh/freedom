@@ -5,5 +5,5 @@ int Settings::kBlockSize = constants::kInitBlockSize;
 int Settings::kFPS = constants::kInitFPS;
 
 double Settings::GetSpeed() {
-  return constants::kInitSpeed * kFPS / constants::kInitFPS;
+  return constants::kInitSpeed * constants::kInitFPS / kFPS;
 }
