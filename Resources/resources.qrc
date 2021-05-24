@@ -134,6 +134,8 @@
         <file alias="door_225.png">Images/door_225.png</file>
         <file alias="door_315.png">Images/door_315.png</file>
 
+        <file alias="main_menu_background.png">Images/main_menu_background.png</file>
+
         <file alias="schedule.json">Jsons/schedule.json</file>
         <file alias="game_map.json">Jsons/game_map.json</file>
         <file alias="conversations.json">Jsons/conversations.json</file>
@@ -141,9 +143,11 @@
         <file alias="quests.json">Jsons/quests.json</file>
         <file alias="bots.json">Jsons/bots.json</file>
 
-        <file alias="idle.mp3">Sounds/idle.mp3</file>
+        <file alias="background.mp3">Sounds/background.mp3</file>
         <file alias="wall_attack.mp3">Sounds/wall_attack.mp3</file>
         <file alias="item_bar_styles">Styles/item_bar_styles.qss</file>
         <file alias="conversation_window_styles">Styles/conversation_window_styles.qss</file>
+        <file alias="main_menu_styles">Styles/main_menu_styles.qss</file>
+        <file alias="settings_menu_styles">Styles/settings_menu_styles.qss</file>
     </qresource>
 </RCC>

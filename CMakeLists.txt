@@ -20,12 +20,15 @@ add_executable(${PROJECT_NAME}
 
         Model/model.cpp
         Model/image_manager.cpp
+        Model/settings.cpp
 
         View/bar_pack.cpp
         View/item_bar.cpp
         View/game_widget.cpp
         View/view.cpp
         View/conversation_window.cpp
+        View/main_menu.cpp
+        View/settings_menu.cpp
 
         Controller/action_controller.cpp
         Controller/controller.cpp

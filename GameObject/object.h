@@ -6,6 +6,7 @@
 #include <memory>
 
 #include "Model/constants.h"
+#include "Model/settings.h"
 #include "point.h"
 #include "interacting_object.h"
 #include "storage.h"

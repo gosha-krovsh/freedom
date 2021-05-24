@@ -9,6 +9,7 @@
 #include <map>
 
 #include "Model/constants.h"
+#include "Model/settings.h"
 
 template<class State>
 class Animator {
@@ -20,6 +21,7 @@ class Animator {
   std::shared_ptr<QPixmap> GetImageByState(const State& state);
 
  private:
+  void CheckCorrectIndex();
   int GetIndexOfCurrentFrame() const;
 
  private:
@@ -29,11 +31,15 @@ class Animator {
 };
 
 template<class State>
-void Animator<State>::Tick() {
-  ++counter_;
+void Animator<State>::CheckCorrectIndex() {
   if (GetIndexOfCurrentFrame() >= images_[state_].size()) {
     counter_ = 0;
   }
+}
+template<class State>
+void Animator<State>::Tick() {
+  ++counter_;
+  CheckCorrectIndex();
 }
 
 template<class State>
@@ -51,12 +57,13 @@ std::shared_ptr<QPixmap> Animator<State>::GetImageByState(const State& state) {
     state_ = state;
     counter_ = 0;
   }
+  CheckCorrectIndex();
   return images_.at(state_).at(GetIndexOfCurrentFrame());
 }
 
 template<class State>
 int Animator<State>::GetIndexOfCurrentFrame() const {
-  return counter_ / constants::kDurationOfOneAnimationFrame;
+  return counter_ / Settings::GetDurationOfOneAnimationFrame();
 }
 
 #endif  // GAMEOBJECT_ANIMATOR_H_

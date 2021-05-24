@@ -37,6 +37,9 @@ class AbstractController {
       const std::function<bool(Object*)>& predicate) = 0;
   virtual std::shared_ptr<Storage> GetInteractableStorage() = 0;
 
+  virtual void CloseMainMenu() = 0;
+  virtual void UpdateVolume() = 0;
+
  private:
   virtual void MoveItem(int index,
                         const std::shared_ptr<Storage>& source,
