@@ -59,3 +59,24 @@ const std::vector<Point>& Bot::GetTargets() {
 void Bot::SetTargets(const std::vector<Point>& targets) {
   targets_ = targets;
 }
+
+double Bot::GetX() const {
+  return Object::GetX();
+}
+
+double Bot::GetY() const {
+  return Object::GetY();
+}
+
+int Bot::GetRoundedX() const {
+  return Object::GetRoundedX();
+}
+
+int Bot::GetRoundedY() const {
+  return Object::GetRoundedY();
+}
+
+int Bot::GetAttack() const {
+  return Creature::GetAttack();
+}
+

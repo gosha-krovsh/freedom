@@ -54,6 +54,9 @@ class Object {
 
   virtual void Tick(int current_time);
 
+  virtual int GetPolicy();
+  virtual void SetPolicy(int policy);
+
   virtual Point GetDrawOffset() const;
   Point GetCoordinates() const;
   double GetX() const;

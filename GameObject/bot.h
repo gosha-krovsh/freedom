@@ -11,7 +11,7 @@
 #include "object.h"
 #include "point.h"
 
-class Bot : public Creature {
+class Bot : public Creature, public InteractingObject{
  public:
   Bot(const QString& name, const Point& coords);
 
@@ -22,6 +22,12 @@ class Bot : public Creature {
   Point GetFinish() const;
   void SetFinish(const Point& new_finish);
   void Rebuild();
+
+  double GetX() const override;
+  double GetY() const override;
+  int GetRoundedX() const override;
+  int GetRoundedY() const override;
+  int GetAttack() const override;
 
   const std::vector<Point>& GetTargets();
   void SetTargets(const std::vector<Point>& targets);

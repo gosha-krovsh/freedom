@@ -29,6 +29,7 @@ void Controller::Tick() {
 
   for (auto& bot : model_->GetBots()) {
     bot.Tick(current_tick_);
+    TryToOpenDoor(bot);
   }
   model_->GetMap().UpdateCurrentRoom(model_->GetHero().GetRoundedX(),
                                      model_->GetHero().GetRoundedY());
@@ -41,7 +42,7 @@ void Controller::Tick() {
 
 
   // temp code
-  Point canteen = {3, 13, 1};
+  Point canteen = {32, 4, 1};
   if (model_->GetTime().GetMinutes() == 34) {
     MoveAllBotsToPoint(canteen);
   }
@@ -212,8 +213,17 @@ void Controller::BuildPath(Bot* bot, const Point& finish) {
         int new_y = current_point.y + delta_y;
         Point next_point = Point(new_x, new_y, 1);
 
+        auto next_block = model_->GetMap().GetBlock(next_point);
+
+        bool is_openable_door_ = false;
+        if (next_block != nullptr &&
+           (next_block->IsType(Object::Type::kDoor_315) ||
+           next_block->IsType(Object::Type::kDoor_225))) {
+        is_openable_door_ = (next_block->GetPolicy() == Door::kOpenable);
+        }
+
         if (!used[next_point] &&
-            model_->GetMap().GetBlock(next_point) == nullptr) {
+            (next_block == nullptr || is_openable_door_)) {
           used[next_point] = true;
           prev[next_point] = current_point;
           if (delta_x == 0 || delta_y == 0) {
@@ -372,10 +382,10 @@ void Controller::StartQuest(int id) {
 }
 
 void Controller::InteractWithDoor() {
-  auto door = GetNearestOfTwoObjects(
+  auto door = (GetNearestOfTwoObjects(
       FindNearestObjectWithType(Object::Type::kDoor_225),
-      FindNearestObjectWithType(Object::Type::kDoor_315));
-  if (door) {
+      FindNearestObjectWithType(Object::Type::kDoor_315)));
+  if (door != nullptr && door->GetPolicy() == Door::kOpenable) {
     door->Interact(model_->GetHero());
   }
 }
@@ -396,4 +406,20 @@ void Controller::CloseMainMenu() {
 void Controller::UpdateVolume() {
   model_->GetSound().SetVolumeCoefficient(
       static_cast<double>(Settings::kVolume) / constants::kInitVolume);
+}
+void Controller::TryToOpenDoor(const Bot& bot) {
+
+  for(int delta_x = -1; delta_x <= 1; ++delta_x) {
+    for(int delta_y = -1; delta_y <= 1; ++delta_y) {
+      auto block =
+          model_->GetMap().GetBlock(bot.GetX() + delta_x,
+                                    bot.GetY() + delta_y, 1);
+
+      auto door = dynamic_cast<Door*>(block);
+      if (door != nullptr && !door->GetState() &&
+          door->GetPolicy() == Door::kOpenable) {
+        door->Interact(bot);
+      }
+    }
+  }
 }
