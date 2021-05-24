@@ -5,7 +5,7 @@ View::View(AbstractController* controller,
     controller_(controller),
     model_(model),
     timer_(new QTimer(this)),
-    item_bar_pack_(new BarPack(controller, this,
+    item_bar_pack_(new BarPack(controller, game_widget_.get(),
                                model_->GetHero().GetStorage())),
     game_widget_(std::make_unique<GameWidget>(model_)) {}
 
@@ -196,13 +196,9 @@ bool View::IsItemDialogOpen() const {
 }
 
 void View::ItemDialogEvent() {
-  Object* chest = controller_->FindIfNearestObject([](Object* block) {
-    return block->IsStorable();
-  });
-
-  if (!is_item_dialog_open_ && chest) {
+  auto storage = controller_->GetInteractableStorage();
+  if (!is_item_dialog_open_ && storage) {
     is_item_dialog_open_ = true;
-    std::shared_ptr<Storage> storage = chest->GetStorage();
     item_bar_pack_->GetObjectBar()->AssignStorage(storage);
     item_bar_pack_->GetObjectBar()->show();
   } else {

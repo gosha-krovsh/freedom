@@ -38,6 +38,7 @@ add_executable(${PROJECT_NAME}
 
         GameObject/action.cpp
         GameObject/bot.cpp
+        GameObject/police.cpp
         GameObject/creature.cpp
         GameObject/destroyable.cpp
         GameObject/dynamic_object.cpp
