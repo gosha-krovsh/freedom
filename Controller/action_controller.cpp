@@ -55,6 +55,6 @@ void ActionController::StartQuest(int id) {
 
 void ActionController::SetBotConversation(const QString& bot_name,
                                           int conversation_id) {
-  model_->GetBotByName(bot_name).SetCurrentConversation(
+  model_->GetBotByName(bot_name)->SetCurrentConversation(
       model_->GetConversationById(conversation_id));
 }

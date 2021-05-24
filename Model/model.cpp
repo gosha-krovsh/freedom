@@ -11,7 +11,7 @@ void Model::SetSchedule(std::unique_ptr<Schedule>&& schedule) {
 void Model::SetConversations(
     std::vector<std::shared_ptr<Conversation>>&& conversations) {
   conversations_ = std::move(conversations);
-  bots_.at(0).SetCurrentConversation(conversations_[0]);
+  bots_.at(0)->SetCurrentConversation(conversations_[0]);
 }
 
 void Model::SetQuests(std::vector<Quest>&& quests) {
@@ -21,22 +21,24 @@ void Model::SetQuests(std::vector<Quest>&& quests) {
 void Model::SetCreatureStorage(std::map<QString,
                                         std::shared_ptr<Storage>>&& items) {
   for (auto name_storage : items) {
-    if (name_storage.first == "hero") {
+    if (name_storage.first == "Hero") {
       hero_.SetStorage(std::move(name_storage.second));
     } else {
       auto it = std::find_if(bots_.begin(), bots_.end(),
-                             [name_storage] (const Bot& bot) {
-        return bot.GetName() == name_storage.first;
+                             [name_storage] (const std::shared_ptr<Bot>& bot) {
+        return bot->GetName() == name_storage.first;
       });
 
       if (it != bots_.end()) {
-        it->SetStorage(std::move(name_storage.second));
+        (*it)->SetStorage(std::move(name_storage.second));
       }
     }
   }
 }
 
 void Model::CreateFightingPair(Creature* first, Creature* second) {
+  first->StartFighting();
+  second->StartFighting();
   fighting_pairs_.emplace_back(first, second);
 }
 
@@ -64,23 +66,24 @@ Hero& Model::GetHero() {
   return hero_;
 }
 
-std::vector<Bot>& Model::GetBots() {
+std::vector<std::shared_ptr<Bot>>& Model::GetBots() {
   return bots_;
 }
 
-const std::vector<Bot>& Model::GetBots() const {
+const std::vector<std::shared_ptr<Bot>>& Model::GetBots() const {
   return bots_;
 }
 
-Bot& Model::GetBotByName(const QString& name) {
-  return const_cast<Bot&>(const_cast<const Model&>(*this).GetBotByName(name));
+std::shared_ptr<Bot>& Model::GetBotByName(const QString& name) {
+  return const_cast<std::shared_ptr<Bot>&>(
+      const_cast<const Model&>(*this).GetBotByName(name));
 }
 
 // NO: Now only bots with name "Hero" are available
-const Bot& Model::GetBotByName(const QString& name) const {
+const std::shared_ptr<Bot>& Model::GetBotByName(const QString& name) const {
   auto it = std::find_if(bots_.begin(), bots_.end(),
-                         [name](const Bot& bot) {
-                           return (bot.GetName() == name);
+                         [name](const std::shared_ptr<Bot>& bot) {
+                           return (bot->GetName() == name);
                          });
   if (it == bots_.end()) {
     qDebug() << "Invalid bot name";
@@ -162,6 +165,6 @@ const Sound& Model::GetSound() const {
   return sound_;
 }
 
-void Model::SetBots(std::vector<Bot>&& bots) {
+void Model::SetBots(std::vector<std::shared_ptr<Bot>>&& bots) {
   bots_ = std::move(bots);
 }
