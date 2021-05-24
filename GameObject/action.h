@@ -16,7 +16,9 @@ class Action {
     kAddItemToBot,
     kStartQuest,
     kSetBotConversation,
-    kStartFight
+    kStartFight,
+    kLockDoor,
+    kUnlockDoor,
   };
 
   Action(const QString& name, const std::vector<QString>& parameters);

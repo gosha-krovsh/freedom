@@ -33,7 +33,19 @@ void ActionController::Call(const Action& method) {
       break;
     }
     case Action::ActionType::kStartFight: {
-      StartFight(method.GetParameters().at(0), method.GetParameters().at(1));
+      StartFight(method.GetParameters().at(0));
+      break;
+    }
+    case Action::ActionType::kLockDoor: {
+      LockDoor(Point(method.GetParameters().at(0).toInt(),
+                     method.GetParameters().at(1).toInt(),
+                     method.GetParameters().at(2).toInt()));
+      break;
+    }
+    case Action::ActionType::kUnlockDoor: {
+      UnlockDoor(Point(method.GetParameters().at(0).toInt(),
+                       method.GetParameters().at(1).toInt(),
+                       method.GetParameters().at(2).toInt()));
       break;
     }
     case Action::ActionType::kSetBotConversation: {
@@ -91,9 +103,24 @@ void ActionController::StartQuest(int id) {
   controller_->StartQuest(id);
 }
 
-void ActionController::StartFight(QString name1, QString name2) {
-  model_->CreateFightingPair(model_->GetBotByName(name1).get(),
-                             model_->GetBotByName(name2).get());
+void ActionController::StartFight(const QString& name) {
+  model_->CreateFightingPair(&model_->GetHero(),
+                             model_->GetBotByName(name).get());
+}
+
+void ActionController::LockDoor(const Point& coords) {
+  auto door = dynamic_cast<Door*>(model_->GetMap().GetBlock(coords));
+
+  if (door) {
+    door->Lock();
+  }
+}
+void ActionController::UnlockDoor(const Point& coords) {
+  auto door = dynamic_cast<Door*>(model_->GetMap().GetBlock(coords));
+
+  if (door) {
+    door->Unlock();
+  }
 }
 
 void ActionController::SetBotConversation(const QString& bot_name,

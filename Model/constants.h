@@ -15,7 +15,7 @@ namespace constants {
   const int kBlockHP = kHP * 5;
   const int kPoliceHP = kHP * 10;
   const double kPoliceIllegalDetectionRadius = 4.;
-  const double kStepForSearchingWall = 0.5;
+  const double kStepForSearchingWall = 0.25;
   const int kAttack = 25;
   const double kSpeed = 0.05;
   const int kAttackCooldown = 40;
@@ -27,7 +27,10 @@ namespace constants {
   const std::array<const char*, 3> kClothes{kEmptyClothesName,
                                             kPrisonerClothesName,
                                             kPoliceClothesName};
+
   const double kDoorOpenOffset = -0.4;
+  const int kHeroSpawnX = 18;
+  const int kHeroSpawnY = 4;
 
   // To avoid going through the closed door.
   const double kDoorInteractingDistanceCoefficient = 0.9;
@@ -66,7 +69,7 @@ namespace constants {
   const double kWidthConversationWindowMultiplier = 0.5;
   const double kHeightConversationWindowMultiplier = 0.3;
 
-  const int kTicksInMinute = 300;
+  const int kTicksInMinute = 75;
 
   // ItemBar constants
   const int kMaxElementsInItemBar = 7;

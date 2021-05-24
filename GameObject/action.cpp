@@ -24,6 +24,10 @@ Action::ActionType Action::ChooseActionType(const QString& name) {
     return kStartQuest;
   } else if (name == "SetBotConversation") {
     return kSetBotConversation;
+  } else if (name == "LockDoor") {
+    return kLockDoor;
+  } else if (name == "UnlockDoor") {
+    return kUnlockDoor;
   } else if (name == "StartFight") {
     return kStartFight;
   }

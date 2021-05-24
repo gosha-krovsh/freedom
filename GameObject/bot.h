@@ -37,6 +37,7 @@ class Bot : public Creature {
   void MakeStep();
 
   std::vector<Point> targets_;
+  void UpdateClothesName();
   std::vector<Point>::iterator current_point_{targets_.end()};
   Type type_;
 };

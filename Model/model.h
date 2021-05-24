@@ -71,8 +71,8 @@ class Model {
 
   std::unique_ptr<GameMap> map_;
   std::unique_ptr<Schedule> schedule_;
-  Hero hero_{Point(17, 14, 1)};
-  Time time_{Time(8, 30)};
+  Hero hero_{Point(18, 4, 1)};
+  Time time_{Time(8, 29)};
   ImageManager image_manager_;
   Sound sound_;
   std::vector<std::shared_ptr<Bot>> bots_;

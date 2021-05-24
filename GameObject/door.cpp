@@ -22,8 +22,16 @@ void Door::Tick(int current_tick) {
   Object::Tick(current_tick);
 }
 
+void Door::Lock() {
+  is_locked_ = true;
+}
+void Door::Unlock() {
+  is_locked_ = false;
+}
+
 void Door::Interact(const InteractingObject& interacting_object) {
-  if (IsObjectVeryClose(interacting_object.GetX(), interacting_object.GetY())) {
+  if (is_locked_ ||
+      IsObjectVeryClose(interacting_object.GetX(), interacting_object.GetY())) {
     return;
   }
   is_opened_ = !is_opened_;

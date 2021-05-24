@@ -5,6 +5,8 @@
 #include <vector>
 
 #include "GameObject/hero.h"
+#include "GameObject/bot.h"
+#include "GameObject/door.h"
 #include "GameObject/storage.h"
 #include "Conversations/conversation.h"
 
@@ -34,6 +36,7 @@ class AbstractController {
   virtual Object* FindNearestObjectWithType(Object::Type type) = 0;
   virtual Object* FindIfNearestObject(
       const std::function<bool(Object*)>& predicate) = 0;
+  virtual std::shared_ptr<Storage> GetInteractableStorage() = 0;
 
  private:
   virtual void MoveItem(int index,
