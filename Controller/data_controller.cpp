@@ -246,7 +246,6 @@ DataController::ParseConversations() {
         if (j_ans.size() < 2) {
           qDebug() << "Invalid node: conversation_id = " << i
                    << ", node_id = " << j;
-          qDebug() << j_ans.size();
         }
 
         Conversation::Answer answer;
@@ -256,8 +255,6 @@ DataController::ParseConversations() {
           for (int k = 2; k < j_ans.size(); ++k) {
             answer.actions.emplace_back(ParseAction(j_ans[k].toString()));
           }
-          // answer.action = std::make_shared<Action>(
-          //     ParseAction(j_ans[2].toString()));
         }
         node.answers.emplace_back(std::move(answer));
       }
