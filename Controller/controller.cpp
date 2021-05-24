@@ -65,23 +65,6 @@ Object* Controller::FindNearestStorableObject() {
   });
 }
 
-void Controller::ProcessFighting(Creature* attacker, Creature* victim, int* i) {
-  if (attacker->IsAbleToAttack() &&
-      !victim->IsDestroyed() && !attacker->IsDestroyed()) {
-    model_->GetSound().PlayTrack(Sound::kFight, Settings::GetAttackCooldown());
-    victim->DecreaseHP(attacker->GetAttack());
-    attacker->RefreshAttackCooldown();
-
-    if (victim->IsDestroyed()) {
-      attacker->StopFighting();
-      model_->DeleteFightingPairWithIndex(*i);
-      --*i;
-    } else {
-      victim->Shake(victim->GetCoordinates() - attacker->GetCoordinates());
-    }
-  }
-}
-
 void Controller::ProcessPoliceSupervision() {
   auto hero_clothes_name = model_->GetHero().GetClothesName();
 
@@ -101,10 +84,10 @@ void Controller::ProcessPoliceSupervision() {
   auto hero_coords = model_->GetHero().GetCoordinates();
 
   for (const auto& bot : model_->GetBots()) {
-    if (bot->GetBotType() == Bot::Type::kPolice) {
+    if (bot->GetBotType() == Bot::Type::kPolice && !bot->IsDestroyed()) {
       double dist = bot->GetCoordinates().DistanceFrom(hero_coords);
       if (dist < constants::kAttackRadius) {
-        model_->CreateFightingPair(&model_->GetHero(), bot.get());
+        model_->CreateFightingPairIfNotExists(&model_->GetHero(), bot.get());
         bot->SetTargets({});
         continue;
       } else if (dist < constants::kPoliceIllegalDetectionRadius) {
@@ -138,12 +121,22 @@ void Controller::ProcessPoliceSupervision() {
 }
 
 void Controller::ProcessFighting() {
-  for (int i = 0; i < model_->GetNumberOfFightingPairs(); ++i) {
-    auto fighting_pair = model_->GetFightingPairWithIndex(i);
-    auto first = fighting_pair.first;
-    auto second = fighting_pair.second;
-    ProcessFighting(first, second, &i);
-    ProcessFighting(second, first, &i);
+  for (const auto& pair : model_->GetFightingPairs()) {
+    ProcessFighting(pair.first, pair.second);
+    ProcessFighting(pair.second, pair.first);
+  }
+  model_->DeleteFinishedFightingPairs();
+}
+
+void Controller::ProcessFighting(Creature* attacker, Creature* victim) {
+  if (!attacker->IsAbleToAttack() || victim->IsDestroyed()) {
+    return;
+  }
+  model_->GetSound().PlayTrack(Sound::kFight, Settings::GetAttackCooldown());
+  victim->DecreaseHP(attacker->GetAttack());
+  attacker->RefreshAttackCooldown();
+  if (!victim->IsDestroyed()) {
+    victim->Shake(victim->GetCoordinates() - attacker->GetCoordinates());
   }
 }
 
@@ -208,7 +201,7 @@ void Controller::HeroAttack() {
 
   auto nearest_bot = FindNearestAliveBotInRadius(constants::kAttackRadius);
   if (nearest_bot) {
-    model_->CreateFightingPair(&hero, nearest_bot.get());
+    model_->CreateFightingPairIfNotExists(&hero, nearest_bot.get());
     return;
   }
 

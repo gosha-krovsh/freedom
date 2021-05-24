@@ -145,6 +145,7 @@
 
         <file alias="background.mp3">Sounds/background.mp3</file>
         <file alias="wall_attack.mp3">Sounds/wall_attack.mp3</file>
+
         <file alias="item_bar_styles">Styles/item_bar_styles.qss</file>
         <file alias="conversation_window_styles">Styles/conversation_window_styles.qss</file>
         <file alias="main_menu_styles">Styles/main_menu_styles.qss</file>

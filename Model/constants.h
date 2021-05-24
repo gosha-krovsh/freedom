@@ -21,7 +21,7 @@ namespace constants {
   const double kMaxBlockOffset = 0.15;
   const int kHP = 100;
   const int kBlockHP = kHP * 5;
-  const int kPoliceHP = kHP * 10;
+  const int kPoliceHP = kHP * 2;  // Temp, was kHP * 10
   const double kPoliceIllegalDetectionRadius = 4.;
   const double kStepForSearchingWall = 0.5;
   const int kAttack = 25;
