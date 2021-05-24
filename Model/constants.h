@@ -24,9 +24,9 @@ namespace constants {
   const char* const kPoliceClothesName{"police"};
   const char* const kPrisonerClothesName{"roba"};
   const char* const kEmptyClothesName{""};
-  const std::array<const char*, 3> kClothes{kEmptyClothesName.c_str(),
-                                            kPrisonerClothesName.c_str(),
-                                            kPoliceClothesName.c_str()};
+  const std::array<const char*, 3> kClothes{kEmptyClothesName,
+                                            kPrisonerClothesName,
+                                            kPoliceClothesName};
   const double kDoorOpenOffset = -0.4;
 
   // To avoid going through the closed door.
