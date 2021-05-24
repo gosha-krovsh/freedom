@@ -20,6 +20,7 @@ add_executable(${PROJECT_NAME}
 
         Model/model.cpp
         Model/image_manager.cpp
+        Model/settings.cpp
 
         View/bar_pack.cpp
         View/item_bar.cpp
@@ -57,7 +58,7 @@ add_executable(${PROJECT_NAME}
         Quests/quest.cpp
         Quests/quest_node.cpp
 
-        Conversations/conversation.cpp Model/settings.cpp Model/settings.h)
+        Conversations/conversation.cpp)
 
 if (NOT CMAKE_PREFIX_PATH)
     message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "
