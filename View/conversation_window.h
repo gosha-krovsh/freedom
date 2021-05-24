@@ -36,8 +36,7 @@ class ConversationWindow : public QWidget {
   QLabel* CreateConversationLabel(const QString& text);
   QPushButton* CreateAnswerButton(int answer_index, const QString& answer_text);
   QPushButton* CreateFinishConversationButton();
-  void AnswerButtonPress(int answer_index,
-                         const std::shared_ptr<Action>& action);
+  void AnswerButtonPress(int answer_index, const std::vector<Action>& action);
   void UpdateCurrentAnswerButtons();
   void ConnectCurrentAnswerButtonsPresses();
 

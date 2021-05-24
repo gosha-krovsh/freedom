@@ -77,13 +77,13 @@ void ConversationWindow::ConnectCurrentAnswerButtonsPresses() {
   for (int i = 0; i < current_ans_buttons_.size(); ++i) {
     connect(current_ans_buttons_[i], &QPushButton::pressed,
             this, [this, i] {
-              AnswerButtonPress(i, current_node_.answers[i].action);
+              AnswerButtonPress(i, current_node_.answers[i].actions);
             });
   }
 }
 
-void ConversationWindow::AnswerButtonPress(
-    int answer_index, const std::shared_ptr<Action>& action) {
+void ConversationWindow::AnswerButtonPress(int answer_index,
+                                           const std::vector<Action>& actions) {
   // Disable all buttons
   for (const auto& button : current_ans_buttons_) {
     button->setDisabled(true);
@@ -96,9 +96,7 @@ void ConversationWindow::AnswerButtonPress(
   current_ans_buttons_[answer_index]->style()->
       polish(current_ans_buttons_[answer_index]);
 
-  if (action) {
-    controller_->ExecuteAction(*action);
-  }
+  controller_->ExecuteActions(actions);
   AddNextNode(answer_index);
 }
 
@@ -145,7 +143,7 @@ void ConversationWindow::keyPressEvent(QKeyEvent* event) {
     case Qt::Key_9: {
       int index = event->key() - Qt::Key_1;
       if (index < current_ans_buttons_.size()) {
-        AnswerButtonPress(index, current_node_.answers[index].action);
+        AnswerButtonPress(index, current_node_.answers[index].actions);
       }
       break;
     }

@@ -16,7 +16,9 @@ class Conversation {
 
     QString text;
     int next_node_id;
-    std::shared_ptr<Action> action{nullptr};
+    std::vector<Action> actions;
+    // std::vector<std::shared_ptr<Action>> actions;
+    // std::shared_ptr<Action> action{nullptr};
   };
 
   struct Node {
@@ -34,6 +36,8 @@ class Conversation {
   void MoveToNextNode(int answer_index);
 
  private:
+  void SetNodes(const std::vector<Node>& nodes);
+
   int id_;
   std::vector<Node> nodes_;
   int current_node_index_{0};

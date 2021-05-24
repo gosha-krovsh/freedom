@@ -229,10 +229,11 @@ DataController::ParseConversations() {
     std::vector<Conversation::Node> nodes;
     nodes.reserve(j_nodes.size());
 
-    for (const auto& j_node_obj : j_nodes) {
-      QJsonArray j_node = j_node_obj.toArray();
+    for (int j = 0; j < j_nodes.size(); ++j) {
+      QJsonArray j_node = j_nodes[j].toArray();
       if (j_node.size() != 3) {
-        qDebug() << "Invalid node: conversation_id = " << i;
+        qDebug() << "Invalid node: conversation_id = " << i
+                 << ", node_id = " << j;
       }
 
       Conversation::Node node;
@@ -242,16 +243,21 @@ DataController::ParseConversations() {
       QJsonArray j_answers = j_node[2].toArray();
       for (const auto& j_ans_obj : j_answers) {
         QJsonArray j_ans = j_ans_obj.toArray();
-        if (j_ans.size() != 2 && j_ans.size() != 3) {
-          qDebug() << "Invalid node: conversation_id = " << i;
+        if (j_ans.size() < 2) {
+          qDebug() << "Invalid node: conversation_id = " << i
+                   << ", node_id = " << j;
+          qDebug() << j_ans.size();
         }
 
         Conversation::Answer answer;
         answer.text = j_ans[0].toString();
         answer.next_node_id = j_ans[1].toInt();
-        if (j_ans.size() == 3) {
-          answer.action = std::make_shared<Action>(
-              ParseAction(j_ans[2].toString()));
+        if (j_ans.size() > 2) {
+          for (int k = 2; k < j_ans.size(); ++k) {
+            answer.actions.emplace_back(ParseAction(j_ans[k].toString()));
+          }
+          // answer.action = std::make_shared<Action>(
+          //     ParseAction(j_ans[2].toString()));
         }
         node.answers.emplace_back(std::move(answer));
       }
