@@ -39,36 +39,29 @@ void Controller::Tick() {
     actions_controller_->Tick(current_tick_);
   }
 
-
-  // temp code
-  Point canteen = {3, 13, 1};
-  if (model_->GetTime().GetMinutes() == 34) {
-    MoveAllBotsToPoint(canteen);
-  }
-
   CheckHeroCollision();
   ProcessFighting();
 
-  if (model_->GetHero().IsDestroyed()) {
-    model_->GetHero().SetCoordinates({constants::kSpawnX,
-                                      constants::kSpawnY,
-                                      1});
-    model_->GetHero().Respawn();
-    model_->GetHero().StopFighting();
-  }
-
   model_->GetMap().Tick(current_tick_);
 
-  auto nearest_storage = FindIfNearestObject([](Object* block) {
-    return block->IsStorable();
-  });
-  auto nearest_destroyed_bot = FindNearestBotInRadius(1.0, true);
-  if (view_->IsItemDialogOpen() && nearest_storage == nullptr &&
-                                   nearest_destroyed_bot == nullptr) {
+  // In order to close inventory, if hero has left without closing it.
+  if (view_->IsItemDialogOpen() && (GetInteractableStorage() == nullptr)) {
     view_->ItemDialogEvent();
   }
 
   ++current_tick_;
+}
+
+std::shared_ptr<Storage> Controller::GetInteractableStorage() {
+  auto obj = GetNearestOfTwoObjects(FindNearestStorableObject(),
+                                    FindNearestDestroyedBot());
+  return obj ? obj->GetStorage() : nullptr;
+}
+
+Object* Controller::FindNearestStorableObject() {
+  return FindIfNearestObject([](Object* block) {
+    return block->IsStorable();
+  });
 }
 
 void Controller::ProcessFighting(Creature* attacker, Creature* victim, int* i) {
@@ -157,7 +150,7 @@ void Controller::HeroAttack() {
     return;
   }
 
-  auto nearest_bot = FindNearestBotInRadius(constants::kAttackRadius);
+  auto nearest_bot = FindNearestAliveBotInRadius(constants::kAttackRadius);
   if (nearest_bot) {
     model_->CreateFightingPair(&hero, nearest_bot);
     hero.StartFighting();
@@ -174,12 +167,12 @@ void Controller::HeroAttack() {
   }
 }
 
-Bot* Controller::FindNearestBotInRadius(double radius,
-                                        bool including_destroyed) {
+Bot* Controller::FindIfNearestBotInRadius(
+    double radius, const std::function<bool(Bot*)>& predicate) {
   Hero& hero = model_->GetHero();
   Point hero_coords = hero.GetCoordinates() +
-                      constants::kCoefficientForShiftingCircleAttack * radius *
-                      hero.GetViewVector();
+      constants::kCoefficientForShiftingCircleAttack * radius *
+          hero.GetViewVector();
   double squared_radius = radius * radius;
 
   Bot* nearest_bot = nullptr;
@@ -187,14 +180,19 @@ Bot* Controller::FindNearestBotInRadius(double radius,
   for (auto& bot : model_->GetBots()) {
     double new_squared_distance =
         hero_coords.SquaredDistanceFrom(bot.GetCoordinates());
-    if ((including_destroyed || !bot.IsDestroyed()) &&
-        new_squared_distance < squared_distance) {
+    if (new_squared_distance < squared_distance && predicate(&bot)) {
       squared_distance = new_squared_distance;
       nearest_bot = &bot;
     }
   }
-
   return nearest_bot;
+}
+
+Bot* Controller::FindNearestDestroyedBot() {
+  return FindIfNearestBotInRadius(1 + constants::kDistanceToDetectBlock,
+                                  [](Bot* bot) {
+    return bot->IsDestroyed();
+  });
 }
 
 Object* Controller::FindNearestObjectWithType(Object::Type type) {
@@ -339,7 +337,7 @@ void Controller::MoveItem(int index,
 }
 
 std::shared_ptr<Conversation> Controller::StartConversation() {
-  auto bot = FindNearestBotInRadius(constants::kStartConversationRadius);
+  auto bot = FindNearestAliveBotInRadius(constants::kStartConversationRadius);
   if (!bot) {
     return nullptr;
   }
@@ -399,4 +397,10 @@ Object* Controller::GetNearestOfTwoObjects(Object* obj1, Object* obj2) const {
             hero_coords.DistanceFrom(obj2->GetCoordinates())) ? obj1 : obj2;
   }
   return obj1 ? obj1 : obj2;
+}
+
+Bot* Controller::FindNearestAliveBotInRadius(double radius) {
+  return FindIfNearestBotInRadius(radius, [](Bot* bot) {
+    return (!bot->IsDestroyed());
+  });
 }

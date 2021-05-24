@@ -14,7 +14,7 @@ namespace constants {
   const int kHP = 100;
   const int kBlockHP = kHP * 5;
   const int kAttack = 25;
-  const double kSpeed = 0.05;
+  const double kSpeed = 0.2;
   const int kAttackCooldown = 40;
   const double kAttackRadius = 0.65;
   const double kStartConversationRadius = 1.75;
@@ -25,8 +25,8 @@ namespace constants {
                                             kPrisonerClothesName.c_str(),
                                             kPoliceClothesName.c_str()};
   const double kDoorOpenOffset = -0.4;
-  const int kSpawnX = 3;
-  const int kSpawnY = 3;
+  const int kHeroSpawnX = 4;
+  const int kHeroSpawnY = 4;
 
   // To avoid going through the closed door.
   const double kDoorInteractingDistanceCoefficient = 0.9;

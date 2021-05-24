@@ -10,8 +10,8 @@ class Destroyable {
 
   void IncreaseHP(int hp);
   void DecreaseHP(int hp);
-  void Respawn();
 
+  virtual void Respawn();
   virtual void OnDead() = 0;
 
  private:

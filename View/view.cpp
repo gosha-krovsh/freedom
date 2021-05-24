@@ -180,23 +180,11 @@ std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id) {
 bool View::IsItemDialogOpen() const {
   return is_item_dialog_open_;
 }
-#include <iostream>
+
 void View::ItemDialogEvent() {
-  Object* chest = controller_->FindIfNearestObject([](Object* block) {
-    return block->IsStorable();
-  });
-  auto bot = controller_->FindNearestBotInRadius(1.0, true);
-
-  if (!is_item_dialog_open_ && (chest || (bot && bot->IsDestroyed()))) {
+  auto storage = controller_->GetInteractableStorage();
+  if (!is_item_dialog_open_ && storage) {
     is_item_dialog_open_ = true;
-    std::shared_ptr<Storage> storage;
-
-    if (chest) {
-      storage = chest->GetStorage();
-    } else {
-      storage = bot->GetStorage();
-    }
-
     item_bar_pack_->GetObjectBar()->AssignStorage(storage);
     item_bar_pack_->GetObjectBar()->show();
   } else {
