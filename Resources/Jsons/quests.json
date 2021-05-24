@@ -9,20 +9,7 @@
       ["TakeRoba", "TakeItem(3)"]
     ],
     "OnFinish": [
-      "SetBotConversation(Starec,4)"
-    ]
-  },
-  {
-    "Id": 1,
-    "Name": "TakeYourRoba",
-    "OnStart": [
-      "AddItemToStorage(25,1,1,3)"
-    ],
-    "Nodes": [
-      ["TakeRoba", "TakeItem(3)"]
-    ],
-    "OnFinish": [
-      "SetBotConversation(Starec,4)"
+      "SetBotConversation(Starec,3)"
     ]
   }
 ]

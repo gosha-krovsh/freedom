@@ -1,6 +1,6 @@
  [
    {
-     "name":  "Rob",
+     "name":  "Igor",
      "type": "Prisoner",
      "coords": [4, 4, 1]
    },
@@ -10,7 +10,7 @@
      "coords": [7, 7, 1]
    },
    {
-     "name": "Igor",
+     "name": "Rob",
      "type": "Police",
      "coords": [2, 7, 1]
    }
