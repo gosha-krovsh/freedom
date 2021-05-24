@@ -45,6 +45,8 @@ class Creature : public DynamicObject,
   void StopFighting();
   bool IsDestroyed() const;
   int GetHP() const;
+
+  void Respawn() override;
   void OnDead() override;
   Point GetDrawOffset() const override;
 

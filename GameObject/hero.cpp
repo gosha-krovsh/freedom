@@ -6,6 +6,10 @@ Hero::Hero(const Point& coords)
 
 void Hero::Tick(int current_tick) {
   Creature::Tick(current_tick);
+
+  if (IsDestroyed()) {
+    Respawn();
+  }
 }
 
 Point Hero::GetViewVector() const {
@@ -48,4 +52,10 @@ void Hero::UpdateSpeedVector(const Point& screen_vector) {
 
 void Hero::OnDead() {
   Creature::OnDead();
+}
+
+void Hero::Respawn() {
+  Creature::Respawn();
+  StopFighting();
+  SetCoordinates({constants::kHeroSpawnX, constants::kHeroSpawnY, 1});
 }

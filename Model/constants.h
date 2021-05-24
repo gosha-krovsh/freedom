@@ -27,7 +27,10 @@ namespace constants {
   const std::array<const char*, 3> kClothes{kEmptyClothesName,
                                             kPrisonerClothesName,
                                             kPoliceClothesName};
+
   const double kDoorOpenOffset = -0.4;
+  const int kHeroSpawnX = 4;
+  const int kHeroSpawnY = 4;
 
   // To avoid going through the closed door.
   const double kDoorInteractingDistanceCoefficient = 0.9;

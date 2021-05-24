@@ -22,6 +22,8 @@ class Hero : public Creature, public InteractingObject {
 
   Point GetViewVector() const;
   void UpdateMovement(bool left, bool up, bool right, bool down);
+
+  void Respawn() override;
   void OnDead() override;
 
   double GetX() const override;

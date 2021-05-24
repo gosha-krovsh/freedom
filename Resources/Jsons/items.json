@@ -10,7 +10,7 @@
     [[3, 4, 1], ["Apple", "Apple", "Soap"]]
   ],
   "creature-items" : [
-    ["Hero", ["Apple", "Brick"]],
+    ["Hero", ["Apple", "Brick", "PrisonerRoba", "PoliceUniform"]],
     ["Igor", ["Apple", "Brick", "PoliceUniform"]],
     ["Rob", ["Apple", "Brick", "PrisonerRoba"]]
   ]
