@@ -11,6 +11,10 @@ namespace constants {
   const int kInitBlockSize = 200;
   const int kInitFPS = 60;
   const double kInitSpeed = 0.05;
+  // All durations are measured in ticks
+  const int kInitDurationOfOneAnimationFrame = 14;
+  const int kInitDurationOfShaking = 10;
+  const int kInitAttackCooldown = 40;
 
   const int kNumberOfViewDirections = 8;
   const double kEps = 1e-7;
@@ -18,7 +22,6 @@ namespace constants {
   const int kHP = 100;
   const int kBlockHP = kHP * 5;
   const int kAttack = 25;
-  const int kAttackCooldown = 40;
   const double kAttackRadius = 0.65;
   const double kStartConversationRadius = 1.75;
   const std::array<const char*, 2> kClothes{"", "roba"};
@@ -30,10 +33,6 @@ namespace constants {
   // Shift circle attack of Hero to forward
   // to avoid attacking bots which are behind Hero.
   const double kCoefficientForShiftingCircleAttack = 0.5;
-
-  // All durations are measured in ticks
-  const int kInitDurationOfOneAnimationFrame = 14;
-  const int kDurationOfShaking = 10;
 
   const double kShakeAmplitude = 0.01;
   const double kDistanceToDetectBlock = 2 * kInitSpeed;

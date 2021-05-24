@@ -9,6 +9,11 @@ struct Settings {
   static int kFPS;
   static double GetSpeed();
   static int GetDurationOfOneAnimationFrame();
+  static int GetDurationOfShaking();
+  static int GetAttackCooldown();
+
+ private:
+  static double GetFPSCoefficient();
 };
 
 #endif  // MODEL_SETTINGS_H_
