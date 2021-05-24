@@ -32,7 +32,7 @@ namespace constants {
   const double kCoefficientForShiftingCircleAttack = 0.5;
 
   // All durations are measured in ticks
-  const int kDurationOfOneAnimationFrame = 15;
+  const int kInitDurationOfOneAnimationFrame = 14;
   const int kDurationOfShaking = 10;
 
   const double kShakeAmplitude = 0.01;

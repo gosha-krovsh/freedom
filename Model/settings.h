@@ -8,6 +8,7 @@ struct Settings {
   static int kBlockSize;
   static int kFPS;
   static double GetSpeed();
+  static int GetDurationOfOneAnimationFrame();
 };
 
 #endif  // MODEL_SETTINGS_H_
