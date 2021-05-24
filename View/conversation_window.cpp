@@ -67,8 +67,7 @@ void ConversationWindow::AddNextNode(int answer_index) {
 void ConversationWindow::UpdateCurrentAnswerButtons() {
   current_ans_buttons_.clear();
   for (int i = 0; i < current_node_.answers.size(); ++i) {
-    auto button = CreateAnswerButton(i, current_node_.answers[i].
-                                                      GetFormattedText());
+    auto button = CreateAnswerButton(i, current_node_.answers[i].text);
     current_ans_buttons_.emplace_back(button);
   }
 }

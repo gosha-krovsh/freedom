@@ -421,7 +421,7 @@ void Controller::ExecuteActions(const std::vector<Action>& actions) {
 }
 
 void Controller::StartQuest(int id) {
-  quest_controller_->StartQuest(0);
+  quest_controller_->StartQuest(id);
 }
 
 void Controller::InteractWithDoor() {

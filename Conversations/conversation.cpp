@@ -31,7 +31,3 @@ void Conversation::MoveToNextNode(int answer_index) {
 bool Conversation::IsLastNode() const {
   return nodes_[current_node_index_].answers.empty();
 }
-
-QString Conversation::Answer::GetFormattedText() const {
-  return (!actions.empty() ? ("[" + text + "]") : text);
-}
