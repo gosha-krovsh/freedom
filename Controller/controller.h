@@ -72,8 +72,7 @@ class Controller : public AbstractController {
   void ProcessPoliceSupervision();
   void ProcessFighting();
   void ProcessFighting(Creature* attacker, Creature* victim, int* i);
-  std::shared_ptr<Bot> FindNearestBotInRadius(double radius);
-  void BuildPath(const std::shared_ptr<Bot> bot, const Point& finish);
+  void BuildPath(const std::shared_ptr<Bot>& bot, const Point& finish);
 
   std::vector<Point> CollectPath(const Point& finish,
                                  const std::unordered_map<Point, Point,
@@ -82,10 +81,10 @@ class Controller : public AbstractController {
   Object* GetNearestOfTwoObjects(Object* obj1, Object* obj2) const;
   Object* FindNearestStorableObject();
 
-  Bot* FindIfNearestBotInRadius(
-      double radius, const std::function<bool(Bot*)>& predicate);
-  Bot* FindNearestDestroyedBot();
-  Bot* FindNearestAliveBotInRadius(double radius);
+  std::shared_ptr<Bot> FindIfNearestBotInRadius(double radius,
+      const std::function<bool(const std::shared_ptr<Bot>&)>& predicate);
+  std::shared_ptr<Bot> FindNearestDestroyedBot();
+  std::shared_ptr<Bot> FindNearestAliveBotInRadius(double radius);
 
  private:
   std::shared_ptr<Model> model_;

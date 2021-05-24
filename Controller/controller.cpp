@@ -55,7 +55,7 @@ void Controller::Tick() {
 
 std::shared_ptr<Storage> Controller::GetInteractableStorage() {
   auto obj = GetNearestOfTwoObjects(FindNearestStorableObject(),
-                                    FindNearestDestroyedBot());
+                                    FindNearestDestroyedBot().get());
   return obj ? obj->GetStorage() : nullptr;
 }
 
@@ -136,6 +136,7 @@ void Controller::ProcessPoliceSupervision() {
     }
   }
 }
+
 void Controller::ProcessFighting() {
   for (int i = 0; i < model_->GetNumberOfFightingPairs(); ++i) {
     auto fighting_pair = model_->GetFightingPairWithIndex(i);
@@ -207,7 +208,7 @@ void Controller::HeroAttack() {
 
   auto nearest_bot = FindNearestAliveBotInRadius(constants::kAttackRadius);
   if (nearest_bot) {
-    model_->CreateFightingPair(&hero, nearest_bot);
+    model_->CreateFightingPair(&hero, nearest_bot.get());
     return;
   }
 
@@ -220,8 +221,8 @@ void Controller::HeroAttack() {
   }
 }
 
-Bot* Controller::FindIfNearestBotInRadius(
-    double radius, const std::function<bool(Bot*)>& predicate) {
+std::shared_ptr<Bot> Controller::FindIfNearestBotInRadius(double radius,
+      const std::function<bool(const std::shared_ptr<Bot>&)>& predicate) {
   Hero& hero = model_->GetHero();
   Point hero_coords = hero.GetCoordinates() +
       constants::kCoefficientForShiftingCircleAttack * radius *
@@ -233,18 +234,17 @@ Bot* Controller::FindIfNearestBotInRadius(
   for (auto& bot : model_->GetBots()) {
     double new_squared_distance =
         hero_coords.SquaredDistanceFrom(bot->GetCoordinates());
-    if (!bot->IsDestroyed() && new_squared_distance < squared_distance &&
-        predicate(bot.get())) {
+    if (new_squared_distance < squared_distance && predicate(bot)) {
       squared_distance = new_squared_distance;
       nearest_bot = bot;
     }
   }
-  return nearest_bot.get();
+  return nearest_bot;
 }
 
-Bot* Controller::FindNearestDestroyedBot() {
+std::shared_ptr<Bot> Controller::FindNearestDestroyedBot() {
   return FindIfNearestBotInRadius(1 + constants::kDistanceToDetectBlock,
-                                  [](Bot* bot) {
+                                  [](const std::shared_ptr<Bot>& bot) {
     return bot->IsDestroyed();
   });
 }
@@ -255,7 +255,7 @@ Object* Controller::FindNearestObjectWithType(Object::Type type) {
   });
 }
 
-void Controller::BuildPath(const std::shared_ptr<Bot> bot,
+void Controller::BuildPath(const std::shared_ptr<Bot>& bot,
                            const Point& finish) {
   Point start = bot->GetCoordinates();
 
@@ -325,11 +325,8 @@ Object* Controller::FindIfNearestObject(
   for (int x = floored_x - 1; x <= floored_x + 2; ++x) {
     for (int y = floored_y - 1; y <= floored_y + 2; ++y) {
       auto block = map.GetBlock(x, y, hero.GetRoundedZ());
-
       if (block && predicate(block)) {
-        // TODO: change to new functionality
-        double distance_squared = (hero_coords.x - x) * (hero_coords.x - x) +
-                                  (hero_coords.y - y) * (hero_coords.y - y);
+        double distance_squared = hero_coords.SquaredDistanceFrom({x, y, 1});
         if (distance_squared < min_distance_squared + constants::kEps) {
           min_distance_squared = distance_squared;
           nearest_block = block;
@@ -453,8 +450,8 @@ Object* Controller::GetNearestOfTwoObjects(Object* obj1, Object* obj2) const {
   return obj1 ? obj1 : obj2;
 }
 
-Bot* Controller::FindNearestAliveBotInRadius(double radius) {
-  return FindIfNearestBotInRadius(radius, [](Bot* bot) {
+std::shared_ptr<Bot> Controller::FindNearestAliveBotInRadius(double radius) {
+  return FindIfNearestBotInRadius(radius, [](const std::shared_ptr<Bot>& bot) {
     return (!bot->IsDestroyed());
   });
 }
