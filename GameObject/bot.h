@@ -32,6 +32,7 @@ class Bot : public Creature {
   std::vector<Point> targets_;
   int current_index_in_path_{0};
   Point finish_;
+  void UpdateClothesName();
 };
 
 #endif  // GAMEOBJECT_BOT_H_

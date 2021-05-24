@@ -14,16 +14,18 @@ namespace constants {
   const int kHP = 100;
   const int kBlockHP = kHP * 5;
   const int kAttack = 25;
-  const double kSpeed = 0.2;
+  const double kSpeed = 0.05;
   const int kAttackCooldown = 40;
   const double kAttackRadius = 0.65;
   const double kStartConversationRadius = 1.75;
-  const std::string kPoliceClothesName{"police"};
-  const std::string kPrisonerClothesName{"roba"};
-  const std::string kEmptyClothesName{""};
-  const std::array<const char*, 3> kClothes{kEmptyClothesName.c_str(),
-                                            kPrisonerClothesName.c_str(),
-                                            kPoliceClothesName.c_str()};
+
+  const char* const kEmptyClothesName{""};
+  const char* const kPrisonerClothesName{"roba"};
+  const char* const kPoliceClothesName{"police"};
+  const std::array<const char*, 3> kClothes{kEmptyClothesName,
+                                              kPrisonerClothesName,
+                                              kPoliceClothesName};
+
   const double kDoorOpenOffset = -0.4;
   const int kHeroSpawnX = 4;
   const int kHeroSpawnY = 4;
