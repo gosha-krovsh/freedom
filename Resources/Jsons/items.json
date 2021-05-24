@@ -7,7 +7,7 @@
     "PoliceUniform" : 4
   },
   "map-items" : [
-    [[3, 4, 1], ["Apple", "Apple", "Soap"]]
+    [[34, 15, 1], ["Apple", "Apple", "Soap"]]
   ],
   "creature-items" : [
     ["Hero", ["Apple", "Brick", "PrisonerRoba", "PoliceUniform"]],

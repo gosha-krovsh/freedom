@@ -17,7 +17,7 @@ namespace constants {
   const double kPoliceIllegalDetectionRadius = 4.;
   const double kStepForSearchingWall = 0.5;
   const int kAttack = 25;
-  const double kSpeed = 0.2;
+  const double kSpeed = 0.05;
   const int kAttackCooldown = 40;
   const double kAttackRadius = 0.65;
   const double kStartConversationRadius = 1.75;
@@ -29,8 +29,8 @@ namespace constants {
                                             kPoliceClothesName};
 
   const double kDoorOpenOffset = -0.4;
-  const int kHeroSpawnX = 4;
-  const int kHeroSpawnY = 4;
+  const int kHeroSpawnX = 11;
+  const int kHeroSpawnY = 11;
 
   // To avoid going through the closed door.
   const double kDoorInteractingDistanceCoefficient = 0.9;
