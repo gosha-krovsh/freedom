@@ -13,12 +13,20 @@ namespace constants {
   const double kMaxBlockOffset = 0.15;
   const int kHP = 100;
   const int kBlockHP = kHP * 5;
+  const int kPoliceHP = kHP * 10;
+  const double kPoliceIllegalDetectionRadius = 4.;
+  const double kStepForSearchingWall = 0.5;
   const int kAttack = 25;
   const double kSpeed = 0.05;
   const int kAttackCooldown = 40;
   const double kAttackRadius = 0.65;
   const double kStartConversationRadius = 1.75;
-  const std::array<const char*, 2> kClothes{"", "roba"};
+  const char* const kPoliceClothesName{"police"};
+  const char* const kPrisonerClothesName{"roba"};
+  const char* const kEmptyClothesName{""};
+  const std::array<const char*, 3> kClothes{kEmptyClothesName,
+                                            kPrisonerClothesName,
+                                            kPoliceClothesName};
   const double kDoorOpenOffset = -0.4;
 
   // To avoid going through the closed door.
@@ -37,7 +45,7 @@ namespace constants {
 
   // The opacity of the block, when it's considered transparent.
   const double kBlockOpacity = 0.1;
-  const double kBotOpacity = 0.4;
+  const double kBotOpacity = 0.6;
   const double kBotOpacityDistance = 2;
 
   // Needed to make |DynamicObject| movement in Right/Left direction more

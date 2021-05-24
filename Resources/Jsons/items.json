@@ -2,13 +2,16 @@
   "dictionary" : {
     "Apple" : 0,
     "Brick" : 1,
-    "Soap" : 2
+    "Soap" : 2,
+    "PrisonerRoba" : 3,
+    "PoliceUniform" : 4
   },
   "map-items" : [
     [[3, 4, 1], ["Apple", "Apple", "Soap"]]
   ],
   "creature-items" : [
-    ["hero", ["Apple", "Brick", "roba"]],
-    ["Hero", ["Apple", "Brick"]]
+    ["Hero", ["Apple", "Brick"]],
+    ["Igor", ["Apple", "Brick", "PoliceUniform"]],
+    ["Rob", ["Apple", "Brick", "PrisonerRoba"]]
   ]
 }

@@ -40,6 +40,7 @@ class Creature : public DynamicObject,
   bool IsAbleToAttack() const;
   void RefreshAttackCooldown();
   int GetAttack() const;
+  const std::string& GetClothesName() const;
   void StartFighting();
   void StopFighting();
   bool IsDestroyed() const;

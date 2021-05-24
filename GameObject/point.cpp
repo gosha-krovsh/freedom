@@ -41,6 +41,11 @@ void Point::ClampMagnitude(double new_magnitude) {
 void Point::Normalize() {
   ClampMagnitude(1);
 }
+Point Point::Normalized() const {
+  auto copy = *this;
+  copy.Normalize();
+  return copy;
+}
 
 bool Point::IsNull() const {
   return (*this == Point{0, 0, 0});

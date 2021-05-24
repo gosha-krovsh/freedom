@@ -48,7 +48,7 @@ void GameWidget::paintEvent(QPaintEvent*) {
 
         for (const auto& current_bot : bots) {
           double bot_distance_to_camera =
-              current_bot.GetCoordinates().DistanceFrom(camera);
+              current_bot->GetCoordinates().DistanceFrom(camera);
 
           if (hero.GetRoundedX() == x &&
               hero.GetRoundedY() == y &&
@@ -57,19 +57,19 @@ void GameWidget::paintEvent(QPaintEvent*) {
             hero.Draw(&painter);
             hero_drown = true;
           }
-          if (current_bot.GetRoundedX() == x &&
-              current_bot.GetRoundedY() == y &&
-              current_bot.GetRoundedZ() == z) {
+          if (current_bot->GetRoundedX() == x &&
+              current_bot->GetRoundedY() == y &&
+              current_bot->GetRoundedZ() == z) {
             double dist = hero.GetCoordinates().
-                DistanceFrom(current_bot.GetCoordinates());
+                DistanceFrom(current_bot->GetCoordinates());
 
-            if (!current_bot.IsAbleToAttack()) {
+            if (!current_bot->IsAbleToAttack()) {
               painter.setOpacity(1);
             } else {
               painter.setOpacity(std::max(dist / 2,
                                           constants::kBotOpacity));
             }
-            current_bot.Draw(&painter);
+            current_bot->Draw(&painter);
             painter.setOpacity(1);
           }
         }
