@@ -11,17 +11,18 @@ View::View(AbstractController* controller,
 
 void View::Show() {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
+  setWindowState(Qt::WindowFullScreen);
 
   setCentralWidget(game_widget_.get());
-  show();
-
   connect(timer_, &QTimer::timeout, this, &View::TimerEvent);
-  StartTickTimer();
+
+  show();
   item_bar_pack_->show();
+  ShowMainMenu();
 }
 
 void View::StartTickTimer() {
-  timer_->start(1000 / constants::kFPS);
+  timer_->start(1000 / Settings::kFPS);
 }
 
 void View::StopTickTimer() {
@@ -51,7 +52,6 @@ void View::keyPressEvent(QKeyEvent* event) {
             *conversation, controller_, this);
         InterruptAllInput();
         resizeEvent(nullptr);
-
         item_bar_pack_->hide();
       }
       break;
@@ -82,6 +82,11 @@ void View::keyPressEvent(QKeyEvent* event) {
     }
     case Qt::Key_R: {
       controller_->InteractWithDoor();
+      break;
+    }
+    case Qt::Key_Escape: {
+      StopTickTimer();
+      ShowMainMenu();
       break;
     }
       // Following keys are used to use items,
@@ -138,6 +143,9 @@ void View::resizeEvent(QResizeEvent*) {
         constants::kWidthConversationWindowMultiplier * width(),
         constants::kHeightConversationWindowMultiplier * height());
   }
+  if (main_menu_) {
+    main_menu_->setGeometry(0, 0, width(), height());
+  }
   item_bar_pack_->SetCenterGeometry(width() / 2,
                                     height() - 2 * constants::kWindowHeight / 5,
                                     constants::kWindowWidth / 2,
@@ -159,6 +167,12 @@ void View::CloseConversationWindow() {
   conversation_window_ = nullptr;
   item_bar_pack_->show();
   StartTickTimer();
+}
+
+void View::CloseMainMenu() {
+  main_menu_ = nullptr;
+  StartTickTimer();
+  model_->GetSound().ResumeAllTracks();
 }
 
 std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id) {
@@ -197,4 +211,11 @@ void View::ItemDialogEvent() {
 
 void View::AssignHeroStorage() {
   item_bar_pack_->GetHeroBar()->AssignStorage(model_->GetHero().GetStorage());
+}
+
+void View::ShowMainMenu() {
+  main_menu_ = std::make_unique<MainMenu>(controller_, this);
+  InterruptAllInput();
+  resizeEvent(nullptr);
+  model_->GetSound().PauseAllTracks();
 }

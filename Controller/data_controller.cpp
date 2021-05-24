@@ -120,6 +120,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
             break;
           }
           case Object::Type::kChest:
+          case Object::Type::kWardrobe_45:
           case Object::Type::kWardrobe_225:
           case Object::Type::kWardrobe_315: {
             Point point{x, y, z};
@@ -135,6 +136,8 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
             std::weak_ptr<QPixmap> image;
             if (object_type == Object::Type::kChest) {
               image = model_->GetImage("chest");
+            } else if (object_type == Object::Type::kWardrobe_45) {
+              image = model_->GetImage("wardrobe_45");
             } else if (object_type == Object::Type::kWardrobe_225) {
               image = model_->GetImage("wardrobe_225");
             } else if (object_type == Object::Type::kWardrobe_315) {

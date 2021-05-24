@@ -54,6 +54,9 @@ class Controller : public AbstractController {
 
   void MoveAllBotsToPoint(const Point& point);
 
+  void CloseMainMenu() override;
+  void UpdateVolume() override;
+
  private:
   struct ControlKeyStates {
     bool up{false};

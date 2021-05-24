@@ -30,7 +30,8 @@ void Bot::MakeStep() {
     return;
   }
 
-  if (GetCoordinates().DistanceFrom(*current_point_) < constants::kSpeed / 2) {
+  if (GetCoordinates().
+      DistanceFrom(*current_point_) < Settings::GetSpeed() / 2) {
     SetCoordinates(*current_point_);
     ++current_point_;
     NormalizeSpeedVector(*current_point_ - GetCoordinates());

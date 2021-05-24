@@ -114,7 +114,7 @@ bool Creature::IsAbleToAttack() const {
 }
 
 void Creature::RefreshAttackCooldown() {
-  attack_cooldown_ = constants::kAttackCooldown;
+  attack_cooldown_ = Settings::GetAttackCooldown();
 }
 
 int Creature::GetAttack() const {

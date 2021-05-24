@@ -68,7 +68,7 @@ Object* Controller::FindNearestStorableObject() {
 void Controller::ProcessFighting(Creature* attacker, Creature* victim, int* i) {
   if (attacker->IsAbleToAttack() &&
       !victim->IsDestroyed() && !attacker->IsDestroyed()) {
-    model_->GetSound().PlayTrack(Sound::kFight, constants::kAttackCooldown);
+    model_->GetSound().PlayTrack(Sound::kFight, Settings::GetAttackCooldown());
     victim->DecreaseHP(attacker->GetAttack());
     attacker->RefreshAttackCooldown();
 
@@ -215,7 +215,7 @@ void Controller::HeroAttack() {
   auto nearest_wall = FindNearestObjectWithType(Object::Type::kWall);
   if (nearest_wall) {
     model_->GetSound().PlayTrack(Sound::kWallAttack,
-                                 constants::kDurationOfShaking);
+                                 Settings::GetDurationOfShaking());
     nearest_wall->Interact(hero);
     hero.RefreshAttackCooldown();
   }
@@ -454,4 +454,13 @@ std::shared_ptr<Bot> Controller::FindNearestAliveBotInRadius(double radius) {
   return FindIfNearestBotInRadius(radius, [](const std::shared_ptr<Bot>& bot) {
     return (!bot->IsDestroyed());
   });
+}
+
+void Controller::CloseMainMenu() {
+  view_->CloseMainMenu();
+}
+
+void Controller::UpdateVolume() {
+  model_->GetSound().SetVolumeCoefficient(
+      static_cast<double>(Settings::kVolume) / constants::kInitVolume);
 }

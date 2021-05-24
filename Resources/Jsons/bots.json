@@ -1,17 +1,18 @@
+
  [
    {
      "name":  "Igor",
      "type": "Prisoner",
-     "coords": [4, 4, 1]
+     "coords": [36, 21, 1]
    },
    {
      "name": "Starec",
      "type": "Prisoner",
-     "coords": [24, 4, 1]
+     "coords": [41, 14, 1]
    },
    {
      "name": "Rob",
      "type": "Police",
-     "coords": [18, 8, 1]
+     "coords": [28, 18, 1]
    }
- ]
+]

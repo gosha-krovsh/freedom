@@ -10,11 +10,13 @@
 #include <unordered_set>
 #include <utility>
 
-#include "View/game_widget.h"
-#include "View/bar_pack.h"
+#include "game_widget.h"
+#include "bar_pack.h"
 #include "conversation_window.h"
+#include "main_menu.h"
 #include "Controller/abstract_controller.h"
 #include "Model/model.h"
+#include "Model/settings.h"
 #include "GameObject/object.h"
 
 class View : public QMainWindow {
@@ -25,6 +27,7 @@ class View : public QMainWindow {
   void Show();
 
   void CloseConversationWindow();
+  void CloseMainMenu();
   // Makes a pair of 2 bars, where first argument is a source
   // and second is a destination
   std::pair<ItemBar*, ItemBar*> GetSrcDestBars(int id);
@@ -49,6 +52,8 @@ class View : public QMainWindow {
   bool IsInputBlocked() const;
   void InterruptAllInput();
 
+  void ShowMainMenu();
+
  private:
   QTimer* timer_{new QTimer(this)};
   AbstractController* controller_;
@@ -59,6 +64,7 @@ class View : public QMainWindow {
   BarPack* item_bar_pack_;
 
   std::unique_ptr<ConversationWindow> conversation_window_{nullptr};
+  std::unique_ptr<MainMenu> main_menu_{nullptr};
 };
 
 #endif  // VIEW_VIEW_H_
