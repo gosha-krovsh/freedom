@@ -130,6 +130,7 @@ void Creature::DecrementAttackCooldown() {
 void Creature::StartFighting() {
   SetAction(Action::kFight);
 }
+
 void Creature::StopFighting() {
   SetAction(Action::kIdle);
 }
@@ -163,4 +164,8 @@ std::shared_ptr<Conversation> Creature::GetCurrentConversation() const {
 void Creature::SetCurrentConversation(
     const std::shared_ptr<Conversation>& conversation) {
   current_conversation_ = conversation;
+}
+
+void Creature::Respawn() {
+  Destroyable::Respawn();
 }

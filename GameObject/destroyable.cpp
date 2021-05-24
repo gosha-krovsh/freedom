@@ -10,6 +10,10 @@ bool Destroyable::IsDestroyed() const {
   return (hp_ <= 0);
 }
 
+void Destroyable::Respawn() {
+  hp_ = max_hp_;
+}
+
 void Destroyable::IncreaseHP(int hp) {
   if (IsDestroyed()) {
     return;
