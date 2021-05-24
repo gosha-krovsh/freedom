@@ -244,7 +244,8 @@ Object* Controller::FindNearestObjectWithType(Object::Type type) {
   });
 }
 
-void Controller::BuildPath(std::shared_ptr<Bot> bot, const Point& finish) {
+void Controller::BuildPath(const std::shared_ptr<Bot> bot,
+                           const Point& finish) {
   Point start = bot->GetCoordinates();
 
   std::unordered_map<Point, Point, Point::HashFunc> prev;
