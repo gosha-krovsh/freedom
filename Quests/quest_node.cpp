@@ -21,6 +21,10 @@ std::vector<QString> QuestNode::GetParams() const {
 void QuestNode::SetType(const QString& type_str) {
   if (type_str == "MoveToDestination") {
     type_ = Type::kMoveToDestination;
+  } else if (type_str == "TakeItem") {
+    type_ = Type::kTakeItem;
+  } else if (type_str == "Kill") {
+    type_ = Type::kKill;
   } else {
     qDebug() << "Invalid QuestNode type";
   }

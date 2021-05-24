@@ -44,6 +44,10 @@ bool QuestController::CheckCondition(const QuestNode* quest_node) {
                            params[2].toDouble()};
       return CheckMoveToDestination(destination);
     }
+    case QuestNode::Type::kTakeItem: {
+      int item_id = params[0].toInt();
+      return CheckTakeItem(item_id);
+    }
     default: {
       qDebug() << "Unhandled Type";
       return false;
@@ -54,4 +58,12 @@ bool QuestController::CheckCondition(const QuestNode* quest_node) {
 bool QuestController::CheckMoveToDestination(const Point& destination) {
   return (model_->GetHero().GetCoordinates().GetRounded() ==
           destination.GetRounded());
+}
+bool QuestController::CheckTakeItem(int item_id) {
+  for (const auto& item : model_->GetHero().GetStorage()->GetItems()) {
+    if (item.GetType() == static_cast<Item::Type>(item_id)) {
+      return true;
+    }
+  }
+  return false;
 }

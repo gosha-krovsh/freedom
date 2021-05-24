@@ -24,6 +24,7 @@ class QuestController {
   // Returns true, if the condition, needed to accomplish |quest_node|, is met.
   bool CheckCondition(const QuestNode* quest_node);
   bool CheckMoveToDestination(const Point& destination);
+  bool CheckTakeItem(int item_id);
 
  private:
   AbstractController* controller_;

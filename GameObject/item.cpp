@@ -7,6 +7,15 @@ Item::Item(Type type,
     name_(name),
     image_(image) {}
 
+QString Item::GetNameByType(Type type) {
+  switch (type) {
+    case Type::kRoba: {
+      return "roba";
+    }
+  }
+  return "";
+};
+
 QString Item::GetName() const {
   return name_;
 }
