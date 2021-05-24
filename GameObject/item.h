@@ -8,13 +8,16 @@
 #include <utility>
 #include <memory>
 
+#include "Model/constants.h"
+
 class Item {
  public:
   enum class Type {
     kApple = 0,
     kBrick = 1,
     kSoap = 2,
-    kRoba = 3
+    kPrisonerRoba = 3,
+    kPoliceRoba = 4
   };
 
   Item(Type type, const QString& name, const std::weak_ptr<QPixmap>& image);

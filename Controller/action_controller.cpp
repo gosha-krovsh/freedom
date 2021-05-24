@@ -70,7 +70,7 @@ void ActionController::Move(int id, const Point& place) {
 void ActionController::AddItemToBot(const QString& bot_name,
                                     Item::Type item_type) {
   auto name = Item::GetNameByType(item_type);
-  model_->GetBotByName(bot_name).GetStorage()->PutItem(
+  model_->GetBotByName(bot_name)->GetStorage()->PutItem(
       Item(item_type,
            name,
            model_->GetImage(name.toLower())));
@@ -92,12 +92,12 @@ void ActionController::StartQuest(int id) {
 }
 
 void ActionController::StartFight(QString name1, QString name2) {
-  model_->CreateFightingPair(&model_->GetBotByName(name1),
-                             &model_->GetBotByName(name2));
+  model_->CreateFightingPair(model_->GetBotByName(name1).get(),
+                             model_->GetBotByName(name2).get());
 }
 
 void ActionController::SetBotConversation(const QString& bot_name,
                                           int conversation_id) {
-  model_->GetBotByName(bot_name).SetCurrentConversation(
+  model_->GetBotByName(bot_name)->SetCurrentConversation(
       model_->GetConversationById(conversation_id));
 }

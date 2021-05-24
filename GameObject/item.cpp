@@ -9,8 +9,11 @@ Item::Item(Type type,
 
 QString Item::GetNameByType(Type type) {
   switch (type) {
-    case Type::kRoba: {
-      return "roba";
+    case Type::kPrisonerRoba: {
+      return constants::kPrisonerClothesName;
+    }
+    case Type::kPoliceRoba: {
+      return constants::kPoliceClothesName;
     }
   }
   return "";

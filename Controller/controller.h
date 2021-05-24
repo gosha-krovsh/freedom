@@ -66,10 +66,11 @@ class Controller : public AbstractController {
   void MoveItem(int item_index,
                 const std::shared_ptr<Storage>& destination,
                 const std::shared_ptr<Storage>& source) override;
+  void ProcessPoliceSupervision();
   void ProcessFighting();
   void ProcessFighting(Creature* attacker, Creature* victim, int* i);
-  Bot* FindNearestBotInRadius(double radius);
-  void BuildPath(Bot* bot, const Point& finish);
+  std::shared_ptr<Bot> FindNearestBotInRadius(double radius);
+  void BuildPath(const std::shared_ptr<Bot> bot, const Point& finish);
   std::vector<Point> CollectPath(const Point& finish,
                                  const std::unordered_map<Point, Point,
                                  Point::HashFunc>& prev) const;

@@ -12,6 +12,7 @@ class GameMap {
  public:
   struct Room {
     Room(const QString& name,
+         bool danger_zone,
          int bottom_left_x, int bottom_left_y,
          int up_right_x, int up_right_y);
 
@@ -24,6 +25,7 @@ class GameMap {
     bool operator!=(const Room& rhs) const;
 
     QString name;
+    bool danger_zone;
     int down_left_x;
     int down_left_y;
     int up_right_x;
@@ -51,14 +53,15 @@ class GameMap {
   const Object* GetBlock(int x, int y, int z) const;
   Object* GetBlock(int x, int y, int z);
 
-  Object* GetBlock(const Point& coords);
-  const Object* GetBlock(const Point& coords) const;
+  Object* GetBlock(Point coords);
+  const Object* GetBlock(Point coords) const;
 
   // Updates |current_room_| by hero coordinates. If hero is on the edge of the
   // room (usually it means in the doorway), we assume that he wants to go to
   // another room and that's why also update room in this case. This also makes
   // wall transparency effect prettier.
   void UpdateCurrentRoom(int hero_x, int hero_y);
+  const Room& GetCurrentRoom() const;
   std::unordered_set<const Object*> GetTransparentBlocks() const;
 
  private:

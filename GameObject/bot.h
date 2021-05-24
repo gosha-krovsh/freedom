@@ -13,15 +13,22 @@
 
 class Bot : public Creature {
  public:
-  Bot(const QString& name, const Point& coords);
+  enum class Type {
+    kPrisoner,
+    kPolice
+  };
+
+  Bot(const QString& name,
+      const Point& coords,
+      int hp = constants::kHP,
+      Type type = Type::kPrisoner);
 
   void Tick(int current_tick) override;
   void SetStorage(std::shared_ptr<Storage>&& storage);
   void OnDead() override;
 
+  Type GetBotType() const;
   Point GetFinish() const;
-  void SetFinish(const Point& new_finish);
-  void Rebuild();
 
   const std::vector<Point>& GetTargets();
   void SetTargets(const std::vector<Point>& targets);
@@ -30,8 +37,8 @@ class Bot : public Creature {
   void MakeStep();
 
   std::vector<Point> targets_;
-  int current_index_in_path_{0};
-  Point finish_;
+  std::vector<Point>::iterator current_point_{targets_.end()};
+  Type type_;
 };
 
 #endif  // GAMEOBJECT_BOT_H_
