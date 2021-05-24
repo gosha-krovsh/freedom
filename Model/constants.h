@@ -29,8 +29,8 @@ namespace constants {
                                             kPoliceClothesName};
 
   const double kDoorOpenOffset = -0.4;
-  const int kHeroSpawnX = 4;
-  const int kHeroSpawnY = 4;
+  const int kHeroSpawnX = 11;
+  const int kHeroSpawnY = 11;
 
   // To avoid going through the closed door.
   const double kDoorInteractingDistanceCoefficient = 0.9;

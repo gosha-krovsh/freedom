@@ -125,6 +125,7 @@
         <file alias="bed_135.png">Images/bed_135.png</file>
         <file alias="bed_225.png">Images/bed_225.png</file>
         <file alias="bed_315.png">Images/bed_315.png</file>
+        <file alias="wardrobe_45.png">Images/wardrobe_45.png</file>
         <file alias="wardrobe_225.png">Images/wardrobe_225.png</file>
         <file alias="wardrobe_315.png">Images/wardrobe_315.png</file>
         <file alias="chest.png">Images/chest.png</file>
