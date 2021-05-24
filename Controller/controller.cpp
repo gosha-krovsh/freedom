@@ -221,7 +221,7 @@ void Controller::HeroAttack() {
 }
 
 Bot* Controller::FindIfNearestBotInRadius(
-    double radius,const std::function<bool(Bot*)>& predicate) {
+    double radius, const std::function<bool(Bot*)>& predicate) {
   Hero& hero = model_->GetHero();
   Point hero_coords = hero.GetCoordinates() +
       constants::kCoefficientForShiftingCircleAttack * radius *
