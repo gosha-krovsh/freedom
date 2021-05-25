@@ -23,7 +23,7 @@ void Door::Tick(int current_tick) {
 }
 
 void Door::Interact(const InteractingObject& interacting_object) {
-  if (!IsOpenable() || GetState() ||
+  if (!IsOpenable() ||
       IsObjectVeryClose(interacting_object.GetX(), interacting_object.GetY())) {
     return;
   }
@@ -61,4 +61,7 @@ bool Door::IsOpenable() const {
 
 Door::State Door::GetState() const {
   return State(is_opened_);
+}
+bool Door::IsOpened() {
+  return is_opened_;
 }

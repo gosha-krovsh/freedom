@@ -455,7 +455,7 @@ void Controller::InteractWithDoor() {
       FindNearestObjectWithType(Object::Type::kDoor_225),
       FindNearestObjectWithType(Object::Type::kDoor_315)));
 
-  if (door != nullptr && door->IsOpenable()) {
+  if (door != nullptr) {
     door->Interact(model_->GetHero());
   }
 }
@@ -496,7 +496,7 @@ void Controller::TryToOpenDoor(const Bot& bot) {
           block->IsType(Object::Type::kDoor_315))) {
         door = static_cast<Door*>(block);
       }
-      if (door != nullptr) {
+      if (door != nullptr && !door->IsOpened()) {
         door->Interact(bot);
       }
     }
