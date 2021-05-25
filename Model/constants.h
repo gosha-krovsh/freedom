@@ -62,10 +62,10 @@ namespace constants {
   const int kBarPackDefaultHeight = 2 * kWindowHeight / 5;
 
   // StatusBar constants
-  const int kStatusBarDefaultCenteredX = 100;
-  const int kStatusBarDefaultY = 20;
-  const int kStatusBarDefaultWidth = 160;
-  const int kStatusBarDefaultHeight = 160;
+  const int kStatusBarDefaultCenteredX = 70 * kWindowWidth / 850;
+  const int kStatusBarDefaultY = kWindowHeight / 25;
+  const int kStatusBarDefaultWidth = 2 * kWindowWidth / 17;
+  const int kStatusBarDefaultHeight = 80 * kWindowHeight / 500;
   const int kStatusBarIconSize = 30;
 
   const int kCoeffitientForSpaceBetweenButtons = 25;

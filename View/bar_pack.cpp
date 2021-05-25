@@ -26,13 +26,15 @@ BarPack::BarPack(AbstractController* controller,
                               controller,
                               this,
                               hero_clothing_storage,
-                              model->GetImage("roba_black").lock())),
+                              model->GetImage(
+                                  "roba_black_transparent").lock())),
     weapon_bar_(new ItemBar(3,
                             1,
                             controller,
                             this,
                             hero_gun_storage,
-                            model->GetImage("ak_47_black").lock())) {
+                            model->GetImage(
+                                "knife_transparent").lock())) {
   SetUi(center_x, y, width, height);
   hero_bar_->show();
   clothing_bar_->show();
@@ -48,8 +50,8 @@ void BarPack::SetUi(int center_x, int y, int width, int height) {
   object_bar_->setSizePolicy(retain);
 
   int real_width = width / (constants::kMaxElementsInItemBar + 2);
-  clothing_bar_->SetButtonsSize(real_width * 1.1, height / 2);
-  weapon_bar_->SetButtonsSize(real_width * 1.1, height / 2);
+  clothing_bar_->SetButtonsSize(real_width * 1.25, height / 2);
+  weapon_bar_->SetButtonsSize(real_width * 1.25, height / 2);
   hero_bar_->SetButtonsSize(real_width * constants::kMaxElementsInItemBar,
                             height / 2);
   object_bar_->SetButtonsSize(real_width * constants::kMaxElementsInItemBar,

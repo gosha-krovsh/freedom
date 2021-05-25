@@ -68,8 +68,11 @@
 
         <file alias="ak_47_black.png">images/ak_47_black.png</file>
         <file alias="ak_47.png">images/ak_47.png</file>
+        <file alias="knife.png">images/knife.png</file>
+        <file alias="knife_transparent.png">images/knife_transparent.png</file>
         <file alias="roba.png">images/roba.png</file>
         <file alias="roba_black.png">images/roba_black.png</file>
+        <file alias="roba_black_transparent.png">images/roba_black_transparent.png</file>
         <file alias="heart.png">images/heart.png</file>
         <file alias="cloud.png">images/cloud.png</file>
         <file alias="brick.png">images/brick.png</file>

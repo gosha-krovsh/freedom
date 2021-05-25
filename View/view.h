@@ -36,6 +36,8 @@ class View : public QMainWindow {
 
   void SetHealth(int health);
   void SetAttack(int attack);
+  void SetTime(const Time& time);
+  void SetLocation(const QString& location_str);
 
   BarPack* GetBarPack();
 
@@ -67,6 +69,9 @@ class View : public QMainWindow {
   bool is_item_dialog_open_{false};
   BarPack* item_bar_pack_;
   StatusBar* status_bar_;
+
+  QLabel* time_label_{new QLabel(this)};
+  QLabel* location_{new QLabel(this)};
 
   std::unique_ptr<ConversationWindow> conversation_window_{nullptr};
 };

@@ -53,7 +53,7 @@ add_executable(${PROJECT_NAME}
         Quests/quest.cpp
         Quests/quest_node.cpp
 
-        Conversations/conversation.cpp View/status_bar.cpp View/status_bar.h)
+        Conversations/conversation.cpp View/status_bar.cpp View/status_bar.h View/quest_task_list.cpp View/quest_task_list.h)
 
 if (NOT CMAKE_PREFIX_PATH)
     message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "

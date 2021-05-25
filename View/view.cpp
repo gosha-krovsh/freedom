@@ -10,10 +10,9 @@ View::View(AbstractController* controller,
                                model_->GetHero().GetClothingStorage(),
                                model_->GetHero().GetGunStorage())),
     status_bar_(new StatusBar(model,
-                              {StatusBar::Type::kHealth,
-                               StatusBar::Type::kAttack},
-                              this, constants::kStatusBarDefaultCenteredX,
-                              0,
+                              this,
+                              constants::kStatusBarDefaultCenteredX,
+                              constants::kStatusBarDefaultY,
                               constants::kStatusBarDefaultWidth,
                               constants::kStatusBarDefaultHeight)){
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
@@ -28,14 +27,14 @@ View::View(AbstractController* controller,
 }
 
 void View::SetUi() {
-  // health_bar_->setObjectName("health_bar");
-  // health_bar_->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-  // health_bar_->setText("❤");
-  // health_bar_->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
-  // health_bar_->setGeometry(2 * constants::kWindowWidth / 85,
-  //                          2 * constants::kWindowHeight / 50,
-  //                          8 * constants::kWindowWidth / 85,
-  //                          2 * constants::kWindowHeight / 50);
+  time_label_->setObjectName("time_label");
+  time_label_->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  time_label_->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
+  time_label_->setGeometry(40 * constants::kWindowWidth / 85,
+                           2 * constants::kWindowHeight / 50,
+                           5 * constants::kWindowWidth / 85,
+                           2 * constants::kWindowHeight / 50);
+  time_label_->setAlignment(Qt::AlignmentFlag::AlignCenter);
 }
 
 void View::SetStyles() {
@@ -246,6 +245,10 @@ void View::resizeEvent(QResizeEvent*) {
                                     height() - 2 * constants::kWindowHeight / 5,
                                     9 * constants::kWindowWidth / 14,
                                     2 * constants::kWindowHeight / 5);
+  time_label_->setGeometry(40 * width() / 85,
+                           2 * height() / 50,
+                           5 * width() / 85,
+                           2 * constants::kWindowHeight / 50);
 }
 
 bool View::IsInputBlocked() const {
@@ -338,4 +341,8 @@ void View::SetAttack(int health) {
 
 BarPack* View::GetBarPack() {
   return item_bar_pack_;
+}
+
+void View::SetTime(const Time& time) {
+  time_label_->setText(QString::fromStdString(time.ToString()));
 }

@@ -20,7 +20,6 @@ class StatusBar : public QWidget {
   };
 
   StatusBar(const std::shared_ptr<Model>& model,
-            const std::set<Type>& generate_fields,
             QWidget* parent,
             int center_x,
             int y,
@@ -33,10 +32,11 @@ class StatusBar : public QWidget {
   void SetUi(int center_x, int y, int width, int height);
   void SetStyles();
   void SetCenterGeometry(int x, int y, int width, int height);
-  void ConfigureStatus(const std::set<Type>& generate_fields);
+  void ConfigureStatus();
 
   QGridLayout* layout_;
-  std::map<Type, std::pair<QLabel*, QLabel*>> status_;
+  std::pair<QLabel*, QLabel*> health_status_;
+  std::pair<QLabel*, QLabel*> attack_status_;
 
   std::shared_ptr<Model> model_;
 };

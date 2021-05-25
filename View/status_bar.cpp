@@ -1,7 +1,6 @@
 #include "status_bar.h"
 
 StatusBar::StatusBar(const std::shared_ptr<Model>& model,
-                     const std::set<Type>& generate_fields,
                      QWidget* parent,
                      int center_x,
                      int y,
@@ -10,7 +9,7 @@ StatusBar::StatusBar(const std::shared_ptr<Model>& model,
     QWidget(parent),
     model_(model),
     layout_(new QGridLayout(this)) {
-  ConfigureStatus(generate_fields);
+  ConfigureStatus();
   SetUi(center_x, y, width, height);
   SetStyles();
 }
@@ -18,68 +17,67 @@ StatusBar::StatusBar(const std::shared_ptr<Model>& model,
 void StatusBar::SetUi(int center_x, int y, int width, int height) {
   SetCenterGeometry(center_x, y, width, height);
   setLayout(layout_);
-  setContentsMargins(0, 0, 0, 0);
+  setContentsMargins(5, 0, 0, 0);
+  layout_->setMargin(0);
+  layout_->setSpacing(0);
 
-  int row = 0;
-  for (auto& label_pair : status_) {
-    layout_->addWidget(label_pair.second.first, row, 0, 1, 1);
-    layout_->addWidget(label_pair.second.second, row, 1, 1, 1);
-    ++row;
-  }
+  layout_->addWidget(health_status_.first, 0, 0, 1, 1);
+  layout_->addWidget(health_status_.second, 0, 1, 1, 1);
+  layout_->addWidget(attack_status_.first, 1, 0, 1, 1);
+  layout_->addWidget(attack_status_.second, 1, 1, 1, 1);
 }
 
 void StatusBar::SetPrameter(StatusBar::Type type, const QString& param) {
-  status_[type].second->setText(param);
+  switch (type) {
+    case kHealth: {
+      health_status_.second->setText(param);
+      break;
+    }
+    case kAttack: {
+      attack_status_.second->setText(param);
+      break;
+    }
+  }
 }
 
 void StatusBar::SetCenterGeometry(int x, int y, int width, int height) {
   setGeometry(x - width / 2, y, width, height);
 }
 
-void StatusBar::ConfigureStatus(const std::set<Type>& generate_fields) {
-  for (const auto& type : generate_fields) {
-    switch (type) {
-      case kHealth: {
-        QLabel* label = new QLabel(this);
-        QLabel* text_label = new QLabel(this);
-        text_label->setObjectName("health_bar");
-        label->setScaledContents(true);
-        label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        text_label->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+void StatusBar::ConfigureStatus() {
+  QLabel* health_label = new QLabel(this);
+  QLabel* helth_text_label = new QLabel(this);
+  helth_text_label->setObjectName("health_bar");
+  health_label->setScaledContents(true);
+  health_label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  helth_text_label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-        QPixmap health_pix = *model_->GetImage("heart").lock();
-        label->setPixmap(health_pix);
+  QPixmap health_pix = *model_->GetImage("heart").lock();
+  health_label->setPixmap(health_pix);
 
-        label->setFixedWidth(constants::kStatusBarIconSize);
-        label->setFixedHeight(constants::kStatusBarIconSize);
-        text_label->setFixedHeight(constants::kStatusBarIconSize);
+  health_label->setFixedWidth(constants::kStatusBarIconSize);
+  health_label->setFixedHeight(constants::kStatusBarIconSize);
+  helth_text_label->setFixedHeight(constants::kStatusBarIconSize);
 
-        status_.insert(std::make_pair(kHealth,
-                                      std::make_pair(label, text_label)));
-        break;
-      }
-      case kAttack: {
-        QLabel* label = new QLabel(this);
-        QLabel* text_label = new QLabel(this);
-        text_label->setObjectName("weapon_bar");
-        label->setScaledContents(true);
-        label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-        text_label->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Fixed);
+  health_status_ = std::make_pair(health_label, helth_text_label);
 
-        QPixmap attack_pix = *model_->GetImage("ak_47").lock();
-        label->setPixmap(attack_pix);
+  QLabel* attack_label = new QLabel(this);
+  QLabel* attack_text_label = new QLabel(this);
 
-        label->setFixedWidth(constants::kStatusBarIconSize);
-        label->setFixedHeight(constants::kStatusBarIconSize);
-        text_label->setFixedHeight(constants::kStatusBarIconSize);
-        text_label->setFixedWidth(constants::kStatusBarIconSize);
+  attack_text_label->setObjectName("weapon_bar");
+  attack_label->setScaledContents(true);
+  attack_label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  attack_text_label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-        status_.insert(std::make_pair(kAttack,
-                                      std::make_pair(label, text_label)));
-        break;
-      }
-    }
-  }
+  QPixmap attack_pix = *model_->GetImage("knife").lock();
+  attack_label->setPixmap(attack_pix);
+
+  attack_label->setFixedWidth(constants::kStatusBarIconSize);
+  attack_label->setFixedHeight(constants::kStatusBarIconSize);
+  attack_text_label->setFixedHeight(constants::kStatusBarIconSize);
+  attack_text_label->setFixedWidth(constants::kStatusBarIconSize);
+
+  attack_status_ = std::make_pair(attack_label, attack_text_label);
 }
 
 void StatusBar::SetStyles() {
@@ -88,5 +86,7 @@ void StatusBar::SetStyles() {
   QString style(styleFile.readAll());
 
   setStyleSheet(style);
+  setObjectName("status_bar");
+  setAttribute(Qt::WA_StyledBackground, true);
   styleFile.close();
 }

@@ -49,6 +49,7 @@ void Controller::Tick() {
 
   view_->SetHealth(model_->GetHero().GetHP());
   view_->SetAttack(model_->GetHero().GetAttack());
+  view_->SetTime(model_->GetTime());
 
   ++current_tick_;
 }
