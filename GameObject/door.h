@@ -16,7 +16,7 @@ class Door : public Object {
   void Interact(const InteractingObject& interacting_object) override;
 
   Point GetDrawOffset() const override;
-  bool IsOpenable();
+  bool IsOpenable() const;
   void SetOpenable(bool openable);
 
   State GetState() const;
@@ -28,7 +28,7 @@ class Door : public Object {
  private:
   Animator<State> animator_{GetState()};
   bool is_opened_{false};
-  bool is_openalbe_{true};
+  bool is_openable{true};
   Point draw_offset_{0, 0};
 };
 

@@ -289,7 +289,7 @@ void Controller::BuildPath(const std::shared_ptr<Bot>& bot,
         if (next_block != nullptr &&
             (next_block->IsType(Object::Type::kDoor_315) ||
                 next_block->IsType(Object::Type::kDoor_225))) {
-          Door* next_door = dynamic_cast<Door*>(next_block);
+          Door* next_door = static_cast<Door*>(next_block);
           is_openable_door_ = next_door->IsOpenable();
         }
 
