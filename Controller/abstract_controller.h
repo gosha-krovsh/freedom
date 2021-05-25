@@ -40,9 +40,6 @@ class AbstractController {
   virtual void CloseMainMenu() = 0;
   virtual void UpdateVolume() = 0;
 
-  virtual void CloseMainMenu() = 0;
-  virtual void UpdateVolume() = 0;
-
  private:
   virtual void MoveItem(int index,
                         const std::shared_ptr<Storage>& source,

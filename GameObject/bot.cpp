@@ -93,3 +93,8 @@ int Bot::GetAttack() const {
   return Creature::GetAttack();
 }
 
+void Bot::Rebuild() {
+  targets_.clear();
+  current_point_ = targets_.begin();
+}
+

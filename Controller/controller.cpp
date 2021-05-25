@@ -28,8 +28,8 @@ void Controller::Tick() {
   model_->GetSound().Tick(current_tick_);
 
   for (auto& bot : model_->GetBots()) {
-    bot.Tick(current_tick_);
-    TryToOpenDoor(bot);
+    bot->Tick(current_tick_);
+    TryToOpenDoor(*bot);
   }
   model_->GetMap().UpdateCurrentRoom(model_->GetHero().GetRoundedX(),
                                      model_->GetHero().GetRoundedY());
@@ -40,9 +40,8 @@ void Controller::Tick() {
     actions_controller_->Tick(current_tick_);
   }
 
-
   // temp code
-  Point canteen = {32, 4, 1};
+  Point canteen = {48, 21, 1};
   if (model_->GetTime().GetMinutes() == 34) {
     MoveAllBotsToPoint(canteen);
   }
@@ -275,7 +274,7 @@ void Controller::BuildPath(const std::shared_ptr<Bot>& bot,
   used[start] = true;
 
   current.push_front(start);
-  while (!current.empty()) {
+  while (!current.empty() && !used[finish]) {
     Point current_point = current.front();
     current.pop_front();
     for (int delta_x = -1; delta_x <= 1; ++delta_x) {
@@ -288,9 +287,9 @@ void Controller::BuildPath(const std::shared_ptr<Bot>& bot,
 
         bool is_openable_door_ = false;
         if (next_block != nullptr &&
-           (next_block->IsType(Object::Type::kDoor_315) ||
-           next_block->IsType(Object::Type::kDoor_225))) {
-          Door* next_door = static_cast<Door*>(next_block);
+            (next_block->IsType(Object::Type::kDoor_315) ||
+                next_block->IsType(Object::Type::kDoor_225))) {
+          Door* next_door = dynamic_cast<Door*>(next_block);
           is_openable_door_ = next_door->IsOpenable();
         }
 
@@ -326,6 +325,7 @@ std::vector<Point> Controller::CollectPath(const Point& finish,
   std::reverse(result.begin(), result.end());
   return result;
 }
+
 Object* Controller::FindIfNearestObject(
     const std::function<bool(Object*)>& predicate) {
   Hero& hero = model_->GetHero();
@@ -482,4 +482,25 @@ void Controller::CloseMainMenu() {
 void Controller::UpdateVolume() {
   model_->GetSound().SetVolumeCoefficient(
       static_cast<double>(Settings::kVolume) / constants::kInitVolume);
+}
+
+void Controller::TryToOpenDoor(const Bot& bot) {
+
+  for(int delta_x = -1; delta_x <= 1; ++delta_x) {
+    for(int delta_y = -1; delta_y <= 1; ++delta_y) {
+      auto block =
+          model_->GetMap().GetBlock(bot.GetX() + delta_x,
+                                    bot.GetY() + delta_y, 1);
+
+      Door* door = nullptr;
+      if (block != nullptr && (block->IsType(Object::Type::kDoor_225) ||
+          block->IsType(Object::Type::kDoor_315))) {
+        door = static_cast<Door*>(block);
+      }
+      if (door != nullptr &&  !door->GetState() &&
+          door->IsOpenable()) {
+        door->Interact(bot);
+      }
+    }
+  }
 }

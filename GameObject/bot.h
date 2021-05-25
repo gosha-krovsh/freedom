@@ -23,6 +23,8 @@ class Bot : public Creature, public InteractingObject{
       int hp = constants::kHP,
       Type type = Type::kPrisoner);
 
+  void Rebuild();
+
   void Tick(int current_tick) override;
   void SetStorage(std::shared_ptr<Storage>&& storage);
   void OnDead() override;
