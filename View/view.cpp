@@ -5,25 +5,32 @@ View::View(AbstractController* controller,
     controller_(controller),
     model_(model),
     timer_(new QTimer(this)),
-    item_bar_pack_(new BarPack(controller, model, this,
+    item_bar_pack_(new BarPack(controller, model, game_widget_.get(),
                                model_->GetHero().GetStorage(),
                                model_->GetHero().GetClothingStorage(),
-                               model_->GetHero().GetGunStorage())),
+                               model_->GetHero().GetGunStorage()))
+    game_widget_(std::make_unique<GameWidget>(model_)),
     status_bar_(new StatusBar(model,
                               this,
                               constants::kStatusBarDefaultCenteredX,
                               constants::kStatusBarDefaultY,
                               constants::kStatusBarDefaultWidth,
-                              constants::kStatusBarDefaultHeight)){
+                              constants::kStatusBarDefaultHeight)){}
+
+void View::Show() {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
+  setWindowState(Qt::WindowFullScreen);
   SetUi();
   SetStyles();
 
   show();
 
+  setCentralWidget(game_widget_.get());
   connect(timer_, &QTimer::timeout, this, &View::TimerEvent);
-  StartTickTimer();
+
+  show();
   item_bar_pack_->show();
+  ShowMainMenu();
 }
 
 void View::SetUi() {
@@ -47,97 +54,16 @@ void View::SetStyles() {
 }
 
 void View::StartTickTimer() {
-  timer_->start(1000 / constants::kFPS);
+  timer_->start(1000 / Settings::kFPS);
 }
 
 void View::StopTickTimer() {
   timer_->stop();
 }
 
-void View::paintEvent(QPaintEvent*) {
-  QPainter painter(this);
-  CenterCameraOnHero(&painter);
-
-  const Hero& hero = model_->GetHero();
-  const GameMap& map = model_->GetMap();
-  const auto& bots = model_->GetBots();
-  std::unordered_set<const Object*>
-      transparent_blocks = map.GetTransparentBlocks();
-
-  for (int z = 0; z < map.GetZSize(); ++z) {
-    for (int y = 0; y < map.GetYSize(); ++y) {
-      for (int x = 0; x < map.GetXSize(); ++x) {
-        auto curr_block = map.GetBlock(x, y, z);
-        if (curr_block) {
-          if (transparent_blocks.find(curr_block) != transparent_blocks.end()) {
-            painter.setOpacity(constants::kBlockOpacity);
-          }
-          curr_block->Draw(&painter);
-          painter.setOpacity(1);
-        }
-
-        bool hero_drown = false;
-        Point camera = Point(map.GetXSize(), map.GetYSize());
-        double hero_distance_to_camera =
-            hero.GetCoordinates().DistanceFrom(camera);
-
-        for (const auto& current_bot : bots) {
-          double bot_distance_to_camera =
-              current_bot.GetCoordinates().DistanceFrom(camera);
-
-          if (hero.GetRoundedX() == x &&
-              hero.GetRoundedY() == y &&
-              hero.GetRoundedZ() == z &&
-              hero_distance_to_camera > bot_distance_to_camera) {
-            hero.Draw(&painter);
-            hero_drown = true;
-          }
-          if (current_bot.GetRoundedX() == x &&
-              current_bot.GetRoundedY() == y &&
-              current_bot.GetRoundedZ() == z) {
-            double dist = hero.GetCoordinates().
-                               DistanceFrom(current_bot.GetCoordinates());
-
-            if (!current_bot.IsAbleToAttack()) {
-              painter.setOpacity(1);
-            } else {
-              painter.setOpacity(std::max(dist / 2,
-                                          constants::kBotOpacity));
-            }
-            current_bot.Draw(&painter);
-            painter.setOpacity(1);
-          }
-        }
-
-        if (!hero_drown &&
-            hero.GetRoundedX() == x &&
-            hero.GetRoundedY() == y &&
-            hero.GetRoundedZ() == z) {
-          hero.Draw(&painter);
-        }
-      }
-    }
-  }
-}
-
-void View::CenterCameraOnHero(QPainter* camera) const {
-  // Get center of screen
-  double x_camera_offset = width() / 2.;
-  double y_camera_offset = height() / 2.;
-
-  // Center camera on center of |Hero|
-  x_camera_offset -= (model_->GetHero().GetCoordinates().GetIsometricX() + 1)
-      * (constants::kSizeOfBlock / 2.);
-  y_camera_offset -= (model_->GetHero().GetCoordinates().GetIsometricY() + 1)
-      * (constants::kSizeOfBlock / 2.);
-
-  // Make camera follow |Hero|
-  camera->translate(x_camera_offset, y_camera_offset);
-}
-
 void View::TimerEvent() {
   controller_->Tick();
-  repaint();
+  game_widget_->repaint();
 }
 
 void View::keyPressEvent(QKeyEvent* event) {
@@ -158,7 +84,6 @@ void View::keyPressEvent(QKeyEvent* event) {
             *conversation, controller_, this);
         InterruptAllInput();
         resizeEvent(nullptr);
-
         item_bar_pack_->hide();
       }
       break;
@@ -185,6 +110,15 @@ void View::keyPressEvent(QKeyEvent* event) {
     }
     case Qt::Key_E: {
       ItemDialogEvent();
+      break;
+    }
+    case Qt::Key_R: {
+      controller_->InteractWithDoor();
+      break;
+    }
+    case Qt::Key_Escape: {
+      StopTickTimer();
+      ShowMainMenu();
       break;
     }
       // Following keys are used to use items,
@@ -241,6 +175,9 @@ void View::resizeEvent(QResizeEvent*) {
         constants::kWidthConversationWindowMultiplier * width(),
         constants::kHeightConversationWindowMultiplier * height());
   }
+  if (main_menu_) {
+    main_menu_->setGeometry(0, 0, width(), height());
+  }
   item_bar_pack_->SetCenterGeometry(width() / 2,
                                     height() - 2 * constants::kWindowHeight / 5,
                                     9 * constants::kWindowWidth / 14,
@@ -268,7 +205,13 @@ void View::CloseConversationWindow() {
   StartTickTimer();
 }
 
-std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id, int index) {
+void View::CloseMainMenu() {
+  main_menu_ = nullptr;
+  StartTickTimer();
+  model_->GetSound().ResumeAllTracks();
+}
+
+std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id) {
   switch (id) {
     case 0: {
       return std::make_pair(item_bar_pack_->GetHeroBar(),
@@ -304,13 +247,9 @@ bool View::IsItemDialogOpen() const {
 }
 
 void View::ItemDialogEvent() {
-  Object* chest = controller_->FindIfNearestObject([](Object* block) {
-    return block->IsStorable();
-  });
-
-  if (!is_item_dialog_open_ && chest) {
+  auto storage = controller_->GetInteractableStorage();
+  if (!is_item_dialog_open_ && storage) {
     is_item_dialog_open_ = true;
-    std::shared_ptr<Storage> storage = chest->GetStorage();
     item_bar_pack_->GetObjectBar()->AssignStorage(storage);
     item_bar_pack_->GetObjectBar()->show();
   } else {
@@ -331,7 +270,6 @@ void View::AssignHeroStorage() {
 }
 
 void View::SetHealth(int health) {
-  // health_bar_->setText(QString::number(health) + "❤");
   status_bar_->SetPrameter(StatusBar::Type::kHealth, QString::number(health));
 }
 
@@ -345,4 +283,11 @@ BarPack* View::GetBarPack() {
 
 void View::SetTime(const Time& time) {
   time_label_->setText(QString::fromStdString(time.ToString()));
+}
+
+void View::ShowMainMenu() {
+  main_menu_ = std::make_unique<MainMenu>(controller_, this);
+  InterruptAllInput();
+  resizeEvent(nullptr);
+  model_->GetSound().PauseAllTracks();
 }

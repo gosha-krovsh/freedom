@@ -1,0 +1,12 @@
+[
+  {
+    "name":  "Rob",
+    "type": "Prisoner",
+    "coords": [12, 15, 1]
+  },
+  {
+    "name": "Igor",
+    "type": "Police",
+    "coords": [15, 13, 1]
+  }
+]

@@ -15,10 +15,11 @@ Creature::Creature(const Point& coords, const QString& name, int hp) :
     name_(name) {
   for (int i = 0; i < constants::kNumberOfViewDirections; ++i) {
     auto view_direction = static_cast<ViewDirection>(i);
-    QString image_name = name_ + "_" + QString::number(i * 45);
-
+    QString angle = QString::number(i * 45);
     for (const auto& clothes_name : constants::kClothes) {
+      QString image_name = angle;
       AddClothesSuffix(&image_name, clothes_name);
+
       animator_.AssignStateToAnimation(State(Action::kIdle,
                                              view_direction,
                                              clothes_name),
@@ -54,6 +55,19 @@ void Creature::Tick(int current_tick) {
     DynamicObject::Tick(current_tick);
   }
 
+  // Temp code.
+  // TODO: In the future, there will be separate cell in inventory for clothes.
+  clothes_name_ = "";
+  for (const auto& item : storage_->GetItems()) {
+    if (item.GetType() == Item::Type::kPrisonerRoba) {
+      clothes_name_ = constants::kPrisonerClothesName;
+      break;
+    } else if (item.GetType() == Item::Type::kPoliceRoba) {
+      clothes_name_ = constants::kPoliceClothesName;
+      break;
+    }
+  }
+
   animator_.Tick();
 }
 
@@ -69,6 +83,9 @@ void Creature::SetSpeedVector(const Point& speed_vector) {
   }
 }
 
+const std::string& Creature::GetClothesName() const {
+  return clothes_name_;
+}
 Creature::State Creature::GetState() const {
   return State(action_, view_direction_, clothes_name_);
 }
@@ -93,11 +110,11 @@ void Creature::NormalizeSpeedVector(const Point& speed_vector) {
   UpdateViewDirection();
 }
 bool Creature::IsAbleToAttack() const {
-  return attack_cooldown_ == 0;
+  return attack_cooldown_ == 0 && !IsDestroyed();
 }
 
 void Creature::RefreshAttackCooldown() {
-  attack_cooldown_ = constants::kAttackCooldown;
+  attack_cooldown_ = Settings::GetAttackCooldown();
 }
 
 int Creature::GetAttack() const {
@@ -113,6 +130,7 @@ void Creature::DecrementAttackCooldown() {
 void Creature::StartFighting() {
   SetAction(Action::kFight);
 }
+
 void Creature::StopFighting() {
   SetAction(Action::kIdle);
 }
@@ -146,4 +164,8 @@ std::shared_ptr<Conversation> Creature::GetCurrentConversation() const {
 void Creature::SetCurrentConversation(
     const std::shared_ptr<Conversation>& conversation) {
   current_conversation_ = conversation;
+}
+
+void Creature::Respawn() {
+  Destroyable::Respawn();
 }

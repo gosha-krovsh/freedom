@@ -12,9 +12,13 @@
 
 #include "View/bar_pack.h"
 #include "View/status_bar.h"
+#include "game_widget.h"
+#include "bar_pack.h"
 #include "conversation_window.h"
+#include "main_menu.h"
 #include "Controller/abstract_controller.h"
 #include "Model/model.h"
+#include "Model/settings.h"
 #include "GameObject/object.h"
 
 class View : public QMainWindow {
@@ -22,7 +26,10 @@ class View : public QMainWindow {
 
  public:
   View(AbstractController* controller, const std::shared_ptr<Model>& model);
+  void Show();
+
   void CloseConversationWindow();
+  void CloseMainMenu();
   // Makes a pair of 2 bars, where first argument is a source
   // and second is a destination
   std::pair<ItemBar*, ItemBar*> GetSrcDestBars(int id, int index);
@@ -55,16 +62,16 @@ class View : public QMainWindow {
   void StartTickTimer();
   void StopTickTimer();
 
-  void CenterCameraOnHero(QPainter* camera) const;
   bool IsInputBlocked() const;
   void InterruptAllInput();
 
+  void ShowMainMenu();
+
  private:
   QTimer* timer_{new QTimer(this)};
-  // QLabel* health_bar_{new QLabel("100❤",this)};
-
   AbstractController* controller_;
   std::shared_ptr<Model> model_;
+  std::unique_ptr<GameWidget> game_widget_;
 
   bool is_item_dialog_open_{false};
   BarPack* item_bar_pack_;
@@ -74,6 +81,7 @@ class View : public QMainWindow {
   QLabel* location_{new QLabel(this)};
 
   std::unique_ptr<ConversationWindow> conversation_window_{nullptr};
+  std::unique_ptr<MainMenu> main_menu_{nullptr};
 };
 
 #endif  // VIEW_VIEW_H_

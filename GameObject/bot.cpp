@@ -1,37 +1,48 @@
 #include "bot.h"
 
-Bot::Bot(const QString& name, const Point& coords,
-         const std::vector<Point>& targets) :
-    Creature(coords, name, constants::kHP), targets_(targets) {
+Bot::Bot(const QString& name, const Point& coords, int hp, Type type)
+  : Creature(coords, name, hp), type_(type) {
   storage_ = std::make_shared<Storage>();
 }
 
 void Bot::Tick(int current_tick) {
   Creature::Tick(current_tick);
   MakeStep();
+  UpdateClothesName();
+}
+
+void Bot::UpdateClothesName() {
+  clothes_name_ = "";
+  for (const auto& item : storage_->GetItems()) {
+    if (item.GetType() == Item::Type::kPrisonerRoba) {
+      clothes_name_ = constants::kPrisonerClothesName;
+      break;
+    } else if (item.GetType() == Item::Type::kPoliceRoba) {
+      clothes_name_ = constants::kPoliceClothesName;
+      break;
+    }
+  }
 }
 
 void Bot::MakeStep() {
-  Point next_point = targets_[current_direction_];
-  if (((std::abs(GetX() - next_point.x) > constants::kSpeed)
-      || (std::abs(GetY() - next_point.y) > constants::kSpeed)) &&
-      !speed_vector_.IsNull()) {
+  if (current_point_ == targets_.end()) {
+    SetSpeedVector(Point(0, 0));
     return;
   }
 
-  if ((std::abs(GetX() - next_point.x) <= constants::kSpeed) &&
-      (std::abs(GetY() - next_point.y) <= constants::kSpeed)) {
-    SetCoordinates(next_point);
-    current_direction_ += order_;
-    if (current_direction_ == targets_.size() || current_direction_ == -1) {
-      order_ *= -1;
-      current_direction_ += order_;
-    }
-    next_point = targets_[current_direction_];
+  if (GetCoordinates().
+      DistanceFrom(*current_point_) < Settings::GetSpeed() / 2) {
+    SetCoordinates(*current_point_);
+    ++current_point_;
+    NormalizeSpeedVector(*current_point_ - GetCoordinates());
   }
+}
 
-  Point speed_vector = next_point - GetCoordinates();
-  NormalizeSpeedVector(speed_vector);
+Point Bot::GetFinish() const {
+  if (targets_.empty()) {
+    return GetCoordinates();
+  }
+  return targets_.back();
 }
 
 void Bot::SetStorage(std::shared_ptr<Storage>&& storage) {
@@ -40,4 +51,24 @@ void Bot::SetStorage(std::shared_ptr<Storage>&& storage) {
 
 void Bot::OnDead() {
   Creature::OnDead();
+}
+
+Bot::Type Bot::GetBotType() const {
+  return type_;
+}
+
+const std::vector<Point>& Bot::GetTargets() {
+  return targets_;
+}
+
+void Bot::SetTargets(const std::vector<Point>& targets) {
+  targets_ = targets;
+  current_point_ = targets_.begin();
+  if (!targets_.empty() && *current_point_ == GetCoordinates()) {
+    ++current_point_;
+  }
+
+  if (current_point_ != targets_.end()) {
+    NormalizeSpeedVector(*current_point_ - GetCoordinates());
+  }
 }

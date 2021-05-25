@@ -1,17 +1,15 @@
 #include "data_controller.h"
 
-DataController::DataController(
-    const std::shared_ptr<Model>& model) : model_(model) {}
+DataController::DataController(const std::shared_ptr<Model>& model) :
+                               model_(model) {}
 
 void DataController::Tick(int) {}
 
 // schedule.json structure:
 // [
 //   [8, 32, [
-//     {
-//       "action" : "MethodsName",
-//       "arguments": ["", "", ""]
-//     },
+//     "MyAction1(p1,p2,...)",
+//     "MyAction2(p1,p2,...)",
 //     ...
 //   ]],
 //   ...
@@ -29,13 +27,8 @@ std::unique_ptr<Schedule> DataController::ParseSchedule() {
     QJsonArray time_array = time.toArray();
     QJsonArray methods_array = time_array.at(2).toArray();
 
-    std::vector<Action> actions;
-    for (const auto& element : methods_array) {
-      actions.emplace_back(ParseAction(element.toString()));
-    }
-
     schedule[Time(time_array.at(0).toInt(0),
-                  time_array.at(1).toInt(0))] = actions;
+                  time_array.at(1).toInt(0))] = ParseActions(methods_array);
   }
 
   return std::make_unique<Schedule>(schedule);
@@ -82,12 +75,13 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
   }
   for (const auto& json_room : json_rooms) {
     QJsonArray room_params = json_room.toArray();
-    if (room_params.size() != 5) {
+    if (room_params.size() != 6) {
       qDebug() << "Invalid number of room constructor parameters";
     }
     rooms.emplace_back(room_params[0].toString(),
-                       room_params[1].toInt(), room_params[2].toInt(),
-                       room_params[3].toInt(), room_params[4].toInt());
+                       room_params[1] == 1,
+                       room_params[2].toInt(), room_params[3].toInt(),
+                       room_params[4].toInt(), room_params[5].toInt());
   }
 
   // Parsing objects
@@ -125,17 +119,32 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
                                           model_->GetImage("brick")));
             break;
           }
-          case Object::Type::kChest: {
+          case Object::Type::kChest:
+          case Object::Type::kWardrobe_45:
+          case Object::Type::kWardrobe_225:
+          case Object::Type::kWardrobe_315: {
             Point point{x, y, z};
             auto storage_it = chests_storage.find(point.ToString());
             std::shared_ptr<Storage> storage = std::make_shared<Storage>();
             if (storage_it != chests_storage.end()) {
               storage = storage_it->second;
             }
+
             objects.emplace_back(new Chest(
                 point,
-                model_->GetImage("brick"),
-                storage));
+                model_->GetImage("brick"), storage));
+            std::weak_ptr<QPixmap> image;
+            if (object_type == Object::Type::kChest) {
+              image = model_->GetImage("chest");
+            } else if (object_type == Object::Type::kWardrobe_45) {
+              image = model_->GetImage("wardrobe_45");
+            } else if (object_type == Object::Type::kWardrobe_225) {
+              image = model_->GetImage("wardrobe_225");
+            } else if (object_type == Object::Type::kWardrobe_315) {
+              image = model_->GetImage("wardrobe_315");
+            }
+
+            objects.emplace_back(new Chest(point, image, storage));
             break;
           }
           Case(kFloor, Point(x, y, z), "floor")
@@ -158,6 +167,24 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
           Case(kStoneRoad, Point(x, y, z), "stone_road")
           Case(kMud, Point(x, y, z), "mud")
           Case(kBall, Point(x, y, z), "ball")
+          Case(kBed_45, Point(x, y, z), "bed_45")
+          Case(kBed_135, Point(x, y, z), "bed_135")
+          Case(kBed_225, Point(x, y, z), "bed_225")
+          Case(kBed_315, Point(x, y, z), "bed_315")
+          Case(kGrating_225, Point(x, y, z), "grating_225")
+          Case(kGrating_315, Point(x, y, z), "grating_315")
+          case Object::Type::kDoor_225: {
+            objects.emplace_back(new Door(Point(x, y, z),
+                                          model_->GetImage("door_225"),
+                                          Object::Type::kDoor_225));
+            break;
+          }
+          case Object::Type::kDoor_315: {
+            objects.emplace_back(new Door(Point(x, y, z),
+                                          model_->GetImage("door_315"),
+                                          Object::Type::kDoor_315));
+            break;
+          }
           default: {
             qDebug() << "Not handled type of object";
             break;
@@ -177,7 +204,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
 //   [  // Conversation.id = 0
 //     [0, "Question/text 1", [
 //       ["Answer1", id1],
-//       ["Answer2", id2, "MyAction(p1,p2,...)],
+//       ["Answer2", id2, "MyAction(p1,p2,...)"],
 //       ["Answer3", id3],
 //       ...
 //     ]],
@@ -193,7 +220,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
 //   ...
 // ]
 std::vector<std::shared_ptr<Conversation>>
-    DataController::ParseConversations() {
+DataController::ParseConversations() {
   QFile file(":conversations.json");
   file.open(QIODevice::ReadOnly | QIODevice::Text);
 
@@ -230,7 +257,7 @@ std::vector<std::shared_ptr<Conversation>>
           answer.action = std::make_shared<Action>(
               ParseAction(j_ans[2].toString()));
         }
-        node.answers.emplace_back(std::move(answer));  // CHECK IF PTR CORRECT
+        node.answers.emplace_back(std::move(answer));
       }
 
       nodes.emplace_back(node);
@@ -241,6 +268,40 @@ std::vector<std::shared_ptr<Conversation>>
   return conversations;
 }
 
+// quests.json structure:
+// [
+//   {
+//      "Id": 0,
+//      "Name": "MyQuestName",
+//      "OnStart": [
+//        "MyAction(p1,p2...)"
+//      ],
+//      "Nodes": [
+//        [0, "MyQuestNodeName", "MyQuestNodeType(p1,p2...)"]
+//      ],
+//      "OnFinish": [
+//        "MyAction(p1,p2...)"
+//      ]
+//   }
+// ]
+std::vector<Quest> DataController::ParseQuests() {
+  QFile file(":quests.json");
+  file.open(QIODevice::ReadOnly | QIODevice::Text);
+
+  QJsonArray j_quests = QJsonDocument::fromJson(file.readAll()).array();
+  std::vector<Quest> quests;
+  quests.reserve(j_quests.size());
+  for (const auto& j_quest : j_quests) {
+    QJsonObject j_quest_obj = j_quest.toObject();
+    quests.emplace_back(j_quest_obj["Id"].toInt(),
+                        j_quest_obj["Name"].toString(),
+                        ParseQuestNodes(j_quest_obj["Nodes"].toArray()),
+                        ParseActions(j_quest_obj["OnStart"].toArray()),
+                        ParseActions(j_quest_obj["OnFinish"].toArray()));
+  }
+  return quests;
+}
+
 // "Name(p1,p2...)" --> Action("Name", {"p1", "p2"})
 Action DataController::ParseAction(const QString& j_str) {
   QString name = j_str.split("(")[0];
@@ -249,7 +310,36 @@ Action DataController::ParseAction(const QString& j_str) {
   return Action(name, params);
 }
 
-// From items.json parses "creature-items" key
+std::vector<std::shared_ptr<Bot>> DataController::ParseBots() {
+  QFile file(":bots.json");
+  file.open(QIODevice::ReadOnly | QIODevice::Text);
+  QJsonArray json_bots = QJsonDocument::fromJson(file.readAll()).array();
+
+  std::vector<std::shared_ptr<Bot>> bots;
+  for (int i = 0; i < json_bots.size(); ++i) {
+    QJsonObject current_bot_params = json_bots[i].toObject();
+    QJsonArray current_bot_coords = current_bot_params["coords"].toArray();
+    if (current_bot_coords.size() != 3) {
+      qDebug() << "Invalid data about bot number "
+               << i + 1 << ' ' << current_bot_params.size() << Qt::endl;
+    }
+    Point start{current_bot_coords[0].toInt(),
+                current_bot_coords[1].toInt(),
+                current_bot_coords[2].toInt()};
+
+    auto type = current_bot_params["type"].toString();
+    if (type == "Prisoner") {
+      bots.push_back(std::make_shared<Bot>(
+          current_bot_params["name"].toString(), start));
+    } else if (type == "Police") {
+      bots.push_back(std::make_shared<Police>(
+          current_bot_params["name"].toString(), start));
+    }
+  }
+
+  return bots;
+}
+  // From items.json parses "creature-items" key
 std::map<QString, std::shared_ptr<Storage>>
     DataController::ParseCreatureStorage() {
   QFile file(":items.json");
@@ -312,4 +402,38 @@ std::map<QString, std::shared_ptr<Storage>> DataController::ParseMapStorage() {
     result[point.ToString()] = std::make_shared<Storage>(items);
   }
   return result;
+}
+
+std::vector<Action> DataController::ParseActions(const QJsonArray& j_arr) {
+  std::vector<Action> actions;
+  actions.reserve(j_arr.size());
+  for (const auto& element : j_arr) {
+    actions.emplace_back(ParseAction(element.toString()));
+  }
+  return actions;
+}
+
+// Ex: ["MyQuestNodeName", "MoveToDestination(7, 9, 1)"]
+QuestNode DataController::ParseQuestNode(const QJsonArray& j_arr) {
+  if (j_arr.size() != 2) {
+    qDebug() << "Invalid number of QuestNode arguments";
+  }
+
+  QString j_type_and_params_str = j_arr[1].toString();
+  QString type_str = j_type_and_params_str.split("(")[0];
+  QStringList list_params = (j_type_and_params_str.split("(")[1]).
+                            split(")")[0].split(",");
+  std::vector<QString> params(list_params.begin(), list_params.end());
+
+  return QuestNode(j_arr[0].toString(), type_str, params);
+}
+
+std::vector<QuestNode>
+    DataController::ParseQuestNodes(const QJsonArray& j_arr) {
+  std::vector<QuestNode> quest_nodes;
+  quest_nodes.reserve(j_arr.size());
+  for (const auto& j_quest_node : j_arr) {
+    quest_nodes.emplace_back(ParseQuestNode(j_quest_node.toArray()));
+  }
+  return quest_nodes;
 }

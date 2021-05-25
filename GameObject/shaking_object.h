@@ -2,12 +2,14 @@
 #define GAMEOBJECT_SHAKING_OBJECT_H_
 
 #include "point.h"
+#include "Model/settings.h"
 
 class ShakingObject {
  public:
   void Tick(int current_tick);
   void Shake(const Point& direction_of_shake);
 
+  void SetOffset(const Point& offset);
   Point GetOffset() const;
 
  private:

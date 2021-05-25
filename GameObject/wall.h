@@ -3,6 +3,7 @@
 
 #include <memory>
 
+#include "Model/constants.h"
 #include "shaking_object.h"
 #include "destroyable.h"
 #include "object.h"

@@ -7,31 +7,51 @@
 #include <array>
 
 namespace constants {
+  const int kInitVolume = 50;
+  const int kInitBlockSize = 200;
+  const int kInitFPS = 60;
+  const double kInitSpeed = 0.05;
+  // All durations are measured in ticks
+  const int kInitDurationOfOneAnimationFrame = 14;
+  const int kInitDurationOfShaking = 10;
+  const int kInitAttackCooldown = 40;
+
   const int kNumberOfViewDirections = 8;
   const double kEps = 1e-7;
-  const int kSizeOfBlock = 140;
+  const double kMaxBlockOffset = 0.15;
   const int kHP = 100;
+  const int kBlockHP = kHP * 5;
+  const int kPoliceHP = kHP * 10;
+  const double kPoliceIllegalDetectionRadius = 4.;
+  const double kStepForSearchingWall = 0.5;
   const int kAttack = 25;
-  const double kSpeed = 0.05;
-  const int kAttackCooldown = 40;
   const double kAttackRadius = 0.65;
   const double kStartConversationRadius = 1.75;
   const std::array<const char*, 2> kClothes{"", "roba"};
+  const char* const kPoliceClothesName{"police"};
+  const char* const kPrisonerClothesName{"roba"};
+  const char* const kEmptyClothesName{""};
+  const std::array<const char*, 3> kClothes{kEmptyClothesName,
+                                            kPrisonerClothesName,
+                                            kPoliceClothesName};
+
+  const double kDoorOpenOffset = -0.4;
+  const int kHeroSpawnX = 11;
+  const int kHeroSpawnY = 11;
+
+  // To avoid going through the closed door.
+  const double kDoorInteractingDistanceCoefficient = 0.9;
 
   // Shift circle attack of Hero to forward
   // to avoid attacking bots which are behind Hero.
   const double kCoefficientForShiftingCircleAttack = 0.5;
 
-  // All durations are measured in ticks
-  const int kDurationOfOneAnimationFrame = 15;
-  const int kDurationOfShaking = 10;
-
   const double kShakeAmplitude = 0.01;
-  const double kDistanceToDetectBlock = 2 * kSpeed;
+  const double kDistanceToDetectBlock = 2 * kInitSpeed;
 
   // The opacity of the block, when it's considered transparent.
   const double kBlockOpacity = 0.1;
-  const double kBotOpacity = 0.4;
+  const double kBotOpacity = 0.6;
   const double kBotOpacityDistance = 2;
 
   // Needed to make |DynamicObject| movement in Right/Left direction more
@@ -45,7 +65,6 @@ namespace constants {
 
   const int kWindowWidth = 850;
   const int kWindowHeight = 500;
-  const int kFPS = 60;
 
   const double kXConversationWindowMultiplier = 0.25;
   const double kYConversationWindowMultiplier = 0.65;

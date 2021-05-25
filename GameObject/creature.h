@@ -5,6 +5,7 @@
 #include <QString>
 
 #include <memory>
+#include <string>
 #include <utility>
 #include <tuple>
 #include <vector>
@@ -25,6 +26,7 @@ class Creature : public DynamicObject,
     kRun,
     kFight,
     kDead,
+    kBotLunch
   };
   using State = std::tuple<Action, DynamicObject::ViewDirection, std::string>;
 
@@ -38,10 +40,13 @@ class Creature : public DynamicObject,
   bool IsAbleToAttack() const;
   void RefreshAttackCooldown();
   int GetAttack() const;
+  const std::string& GetClothesName() const;
   void StartFighting();
   void StopFighting();
   bool IsDestroyed() const;
   int GetHP() const;
+
+  void Respawn() override;
   void OnDead() override;
   Point GetDrawOffset() const override;
 

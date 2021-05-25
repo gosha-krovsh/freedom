@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "GameObject/hero.h"
+#include "GameObject/bot.h"
 #include "GameObject/storage.h"
 #include "Conversations/conversation.h"
 
@@ -15,6 +16,8 @@ class AbstractController {
   virtual void Tick() = 0;
 
   virtual void ExecuteAction(const Action& action) = 0;
+  virtual void ExecuteActions(const std::vector<Action>& actions) = 0;
+  virtual void StartQuest(int id) = 0;
 
   virtual void HeroAttack() = 0;
   virtual std::shared_ptr<Conversation> StartConversation() = 0;
@@ -27,9 +30,15 @@ class AbstractController {
 
   virtual void OnItemPress(int id, int index) = 0;
   virtual void UseItem(const Item& item) = 0;
+  virtual void InteractWithDoor() = 0;
+
   virtual Object* FindNearestObjectWithType(Object::Type type) = 0;
   virtual Object* FindIfNearestObject(
       const std::function<bool(Object*)>& predicate) = 0;
+  virtual std::shared_ptr<Storage> GetInteractableStorage() = 0;
+
+  virtual void CloseMainMenu() = 0;
+  virtual void UpdateVolume() = 0;
 
  private:
   virtual void MoveItem(int index,

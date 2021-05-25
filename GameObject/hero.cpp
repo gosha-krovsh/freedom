@@ -9,6 +9,10 @@ Hero::Hero(const Point& coords)
 void Hero::Tick(int current_tick) {
   Creature::Tick(current_tick);
 
+  if (IsDestroyed()) {
+    Respawn();
+  }
+
   // Temp code.
   // TODO: In the future, there will be separate cell in inventory for clothes.
   bool is_roba = false;
@@ -39,6 +43,14 @@ void Hero::UpdateMovement(bool left, bool up, bool right, bool down) {
   UpdateViewDirection();
 }
 
+double Hero::GetX() const {
+  return Object::GetX();
+}
+
+double Hero::GetY() const {
+  return Object::GetY();
+}
+
 int Hero::GetRoundedX() const {
   return Object::GetRoundedX();
 }
@@ -57,6 +69,12 @@ void Hero::UpdateSpeedVector(const Point& screen_vector) {
 
 void Hero::OnDead() {
   Creature::OnDead();
+}
+
+void Hero::Respawn() {
+  Creature::Respawn();
+  StopFighting();
+  SetCoordinates({constants::kHeroSpawnX, constants::kHeroSpawnY, 1});
 }
 
 void Hero::SetStorage(std::shared_ptr<Storage>&& storage) {

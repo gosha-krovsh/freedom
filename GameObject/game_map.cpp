@@ -1,9 +1,11 @@
 #include "game_map.h"
 
 GameMap::Room::Room(const QString& name,
+                    bool danger,
                     int bottom_left_x, int bottom_left_y,
                     int up_right_x, int up_right_y) :
     name(name),
+    danger_zone(danger),
     down_left_x(bottom_left_x), down_left_y(bottom_left_y),
     up_right_x(up_right_x), up_right_y(up_right_y) {
   if (bottom_left_x <= up_right_x) {
@@ -12,6 +14,10 @@ GameMap::Room::Room(const QString& name,
   if (bottom_left_y >= up_right_y) {
     qDebug() << "In constructing room: |down_left_y| <= |up_right_y|";
   }
+}
+
+const GameMap::Room& GameMap::GetCurrentRoom() const {
+  return current_room_;
 }
 
 bool GameMap::Room::IsInside(int x, int y) const {
@@ -42,6 +48,11 @@ bool GameMap::Room::operator!=(const GameMap::Room& rhs) const {
 
 bool GameMap::Room::IsOnTheEdge(int x, int y) const {
   return (IsInsideOrOnTheEdge(x, y) && !IsInside(x, y));
+}
+
+bool GameMap::Room::IsInside(const Room& room) const {
+  return (IsInsideOrOnTheEdge(room.down_left_x, room.down_left_y) &&
+          IsInsideOrOnTheEdge(room.up_right_x, room.up_right_y));
 }
 
 // ----------------------------------------------------------------------------
@@ -130,28 +141,39 @@ std::unordered_set<const Object*> GameMap::GetTransparentBlocks() const {
 }
 
 void GameMap::UpdateCurrentRoom(int hero_x, int hero_y) {
-  if (current_room_.IsInside(hero_x, hero_y)) {
+  auto edge_room_iter = GetEdgeRoom(hero_x, hero_y);
+  if (edge_room_iter != rooms_.end()) {
+    if (!is_hero_on_the_room_edge_) {
+      is_hero_on_the_room_edge_ = true;
+      current_room_ = *edge_room_iter;
+      UpdateTransparentBlocks();
+    }
+  } else {
     is_hero_on_the_room_edge_ = false;
-    return;
+    current_room_ = GetMostInnerRoom(hero_x, hero_y);
+    UpdateTransparentBlocks();
   }
-  if (current_room_.IsOnTheEdge(hero_x, hero_y) &&
-      is_hero_on_the_room_edge_) {
-    return;
-  }
-  is_hero_on_the_room_edge_ = true;
+}
 
-  auto room_iter = std::find_if(rooms_.begin(), rooms_.end(),
-                                [hero_x, hero_y, this](const Room& room) {
-    return room.IsInsideOrOnTheEdge(hero_x, hero_y) &&
-          (room != current_room_);
+GameMap::Room GameMap::GetMostInnerRoom(int hero_x, int hero_y) const {
+  Room result = rooms_.at(0);
+  for (const auto& room : rooms_) {
+    if (room.IsInsideOrOnTheEdge(hero_x, hero_y) &&
+       (!result.IsInsideOrOnTheEdge(hero_x, hero_y) || result.IsInside(room))) {
+      result = room;
+    }
+  }
+  return result;
+}
+
+std::vector<GameMap::Room>::const_iterator
+    GameMap::GetEdgeRoom(int hero_x, int hero_y) const {
+  return std::find_if(rooms_.begin(), rooms_.end(),
+                      [hero_x, hero_y, this](const Room& room) {
+    return (room != current_room_) && (room.IsOnTheEdge(hero_x, hero_y) || (
+               current_room_.IsOnTheEdge(hero_x, hero_y) &&
+               room.IsInside(current_room_)));
   });
-  if (room_iter == rooms_.end()) {
-    qDebug() << "Hero coordinates does not belong to any room";
-    return;
-  }
-
-  current_room_ = *room_iter;
-  UpdateTransparentBlocks();
 }
 
 std::vector<const Object*> GameMap::GetWallColumn(int x, int y) const {
@@ -178,4 +200,14 @@ void GameMap::UpdateTransparentBlocks() {
     auto column = GetWallColumn(current_room_.down_left_x, y);
     transparent_blocks_.insert(column.begin(), column.end());
   }
+}
+
+Object* GameMap::GetBlock(Point coords) {
+  coords = coords.GetRounded();
+  return GetBlock(coords.x, coords.y, coords.z);
+}
+
+const Object* GameMap::GetBlock(Point coords) const {
+  coords = coords.GetRounded();
+  return GetBlock(coords.x, coords.y, coords.z);
 }

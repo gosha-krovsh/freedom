@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.17)
 project(Freedom)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -20,11 +20,15 @@ add_executable(${PROJECT_NAME}
 
         Model/model.cpp
         Model/image_manager.cpp
+        Model/settings.cpp
 
         View/bar_pack.cpp
         View/item_bar.cpp
+        View/game_widget.cpp
         View/view.cpp
         View/conversation_window.cpp
+        View/main_menu.cpp
+        View/settings_menu.cpp
 
         Controller/action_controller.cpp
         Controller/controller.cpp
@@ -34,6 +38,7 @@ add_executable(${PROJECT_NAME}
 
         GameObject/action.cpp
         GameObject/bot.cpp
+        GameObject/police.cpp
         GameObject/creature.cpp
         GameObject/destroyable.cpp
         GameObject/dynamic_object.cpp
@@ -49,6 +54,7 @@ add_executable(${PROJECT_NAME}
         GameObject/sound.cpp
         GameObject/shaking_object.cpp
         GameObject/wall.cpp
+        GameObject/door.cpp
 
         Quests/quest.cpp
         Quests/quest_node.cpp

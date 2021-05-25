@@ -21,6 +21,7 @@ void ItemController::UseItem(const Item& item) {
       break;
     }
     default: {
+      qDebug() << "Unhandled usage of item";
       break;
     }
   }

@@ -12,6 +12,14 @@
 // It also can be used as a vector with the beginning at the origin.
 class Point {
  public:
+  class HashFunc {
+   public:
+    long double operator()(const Point& point) const {
+      return 67 * point.x + 67 * 67 * point.y + point.z;
+    }
+  };
+
+ public:
   Point() = default;
   Point(double x, double y, double z = 0);
   Point(int x, int y, int z = 0);
@@ -35,6 +43,7 @@ class Point {
 
   // Makes vector have a magnitude of 1.
   void Normalize();
+  Point Normalized() const;
 
   // Rotates the coordinates in the XY-plane through an |angle| in degrees
   // about the origin of a 2-dimensional Cartesian coordinate system.
@@ -45,6 +54,11 @@ class Point {
 
   bool operator==(const Point& rhs) const;
   bool operator!=(const Point& rhs) const;
+
+  bool operator<(const Point& rhs) const;
+  bool operator<=(const Point& rhs) const;
+  bool operator>(const Point& rhs) const;
+  bool operator>=(const Point& rhs) const;
 
   Point operator+() const;
   Point operator-() const;

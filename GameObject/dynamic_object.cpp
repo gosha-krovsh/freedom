@@ -40,9 +40,13 @@ void DynamicObject::UpdateViewDirection() {
 }
 
 void DynamicObject::Move() {
-  SetCoordinates(GetCoordinates() + speed_vector_ * speed_value_);
+  SetCoordinates(GetCoordinates() + speed_vector_ * GetSpeedValue());
 }
 
 void DynamicObject::SetSpeedVector(const Point& speed_vector) {
   speed_vector_ = speed_vector;
+}
+
+double DynamicObject::GetSpeedValue() const {
+  return Settings::GetSpeed();
 }
