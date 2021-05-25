@@ -42,10 +42,11 @@ class View : public QMainWindow {
   // After storage is parsed from json it should be reassigned to hero
   void AssignHeroStorage();
 
-  void SetHealth(int health);
-  void SetAttack(int attack);
-  void SetTime(const Time& time);
-  void SetLocation(const QString& location_str);
+  void UpdateStatusBar();
+
+  void AddQuestToTaskList(const QString& quest_name,
+                          const std::vector<QString>& node_strings);
+  void UpdateQuestTaskList(const QString& quest_name, int index);
 
   BarPack* GetBarPack();
   QuestTaskList* GetQuestTaskList();
@@ -67,6 +68,11 @@ class View : public QMainWindow {
   void InterruptAllInput();
 
   void ShowMainMenu();
+
+  void SetHealth(int health);
+  void SetAttack(int attack);
+  void SetTime(const Time& time);
+  void SetLocation(const QString& location_str);
 
  private:
   QTimer* timer_{new QTimer(this)};

@@ -231,9 +231,9 @@ void View::CloseConversationWindow() {
 void View::CloseMainMenu() {
   main_menu_ = nullptr;
   status_bar_->show();
-  task_list_->show();
   time_label_->show();
   location_label_->show();
+  item_bar_pack_->show();
 
   StartTickTimer();
   model_->GetSound().ResumeAllTracks();
@@ -259,13 +259,6 @@ std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id, int index) {
         return std::make_pair(item_bar_pack_->GetObjectBar(),
                               item_bar_pack_->GetClothingBar());
       }
-
-      return std::make_pair(item_bar_pack_->GetObjectBar(),
-                            item_bar_pack_->GetHeroBar());
-    }
-    case 2: {
-      std::shared_ptr<Storage> storage =
-          item_bar_pack_->GetItemBar(id)->GetStorage();
       if (storage->IsValidIndex(index) &&
           storage->GetItems().at(index).GetType()
               == Item::Type::kKnife) {
@@ -276,7 +269,15 @@ std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id, int index) {
                               item_bar_pack_->GetWeaponBar());
       }
 
+      return std::make_pair(item_bar_pack_->GetObjectBar(),
+                            item_bar_pack_->GetHeroBar());
+    }
+    case 2: {
       return std::make_pair(item_bar_pack_->GetClothingBar(),
+                            item_bar_pack_->GetObjectBar());
+    }
+    case 3 : {
+      return std::make_pair(item_bar_pack_->GetWeaponBar(),
                             item_bar_pack_->GetObjectBar());
     }
     default: {
@@ -341,12 +342,29 @@ void View::SetLocation(const QString& location_str) {
 
 void View::ShowMainMenu() {
   main_menu_ = std::make_unique<MainMenu>(controller_, this);
+  item_bar_pack_->hide();
   status_bar_->hide();
-  task_list_->hide();
   time_label_->hide();
   location_label_->hide();
 
   InterruptAllInput();
   resizeEvent(nullptr);
   model_->GetSound().PauseAllTracks();
+}
+
+void View::AddQuestToTaskList(const QString& quest_name,
+                              const std::vector<QString>& node_strings) {
+    task_list_->SetQuestString(quest_name, node_strings);
+    task_list_->UpdateCurrentLables(quest_name, 0);
+}
+
+void View::UpdateQuestTaskList(const QString& quest_name, int index) {
+    task_list_->UpdateCurrentLables(quest_name, index);
+}
+
+void View::UpdateStatusBar() {
+  SetHealth(model_->GetHero().GetHP());
+  SetAttack(model_->GetHero().GetAttack());
+  SetTime(model_->GetTime());
+  SetLocation(model_->GetMap().GetCurrentRoom().name);
 }

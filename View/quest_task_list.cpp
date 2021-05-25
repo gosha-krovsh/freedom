@@ -10,7 +10,7 @@ QuestTaskList::QuestTaskList(
     layout_(new QVBoxLayout(this)) {
   SetUi();
   SetStyles();
-  show();
+  hide();
 }
 
 void QuestTaskList::resizeEvent(QResizeEvent*) {
@@ -43,6 +43,8 @@ void QuestTaskList::SetQuestString(const QString& quest_name,
                                    const std::vector<QString>& node_strings) {
   if (quest_string_.find(quest_name) != quest_string_.end()) {
     return;
+  } else if (quest_string_.empty()) {
+    show();
   }
 
   quest_string_.insert(std::make_pair(quest_name, node_strings));
@@ -76,6 +78,10 @@ void QuestTaskList::DeleteQuest(const QString& quest) {
     delete label;
   }
   quest_labels_.erase(quest);
+
+  if (quest_string_.empty()) {
+    hide();
+  }
 }
 
 void QuestTaskList::UpdateCurrentLables(const QString& quest_name,
@@ -84,7 +90,7 @@ void QuestTaskList::UpdateCurrentLables(const QString& quest_name,
 
   int max_index = 0;
   for (auto& node_label : node_lables) {
-    if (max_index > index) {
+    if (max_index >= index) {
       return;
     }
 

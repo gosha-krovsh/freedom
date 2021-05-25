@@ -34,7 +34,7 @@ BarPack::BarPack(AbstractController* controller,
                             this,
                             hero_gun_storage,
                             model->GetImage(
-                                "knife_transparent").lock())) {
+                                "fist_transparent").lock())) {
   SetUi(center_x, y, width, height);
   hero_bar_->show();
   clothing_bar_->show();

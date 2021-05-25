@@ -73,7 +73,7 @@ void StatusBar::ConfigureStatus() {
   attack_text_label->setSizePolicy(QSizePolicy::Expanding,
                                    QSizePolicy::Expanding);
 
-  QPixmap attack_pix = *model_->GetImage("knife").lock();
+  QPixmap attack_pix = *model_->GetImage("fist").lock();
   attack_label->setPixmap(attack_pix);
 
   attack_label->setFixedWidth(constants::kStatusBarIconSize);

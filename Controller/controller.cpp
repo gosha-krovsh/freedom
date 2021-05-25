@@ -21,8 +21,10 @@ Controller::Controller()
   // Temp code, will be deleted at merge
   model_->GetHero().GetClothingStorage()->PutItem(Item(
       Item::Type::kPrisonerRoba,
-      "Roba",
-      model_->GetImage("Roba")));
+      "prisonerroba",
+      model_->GetImage("prisonerroba")));
+  view_->GetBarPack()->GetClothingBar()->UpdateIcons();
+
   view_->Show();
 }
 
@@ -55,19 +57,7 @@ void Controller::Tick() {
     view_->ItemDialogEvent();
   }
 
-  view_->SetHealth(model_->GetHero().GetHP());
-  view_->SetAttack(model_->GetHero().GetAttack());
-  view_->SetTime(model_->GetTime());
-  view_->SetLocation(model_->GetMap().GetCurrentRoom().name);
-
-  // Update QuestTaskList
-  QuestTaskList* task_list = view_->GetQuestTaskList();
-  std::vector<Quest> quests = model_->GetCurrentQuests();
-  for (auto& quest : quests) {
-    task_list->SetQuestString(quest.GetName(), quest.GetQuestNodesNames());
-    task_list->UpdateCurrentLables(quest.GetName(),
-                                   quest.GetCurrentQuestNodeIndex());
-  }
+  view_->UpdateStatusBar();
 
   ++current_tick_;
 }
@@ -387,7 +377,9 @@ void Controller::UpdateHeroMovingDirection() {
 void Controller::OnItemPress(int bar_id, int index) {
   std::pair<ItemBar*, ItemBar*> source_dest = view_->GetSrcDestBars(bar_id,
                                                                     index);
-  if (source_dest.first != nullptr && source_dest.second != nullptr) {
+  if (source_dest.first != nullptr && source_dest.second != nullptr &&
+     (source_dest.second->GetStorage()->HasLessItems(
+         source_dest.second->GetMaxItemCount()))) {
     MoveItem(index, source_dest.first->GetStorage(),
              source_dest.second->GetStorage());
     source_dest.first->UpdateIcons();
@@ -487,4 +479,13 @@ void Controller::UpdateVolume() {
 
 void Controller::DeleteQuestFromList(const QString& quest_name) {
   view_->GetQuestTaskList()->DeleteQuest(quest_name);
+}
+
+void Controller::AddQuestToList(const QString& quest_name,
+                                const std::vector<QString>& node_strings) {
+  view_->AddQuestToTaskList(quest_name, node_strings);
+}
+
+void Controller::UpdateQuestList(const QString& quest_name, int index) {
+  view_->UpdateQuestTaskList(quest_name, index);
 }

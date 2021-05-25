@@ -3,15 +3,15 @@
     "Id": 0,
     "Name": "MyQuestName",
     "OnStart": [
-      "Move(-1,1,1,1)"
+      "Move(-1,15,15,1)"
     ],
     "Nodes": [
       ["MyQuestNodeName1", "MoveToDestination(15, 14, 1)"],
-      ["MyQuestNodeName2", "MoveToDestination(2, 14, 1)"]
+      ["MyQuestNodeName2", "MoveToDestination(15, 15, 1)"]
     ],
     "OnFinish": [
-      "Move(-1,1,1,1)",
-      "SetBotConversation(Hero,1)"
+      "Move(-1,12,12,1)",
+      "SetBotConversation(Rob,1)"
     ]
   }
 ]

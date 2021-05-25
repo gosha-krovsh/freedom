@@ -141,3 +141,7 @@ void ItemBar::SetButtonsSize(int width, int max_height) {
     button->setIconSize(button->size() * constants::kCoeffitientForIconSize);
   }
 }
+
+int ItemBar::GetMaxItemCount() {
+  return item_count_;
+}

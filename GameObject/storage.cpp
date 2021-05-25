@@ -34,3 +34,7 @@ void Storage::PutItems(const std::vector<Item>& items) {
     PutItem(item);
   }
 }
+
+bool Storage::HasLessItems(int amount) {
+  return items_.size() < amount;
+}

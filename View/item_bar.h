@@ -28,6 +28,8 @@ class ItemBar : public QWidget {
   int GetId() const;
   std::shared_ptr<Storage> GetStorage() const;
 
+  int GetMaxItemCount();
+
   void UseItem(int index);
 
   void AssignStorage(const std::shared_ptr<Storage>& object);

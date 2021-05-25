@@ -37,6 +37,9 @@ class AbstractController {
       const std::function<bool(Object*)>& predicate) = 0;
   virtual std::shared_ptr<Storage> GetInteractableStorage() = 0;
 
+  virtual void UpdateQuestList(const QString& quest_name, int index) = 0;
+  virtual void AddQuestToList(const QString& quest_name,
+                              const std::vector<QString>& node_strings) = 0;
   virtual void DeleteQuestFromList(const QString& quest_name) = 0;
 
   virtual void CloseMainMenu() = 0;
