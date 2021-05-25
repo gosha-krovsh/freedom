@@ -37,7 +37,9 @@ void View::Show() {
 void View::SetUi() {
   time_label_->setObjectName("middle_label");
   time_label_->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-  time_label_->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
+  time_label_->setTextInteractionFlags(
+      Qt::TextInteractionFlag::NoTextInteraction);
+
   time_label_->setGeometry(30 * constants::kWindowWidth / 85,
                            10 * constants::kWindowHeight / 50,
                            25 * constants::kWindowWidth / 85,
@@ -305,9 +307,12 @@ void View::ItemDialogEvent() {
 }
 
 void View::AssignHeroStorage() {
-  item_bar_pack_->GetHeroBar()->AssignStorage(model_->GetHero().GetStorage());
-  item_bar_pack_->GetClothingBar()->AssignStorage(model_->GetHero().GetClothingStorage());
-  item_bar_pack_->GetWeaponBar()->AssignStorage(model_->GetHero().GetGunStorage());
+  item_bar_pack_->GetHeroBar()->AssignStorage(
+      model_->GetHero().GetStorage());
+  item_bar_pack_->GetClothingBar()->AssignStorage(
+      model_->GetHero().GetClothingStorage());
+  item_bar_pack_->GetWeaponBar()->AssignStorage(
+      model_->GetHero().GetGunStorage());
 }
 
 void View::SetHealth(int health) {

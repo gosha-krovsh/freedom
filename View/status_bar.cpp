@@ -17,7 +17,7 @@ StatusBar::StatusBar(const std::shared_ptr<Model>& model,
 void StatusBar::SetUi(int center_x, int y, int width, int height) {
   SetCenterGeometry(center_x, y, width, height);
   setLayout(layout_);
-  // setContentsMargins(5, 0, 0, 0);
+  setContentsMargins(5, 0, 0, 0);
   layout_->setMargin(0);
   layout_->setSpacing(0);
 

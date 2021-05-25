@@ -1,18 +1,21 @@
-#ifndef STATUS_BAR_H
-#define STATUS_BAR_H
+#ifndef VIEW_STATUS_BAR_H_
+#define VIEW_STATUS_BAR_H_
 
 #include <QLabel>
 #include <QFile>
 #include <QGridLayout>
 
 #include <map>
+#include <memory>
 #include <set>
+#include <utility>
 
 #include <Model/constants.h>
 #include <Model/model.h>
 
 class StatusBar : public QWidget {
   Q_OBJECT
+
  public:
   enum Type {
     kHealth,
@@ -41,4 +44,4 @@ class StatusBar : public QWidget {
   std::shared_ptr<Model> model_;
 };
 
-#endif //STATUS_BAR_H
+#endif  // VIEW_STATUS_BAR_H_

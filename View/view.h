@@ -45,7 +45,7 @@ class View : public QMainWindow {
   void SetHealth(int health);
   void SetAttack(int attack);
   void SetTime(const Time& time);
-   void SetLocation(const QString& location_str);
+  void SetLocation(const QString& location_str);
 
   BarPack* GetBarPack();
   QuestTaskList* GetQuestTaskList();
@@ -53,7 +53,7 @@ class View : public QMainWindow {
  private:
   void SetUi();
   void SetStyles();
-  
+
   void resizeEvent(QResizeEvent*) override;
   void keyPressEvent(QKeyEvent*) override;
   void keyReleaseEvent(QKeyEvent*) override;
