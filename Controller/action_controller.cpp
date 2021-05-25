@@ -8,7 +8,7 @@ ActionController::ActionController(AbstractController* controller,
 void ActionController::Call(const Action& method) {
   switch (method.GetActionType()) {
     case Action::ActionType::kMove: {
-      Move(method.GetParameters().at(0).toInt(),
+      Move(method.GetParameters().at(0),
            Point(method.GetParameters().at(1).toInt(),
                  method.GetParameters().at(2).toInt(),
                  method.GetParameters().at(3).toInt()));
@@ -53,6 +53,13 @@ void ActionController::Call(const Action& method) {
                        method.GetParameters().at(2).toInt()));
       break;
     }
+    case Action::ActionType::kSetTarget: {
+      SetTarget(method.GetParameters().at(0),
+                Point(method.GetParameters().at(1).toInt(),
+                      method.GetParameters().at(2).toInt(),
+                      method.GetParameters().at(3).toInt()));
+      break;
+    }
     case Action::ActionType::kStartConversation: {
       StartConversation(method.GetParameters().at(0));
       break;
@@ -81,11 +88,15 @@ void ActionController::Tick(int) {
   }
 }
 
-void ActionController::Move(int id, const Point& place) {
-  if (id == -1) {
+void ActionController::SetTarget(const QString& name, const Point& coords) {
+  controller_->BuildPath(model_->GetBotByName(name), coords);
+}
+void ActionController::Move(const QString& name, const Point& place) {
+  if (name == "Hero") {
     model_->GetHero().SetCoordinates(place);
+  } else {
+    model_->GetBotByName(name)->SetCoordinates(place);
   }
-  // todo: bots
 }
 
 void ActionController::AddItemToBot(const QString& bot_name,

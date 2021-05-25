@@ -39,6 +39,8 @@ class AbstractController {
   virtual Object* FindIfNearestObject(
       const std::function<bool(Object*)>& predicate) = 0;
   virtual std::shared_ptr<Storage> GetInteractableStorage() = 0;
+  virtual void BuildPath(const std::shared_ptr<Bot>& bot,
+                         const Point& finish) = 0;
 
   virtual void CloseMainMenu() = 0;
   virtual void UpdateVolume() = 0;

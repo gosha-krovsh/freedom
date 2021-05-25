@@ -21,6 +21,7 @@ class Action {
     kStartFight,
     kLockDoor,
     kUnlockDoor,
+    kSetTarget,
   };
 
   Action(const QString& name, const std::vector<QString>& parameters);

@@ -77,7 +77,7 @@ class Controller : public AbstractController {
   void ProcessPoliceSupervision();
   void ProcessFighting();
   void ProcessFighting(Creature* attacker, Creature* victim, int* i);
-  void BuildPath(const std::shared_ptr<Bot>& bot, const Point& finish);
+  void BuildPath(const std::shared_ptr<Bot>& bot, const Point& finish) override;
 
   std::vector<Point> CollectPath(const Point& finish,
                                  const std::unordered_map<Point, Point,

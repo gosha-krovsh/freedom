@@ -11,8 +11,16 @@
   ],
   "creature-items" : [
     ["Hero", ["Apple"]],
-    ["Igor", ["Apple", "Roba"]],
+
     ["Starec", ["Apple", "Roba"]],
-    ["Rob", ["Apple", "Police"]]
+    ["Igor", ["Apple", "Roba"]],
+    ["Ivan", ["Apple", "Roba"]],
+    ["Petr", ["Apple", "Roba"]],
+    ["Slava", ["Apple", "Roba"]],
+    ["Danik", ["Apple", "Roba"]],
+    ["Denis", ["Apple", "Roba"]],
+
+    ["Rob", ["Police"]],
+    ["German", ["Apple", "Police"]]
   ]
 }

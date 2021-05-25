@@ -2,5 +2,15 @@
   [8, 30, [
     "LockDoor(38,16,1)",
     "StartConversation(Hero)"
+  ]],
+  [8, 45, [
+    "UnlockDoor(38,16,1)",
+    "SetTarget(Starec, 26, 41, 1)",
+    "SetTarget(Igor, 30, 41, 1)",
+    "SetTarget(Ivan, 30, 43, 1)",
+    "SetTarget(Petr, 28, 41, 1)",
+    "SetTarget(Slava, 28, 43, 1)",
+    "SetTarget(Danik, 24, 41, 1)",
+    "SetTarget(Denis, 26, 43, 1)"
   ]]
 ]

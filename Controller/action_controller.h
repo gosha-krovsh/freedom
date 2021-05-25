@@ -22,7 +22,7 @@ class ActionController {
 
   // Methods for actions
  private:
-  void Move(int id, const Point& place);
+  void Move(const QString& name, const Point& place);
   void StartQuest(int id);
   void StartFight(const QString& name);
   void StartConversation(const QString& name);
@@ -31,6 +31,7 @@ class ActionController {
   void AddItemToBot(const QString& bot_name, Item::Type item_type);
   void UnlockDoor(const Point& coords);
   void LockDoor(const Point& coords);
+  void SetTarget(const QString& name, const Point& coords);
 
  private:
   AbstractController* controller_;

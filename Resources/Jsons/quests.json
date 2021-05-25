@@ -15,9 +15,7 @@
   {
     "Id": 1,
     "Name": "GoToPostroenie",
-    "OnStart": [
-      "UnlockDoor(38,16,1)"
-    ],
+    "OnStart": [],
     "Nodes": [
       ["GoToPostroenie", "MoveToDestination(15,14,1)"]
     ],

@@ -34,6 +34,8 @@ Action::ActionType Action::ChooseActionType(const QString& name) {
     return kUnlockDoor;
   } else if (name == "StartFight") {
     return kStartFight;
+  } else if (name == "SetTarget") {
+    return kSetTarget;
   }
   qDebug() << "Invalid action name";
   return kWrongArg;

@@ -3,16 +3,47 @@
    {
      "name":  "Igor",
      "type": "Prisoner",
-     "coords": [36, 21, 1]
+     "coords": [37, 21, 1]
+   },
+   {
+     "name":  "Ivan",
+     "type": "Prisoner",
+     "coords": [41, 21, 1]
+   },
+   {
+     "name":  "Petr",
+     "type": "Prisoner",
+     "coords": [46, 21, 1]
+   },
+   {
+     "name":  "Slava",
+     "type": "Prisoner",
+     "coords": [51, 21, 1]
+   },
+   {
+     "name":  "Denis",
+     "type": "Prisoner",
+     "coords": [46, 14, 1]
+   },
+   {
+     "name":  "Danik",
+     "type": "Prisoner",
+     "coords": [51, 14, 1]
    },
    {
      "name": "Starec",
      "type": "Prisoner",
      "coords": [41, 14, 1]
    },
+
    {
      "name": "Rob",
      "type": "Police",
-     "coords": [28, 18, 1]
+     "coords": [33, 17, 1]
+   },
+   {
+     "name": "German",
+     "type": "Police",
+     "coords": [33, 18, 1]
    }
 ]
