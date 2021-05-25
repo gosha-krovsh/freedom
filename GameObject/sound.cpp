@@ -1,17 +1,33 @@
 #include "sound.h"
 
 Sound::Sound() {
-  PlayTrack(kBackground, constants::kInfinity);
+  PlayTrack(kBackground);
 }
 
-void Sound::PlayTrack(SoundAction action, int duration, int volume) {
+void Sound::PlayTrack(SoundAction action, int volume) {
   Track current{std::make_unique<QMediaPlayer>(),
                 std::make_unique<QMediaPlaylist>(),
-                duration,
+                song_names_and_durations_[action].second,
                 volume};
 
-  current.playlist->addMedia(QUrl(names_of_avaliable_songs_[action]));
+  current.playlist->addMedia(QUrl(song_names_and_durations_[action].first));
   current.playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+
+  current.player->setPlaylist(current.playlist.get());
+  current.player->setVolume(current.volume * volume_coefficient_);
+  current.player->play();
+
+  tracks_.emplace_back(std::move(current));
+}
+
+void Sound::PlayTrackOnce(Sound::SoundAction action, int volume) {
+  Track current{std::make_unique<QMediaPlayer>(),
+                std::make_unique<QMediaPlaylist>(),
+                song_names_and_durations_[action].second,
+                volume};
+
+  current.playlist->addMedia(QUrl(song_names_and_durations_[action].first));
+  current.playlist->setPlaybackMode(QMediaPlaylist::CurrentItemOnce);
 
   current.player->setPlaylist(current.playlist.get());
   current.player->setVolume(current.volume * volume_coefficient_);
@@ -23,7 +39,7 @@ void Sound::PlayTrack(SoundAction action, int duration, int volume) {
 void Sound::Tick(int) {
   for (int i = 0; i < tracks_.size(); ++i) {
     --tracks_[i].duration;
-    if (tracks_[i].duration == 0) {
+    if (tracks_[i].duration <= 0) {
       tracks_.erase(tracks_.begin() + i);
       --i;
     }

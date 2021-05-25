@@ -70,7 +70,7 @@ namespace constants {
   const double kWidthConversationWindowMultiplier = 0.5;
   const double kHeightConversationWindowMultiplier = 0.3;
 
-  const int kTicksInMinute = 300;
+  const int kTicksInMinute = 75;
 
   // ItemBar constants
   const int kMaxElementsInItemBar = 7;

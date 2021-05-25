@@ -145,6 +145,12 @@
 
         <file alias="background.mp3">Sounds/background.mp3</file>
         <file alias="wall_attack.mp3">Sounds/wall_attack.mp3</file>
+        <file alias="door_open.mp3">Sounds/door_open.mp3</file>
+        <file alias="chest_open.mp3">Sounds/chest_open.mp3</file>
+        <file alias="take_item.mp3">Sounds/take_item.mp3</file>
+        <file alias="talking.mp3">Sounds/talking.mp3</file>
+        <file alias="use_item.mp3">Sounds/use_item.mp3</file>
+        <file alias="button_click.mp3">Sounds/button_click.mp3</file>
 
         <file alias="item_bar_styles">Styles/item_bar_styles.qss</file>
         <file alias="conversation_window_styles">Styles/conversation_window_styles.qss</file>

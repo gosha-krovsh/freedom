@@ -56,6 +56,10 @@ class Controller : public AbstractController {
 
   void CloseMainMenu() override;
   void UpdateVolume() override;
+  void PlayTrack(Sound::SoundAction action,
+                 int volume = constants::kInitVolume);
+  void PlayTrackOnce(Sound::SoundAction action,
+                     int volume = constants::kInitVolume);
 
  private:
   struct ControlKeyStates {

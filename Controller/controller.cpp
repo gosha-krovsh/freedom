@@ -54,8 +54,11 @@ void Controller::Tick() {
 }
 
 std::shared_ptr<Storage> Controller::GetInteractableStorage() {
-  auto obj = GetNearestOfTwoObjects(FindNearestStorableObject(),
-                                    FindNearestDestroyedBot().get());
+  auto bot = FindNearestDestroyedBot().get();
+  auto obj = GetNearestOfTwoObjects(FindNearestStorableObject(), bot);
+  if (!view_->IsItemDialogOpen() && (obj != bot)) {
+    PlayTrack(Sound::kOpenChest);
+  }
   return obj ? obj->GetStorage() : nullptr;
 }
 
@@ -132,7 +135,7 @@ void Controller::ProcessFighting(Creature* attacker, Creature* victim) {
   if (!attacker->IsAbleToAttack() || victim->IsDestroyed()) {
     return;
   }
-  model_->GetSound().PlayTrack(Sound::kFight, Settings::GetAttackCooldown());
+  PlayTrack(Sound::kFight);
   victim->DecreaseHP(attacker->GetAttack());
   attacker->RefreshAttackCooldown();
   if (!victim->IsDestroyed()) {
@@ -207,8 +210,7 @@ void Controller::HeroAttack() {
 
   auto nearest_wall = FindNearestObjectWithType(Object::Type::kWall);
   if (nearest_wall) {
-    model_->GetSound().PlayTrack(Sound::kWallAttack,
-                                 Settings::GetDurationOfShaking());
+    PlayTrack(Sound::kWallAttack);
     nearest_wall->Interact(hero);
     hero.RefreshAttackCooldown();
   }
@@ -365,6 +367,7 @@ void Controller::OnItemPress(int bar_id, int index) {
              source_dest.second->GetStorage());
     source_dest.first->UpdateIcons();
     source_dest.second->UpdateIcons();
+    PlayTrack(Sound::kTakeItem);
   }
 }
 
@@ -430,7 +433,10 @@ void Controller::InteractWithDoor() {
       FindNearestObjectWithType(Object::Type::kDoor_225),
       FindNearestObjectWithType(Object::Type::kDoor_315));
   if (door) {
+    // TODO: only when state changed
+    PlayTrack(Sound::kOpenDoor);
     door->Interact(model_->GetHero());
+
   }
 }
 
@@ -456,4 +462,12 @@ void Controller::CloseMainMenu() {
 void Controller::UpdateVolume() {
   model_->GetSound().SetVolumeCoefficient(
       static_cast<double>(Settings::kVolume) / constants::kInitVolume);
+}
+
+void Controller::PlayTrack(Sound::SoundAction action, int volume) {
+  model_->GetSound().PlayTrack(action, volume);
+}
+
+void Controller::PlayTrackOnce(Sound::SoundAction action, int volume) {
+  model_->GetSound().PlayTrackOnce(action, volume);
 }

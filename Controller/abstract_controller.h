@@ -8,6 +8,7 @@
 #include "GameObject/bot.h"
 #include "GameObject/storage.h"
 #include "Conversations/conversation.h"
+#include "GameObject/sound.h"
 
 class AbstractController {
  public:
@@ -39,6 +40,10 @@ class AbstractController {
 
   virtual void CloseMainMenu() = 0;
   virtual void UpdateVolume() = 0;
+  virtual void PlayTrack(Sound::SoundAction action,
+                         int volume = constants::kInitVolume) = 0;
+  virtual void PlayTrackOnce(Sound::SoundAction action,
+                             int volume = constants::kInitVolume) = 0;
 
  private:
   virtual void MoveItem(int index,
