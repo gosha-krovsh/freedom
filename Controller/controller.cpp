@@ -485,9 +485,8 @@ void Controller::UpdateVolume() {
 }
 
 void Controller::TryToOpenDoor(const Bot& bot) {
-
-  for(int delta_x = -1; delta_x <= 1; ++delta_x) {
-    for(int delta_y = -1; delta_y <= 1; ++delta_y) {
+  for (int delta_x = -1; delta_x <= 1; ++delta_x) {
+    for (int delta_y = -1; delta_y <= 1; ++delta_y) {
       auto block =
           model_->GetMap().GetBlock(bot.GetX() + delta_x,
                                     bot.GetY() + delta_y, 1);
@@ -497,8 +496,7 @@ void Controller::TryToOpenDoor(const Bot& bot) {
           block->IsType(Object::Type::kDoor_315))) {
         door = static_cast<Door*>(block);
       }
-      if (door != nullptr &&  !door->GetState() &&
-          door->IsOpenable()) {
+      if (door != nullptr) {
         door->Interact(bot);
       }
     }
