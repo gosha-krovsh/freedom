@@ -9,6 +9,7 @@
 #include <memory>
 #include <unordered_set>
 #include <utility>
+#include <vector>
 
 #include "View/bar_pack.h"
 #include "View/status_bar.h"
