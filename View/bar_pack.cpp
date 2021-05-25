@@ -57,13 +57,13 @@ void BarPack::SetUi(int center_x, int y, int width, int height) {
   object_bar_->SetButtonsSize(real_width * constants::kMaxElementsInItemBar,
                               height / 2);
 
-  layout_->addWidget(clothing_bar_, 1, 0,1, 1);
+  layout_->addWidget(clothing_bar_, 1, 0, 1, 1);
   layout_->addWidget(hero_bar_, 1, 1, 1, 1);
   layout_->addWidget(object_bar_, 0, 1, 1, 1);
   layout_->addWidget(weapon_bar_, 1, 2, 1, 1);
 
   layout_->setSpacing(0);
-  layout_->setContentsMargins(0,0,0,0);
+  layout_->setContentsMargins(0, 0, 0, 0);
 
   setLayout(layout_);
 }

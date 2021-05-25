@@ -9,7 +9,6 @@
 #include <utility>
 #include <tuple>
 #include <vector>
-#include <string>
 
 #include "animator.h"
 #include "destroyable.h"
@@ -57,7 +56,6 @@ class Creature : public DynamicObject,
  protected:
   Action action_{Action::kIdle};
   void NormalizeSpeedVector(const Point& speed_vector);
-  std::string clothes_name_;
 
   std::string clothes_name_;
 

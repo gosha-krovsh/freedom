@@ -29,6 +29,8 @@ add_executable(${PROJECT_NAME}
         View/conversation_window.cpp
         View/main_menu.cpp
         View/settings_menu.cpp
+        View/status_bar.cpp
+        View/quest_task_list.cpp
 
         Controller/action_controller.cpp
         Controller/controller.cpp
@@ -59,7 +61,7 @@ add_executable(${PROJECT_NAME}
         Quests/quest.cpp
         Quests/quest_node.cpp
 
-        Conversations/conversation.cpp View/status_bar.cpp View/status_bar.h View/quest_task_list.cpp View/quest_task_list.h)
+        Conversations/conversation.cpp)
 
 if (NOT CMAKE_PREFIX_PATH)
     message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "

@@ -16,7 +16,15 @@ int Time::GetHours() const {
 }
 
 std::string Time::ToString() const {
-  return std::string(std::to_string(hours_) + ":" + std::to_string(minutes_));
+  std::string hours = std::to_string(hours_);
+  std::string minutes = std::to_string(minutes_);
+  if (hours_ < 10) {
+    hours = std::string("0") + hours;
+  }
+  if (minutes_ < 10) {
+    minutes = std::string("0") + minutes;
+  }
+  return hours + ":" + minutes;
 }
 
 bool Time::operator==(const Time& time) const {

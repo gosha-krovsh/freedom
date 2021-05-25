@@ -15,7 +15,8 @@ class Item {
     kBrick,
     kSoap,
     kPrisonerRoba,
-    kPoliceRoba
+    kPoliceRoba,
+    kKnife
   };
 
   Item(Type type, const QString& name, const std::weak_ptr<QPixmap>& image);
@@ -24,7 +25,7 @@ class Item {
   QString GetName() const;
   Type GetType() const;
 
-  bool IsUsable();
+  bool IsUsable() const;
 
  private:
   QString name_;

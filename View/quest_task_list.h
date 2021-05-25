@@ -1,11 +1,15 @@
-#ifndef QUEST_TASK_LIST_H
-#define QUEST_TASK_LIST_H
+#ifndef VIEW_QUEST_TASK_LIST_H_
+#define VIEW_QUEST_TASK_LIST_H_
 
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QFile>
+
+#include <map>
+#include <utility>
+#include <vector>
 
 #include "Controller/abstract_controller.h"
 #include "Quests/quest.h"
@@ -40,4 +44,4 @@ class QuestTaskList : public QWidget {
   std::map<QString, std::pair<QLabel*, std::vector<QLabel*>>> quest_labels_;
 };
 
-#endif  // QUEST_TASK_LIST_H
+#endif  // VIEW_QUEST_TASK_LIST_H_

@@ -247,7 +247,10 @@ std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id, int index) {
       std::shared_ptr<Storage> storage =
           item_bar_pack_->GetItemBar(id)->GetStorage();
       if (storage->IsValidIndex(index) &&
-          storage->GetItems().at(index).GetType() == Item::Type::kPrisonerRoba) {
+          storage->GetItems().at(index).GetType()
+          == Item::Type::kPrisonerRoba ||
+          storage->GetItems().at(index).GetType()
+          == Item::Type::kPoliceRoba) {
         controller_->OnItemPress(
             static_cast<int>(BarPack::BarType::kClothinBar), 0);
 
@@ -259,6 +262,18 @@ std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id, int index) {
                             item_bar_pack_->GetHeroBar());
     }
     case 2: {
+      std::shared_ptr<Storage> storage =
+          item_bar_pack_->GetItemBar(id)->GetStorage();
+      if (storage->IsValidIndex(index) &&
+          storage->GetItems().at(index).GetType()
+              == Item::Type::kKnife) {
+        controller_->OnItemPress(
+            static_cast<int>(BarPack::BarType::kWeaponBar), 0);
+
+        return std::make_pair(item_bar_pack_->GetObjectBar(),
+                              item_bar_pack_->GetWeaponBar());
+      }
+
       return std::make_pair(item_bar_pack_->GetClothingBar(),
                             item_bar_pack_->GetObjectBar());
     }
@@ -299,8 +314,8 @@ void View::SetHealth(int health) {
   status_bar_->SetPrameter(StatusBar::Type::kHealth, QString::number(health));
 }
 
-void View::SetAttack(int health) {
-  status_bar_->SetPrameter(StatusBar::Type::kAttack, QString::number(health));
+void View::SetAttack(int attack) {
+  status_bar_->SetPrameter(StatusBar::Type::kAttack, QString::number(attack));
 }
 
 BarPack* View::GetBarPack() {
@@ -326,13 +341,6 @@ void View::ShowMainMenu() {
   time_label_->hide();
   location_label_->hide();
 
-  InterruptAllInput();
-  resizeEvent(nullptr);
-  model_->GetSound().PauseAllTracks();
-}
-
-void View::ShowMainMenu() {
-  main_menu_ = std::make_unique<MainMenu>(controller_, this);
   InterruptAllInput();
   resizeEvent(nullptr);
   model_->GetSound().PauseAllTracks();

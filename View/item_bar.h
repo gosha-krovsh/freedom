@@ -19,7 +19,7 @@ class ItemBar : public QWidget {
 
  public:
   ItemBar(int id,
-          int size,
+          int item_count,
           AbstractController* controller,
           QWidget* parent = nullptr,
           const std::shared_ptr<Storage>& storage = nullptr,
@@ -47,7 +47,7 @@ class ItemBar : public QWidget {
   AbstractController* controller_;
   std::shared_ptr<Storage> storage_ = nullptr;
   int id_;
-  int size_;
+  int item_count_;
 
   std::vector<QPushButton*> buttons_;
   QHBoxLayout* layout_;

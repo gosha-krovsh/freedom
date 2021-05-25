@@ -49,8 +49,10 @@ void StatusBar::ConfigureStatus() {
   QLabel* helth_text_label = new QLabel(this);
   helth_text_label->setObjectName("health_bar");
   health_label->setScaledContents(true);
-  health_label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-  helth_text_label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  health_label->setSizePolicy(QSizePolicy::Fixed,
+                              QSizePolicy::Fixed);
+  helth_text_label->setSizePolicy(QSizePolicy::Expanding,
+                                  QSizePolicy::Expanding);
 
   QPixmap health_pix = *model_->GetImage("heart").lock();
   health_label->setPixmap(health_pix);
@@ -66,8 +68,10 @@ void StatusBar::ConfigureStatus() {
 
   attack_text_label->setObjectName("weapon_bar");
   attack_label->setScaledContents(true);
-  attack_label->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-  attack_text_label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  attack_label->setSizePolicy(QSizePolicy::Fixed,
+                              QSizePolicy::Fixed);
+  attack_text_label->setSizePolicy(QSizePolicy::Expanding,
+                                   QSizePolicy::Expanding);
 
   QPixmap attack_pix = *model_->GetImage("knife").lock();
   attack_label->setPixmap(attack_pix);

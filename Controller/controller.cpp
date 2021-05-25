@@ -18,8 +18,11 @@ Controller::Controller()
       std::move(data_controller_->ParseCreatureStorage()));
   view_->AssignHeroStorage();
 
-  model_->GetHero().GetClothingStorage()->PutItem(Item(Item::Type::kPrisonerRoba, "Roba",
-                                                       model_->GetImage("Roba")));
+  // Temp code, will be deleted at merge
+  model_->GetHero().GetClothingStorage()->PutItem(Item(
+      Item::Type::kPrisonerRoba,
+      "Roba",
+      model_->GetImage("Roba")));
   view_->Show();
 }
 
@@ -61,7 +64,7 @@ void Controller::Tick() {
   QuestTaskList* task_list = view_->GetQuestTaskList();
   std::vector<Quest> quests = model_->GetCurrentQuests();
   for (auto& quest : quests) {
-    task_list->SetQuestString(quest.GetName(),quest.GetQuestNodesNames());
+    task_list->SetQuestString(quest.GetName(), quest.GetQuestNodesNames());
     task_list->UpdateCurrentLables(quest.GetName(),
                                    quest.GetCurrentQuestNodeIndex());
   }
