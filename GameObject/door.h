@@ -14,16 +14,23 @@ class Door : public Object {
 
   void Tick(int current_tick) override;
   void Interact(const InteractingObject& interacting_object) override;
+
   Point GetDrawOffset() const override;
+  bool IsOpenable() const;
+  void SetOpenable(bool openable);
+
+  bool IsOpened() const;
+
+  State GetState() const;
 
  private:
-  State GetState() const;
   void SetDrawOffset();
   bool IsObjectVeryClose(double object_x, double object_y) const;
 
  private:
   Animator<State> animator_{GetState()};
   bool is_opened_{false};
+  bool is_openable{true};
   Point draw_offset_{0, 0};
 };
 
