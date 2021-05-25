@@ -26,14 +26,14 @@ class Door : public Object {
   bool IsOpenable();
   void SetOpenable(bool openable);
 
-  State GetState();
-  void SetState(bool state);
+  State GetState() const;
+
  private:
   void SetDrawOffset();
   bool IsObjectVeryClose(double object_x, double object_y) const;
 
  private:
-  Animator<State> animator_{is_openalbe_};
+  Animator<State> animator_{GetState()};
   bool is_opened_{false};
   bool is_openalbe_{true};
   Point draw_offset_{0, 0};

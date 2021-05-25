@@ -18,7 +18,7 @@ Door::Door(const Point& coords,
 }
 
 void Door::Tick(int current_tick) {
-  image_ = animator_.GetImageByState(is_openalbe_);
+  image_ = animator_.GetImageByState(GetState());
   Object::Tick(current_tick);
 }
 
@@ -66,10 +66,6 @@ bool Door::IsOpenable() {
   return is_openalbe_;
 }
 
-Door::State Door::GetState() {
-  return static_cast<State>(is_opened_);
-}
-
-void Door::SetState(bool state) {
-  is_opened_ = state;
+Door::State Door::GetState() const {
+  return State(is_opened_);
 }

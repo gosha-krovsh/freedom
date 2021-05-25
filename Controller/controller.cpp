@@ -416,11 +416,11 @@ void Controller::TryToOpenDoor(const Bot& bot) {
                                     bot.GetY() + delta_y, 1);
 
       Door* door = nullptr;
-      if (block->IsType(Object::Type::kDoor_225) ||
-          block->IsType(Object::Type::kDoor_315)) {
+      if (block != nullptr && (block->IsType(Object::Type::kDoor_225) ||
+          block->IsType(Object::Type::kDoor_315))) {
           door = static_cast<Door*>(block);
       }
-      if (door != nullptr &&  &&
+      if (door != nullptr &&  !door->GetState() &&
           door->GetPolicy() == Door::kOpenable) {
         door->Interact(bot);
       }
