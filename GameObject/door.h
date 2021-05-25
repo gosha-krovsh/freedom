@@ -19,7 +19,7 @@ class Door : public Object {
   bool IsOpenable() const;
   void SetOpenable(bool openable);
 
-  bool IsOpened();
+  bool IsOpened() const;
 
   State GetState() const;
 

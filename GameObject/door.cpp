@@ -62,6 +62,7 @@ bool Door::IsOpenable() const {
 Door::State Door::GetState() const {
   return State(is_opened_);
 }
-bool Door::IsOpened() {
+
+bool Door::IsOpened() const {
   return is_opened_;
 }
