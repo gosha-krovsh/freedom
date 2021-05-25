@@ -55,6 +55,8 @@ class Object {
 
   virtual void Tick(int current_time);
 
+
+
   virtual Point GetDrawOffset() const;
   Point GetCoordinates() const;
   double GetX() const;
