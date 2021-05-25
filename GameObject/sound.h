@@ -50,11 +50,11 @@ class Sound {
     {"qrc:background.mp3", constants::kInfinity},
     {"qrc:wall_attack.mp3", Settings::GetDurationOfShaking()},
     {"qrc:wall_attack.mp3", Settings::GetAttackCooldown()},
-    {"qrc:door_open.mp3", 40},
-    {"qrc:chest_open.mp3", 40},
-    {"qrc:take_item.mp3", 40},
+    {"qrc:door_open.mp3", Settings::GetDefaultSoundDuration()},
+    {"qrc:chest_open.mp3", Settings::GetDefaultSoundDuration()},
+    {"qrc:take_item.mp3", Settings::GetDefaultSoundDuration()},
     {"qrc:talking.mp3", 0},
-    {"qrc:use_item.mp3", 40},
+    {"qrc:use_item.mp3", Settings::GetDefaultSoundDuration()},
     {"qrc:button_click.mp3", 0},
   };
 };
