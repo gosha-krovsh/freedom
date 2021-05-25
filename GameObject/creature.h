@@ -28,6 +28,7 @@ class Creature : public DynamicObject,
     kDead,
     kBotLunch
   };
+
   using State = std::tuple<Action, DynamicObject::ViewDirection, std::string>;
 
   Creature(const Point& coords, const QString& name, int hp);
@@ -56,6 +57,8 @@ class Creature : public DynamicObject,
  protected:
   Action action_{Action::kIdle};
   void NormalizeSpeedVector(const Point& speed_vector);
+  std::string clothes_name_;
+
   std::string clothes_name_;
 
  private:

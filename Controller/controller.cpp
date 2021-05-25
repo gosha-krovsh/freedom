@@ -20,7 +20,6 @@ Controller::Controller()
 
   model_->GetHero().GetClothingStorage()->PutItem(Item(Item::Type::kPrisonerRoba, "Roba",
                                                        model_->GetImage("Roba")));
-
   view_->Show();
 }
 

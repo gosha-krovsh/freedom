@@ -12,21 +12,6 @@ void Hero::Tick(int current_tick) {
   if (IsDestroyed()) {
     Respawn();
   }
-
-  // Temp code.
-  // TODO: In the future, there will be separate cell in inventory for clothes.
-  bool is_roba = false;
-  for (const auto& item : clothing_storage_->GetItems()) {
-    if (item.GetType() == Item::Type::kPrisonerRoba) {
-      is_roba = true;
-      break;
-    }
-  }
-  if (is_roba) {
-    clothes_name_ = "roba";
-  } else {
-    clothes_name_ = "";
-  }
 }
 
 Point Hero::GetViewVector() const {

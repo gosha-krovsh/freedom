@@ -330,3 +330,10 @@ void View::ShowMainMenu() {
   resizeEvent(nullptr);
   model_->GetSound().PauseAllTracks();
 }
+
+void View::ShowMainMenu() {
+  main_menu_ = std::make_unique<MainMenu>(controller_, this);
+  InterruptAllInput();
+  resizeEvent(nullptr);
+  model_->GetSound().PauseAllTracks();
+}

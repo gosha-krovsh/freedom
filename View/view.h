@@ -53,7 +53,7 @@ class View : public QMainWindow {
  private:
   void SetUi();
   void SetStyles();
-
+  
   void resizeEvent(QResizeEvent*) override;
   void keyPressEvent(QKeyEvent*) override;
   void keyReleaseEvent(QKeyEvent*) override;
