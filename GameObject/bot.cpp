@@ -72,3 +72,29 @@ void Bot::SetTargets(const std::vector<Point>& targets) {
     NormalizeSpeedVector(*current_point_ - GetCoordinates());
   }
 }
+
+double Bot::GetX() const {
+  return Object::GetX();
+}
+
+double Bot::GetY() const {
+  return Object::GetY();
+}
+
+int Bot::GetRoundedX() const {
+  return Object::GetRoundedX();
+}
+
+int Bot::GetRoundedY() const {
+  return Object::GetRoundedY();
+}
+
+int Bot::GetAttack() const {
+  return Creature::GetAttack();
+}
+
+void Bot::Rebuild() {
+  targets_.clear();
+  current_point_ = targets_.begin();
+}
+

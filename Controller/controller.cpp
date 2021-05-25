@@ -29,6 +29,7 @@ void Controller::Tick() {
 
   for (auto& bot : model_->GetBots()) {
     bot->Tick(current_tick_);
+    TryToOpenDoor(*bot);
   }
   model_->GetMap().UpdateCurrentRoom(model_->GetHero().GetRoundedX(),
                                      model_->GetHero().GetRoundedY());
@@ -38,6 +39,12 @@ void Controller::Tick() {
     model_->GetTime().AddMinutes(1);
     qDebug() << QString::fromStdString(model_->GetTime().ToString());
     actions_controller_->Tick(current_tick_);
+  }
+
+  // temp code
+  Point canteen = {48, 21, 1};
+  if (model_->GetTime().GetMinutes() == 34) {
+    MoveAllBotsToPoint(canteen);
   }
 
   CheckHeroCollision();
@@ -268,7 +275,7 @@ void Controller::BuildPath(const std::shared_ptr<Bot>& bot,
   used[start] = true;
 
   current.push_front(start);
-  while (!current.empty()) {
+  while (!current.empty() && !used[finish]) {
     Point current_point = current.front();
     current.pop_front();
     for (int delta_x = -1; delta_x <= 1; ++delta_x) {
@@ -277,8 +284,18 @@ void Controller::BuildPath(const std::shared_ptr<Bot>& bot,
         int new_y = current_point.y + delta_y;
         Point next_point = Point(new_x, new_y, 1);
 
+        auto next_block = model_->GetMap().GetBlock(next_point);
+
+        bool is_openable_door_ = false;
+        if (next_block != nullptr &&
+            (next_block->IsType(Object::Type::kDoor_315) ||
+                next_block->IsType(Object::Type::kDoor_225))) {
+          Door* next_door = static_cast<Door*>(next_block);
+          is_openable_door_ = next_door->IsOpenable();
+        }
+
         if (!used[next_point] &&
-            model_->GetMap().GetBlock(next_point) == nullptr) {
+            (next_block == nullptr || is_openable_door_)) {
           used[next_point] = true;
           prev[next_point] = current_point;
           if (delta_x == 0 || delta_y == 0) {
@@ -309,6 +326,7 @@ std::vector<Point> Controller::CollectPath(const Point& finish,
   std::reverse(result.begin(), result.end());
   return result;
 }
+
 Object* Controller::FindIfNearestObject(
     const std::function<bool(Object*)>& predicate) {
   Hero& hero = model_->GetHero();
@@ -441,10 +459,11 @@ void Controller::StartQuest(int id) {
 }
 
 void Controller::InteractWithDoor() {
-  auto door = GetNearestOfTwoObjects(
+  Door* door = static_cast<Door*> (GetNearestOfTwoObjects(
       FindNearestObjectWithType(Object::Type::kDoor_225),
-      FindNearestObjectWithType(Object::Type::kDoor_315));
-  if (door) {
+      FindNearestObjectWithType(Object::Type::kDoor_315)));
+
+  if (door != nullptr) {
     door->Interact(model_->GetHero());
   }
 }
@@ -471,4 +490,23 @@ void Controller::CloseMainMenu() {
 void Controller::UpdateVolume() {
   model_->GetSound().SetVolumeCoefficient(
       static_cast<double>(Settings::kVolume) / constants::kInitVolume);
+}
+
+void Controller::TryToOpenDoor(const Bot& bot) {
+  for (int delta_x = -1; delta_x <= 1; ++delta_x) {
+    for (int delta_y = -1; delta_y <= 1; ++delta_y) {
+      auto block =
+          model_->GetMap().GetBlock(bot.GetX() + delta_x,
+                                    bot.GetY() + delta_y, 1);
+
+      Door* door = nullptr;
+      if (block != nullptr && (block->IsType(Object::Type::kDoor_225) ||
+          block->IsType(Object::Type::kDoor_315))) {
+        door = static_cast<Door*>(block);
+      }
+      if (door != nullptr && !door->IsOpened()) {
+        door->Interact(bot);
+      }
+    }
+  }
 }
