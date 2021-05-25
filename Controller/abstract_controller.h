@@ -19,9 +19,11 @@ class AbstractController {
   virtual void ExecuteAction(const Action& action) = 0;
   virtual void ExecuteActions(const std::vector<Action>& actions) = 0;
   virtual void StartQuest(int id) = 0;
+  virtual void StartConversation(const Creature* creature) = 0;
 
   virtual void HeroAttack() = 0;
-  virtual std::shared_ptr<Conversation> StartConversation() = 0;
+  virtual void OpenEyes() = 0;
+  virtual std::shared_ptr<Conversation> GetNearestConversation() = 0;
   virtual void FinishConversation() = 0;
 
   virtual void SetControlUpKeyState(bool state) = 0;

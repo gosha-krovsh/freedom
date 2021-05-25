@@ -10,22 +10,25 @@
 #include <vector>
 
 #include "Model/constants.h"
+#include "Model/settings.h"
 
 class Sound {
  public:
   enum SoundAction {
-    kBackground = 0,
+    kIntro = 0,
     kWallAttack = 1,
-    kFight = 1,
+    kFight = 2,
+    kOpenDoor = 3,
+    kOpenChest = 4,
+    kTakeItem = 5,
+    kTalking = 6,
   };
 
-  Sound();
-
-  void PlayTrack(SoundAction action, int duration,
-                 int volume = constants::kInitVolume);
+  void PlayTrack(SoundAction action, int volume = constants::kInitVolume);
 
   void Tick(int);
   void SetVolumeCoefficient(double volume_coefficient);
+  void RemoveAllTracks();
   void PauseAllTracks();
   void ResumeAllTracks();
 
@@ -39,9 +42,15 @@ class Sound {
 
   double volume_coefficient_ = 1;
   std::vector<Track> tracks_;
-  std::vector<QString> names_of_avaliable_songs_{
-    "qrc:background.mp3",
-    "qrc:wall_attack.mp3"};
+  std::vector<std::pair<QString, int>> song_names_and_durations_{
+      {"qrc:intro.mp3", constants::kInfinity},
+      {"qrc:wall_attack.mp3", Settings::GetDurationOfShaking()},
+      {"qrc:wall_attack.mp3", Settings::GetAttackCooldown()},
+      {"qrc:door_open.mp3", 40},
+      {"qrc:chest_open.mp3", 40},
+      {"qrc:take_item.mp3", 40},
+      {"qrc:talking.mp3", 5},
+  };
 };
 
 #endif  // GAMEOBJECT_SOUND_H_

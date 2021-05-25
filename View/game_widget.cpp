@@ -71,7 +71,7 @@ void GameWidget::paintEvent(QPaintEvent*) {
             }
             current_bot->Draw(&painter);
             painter.setOpacity(1);
-            QFont font = painter.font() ;
+            QFont font = painter.font();
             font.setPointSize(30);
             painter.setFont(font);
             auto text_coords = current_bot->GetCoordinates();

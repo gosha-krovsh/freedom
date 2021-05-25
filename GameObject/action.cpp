@@ -22,6 +22,10 @@ Action::ActionType Action::ChooseActionType(const QString& name) {
     return kAddItemToBot;
   } else if (name == "StartQuest") {
     return kStartQuest;
+  } else if (name == "StartConversation") {
+    return kStartConversation;
+  } else if (name == "OpenEyes") {
+    return kOpenEyes;
   } else if (name == "SetBotConversation") {
     return kSetBotConversation;
   } else if (name == "LockDoor") {

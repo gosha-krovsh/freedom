@@ -16,9 +16,14 @@ void View::Show() {
   setCentralWidget(game_widget_.get());
   connect(timer_, &QTimer::timeout, this, &View::TimerEvent);
 
+  game_widget_->hide();
+  model_->GetSound().PlayTrack(Sound::kIntro);
   show();
   item_bar_pack_->show();
   ShowMainMenu();
+}
+void View::ShowGame() {
+  game_widget_->show();
 }
 
 void View::StartTickTimer() {
@@ -34,6 +39,18 @@ void View::TimerEvent() {
   game_widget_->repaint();
 }
 
+void View::StartConversation(
+    const std::shared_ptr<Conversation>& conversation) {
+  if (conversation) {
+    StopTickTimer();
+    conversation_window_ = std::make_unique<ConversationWindow>(
+        *conversation, controller_, this);
+    InterruptAllInput();
+    resizeEvent(nullptr);
+    item_bar_pack_->hide();
+  }
+}
+
 void View::keyPressEvent(QKeyEvent* event) {
   if (IsInputBlocked()) {
     return;
@@ -45,15 +62,7 @@ void View::keyPressEvent(QKeyEvent* event) {
       break;
     }
     case Qt::Key_Q: {
-      auto conversation = controller_->StartConversation();
-      if (conversation) {
-        StopTickTimer();
-        conversation_window_ = std::make_unique<ConversationWindow>(
-            *conversation, controller_, this);
-        InterruptAllInput();
-        resizeEvent(nullptr);
-        item_bar_pack_->hide();
-      }
+      StartConversation(controller_->GetNearestConversation());
       break;
     }
     case Qt::Key_Up:

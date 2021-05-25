@@ -4,7 +4,7 @@ ActionController::ActionController(AbstractController* controller,
                                    const std::shared_ptr<Model>& model) :
                                    controller_(controller),
                                    model_(model) {}
-
+#include <iostream>
 void ActionController::Call(const Action& method) {
   switch (method.GetActionType()) {
     case Action::ActionType::kMove: {
@@ -36,6 +36,11 @@ void ActionController::Call(const Action& method) {
       StartFight(method.GetParameters().at(0));
       break;
     }
+    case Action::ActionType::kOpenEyes: {
+      controller_->OpenEyes();
+      model_->GetSound().RemoveAllTracks();
+      break;
+    }
     case Action::ActionType::kLockDoor: {
       LockDoor(Point(method.GetParameters().at(0).toInt(),
                      method.GetParameters().at(1).toInt(),
@@ -46,6 +51,10 @@ void ActionController::Call(const Action& method) {
       UnlockDoor(Point(method.GetParameters().at(0).toInt(),
                        method.GetParameters().at(1).toInt(),
                        method.GetParameters().at(2).toInt()));
+      break;
+    }
+    case Action::ActionType::kStartConversation: {
+      StartConversation(method.GetParameters().at(0));
       break;
     }
     case Action::ActionType::kSetBotConversation: {
@@ -101,6 +110,13 @@ void ActionController::AddItemToStorage(const Point& coords,
 
 void ActionController::StartQuest(int id) {
   controller_->StartQuest(id);
+}
+void ActionController::StartConversation(const QString& name) {
+  if (name == "Hero") {
+    controller_->StartConversation(&model_->GetHero());
+  } else {
+    controller_->StartConversation(model_->GetBotByName(name).get());
+  }
 }
 
 void ActionController::StartFight(const QString& name) {

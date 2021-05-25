@@ -25,6 +25,7 @@ class ActionController {
   void Move(int id, const Point& place);
   void StartQuest(int id);
   void StartFight(const QString& name);
+  void StartConversation(const QString& name);
   void SetBotConversation(const QString& bot_name, int conversation_id);
   void AddItemToStorage(const Point& coords, Item::Type item_type);
   void AddItemToBot(const QString& bot_name, Item::Type item_type);

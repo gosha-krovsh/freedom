@@ -1,16 +1,12 @@
 #include "sound.h"
 
-Sound::Sound() {
-  PlayTrack(kBackground, constants::kInfinity);
-}
-
-void Sound::PlayTrack(SoundAction action, int duration, int volume) {
+void Sound::PlayTrack(SoundAction action, int volume) {
   Track current{std::make_unique<QMediaPlayer>(),
                 std::make_unique<QMediaPlaylist>(),
-                duration,
+                song_names_and_durations_[action].second,
                 volume};
 
-  current.playlist->addMedia(QUrl(names_of_avaliable_songs_[action]));
+  current.playlist->addMedia(QUrl(song_names_and_durations_[action].first));
   current.playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
 
   current.player->setPlaylist(current.playlist.get());
@@ -37,16 +33,19 @@ void Sound::SetVolumeCoefficient(double volume_coefficient) {
   }
 }
 
+void Sound::RemoveAllTracks() {
+  PauseAllTracks();
+  tracks_.clear();
+}
+
 void Sound::PauseAllTracks() {
-  // The first track is always Background
-  for (int i = 1; i < tracks_.size(); ++i) {
+  for (int i = 0; i < tracks_.size(); ++i) {
     tracks_[i].player->pause();
   }
 }
 
 void Sound::ResumeAllTracks() {
-  // The first track is always Background
-  for (int i = 1; i < tracks_.size(); ++i) {
+  for (int i = 0; i < tracks_.size(); ++i) {
     tracks_[i].player->play();
   }
 }

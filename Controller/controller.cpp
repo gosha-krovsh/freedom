@@ -387,7 +387,14 @@ void Controller::MoveItem(int index,
   }
 }
 
-std::shared_ptr<Conversation> Controller::StartConversation() {
+void Controller::OpenEyes() {
+  view_->ShowGame();
+}
+void Controller::StartConversation(const Creature* creature) {
+  view_->StartConversation(creature->GetCurrentConversation());
+}
+
+std::shared_ptr<Conversation> Controller::GetNearestConversation() {
   auto bot = FindNearestAliveBotInRadius(constants::kStartConversationRadius);
   if (!bot) {
     return nullptr;

@@ -74,7 +74,7 @@ class Model {
   Hero hero_{Point(constants::kHeroSpawnX,
                    constants::kHeroSpawnY,
                    1)};
-  Time time_{Time(8, 29)};
+  Time time_{Time(8, 25)};
   ImageManager image_manager_;
   Sound sound_;
   std::vector<std::shared_ptr<Bot>> bots_;
