@@ -20,6 +20,7 @@ add_executable(${PROJECT_NAME}
 
         Model/model.cpp
         Model/image_manager.cpp
+        Model/settings.cpp
 
         View/bar_pack.cpp
         View/item_bar.cpp
@@ -37,6 +38,7 @@ add_executable(${PROJECT_NAME}
 
         GameObject/action.cpp
         GameObject/bot.cpp
+        GameObject/police.cpp
         GameObject/creature.cpp
         GameObject/destroyable.cpp
         GameObject/dynamic_object.cpp

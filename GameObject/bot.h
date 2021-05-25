@@ -13,15 +13,22 @@
 
 class Bot : public Creature, public InteractingObject{
  public:
-  Bot(const QString& name, const Point& coords);
+  enum class Type {
+    kPrisoner,
+    kPolice
+  };
+
+  Bot(const QString& name,
+      const Point& coords,
+      int hp = constants::kHP,
+      Type type = Type::kPrisoner);
 
   void Tick(int current_tick) override;
   void SetStorage(std::shared_ptr<Storage>&& storage);
   void OnDead() override;
 
+  Type GetBotType() const;
   Point GetFinish() const;
-  void SetFinish(const Point& new_finish);
-  void Rebuild();
 
   double GetX() const override;
   double GetY() const override;
@@ -36,8 +43,9 @@ class Bot : public Creature, public InteractingObject{
   void MakeStep();
 
   std::vector<Point> targets_;
-  int current_index_in_path_{0};
-  Point finish_;
+  void UpdateClothesName();
+  std::vector<Point>::iterator current_point_{targets_.end()};
+  Type type_;
 };
 
 #endif  // GAMEOBJECT_BOT_H_

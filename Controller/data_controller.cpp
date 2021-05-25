@@ -75,12 +75,13 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
   }
   for (const auto& json_room : json_rooms) {
     QJsonArray room_params = json_room.toArray();
-    if (room_params.size() != 5) {
+    if (room_params.size() != 6) {
       qDebug() << "Invalid number of room constructor parameters";
     }
     rooms.emplace_back(room_params[0].toString(),
-                       room_params[1].toInt(), room_params[2].toInt(),
-                       room_params[3].toInt(), room_params[4].toInt());
+                       room_params[1] == 1,
+                       room_params[2].toInt(), room_params[3].toInt(),
+                       room_params[4].toInt(), room_params[5].toInt());
   }
 
   // Parsing objects
@@ -119,6 +120,7 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
             break;
           }
           case Object::Type::kChest:
+          case Object::Type::kWardrobe_45:
           case Object::Type::kWardrobe_225:
           case Object::Type::kWardrobe_315: {
             Point point{x, y, z};
@@ -134,6 +136,8 @@ std::unique_ptr<GameMap> DataController::ParseGameMap() {
             std::weak_ptr<QPixmap> image;
             if (object_type == Object::Type::kChest) {
               image = model_->GetImage("chest");
+            } else if (object_type == Object::Type::kWardrobe_45) {
+              image = model_->GetImage("wardrobe_45");
             } else if (object_type == Object::Type::kWardrobe_225) {
               image = model_->GetImage("wardrobe_225");
             } else if (object_type == Object::Type::kWardrobe_315) {
@@ -306,24 +310,33 @@ Action DataController::ParseAction(const QString& j_str) {
   return Action(name, params);
 }
 
-std::vector<Bot> DataController::ParseBots() {
+std::vector<std::shared_ptr<Bot>> DataController::ParseBots() {
   QFile file(":bots.json");
   file.open(QIODevice::ReadOnly | QIODevice::Text);
   QJsonArray json_bots = QJsonDocument::fromJson(file.readAll()).array();
 
-  std::vector<Bot> bots;
+  std::vector<std::shared_ptr<Bot>> bots;
   for (int i = 0; i < json_bots.size(); ++i) {
     QJsonObject current_bot_params = json_bots[i].toObject();
     QJsonArray current_bot_coords = current_bot_params["coords"].toArray();
     if (current_bot_coords.size() != 3) {
       qDebug() << "Invalid data about bot number "
-               << i + 1 << ' ' << current_bot_params.size();
+               << i + 1 << ' ' << current_bot_params.size() << '\n';
     }
-    Point start{current_bot_coords[0].toInt(), current_bot_coords[1].toInt(),
+    Point start{current_bot_coords[0].toInt(),
+                current_bot_coords[1].toInt(),
                 current_bot_coords[2].toInt()};
 
-    bots.emplace_back(current_bot_params["name"].toString(), start);
+    auto type = current_bot_params["type"].toString();
+    if (type == "Prisoner") {
+      bots.push_back(std::make_shared<Bot>(
+          current_bot_params["name"].toString(), start));
+    } else if (type == "Police") {
+      bots.push_back(std::make_shared<Police>(
+          current_bot_params["name"].toString(), start));
+    }
   }
+
   return bots;
 }
   // From items.json parses "creature-items" key

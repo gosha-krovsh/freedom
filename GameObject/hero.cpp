@@ -7,19 +7,8 @@ Hero::Hero(const Point& coords)
 void Hero::Tick(int current_tick) {
   Creature::Tick(current_tick);
 
-  // Temp code.
-  // TODO: In the future, there will be separate cell in inventory for clothes.
-  bool is_roba = false;
-  for (const auto& item : storage_->GetItems()) {
-    if (item.GetName() == "roba") {
-      is_roba = true;
-      break;
-    }
-  }
-  if (is_roba) {
-    clothes_name_ = "roba";
-  } else {
-    clothes_name_ = "";
+  if (IsDestroyed()) {
+    Respawn();
   }
 }
 
@@ -63,4 +52,10 @@ void Hero::UpdateSpeedVector(const Point& screen_vector) {
 
 void Hero::OnDead() {
   Creature::OnDead();
+}
+
+void Hero::Respawn() {
+  Creature::Respawn();
+  StopFighting();
+  SetCoordinates({constants::kHeroSpawnX, constants::kHeroSpawnY, 1});
 }

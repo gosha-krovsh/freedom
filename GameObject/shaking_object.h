@@ -2,6 +2,7 @@
 #define GAMEOBJECT_SHAKING_OBJECT_H_
 
 #include "point.h"
+#include "Model/settings.h"
 
 class ShakingObject {
  public:
