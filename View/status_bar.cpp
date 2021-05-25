@@ -17,7 +17,7 @@ StatusBar::StatusBar(const std::shared_ptr<Model>& model,
 void StatusBar::SetUi(int center_x, int y, int width, int height) {
   SetCenterGeometry(center_x, y, width, height);
   setLayout(layout_);
-  setContentsMargins(5, 0, 0, 0);
+  // setContentsMargins(5, 0, 0, 0);
   layout_->setMargin(0);
   layout_->setSpacing(0);
 
@@ -75,7 +75,6 @@ void StatusBar::ConfigureStatus() {
   attack_label->setFixedWidth(constants::kStatusBarIconSize);
   attack_label->setFixedHeight(constants::kStatusBarIconSize);
   attack_text_label->setFixedHeight(constants::kStatusBarIconSize);
-  attack_text_label->setFixedWidth(constants::kStatusBarIconSize);
 
   attack_status_ = std::make_pair(attack_label, attack_text_label);
 }

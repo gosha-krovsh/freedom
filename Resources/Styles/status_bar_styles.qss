@@ -1,13 +1,13 @@
 QLabel#health_bar {
   text-align: center;
   color: red;
-  font-size: 24px;
+  font-size: 48px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 QLabel#weapon_bar {
   text-align: center;
-  color: gray;
-  font-size: 24px;
+  color: whitesmoke;
+  font-size: 48px;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }

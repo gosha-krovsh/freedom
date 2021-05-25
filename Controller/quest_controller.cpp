@@ -30,6 +30,7 @@ void QuestController::Tick(int) {
       }
     } else {
       FinishQuest(current_quests[i].GetId());
+      controller_->DeleteQuestFromList(current_quests[i].GetName());
       --i;
     }
   }

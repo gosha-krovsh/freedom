@@ -18,6 +18,9 @@ Controller::Controller()
       std::move(data_controller_->ParseCreatureStorage()));
   view_->AssignHeroStorage();
 
+  model_->GetHero().GetClothingStorage()->PutItem(Item(Item::Type::kPrisonerRoba, "Roba",
+                                                       model_->GetImage("Roba")));
+
   view_->Show();
 }
 
@@ -53,6 +56,16 @@ void Controller::Tick() {
   view_->SetHealth(model_->GetHero().GetHP());
   view_->SetAttack(model_->GetHero().GetAttack());
   view_->SetTime(model_->GetTime());
+  view_->SetLocation(model_->GetMap().GetCurrentRoom().name);
+
+  // Update QuestTaskList
+  QuestTaskList* task_list = view_->GetQuestTaskList();
+  std::vector<Quest> quests = model_->GetCurrentQuests();
+  for (auto& quest : quests) {
+    task_list->SetQuestString(quest.GetName(),quest.GetQuestNodesNames());
+    task_list->UpdateCurrentLables(quest.GetName(),
+                                   quest.GetCurrentQuestNodeIndex());
+  }
 
   ++current_tick_;
 }
@@ -468,4 +481,8 @@ void Controller::CloseMainMenu() {
 void Controller::UpdateVolume() {
   model_->GetSound().SetVolumeCoefficient(
       static_cast<double>(Settings::kVolume) / constants::kInitVolume);
+}
+
+void Controller::DeleteQuestFromList(const QString& quest_name) {
+  view_->GetQuestTaskList()->DeleteQuest(quest_name);
 }

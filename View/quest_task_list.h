@@ -2,7 +2,10 @@
 #define QUEST_TASK_LIST_H
 
 #include <QScrollArea>
+#include <QScrollBar>
+#include <QVBoxLayout>
 #include <QLabel>
+#include <QFile>
 
 #include "Controller/abstract_controller.h"
 #include "Quests/quest.h"
@@ -13,18 +16,17 @@ class QuestTaskList : public QWidget {
  public:
   QuestTaskList(AbstractController* controller,
                      QWidget* parent = nullptr);
-  ~QuestTaskList() override = default;
+
+  void SetQuestString(const QString& quest_name,
+                      const std::vector<QString>& node_strings);
+  void UpdateCurrentLables(const QString& quest_name, int index);
+  void DeleteQuest(const QString& quest);
 
  private:
   void resizeEvent(QResizeEvent*) override;
-  void keyPressEvent(QKeyEvent*) override;
 
   void SetUi();
   void SetStyles();
-  void AddNextNode(int answer_index = -1);
-
-  QLabel* CreateConversationLabel(const QString& text);
-  void UpdateCurrentLables();
 
  private:
   Conversation conversation_;
@@ -34,7 +36,8 @@ class QuestTaskList : public QWidget {
   QWidget* content_;
   QVBoxLayout* layout_;
 
-  std::vector<QString> node_strings_;
+  std::map<QString, std::vector<QString>> quest_string_;
+  std::map<QString, std::pair<QLabel*, std::vector<QLabel*>>> quest_labels_;
 };
 
 #endif  // QUEST_TASK_LIST_H

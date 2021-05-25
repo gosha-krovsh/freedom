@@ -12,6 +12,7 @@
 
 #include "View/bar_pack.h"
 #include "View/status_bar.h"
+#include "View/quest_task_list.h"
 #include "game_widget.h"
 #include "bar_pack.h"
 #include "conversation_window.h"
@@ -44,15 +45,15 @@ class View : public QMainWindow {
   void SetHealth(int health);
   void SetAttack(int attack);
   void SetTime(const Time& time);
-  void SetLocation(const QString& location_str);
+   void SetLocation(const QString& location_str);
 
   BarPack* GetBarPack();
+  QuestTaskList* GetQuestTaskList();
 
  private:
   void SetUi();
   void SetStyles();
 
-  void paintEvent(QPaintEvent*) override;
   void resizeEvent(QResizeEvent*) override;
   void keyPressEvent(QKeyEvent*) override;
   void keyReleaseEvent(QKeyEvent*) override;
@@ -76,9 +77,10 @@ class View : public QMainWindow {
   bool is_item_dialog_open_{false};
   BarPack* item_bar_pack_;
   StatusBar* status_bar_;
+  QuestTaskList* task_list_;
 
-  QLabel* time_label_{new QLabel(this)};
-  QLabel* location_{new QLabel(this)};
+  QLabel* time_label_{new QLabel(game_widget_.get())};
+  QLabel* location_label_{new QLabel(game_widget_.get())};
 
   std::unique_ptr<ConversationWindow> conversation_window_{nullptr};
   std::unique_ptr<MainMenu> main_menu_{nullptr};

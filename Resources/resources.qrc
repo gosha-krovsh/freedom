@@ -99,12 +99,12 @@
         <file alias="270_police_run_2.png">Person/270_police_run_2.png</file>
         <file alias="315_police_run_2.png">Person/315_police_run_2.png</file>
 
-        <file alias="knife.png">images/knife.png</file>
-        <file alias="knife_transparent.png">images/knife_transparent.png</file>
-        <file alias="roba.png">images/roba.png</file>
-        <file alias="roba_black.png">images/roba_black.png</file>
-        <file alias="roba_black_transparent.png">images/roba_black_transparent.png</file>
-        <file alias="heart.png">images/heart.png</file>
+        <file alias="knife.png">Images/knife.png</file>
+        <file alias="knife_transparent.png">Images/knife_transparent.png</file>
+        <file alias="roba.png">Images/roba.png</file>
+        <file alias="roba_black.png">Images/roba_black.png</file>
+        <file alias="roba_black_transparent.png">Images/roba_black_transparent.png</file>
+        <file alias="heart.png">Images/heart.png</file>
         <file alias="roba.png">Images/roba.png</file>
         <file alias="police.png">Images/police.png</file>
         <file alias="cloud.png">Images/cloud.png</file>
@@ -153,11 +153,10 @@
         <file alias="wall_attack.mp3">Sounds/wall_attack.mp3</file>
         <file alias="item_bar_styles">Styles/item_bar_styles.qss</file>
         <file alias="conversation_window_styles">Styles/conversation_window_styles.qss</file>
+        <file alias="quest_task_list_styles">Styles/quest_tast_list_styles.qss</file>
         <file alias="main_menu_styles">Styles/main_menu_styles.qss</file>
         <file alias="settings_menu_styles">Styles/settings_menu_styles.qss</file>
-        <file alias = "item_bar_styles">../Styles/item_bar_styles.qss</file>
-        <file alias = "status_bar_styles">../Styles/status_bar_styles.qss</file>
-        <file alias = "view_styles">../Styles/view_styles.qss</file>
-        <file alias = "conversation_window_styles">../Styles/conversation_window_styles.qss</file>
+        <file alias="status_bar_styles">Styles/status_bar_styles.qss</file>
+        <file alias="view_styles">Styles/view_styles.qss</file>
     </qresource>
 </RCC>

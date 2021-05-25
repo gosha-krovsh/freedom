@@ -8,14 +8,15 @@ View::View(AbstractController* controller,
     item_bar_pack_(new BarPack(controller, model, game_widget_.get(),
                                model_->GetHero().GetStorage(),
                                model_->GetHero().GetClothingStorage(),
-                               model_->GetHero().GetGunStorage()))
+                               model_->GetHero().GetGunStorage())),
     game_widget_(std::make_unique<GameWidget>(model_)),
     status_bar_(new StatusBar(model,
-                              this,
+                              game_widget_.get(),
                               constants::kStatusBarDefaultCenteredX,
                               constants::kStatusBarDefaultY,
                               constants::kStatusBarDefaultWidth,
-                              constants::kStatusBarDefaultHeight)){}
+                              constants::kStatusBarDefaultHeight)),
+    task_list_(new QuestTaskList(controller, game_widget_.get())) {}
 
 void View::Show() {
   setMinimumSize(constants::kWindowWidth, constants::kWindowHeight);
@@ -34,14 +35,25 @@ void View::Show() {
 }
 
 void View::SetUi() {
-  time_label_->setObjectName("time_label");
+  time_label_->setObjectName("middle_label");
   time_label_->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
   time_label_->setTextInteractionFlags(Qt::TextInteractionFlag::NoTextInteraction);
-  time_label_->setGeometry(40 * constants::kWindowWidth / 85,
-                           2 * constants::kWindowHeight / 50,
-                           5 * constants::kWindowWidth / 85,
-                           2 * constants::kWindowHeight / 50);
+  time_label_->setGeometry(30 * constants::kWindowWidth / 85,
+                           10 * constants::kWindowHeight / 50,
+                           25 * constants::kWindowWidth / 85,
+                           8 * constants::kWindowHeight / 50);
   time_label_->setAlignment(Qt::AlignmentFlag::AlignCenter);
+
+  location_label_->setObjectName("middle_label");
+  location_label_->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+  location_label_->setTextInteractionFlags(
+      Qt::TextInteractionFlag::NoTextInteraction);
+
+  location_label_->setGeometry(30 * constants::kWindowWidth / 85,
+                               2 * constants::kWindowHeight / 50,
+                               25 * constants::kWindowWidth / 85,
+                               8 * constants::kWindowHeight / 50);
+  location_label_->setAlignment(Qt::AlignmentFlag::AlignCenter);
 }
 
 void View::SetStyles() {
@@ -182,10 +194,19 @@ void View::resizeEvent(QResizeEvent*) {
                                     height() - 2 * constants::kWindowHeight / 5,
                                     9 * constants::kWindowWidth / 14,
                                     2 * constants::kWindowHeight / 5);
-  time_label_->setGeometry(40 * width() / 85,
+  time_label_->setGeometry(35 * width() / 85,
+                           6 * height() / 50,
+                           15 * width() / 85,
+                           4 * constants::kWindowHeight / 50);
+  location_label_->setGeometry(30 * width() / 85,
                            2 * height() / 50,
-                           5 * width() / 85,
-                           2 * constants::kWindowHeight / 50);
+                           25 * width() / 85,
+                           4 * constants::kWindowHeight / 50);
+  task_list_->setGeometry(
+      constants::kXQuestTaskListWindowMultiplier * width(),
+      constants::kYQuestTaskListWindowMultiplier * height(),
+      constants::kWidthQuestTaskListWindowMultiplier * width(),
+      constants::kHeightQuestTaskListWindowMultiplier * height());
 }
 
 bool View::IsInputBlocked() const {
@@ -207,11 +228,16 @@ void View::CloseConversationWindow() {
 
 void View::CloseMainMenu() {
   main_menu_ = nullptr;
+  status_bar_->show();
+  task_list_->show();
+  time_label_->show();
+  location_label_->show();
+
   StartTickTimer();
   model_->GetSound().ResumeAllTracks();
 }
 
-std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id) {
+std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id, int index) {
   switch (id) {
     case 0: {
       return std::make_pair(item_bar_pack_->GetHeroBar(),
@@ -221,7 +247,7 @@ std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id) {
       std::shared_ptr<Storage> storage =
           item_bar_pack_->GetItemBar(id)->GetStorage();
       if (storage->IsValidIndex(index) &&
-          storage->GetItems().at(index).GetType() == Item::Type::kRoba) {
+          storage->GetItems().at(index).GetType() == Item::Type::kPrisonerRoba) {
         controller_->OnItemPress(
             static_cast<int>(BarPack::BarType::kClothinBar), 0);
 
@@ -281,12 +307,25 @@ BarPack* View::GetBarPack() {
   return item_bar_pack_;
 }
 
+QuestTaskList* View::GetQuestTaskList() {
+  return task_list_;
+}
+
 void View::SetTime(const Time& time) {
   time_label_->setText(QString::fromStdString(time.ToString()));
 }
 
+void View::SetLocation(const QString& location_str) {
+  location_label_->setText(location_str);
+}
+
 void View::ShowMainMenu() {
   main_menu_ = std::make_unique<MainMenu>(controller_, this);
+  status_bar_->hide();
+  task_list_->hide();
+  time_label_->hide();
+  location_label_->hide();
+
   InterruptAllInput();
   resizeEvent(nullptr);
   model_->GetSound().PauseAllTracks();
