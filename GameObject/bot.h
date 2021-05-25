@@ -11,7 +11,7 @@
 #include "object.h"
 #include "point.h"
 
-class Bot : public Creature {
+class Bot : public Creature, public InteractingObject{
  public:
   enum class Type {
     kPrisoner,
@@ -23,12 +23,20 @@ class Bot : public Creature {
       int hp = constants::kHP,
       Type type = Type::kPrisoner);
 
+  void Rebuild();
+
   void Tick(int current_tick) override;
   void SetStorage(std::shared_ptr<Storage>&& storage);
   void OnDead() override;
 
   Type GetBotType() const;
   Point GetFinish() const;
+
+  double GetX() const override;
+  double GetY() const override;
+  int GetRoundedX() const override;
+  int GetRoundedY() const override;
+  int GetAttack() const override;
 
   const std::vector<Point>& GetTargets();
   void SetTargets(const std::vector<Point>& targets);
