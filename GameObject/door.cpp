@@ -18,7 +18,7 @@ Door::Door(const Point& coords,
 }
 
 void Door::Tick(int current_tick) {
-  image_ = animator_.GetImageByState(GetState());
+  image_ = animator_.GetImageByState(is_openalbe_);
   Object::Tick(current_tick);
 }
 
@@ -54,14 +54,22 @@ Point Door::GetDrawOffset() const {
   return draw_offset_;
 }
 
-Door::State Door::GetState() const {
-  return State(is_opened_);
-}
-
 int Door::GetPolicy() {
   return static_cast<int>(policy_);
 }
 
 void Door::SetPolicy(int policy) {
   policy_ = static_cast<kDoorPolicy>(policy);
+}
+
+bool Door::IsOpenable() {
+  return is_openalbe_;
+}
+
+Door::State Door::GetState() {
+  return static_cast<State>(is_opened_);
+}
+
+void Door::SetState(bool state) {
+  is_opened_ = state;
 }

@@ -23,15 +23,19 @@ class Door : public Object {
   void SetPolicy(int policy) override;
 
   Point GetDrawOffset() const override;
-  State GetState() const;
+  bool IsOpenable();
+  void SetOpenable(bool openable);
 
+  State GetState();
+  void SetState(bool state);
  private:
   void SetDrawOffset();
   bool IsObjectVeryClose(double object_x, double object_y) const;
 
  private:
-  Animator<State> animator_{GetState()};
+  Animator<State> animator_{is_openalbe_};
   bool is_opened_{false};
+  bool is_openalbe_{true};
   Point draw_offset_{0, 0};
   kDoorPolicy policy_{kOpenable};
 };

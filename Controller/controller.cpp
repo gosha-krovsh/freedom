@@ -382,9 +382,9 @@ void Controller::StartQuest(int id) {
 }
 
 void Controller::InteractWithDoor() {
-  auto door = (GetNearestOfTwoObjects(
+  auto door = GetNearestOfTwoObjects(
       FindNearestObjectWithType(Object::Type::kDoor_225),
-      FindNearestObjectWithType(Object::Type::kDoor_315)));
+      FindNearestObjectWithType(Object::Type::kDoor_315));
   if (door != nullptr && door->GetPolicy() == Door::kOpenable) {
     door->Interact(model_->GetHero());
   }
@@ -415,8 +415,12 @@ void Controller::TryToOpenDoor(const Bot& bot) {
           model_->GetMap().GetBlock(bot.GetX() + delta_x,
                                     bot.GetY() + delta_y, 1);
 
-      auto door = dynamic_cast<Door*>(block);
-      if (door != nullptr && !door->GetState() &&
+      Door* door = nullptr;
+      if (block->IsType(Object::Type::kDoor_225) ||
+          block->IsType(Object::Type::kDoor_315)) {
+          door = static_cast<Door*>(block);
+      }
+      if (door != nullptr &&  &&
           door->GetPolicy() == Door::kOpenable) {
         door->Interact(bot);
       }
