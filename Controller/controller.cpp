@@ -219,7 +219,8 @@ void Controller::BuildPath(Bot* bot, const Point& finish) {
         if (next_block != nullptr &&
            (next_block->IsType(Object::Type::kDoor_315) ||
            next_block->IsType(Object::Type::kDoor_225))) {
-        is_openable_door_ = (next_block->GetPolicy() == Door::kOpenable);
+          Door* next_door = static_cast<Door*>(next_block);
+          is_openable_door_ = next_door->IsOpenable();
         }
 
         if (!used[next_point] &&
@@ -382,10 +383,11 @@ void Controller::StartQuest(int id) {
 }
 
 void Controller::InteractWithDoor() {
-  auto door = GetNearestOfTwoObjects(
+  Door* door = static_cast<Door*> (GetNearestOfTwoObjects(
       FindNearestObjectWithType(Object::Type::kDoor_225),
-      FindNearestObjectWithType(Object::Type::kDoor_315));
-  if (door != nullptr && door->GetPolicy() == Door::kOpenable) {
+      FindNearestObjectWithType(Object::Type::kDoor_315)));
+
+  if (door != nullptr && door->IsOpenable()) {
     door->Interact(model_->GetHero());
   }
 }
@@ -421,7 +423,7 @@ void Controller::TryToOpenDoor(const Bot& bot) {
           door = static_cast<Door*>(block);
       }
       if (door != nullptr &&  !door->GetState() &&
-          door->GetPolicy() == Door::kOpenable) {
+          door->IsOpenable()) {
         door->Interact(bot);
       }
     }

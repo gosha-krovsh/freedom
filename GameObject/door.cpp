@@ -54,14 +54,6 @@ Point Door::GetDrawOffset() const {
   return draw_offset_;
 }
 
-int Door::GetPolicy() {
-  return static_cast<int>(policy_);
-}
-
-void Door::SetPolicy(int policy) {
-  policy_ = static_cast<kDoorPolicy>(policy);
-}
-
 bool Door::IsOpenable() {
   return is_openalbe_;
 }

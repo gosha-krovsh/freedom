@@ -97,9 +97,3 @@ void Object::Interact(const InteractingObject& interacting_object) {}
 std::shared_ptr<Storage> Object::GetStorage() {
   return storage_;
 }
-
-void Object::SetPolicy(int policy) {}
-
-int Object::GetPolicy() {
-  return 0;
-}
