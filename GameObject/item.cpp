@@ -17,7 +17,7 @@ QString Item::GetNameByType(Type type) {
     }
   }
   return "";
-};
+}
 
 QString Item::GetName() const {
   return name_;
