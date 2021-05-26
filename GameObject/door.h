@@ -17,13 +17,13 @@ class Door : public Object {
 
   Point GetDrawOffset() const override;
   bool IsOpenable() const;
-  void SetOpenable(bool openable);
+  void SetOpenable(bool is_opened);
 
   bool IsOpened() const;
 
-  State GetState() const;
 
  private:
+  State GetState() const;
   void SetDrawOffset();
   bool IsObjectVeryClose(double object_x, double object_y) const;
 

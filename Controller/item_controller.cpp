@@ -19,6 +19,7 @@ void ItemController::UseItem(const Item& item) {
       break;
     }
   }
+  model_->GetSound().PlayTrack(Sound::kUseItem);
 }
 
 void ItemController::Eat(int hp) {
