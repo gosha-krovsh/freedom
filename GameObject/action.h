@@ -15,6 +15,7 @@ class Action {
     kAddItemToStorage,
     kAddItemToBot,
     kStartQuest,
+    kFinishQuest,
     kOpenEyes,
     kCloseEyes,
     kStartConversation,
@@ -23,6 +24,7 @@ class Action {
     kLockDoor,
     kUnlockDoor,
     kSetTarget,
+    kReplayIfNotFinished,
   };
 
   Action(const QString& name, const std::vector<QString>& parameters);

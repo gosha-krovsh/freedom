@@ -8,19 +8,23 @@ QuestController::QuestController(AbstractController* controller,
 void QuestController::StartQuest(int id) {
   model_->AddCurrentQuest(id);
 
-  Quest quest = model_->GetCurrentQuestById(id);
-  controller_->ExecuteActions(quest.GetStartActions());
-  controller_->AddQuestToList(quest.GetName(),
-                              quest.GetQuestNodesNames());
+  const Quest* quest = model_->GetCurrentQuestById(id);
+  controller_->ExecuteActions(quest->GetStartActions());
+  controller_->AddQuestToList(quest->GetName(),
+                              quest->GetQuestNodesNames());
   qDebug() << "Quest started";  // message to test
 }
 
 void QuestController::FinishQuest(int id) {
-  controller_->ExecuteActions(model_->GetCurrentQuestById(id).
-                                      GetFinishActions());
-  controller_->DeleteQuestFromList(model_->GetCurrentQuestById(id).GetName());
-  model_->EraseCurrentQuest(id);
-  qDebug() << "Quest finished";  // message to test
+  const Quest* quest = model_->GetCurrentQuestById(id);
+  if (quest) {
+    controller_->ExecuteActions(quest->GetFinishActions());
+    controller_->DeleteQuestFromList(quest->GetName());
+    model_->EraseCurrentQuest(id);
+    qDebug() << "Quest finished";  // message to test
+  } else {
+    qDebug() << "HERE";
+  }
 }
 
 void QuestController::Tick(int) {
@@ -35,6 +39,8 @@ void QuestController::Tick(int) {
         qDebug() << "Quest node completed";  // message to test
       }
     } else {
+      qDebug() << current_quests[i].GetName();
+      // TODO fix crash after 3rd quest here
       FinishQuest(current_quests[i].GetId());
       --i;
     }
@@ -65,11 +71,7 @@ bool QuestController::CheckMoveToDestination(const Point& destination) {
   return (model_->GetHero().GetCoordinates().GetRounded() ==
           destination.GetRounded());
 }
+
 bool QuestController::CheckTakeItem(int item_id) {
-  for (const auto& item : model_->GetHero().GetStorage()->GetItems()) {
-    if (item.GetType() == static_cast<Item::Type>(item_id)) {
-      return true;
-    }
-  }
-  return false;
+  return model_->GetHero().HasItem(static_cast<Item::Type>(item_id));
 }

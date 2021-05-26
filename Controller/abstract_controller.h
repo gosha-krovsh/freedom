@@ -8,8 +8,9 @@
 #include "GameObject/bot.h"
 #include "GameObject/door.h"
 #include "GameObject/storage.h"
-#include "Conversations/conversation.h"
 #include "GameObject/sound.h"
+#include "GameObject/game_time.h"
+#include "Conversations/conversation.h"
 
 class AbstractController {
  public:
@@ -20,6 +21,7 @@ class AbstractController {
   virtual void ExecuteAction(const Action& action) = 0;
   virtual void ExecuteActions(const std::vector<Action>& actions) = 0;
   virtual void StartQuest(int id) = 0;
+  virtual void FinishQuest(int id) = 0;
   virtual void StartConversation(const Creature* creature) = 0;
 
   virtual void HeroAttack() = 0;
@@ -55,6 +57,8 @@ class AbstractController {
                          int volume = constants::kInitVolume) = 0;
   virtual void PlayTrackOnce(Sound::SoundAction action,
                              int volume = constants::kInitVolume) = 0;
+
+  virtual void ReplayIfNotFinished(int quest_id, const Time& time) = 0;
 
  private:
   virtual void MoveItem(int index,

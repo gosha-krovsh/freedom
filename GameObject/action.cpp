@@ -22,6 +22,8 @@ Action::ActionType Action::ChooseActionType(const QString& name) {
     return kAddItemToBot;
   } else if (name == "StartQuest") {
     return kStartQuest;
+  } else if (name == "FinishQuest") {
+    return kFinishQuest;
   } else if (name == "StartConversation") {
     return kStartConversation;
   } else if (name == "OpenEyes") {
@@ -38,6 +40,8 @@ Action::ActionType Action::ChooseActionType(const QString& name) {
     return kStartFight;
   } else if (name == "SetTarget") {
     return kSetTarget;
+  } else if (name == "ReplayIfNotFinished") {
+    return kReplayIfNotFinished;
   }
   qDebug() << "Invalid action name";
   return kWrongArg;

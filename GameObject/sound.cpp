@@ -72,7 +72,7 @@ void Sound::ResumeAllTracks() {
 
 void Sound::UpdateDurations() {
   song_names_and_durations_ = {
-      {"qrc:background.mp3", constants::kInfinity},
+      {"qrc:intro.mp3", constants::kInfinity},
       {"qrc:wall_attack.mp3", Settings::GetDurationOfShaking()},
       {"qrc:wall_attack.mp3", Settings::GetAttackCooldown()},
       {"qrc:door_open.mp3", Settings::GetDefaultSoundDuration()},

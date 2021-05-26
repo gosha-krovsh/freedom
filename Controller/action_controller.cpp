@@ -32,6 +32,10 @@ void ActionController::Call(const Action& method) {
       StartQuest(method.GetParameters().at(0).toInt());
       break;
     }
+    case Action::ActionType::kFinishQuest: {
+      FinishQuest(method.GetParameters().at(0).toInt());
+      break;
+    }
     case Action::ActionType::kStartFight: {
       StartFight(method.GetParameters().at(0));
       break;
@@ -71,6 +75,12 @@ void ActionController::Call(const Action& method) {
     case Action::ActionType::kSetBotConversation: {
       SetBotConversation(method.GetParameters().at(0),
                          method.GetParameters().at(1).toInt());
+      break;
+    }
+    case Action::ActionType::kReplayIfNotFinished: {
+      ReplayIfNotFinished(method.GetParameters().at(0).toInt(),
+                          Time{method.GetParameters().at(1).toInt(),
+                               method.GetParameters().at(2).toInt()});
       break;
     }
     case Action::ActionType::kWrongArg: {
@@ -164,4 +174,12 @@ void ActionController::SetBotConversation(const QString& bot_name,
         model_->GetConversationById(conversation_id));
   }
 
+}
+
+void ActionController::FinishQuest(int id) {
+  controller_->FinishQuest(id);
+}
+
+void ActionController::ReplayIfNotFinished(int quest_id, const Time& time) {
+  controller_->ReplayIfNotFinished(quest_id, time);
 }

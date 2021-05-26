@@ -60,10 +60,12 @@ class Model {
   const std::vector<Quest>& GetCurrentQuests() const;
   std::vector<Quest>& GetCurrentQuests();
   void AddCurrentQuest(int id);
-  const Quest& GetCurrentQuestById(int id) const;
+  const Quest* GetCurrentQuestById(int id) const;
   void EraseCurrentQuest(int id);
 
   std::shared_ptr<Conversation> GetConversationById(int id);
+
+  void Replay();
 
  private:
   const Quest& GetQuestById(int id) const;
@@ -77,6 +79,7 @@ class Model {
   ImageManager image_manager_;
   Sound sound_;
   std::vector<std::shared_ptr<Bot>> bots_;
+  std::vector<std::shared_ptr<Bot>> init_bots_;
   std::vector<Quest> quests_;
   std::vector<Quest> current_quests_;
   std::vector<std::pair<Creature*, Creature*>> fighting_pairs_;

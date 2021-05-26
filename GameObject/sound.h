@@ -49,15 +49,7 @@ class Sound {
 
   double volume_coefficient_ = 1;
   std::vector<Track> tracks_;
-  std::vector<std::pair<QString, int>> song_names_and_durations_{
-      {"qrc:intro.mp3", constants::kInfinity},
-      {"qrc:wall_attack.mp3", Settings::GetDurationOfShaking()},
-      {"qrc:wall_attack.mp3", Settings::GetAttackCooldown()},
-      {"qrc:door_open.mp3", 40},
-      {"qrc:chest_open.mp3", 40},
-      {"qrc:take_item.mp3", 40},
-      {"qrc:talking.mp3", 5},
-  };
+  std::vector<std::pair<QString, int>> song_names_and_durations_;
 };
 
 #endif  // GAMEOBJECT_SOUND_H_

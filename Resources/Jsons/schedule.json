@@ -3,6 +3,9 @@
     "LockDoor(38,16,1)",
     "StartConversation(Hero)"
   ]],
+  [8, 44, [
+    "SetBotConversation(Starec,3)"
+  ]],
   [8, 45, [
     "UnlockDoor(38,16,1)",
     "SetTarget(German,28,28,1)",
@@ -15,6 +18,9 @@
     "SetTarget(Danik,23,13,1)",
     "SetTarget(Denis,23,14,1)"
   ]],
+  [8, 56, [
+    "StartConversation(Starec)"
+  ]],
   [8, 58, [
     "SetTarget(Starec,21,14,1)",
     "SetTarget(Igor,21,13,1)",
@@ -25,10 +31,11 @@
     "SetTarget(Denis,23,15,1)"
   ]],
   [8, 59, [
-    "StartConversation(Starec)",
     "SetTarget(German,27,22,1)"
   ]],
   [9, 0, [
+    "FinishQuest(1)",
+    "StartQuest(2)",
     "SetTarget(German,28,22,1)",
     "SetTarget(Rob,28,36,1)",
     "SetTarget(Starec,24,41,1)",

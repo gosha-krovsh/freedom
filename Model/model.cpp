@@ -140,15 +140,15 @@ std::vector<Quest>& Model::GetCurrentQuests() {
   return current_quests_;
 }
 
-const Quest& Model::GetCurrentQuestById(int id) const {
+const Quest* Model::GetCurrentQuestById(int id) const {
   auto it = std::find_if(current_quests_.begin(), current_quests_.end(),
                          [id](const Quest& quest) {
                            return (quest.GetId() == id);
                          });
   if (it == current_quests_.end()) {
-    qDebug() << "Invalid quest id";
+    return nullptr;
   }
-  return *it;
+  return &(*it);
 }
 
 void Model::EraseCurrentQuest(int id) {
@@ -180,5 +180,18 @@ const Sound& Model::GetSound() const {
 }
 
 void Model::SetBots(std::vector<std::shared_ptr<Bot>>&& bots) {
-  bots_ = std::move(bots);
+  init_bots_ = std::move(bots);
+  bots_ = init_bots_;
+}
+
+// TODO
+void Model::Replay() {
+  time_ = Time(8, 25);
+  hero_ = Hero{Point(constants::kHeroSpawnX,
+                     constants::kHeroSpawnY,
+                     1)};
+  bots_ = init_bots_;
+  sound_.RemoveAllTracks();
+  current_quests_.clear();
+  fighting_pairs_.clear();
 }

@@ -56,6 +56,22 @@ void Controller::Tick() {
   ++current_tick_;
 }
 
+void Controller::ReplayIfNotFinished(int quest_id, const Time& time) {
+  if (model_->GetTime() >= time &&
+      model_->GetCurrentQuestById(quest_id) != nullptr) {
+    Replay();
+  }
+}
+
+void Controller::Replay() {
+  view_->ShowMainMenu();
+  for (const auto& quest : model_->GetCurrentQuests()) {
+    DeleteQuestFromList(quest.GetName());
+  }
+  model_->Replay();
+  view_->AssignHeroStorage();
+}
+
 std::shared_ptr<Storage> Controller::GetInteractableStorage() {
   auto bot = FindNearestDestroyedBot().get();
   auto obj = GetNearestOfTwoObjects(FindNearestStorableObject(), bot);
@@ -402,10 +418,12 @@ void Controller::MoveItem(int index,
 void Controller::OpenEyes() {
   view_->ShowGame();
 }
+
 void Controller::CloseEyes() {
   view_->HideGame();
   model_->GetSound().PlayTrack(Sound::kIntro);
 }
+
 void Controller::StartConversation(const Creature* creature) {
   view_->StartConversation(creature->GetCurrentConversation());
 }
@@ -453,6 +471,10 @@ void Controller::ExecuteActions(const std::vector<Action>& actions) {
 
 void Controller::StartQuest(int id) {
   quest_controller_->StartQuest(id);
+}
+
+void Controller::FinishQuest(int id) {
+  quest_controller_->FinishQuest(id);
 }
 
 void Controller::InteractWithDoor() {

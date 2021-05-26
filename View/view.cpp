@@ -252,35 +252,32 @@ void View::CloseMainMenu() {
 }
 
 std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id, int index) {
+  qDebug() << item_bar_pack_->GetItemBar(id)->GetStorage()->GetItems().size();
   switch (id) {
     case 0: {
       return std::make_pair(item_bar_pack_->GetHeroBar(),
                             item_bar_pack_->GetObjectBar());
     }
     case 1: {
-      std::shared_ptr<Storage> storage =
-          item_bar_pack_->GetItemBar(id)->GetStorage();
-      if (storage->IsValidIndex(index) &&
-          storage->GetItems().at(index).GetType()
-          == Item::Type::kPrisonerRoba ||
-          storage->GetItems().at(index).GetType()
-          == Item::Type::kPoliceRoba) {
-        controller_->OnItemPress(
-            static_cast<int>(BarPack::BarType::kClothinBar), 0);
+      auto storage = item_bar_pack_->GetItemBar(id)->GetStorage();
+      if (storage->IsValidIndex(index)) {
+        auto item_type = storage->GetItems().at(index).GetType();
+        if (item_type == Item::Type::kPrisonerRoba ||
+            item_type == Item::Type::kPoliceRoba) {
+          controller_->OnItemPress(
+              static_cast<int>(BarPack::BarType::kClothinBar), 0);
 
-        return std::make_pair(item_bar_pack_->GetObjectBar(),
-                              item_bar_pack_->GetClothingBar());
+          return std::make_pair(item_bar_pack_->GetObjectBar(),
+                                item_bar_pack_->GetClothingBar());
+        }
+        if (item_type == Item::Type::kKnife) {
+          controller_->OnItemPress(
+              static_cast<int>(BarPack::BarType::kWeaponBar), 0);
+
+          return std::make_pair(item_bar_pack_->GetObjectBar(),
+                                item_bar_pack_->GetWeaponBar());
+        }
       }
-      if (storage->IsValidIndex(index) &&
-          storage->GetItems().at(index).GetType()
-              == Item::Type::kKnife) {
-        controller_->OnItemPress(
-            static_cast<int>(BarPack::BarType::kWeaponBar), 0);
-
-        return std::make_pair(item_bar_pack_->GetObjectBar(),
-                              item_bar_pack_->GetWeaponBar());
-      }
-
       return std::make_pair(item_bar_pack_->GetObjectBar(),
                             item_bar_pack_->GetHeroBar());
     }

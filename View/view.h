@@ -42,6 +42,7 @@ class View : public QMainWindow {
   void StartConversation(const std::shared_ptr<Conversation>& conversation);
   void ShowGame();
   void HideGame();
+  void ShowMainMenu();
 
   // After storage is parsed from json it should be reassigned to hero
   void AssignHeroStorage();
@@ -70,8 +71,6 @@ class View : public QMainWindow {
 
   bool IsInputBlocked() const;
   void InterruptAllInput();
-
-  void ShowMainMenu();
 
   void SetHealth(int health);
   void SetAttack(int attack);

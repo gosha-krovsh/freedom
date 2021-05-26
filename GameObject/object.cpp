@@ -105,3 +105,9 @@ std::shared_ptr<Storage> Object::GetClothingStorage() {
 std::shared_ptr<Storage> Object::GetGunStorage() {
   return gun_storage_;
 }
+
+bool Object::HasItem(const Item::Type& item_type) const {
+  return (storage_->HasItem(item_type) ||
+          clothing_storage_->HasItem(item_type) ||
+          gun_storage_->HasItem(item_type));
+}

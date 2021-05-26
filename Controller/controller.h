@@ -31,6 +31,7 @@ class Controller : public AbstractController {
   void ExecuteAction(const Action& action) override;
   void ExecuteActions(const std::vector<Action>& actions) override;
   void StartQuest(int id) override;
+  void FinishQuest(int id) override;
 
   void HeroAttack() override;
   void OpenEyes() override;
@@ -103,6 +104,9 @@ class Controller : public AbstractController {
       const std::function<bool(const std::shared_ptr<Bot>&)>& predicate);
   std::shared_ptr<Bot> FindNearestDestroyedBot();
   std::shared_ptr<Bot> FindNearestAliveBotInRadius(double radius);
+
+  void ReplayIfNotFinished(int quest_id, const Time& time) override;
+  void Replay();
 
  private:
   std::shared_ptr<Model> model_;

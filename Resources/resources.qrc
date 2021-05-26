@@ -151,7 +151,6 @@
         <file alias="quests.json">Jsons/quests.json</file>
         <file alias="bots.json">Jsons/bots.json</file>
 
-        <file alias="background.mp3">Sounds/background.mp3</file>
         <file alias="intro.mp3">Sounds/intro.mp3</file>
         <file alias="wall_attack.mp3">Sounds/wall_attack.mp3</file>
         <file alias="door_open.mp3">Sounds/door_open.mp3</file>
