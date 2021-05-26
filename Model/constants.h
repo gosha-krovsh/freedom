@@ -15,6 +15,7 @@ namespace constants {
   const int kInitDurationOfOneAnimationFrame = 14;
   const int kInitDurationOfShaking = 10;
   const int kInitAttackCooldown = 40;
+  const int kInitDefaultSoundDuration = 30;
 
   const int kNumberOfViewDirections = 8;
   const double kEps = 1e-7;
@@ -22,7 +23,7 @@ namespace constants {
   const double kMaxBlockOffset = 0.15;
   const int kHP = 100;
   const int kBlockHP = kHP * 5;
-  const int kPoliceHP = kHP * 10;
+  const int kPoliceHP = kHP * 2;  // Temp, was kHP * 10
   const double kPoliceIllegalDetectionRadius = 4.;
   const double kStepForSearchingWall = 0.5;
   const int kAttack = 25;
@@ -71,7 +72,7 @@ namespace constants {
   const double kWidthConversationWindowMultiplier = 0.5;
   const double kHeightConversationWindowMultiplier = 0.3;
 
-  const int kTicksInMinute = 300;
+  const int kTicksInMinute = 75;
 
   // ItemBar constants
   const int kMaxElementsInItemBar = 7;

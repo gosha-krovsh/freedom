@@ -53,6 +53,7 @@ void View::keyPressEvent(QKeyEvent* event) {
         InterruptAllInput();
         resizeEvent(nullptr);
         item_bar_pack_->hide();
+        controller_->PlayTrackOnce(Sound::kTalking);
       }
       break;
     }

@@ -11,6 +11,7 @@ struct Settings {
   static int GetDurationOfOneAnimationFrame();
   static int GetDurationOfShaking();
   static int GetAttackCooldown();
+  static int GetDefaultSoundDuration();
 
  private:
   static double GetFPSCoefficient();
