@@ -41,12 +41,6 @@ void Controller::Tick() {
     actions_controller_->Tick(current_tick_);
   }
 
-  // temp code
-  Point canteen = {48, 21, 1};
-  if (model_->GetTime().GetMinutes() == 34) {
-    MoveAllBotsToPoint(canteen);
-  }
-
   CheckHeroCollision();
   ProcessPoliceSupervision();
   ProcessFighting();

@@ -3,14 +3,45 @@
     "LockDoor(38,16,1)",
     "StartConversation(Hero)"
   ]],
+
+  [8, 44, [
+    "SetTarget(German,28,28,1)"
+  ]],
   [8, 45, [
     "UnlockDoor(38,16,1)",
-    "SetTarget(Starec, 26, 41, 1)",
-    "SetTarget(Igor, 30, 41, 1)",
-    "SetTarget(Ivan, 30, 43, 1)",
-    "SetTarget(Petr, 28, 41, 1)",
-    "SetTarget(Slava, 28, 43, 1)",
-    "SetTarget(Danik, 24, 41, 1)",
-    "SetTarget(Denis, 26, 43, 1)"
+    "SetTarget(Rob,25,24,1)",
+    "SetTarget(Starec,25,24,1)",
+    "SetTarget(Igor,25,24,1)",
+    "SetTarget(Ivan,25,24,1)",
+    "SetTarget(Petr,25,24,1)",
+    "SetTarget(Slava,25,24,1)",
+    "SetTarget(Danik,25,24,1)",
+    "SetTarget(Denis,25,24,1)"
+  ]],
+  [8, 50, [
+    "SetTarget(Rob,22,18,1)",
+    "SetTarget(Starec,21,13,1)",
+    "SetTarget(Igor,21,12,1)",
+    "SetTarget(Ivan,21,14,1)",
+    "SetTarget(Petr,22,12,1)",
+    "SetTarget(Slava,23,12,1)",
+    "SetTarget(Danik,23,13,1)",
+    "SetTarget(Denis,23,14,1)"
+  ]],
+  [8, 55, [
+
+  ]],
+  [8, 59, [
+    "SetTarget(German,28,22,1)"
+  ]],
+  [9, 0, [
+    "SetTarget(Rob,28,36,1)",
+    "SetTarget(Starec,28,36,1)",
+    "SetTarget(Igor,28,36,1)",
+    "SetTarget(Ivan,28,36,1)",
+    "SetTarget(Petr,28,36,1)",
+    "SetTarget(Slava,28,36,1)",
+    "SetTarget(Danik,28,36,1)",
+    "SetTarget(Denis,28,36,1)"
   ]]
 ]

@@ -17,7 +17,7 @@
     "Name": "GoToPostroenie",
     "OnStart": [],
     "Nodes": [
-      ["GoToPostroenie", "MoveToDestination(15,14,1)"]
+      ["GoToPostroenie", "MoveToDestination(22,13,1)"]
     ],
     "OnFinish": [
       "SetBotConversation(Starec,13)"
