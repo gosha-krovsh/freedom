@@ -23,6 +23,7 @@ class AbstractController {
 
   virtual void HeroAttack() = 0;
   virtual void OpenEyes() = 0;
+  virtual void CloseEyes() = 0;
   virtual std::shared_ptr<Conversation> GetNearestConversation() = 0;
   virtual void FinishConversation() = 0;
 

@@ -3,23 +3,10 @@
     "LockDoor(38,16,1)",
     "StartConversation(Hero)"
   ]],
-
-  [8, 44, [
-    "SetTarget(German,28,28,1)"
-  ]],
   [8, 45, [
     "UnlockDoor(38,16,1)",
-    "SetTarget(Rob,25,24,1)",
-    "SetTarget(Starec,25,24,1)",
-    "SetTarget(Igor,25,24,1)",
-    "SetTarget(Ivan,25,24,1)",
-    "SetTarget(Petr,25,24,1)",
-    "SetTarget(Slava,25,24,1)",
-    "SetTarget(Danik,25,24,1)",
-    "SetTarget(Denis,25,24,1)"
-  ]],
-  [8, 50, [
-    "SetTarget(Rob,22,18,1)",
+    "SetTarget(German,28,28,1)",
+    "SetTarget(Rob,22,16,1)",
     "SetTarget(Starec,21,13,1)",
     "SetTarget(Igor,21,12,1)",
     "SetTarget(Ivan,21,14,1)",
@@ -28,20 +15,28 @@
     "SetTarget(Danik,23,13,1)",
     "SetTarget(Denis,23,14,1)"
   ]],
-  [8, 55, [
-
+  [8, 58, [
+    "SetTarget(Starec,21,14,1)",
+    "SetTarget(Igor,21,13,1)",
+    "SetTarget(Ivan,21,15,1)",
+    "SetTarget(Petr,22,13,1)",
+    "SetTarget(Slava,23,13,1)",
+    "SetTarget(Danik,23,14,1)",
+    "SetTarget(Denis,23,15,1)"
   ]],
   [8, 59, [
-    "SetTarget(German,28,22,1)"
+    "StartConversation(Starec)",
+    "SetTarget(German,27,22,1)"
   ]],
   [9, 0, [
+    "SetTarget(German,28,22,1)",
     "SetTarget(Rob,28,36,1)",
-    "SetTarget(Starec,28,36,1)",
-    "SetTarget(Igor,28,36,1)",
-    "SetTarget(Ivan,28,36,1)",
-    "SetTarget(Petr,28,36,1)",
-    "SetTarget(Slava,28,36,1)",
-    "SetTarget(Danik,28,36,1)",
-    "SetTarget(Denis,28,36,1)"
+    "SetTarget(Starec,24,41,1)",
+    "SetTarget(Igor,26,41,1)",
+    "SetTarget(Ivan,28,41,1)",
+    "SetTarget(Petr,30,41,1)",
+    "SetTarget(Slava,32,41,1)",
+    "SetTarget(Danik,32,39,1)",
+    "SetTarget(Denis,32,37,1)"
   ]]
 ]

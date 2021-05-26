@@ -37,6 +37,7 @@ class View : public QMainWindow {
   bool IsItemDialogOpen() const;
   void StartConversation(const std::shared_ptr<Conversation>& conversation);
   void ShowGame();
+  void HideGame();
 
   // After storage is parsed from json it should be reassigned to hero
   void AssignHeroStorage();

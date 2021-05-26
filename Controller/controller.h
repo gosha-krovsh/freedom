@@ -34,6 +34,7 @@ class Controller : public AbstractController {
 
   void HeroAttack() override;
   void OpenEyes() override;
+  void CloseEyes() override;
   std::shared_ptr<Conversation> GetNearestConversation() override;
   void StartConversation(const Creature* creature) override;
   void FinishConversation() override;

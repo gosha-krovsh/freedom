@@ -403,6 +403,10 @@ void Controller::MoveItem(int index,
 void Controller::OpenEyes() {
   view_->ShowGame();
 }
+void Controller::CloseEyes() {
+  view_->HideGame();
+  model_->GetSound().PlayTrack(Sound::kIntro);
+}
 void Controller::StartConversation(const Creature* creature) {
   view_->StartConversation(creature->GetCurrentConversation());
 }

@@ -41,6 +41,10 @@ void ActionController::Call(const Action& method) {
       model_->GetSound().RemoveAllTracks();
       break;
     }
+    case Action::ActionType::kCloseEyes: {
+      controller_->CloseEyes();
+      break;
+    }
     case Action::ActionType::kLockDoor: {
       LockDoor(Point(method.GetParameters().at(0).toInt(),
                      method.GetParameters().at(1).toInt(),
@@ -152,6 +156,12 @@ void ActionController::UnlockDoor(const Point& coords) {
 
 void ActionController::SetBotConversation(const QString& bot_name,
                                           int conversation_id) {
-  model_->GetBotByName(bot_name)->SetCurrentConversation(
-      model_->GetConversationById(conversation_id));
+  if (bot_name == "Hero") {
+    model_->GetHero().SetCurrentConversation(
+        model_->GetConversationById(conversation_id));
+  } else {
+    model_->GetBotByName(bot_name)->SetCurrentConversation(
+        model_->GetConversationById(conversation_id));
+  }
+
 }

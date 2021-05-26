@@ -14,7 +14,7 @@ void Model::SetConversations(
   hero_.SetCurrentConversation(conversations_[14]);
   GetBotByName("Starec")->SetCurrentConversation(conversations_[0]);
   GetBotByName("Igor")->SetCurrentConversation(conversations_[7]);
-  GetBotByName("Rob")->SetCurrentConversation(conversations_[12]);
+  GetBotByName("Rob")->SetCurrentConversation(conversations_[8]);
 }
 
 void Model::SetQuests(std::vector<Quest>&& quests) {

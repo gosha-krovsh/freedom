@@ -25,6 +25,9 @@ void View::Show() {
 void View::ShowGame() {
   game_widget_->show();
 }
+void View::HideGame() {
+  game_widget_->hide();
+}
 
 void View::StartTickTimer() {
   timer_->start(1000 / Settings::kFPS);

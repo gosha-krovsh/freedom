@@ -16,6 +16,7 @@ class Action {
     kAddItemToBot,
     kStartQuest,
     kOpenEyes,
+    kCloseEyes,
     kStartConversation,
     kSetBotConversation,
     kStartFight,
