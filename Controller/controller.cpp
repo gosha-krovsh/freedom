@@ -13,10 +13,17 @@ Controller::Controller()
   model_->SetBots(std::move(data_controller_->ParseBots()));
   model_->SetConversations(std::move(data_controller_->ParseConversations()));
   model_->SetQuests(std::move(data_controller_->ParseQuests()));
-
   model_->SetCreatureStorage(
       std::move(data_controller_->ParseCreatureStorage()));
+
   view_->AssignHeroStorage();
+
+  // Temp code, will be deleted at merge
+  model_->GetHero().GetClothingStorage()->PutItem(Item(
+      Item::Type::kPrisonerRoba,
+      "prisonerroba",
+      model_->GetImage("prisonerroba")));
+  view_->GetBarPack()->GetClothingBar()->UpdateIcons();
 
   view_->Show();
 }
@@ -50,6 +57,8 @@ void Controller::Tick() {
   if (view_->IsItemDialogOpen() && (GetInteractableStorage() == nullptr)) {
     view_->ItemDialogEvent();
   }
+
+  view_->UpdateStatusBar();
 
   ++current_tick_;
 }
@@ -373,8 +382,11 @@ void Controller::UpdateHeroMovingDirection() {
 }
 
 void Controller::OnItemPress(int bar_id, int index) {
-  std::pair<ItemBar*, ItemBar*> source_dest = view_->GetSrcDestBars(bar_id);
-  if (source_dest.first != nullptr && source_dest.second != nullptr) {
+  std::pair<ItemBar*, ItemBar*> source_dest = view_->GetSrcDestBars(bar_id,
+                                                                    index);
+  if (source_dest.first != nullptr && source_dest.second != nullptr &&
+     (source_dest.second->GetStorage()->HasLessItems(
+         source_dest.second->GetMaxItemCount()))) {
     MoveItem(index, source_dest.first->GetStorage(),
              source_dest.second->GetStorage());
     source_dest.first->UpdateIcons();
@@ -475,6 +487,20 @@ void Controller::CloseMainMenu() {
 
 void Controller::UpdateSound() {
   model_->GetSound().UpdateSettings();
+}
+
+
+void Controller::DeleteQuestFromList(const QString& quest_name) {
+  view_->GetQuestTaskList()->DeleteQuest(quest_name);
+}
+
+void Controller::AddQuestToList(const QString& quest_name,
+                                const std::vector<QString>& node_strings) {
+  view_->AddQuestToTaskList(quest_name, node_strings);
+}
+
+void Controller::UpdateQuestList(const QString& quest_name, int index) {
+  view_->UpdateQuestTaskList(quest_name, index);
 }
 
 void Controller::TryToOpenDoor(const Bot& bot) {

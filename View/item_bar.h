@@ -19,12 +19,16 @@ class ItemBar : public QWidget {
 
  public:
   ItemBar(int id,
+          int item_count,
           AbstractController* controller,
           QWidget* parent = nullptr,
-          const std::shared_ptr<Storage>& storage = nullptr);
+          const std::shared_ptr<Storage>& storage = nullptr,
+          const std::shared_ptr<QPixmap>& no_item_image = nullptr);
 
   int GetId() const;
   std::shared_ptr<Storage> GetStorage() const;
+
+  int GetMaxItemCount();
 
   void UseItem(int index);
 
@@ -40,9 +44,12 @@ class ItemBar : public QWidget {
   void SetStyles();
   void resizeEvent(QResizeEvent*) override;
 
+  std::shared_ptr<QPixmap> no_item_image_;
+
   AbstractController* controller_;
   std::shared_ptr<Storage> storage_ = nullptr;
   int id_;
+  int item_count_;
 
   std::vector<QPushButton*> buttons_;
   QHBoxLayout* layout_;

@@ -72,14 +72,26 @@ namespace constants {
   const double kWidthConversationWindowMultiplier = 0.5;
   const double kHeightConversationWindowMultiplier = 0.3;
 
+  const double kXQuestTaskListWindowMultiplier = 0.74;
+  const double kYQuestTaskListWindowMultiplier = 0.03;
+  const double kWidthQuestTaskListWindowMultiplier = 0.25;
+  const double kHeightQuestTaskListWindowMultiplier = 0.4;
+
   const int kTicksInMinute = 75;
 
   // ItemBar constants
   const int kMaxElementsInItemBar = 7;
   const int kBarPackDefaultCenteredX = kWindowWidth / 2;
   const int kBarPackDefaultY = 3 * kWindowHeight / 5;
-  const int kBarPackDefaultWidth = kWindowWidth / 2;
+  const int kBarPackDefaultWidth = 9 * kWindowWidth / 14;
   const int kBarPackDefaultHeight = 2 * kWindowHeight / 5;
+
+  // StatusBar constants
+  const int kStatusBarDefaultCenteredX = 100 * kWindowWidth / 850;
+  const int kStatusBarDefaultY = kWindowHeight / 25;
+  const int kStatusBarDefaultWidth = 160 * kWindowWidth / 850;
+  const int kStatusBarDefaultHeight = 100 * kWindowHeight / 500;
+  const int kStatusBarIconSize = 40;
 
   const int kCoeffitientForSpaceBetweenButtons = 25;
   const double kCoeffitientForIconSize = 0.8;
