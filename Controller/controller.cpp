@@ -17,14 +17,6 @@ Controller::Controller()
       std::move(data_controller_->ParseCreatureStorage()));
 
   view_->AssignHeroStorage();
-
-  // Temp code, will be deleted at merge
-  model_->GetHero().GetClothingStorage()->PutItem(Item(
-      Item::Type::kPrisonerRoba,
-      "prisonerroba",
-      model_->GetImage("prisonerroba")));
-  view_->GetBarPack()->GetClothingBar()->UpdateIcons();
-
   view_->Show();
 }
 
