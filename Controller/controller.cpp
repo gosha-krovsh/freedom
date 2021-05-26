@@ -137,7 +137,6 @@ void Controller::ProcessPoliceSupervision() {
 void Controller::ProcessFighting() {
   for (const auto& pair : model_->GetFightingPairs()) {
     ProcessFighting(pair.first, pair.second);
-    ProcessFighting(pair.second, pair.first);
   }
   model_->DeleteFinishedFightingPairs();
 }

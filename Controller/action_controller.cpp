@@ -135,7 +135,7 @@ void ActionController::StartConversation(const QString& name) {
 }
 
 void ActionController::StartFight(const QString& name) {
-  model_->CreateFightingPair(&model_->GetHero(),
+  model_->CreateFightingPairIfNotExists(&model_->GetHero(),
                              model_->GetBotByName(name).get());
 }
 

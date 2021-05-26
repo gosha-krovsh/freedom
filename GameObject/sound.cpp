@@ -2,7 +2,6 @@
 
 Sound::Sound() {
   UpdateSettings();
-  PlayTrack(kBackground);
 }
 
 void Sound::PlayTrack(SoundAction action, int volume) {

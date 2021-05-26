@@ -68,9 +68,9 @@ class Controller : public AbstractController {
   void CloseMainMenu() override;
   void UpdateSound() override;
   void PlayTrack(Sound::SoundAction action,
-                 int volume = constants::kInitVolume);
+                 int volume = constants::kInitVolume) override;
   void PlayTrackOnce(Sound::SoundAction action,
-                     int volume = constants::kInitVolume);
+                     int volume = constants::kInitVolume) override;
 
  private:
   struct ControlKeyStates {
@@ -89,7 +89,7 @@ class Controller : public AbstractController {
 
   void ProcessPoliceSupervision();
   void ProcessFighting();
-  void ProcessFighting(Creature* attacker, Creature* victim, int* i);
+  void ProcessFighting(Creature* attacker, Creature* victim);
   void BuildPath(const std::shared_ptr<Bot>& bot, const Point& finish) override;
 
   std::vector<Point> CollectPath(const Point& finish,
