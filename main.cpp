@@ -3,11 +3,18 @@
 
 #include "Controller/controller.h"
 
+void SetAppStyle();
+
 int main(int argc, char* argv[]) {
   QApplication a(argc, argv);
+  SetAppStyle();
 
   auto controller = std::make_unique<Controller>();
 
+  return QApplication::exec();
+}
+
+void SetAppStyle() {
   qApp->setStyle(QStyleFactory::create("Fusion"));
 
   QPalette darkPalette;
@@ -31,6 +38,4 @@ int main(int argc, char* argv[]) {
   qApp->setStyleSheet("QToolTip { color: #ffffff; "
                       "background-color: #2a82da; "
                       "border: 1px solid white; }");
-
-  return QApplication::exec();
 }

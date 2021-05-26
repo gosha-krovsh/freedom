@@ -21,7 +21,8 @@ const std::weak_ptr<QPixmap>& Item::GetImage() const {
 
 bool Item::IsUsable() const {
   switch (type_) {
-    case Type::kApple: {
+    case Type::kApple:
+    case Type::kSoap: {
       return true;
     }
     default: {

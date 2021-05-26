@@ -8,12 +8,6 @@ void ItemController::UseItem(const Item& item) {
     // Temp code
     case Item::Type::kApple : {
       Eat(10);
-      qDebug() << "Added 10 hp";
-      break;
-    }
-    case Item::Type::kBrick : {
-      Eat(100);
-      qDebug() << "Added 100 hp";
       break;
     }
     case Item::Type::kSoap : {

@@ -12,7 +12,6 @@ class Item {
  public:
   enum class Type {
     kApple,
-    kBrick,
     kSoap,
     kPrisonerRoba,
     kPoliceRoba,

@@ -13,9 +13,9 @@ Controller::Controller()
   model_->SetBots(std::move(data_controller_->ParseBots()));
   model_->SetConversations(std::move(data_controller_->ParseConversations()));
   model_->SetQuests(std::move(data_controller_->ParseQuests()));
-
   model_->SetCreatureStorage(
       std::move(data_controller_->ParseCreatureStorage()));
+
   view_->AssignHeroStorage();
 
   // Temp code, will be deleted at merge
@@ -45,12 +45,6 @@ void Controller::Tick() {
       current_tick_ != 0) {
     model_->GetTime().AddMinutes(1);
     actions_controller_->Tick(current_tick_);
-  }
-
-  // temp code
-  Point canteen = {48, 21, 1};
-  if (model_->GetTime().GetMinutes() == 34) {
-    MoveAllBotsToPoint(canteen);
   }
 
   CheckHeroCollision();
