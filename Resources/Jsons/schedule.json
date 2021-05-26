@@ -3,9 +3,6 @@
     "LockDoor(38,16,1)",
     "StartConversation(Hero)"
   ]],
-  [8, 44, [
-    "SetBotConversation(Starec,3)"
-  ]],
   [8, 45, [
     "UnlockDoor(38,16,1)",
     "SetTarget(German,28,28,1)",
@@ -19,6 +16,7 @@
     "SetTarget(Denis,23,14,1)"
   ]],
   [8, 56, [
+    "SetBotConversation(Starec,2)",
     "StartConversation(Starec)"
   ]],
   [8, 58, [
