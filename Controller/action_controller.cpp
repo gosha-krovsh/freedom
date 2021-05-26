@@ -173,7 +173,6 @@ void ActionController::SetBotConversation(const QString& bot_name,
     model_->GetBotByName(bot_name)->SetCurrentConversation(
         model_->GetConversationById(conversation_id));
   }
-
 }
 
 void ActionController::FinishQuest(int id) {
