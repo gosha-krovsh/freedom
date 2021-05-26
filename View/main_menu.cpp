@@ -56,6 +56,7 @@ void MainMenu::SetStyles() {
 void MainMenu::ConnectButtons() {
   connect(play_button_, &QPushButton::pressed, this, [this]() {
     controller_->CloseMainMenu();
+    controller_->PlayTrackOnce(Sound::kButtonClick);
   });
   connect(exit_button_, &QPushButton::pressed,
           QApplication::instance(), &QCoreApplication::quit);

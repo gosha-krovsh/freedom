@@ -143,6 +143,9 @@
         <file alias="door_315.png">Images/door_315.png</file>
 
         <file alias="main_menu_background.png">Images/main_menu_background.png</file>
+        <file alias="readme_screen1.png">Images/readme_screen1.png</file>
+        <file alias="readme_screen2.png">Images/readme_screen2.png</file>
+        <file alias="readme_screen3.png">Images/readme_screen3.png</file>
 
         <file alias="schedule.json">Jsons/schedule.json</file>
         <file alias="game_map.json">Jsons/game_map.json</file>

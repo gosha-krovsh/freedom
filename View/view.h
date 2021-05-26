@@ -77,6 +77,11 @@ class View : public QMainWindow {
   void SetTime(const Time& time);
   void SetLocation(const QString& location_str);
 
+  void SetHealth(int health);
+  void SetAttack(int attack);
+  void SetTime(const Time& time);
+  void SetLocation(const QString& location_str);
+
  private:
   QTimer* timer_{new QTimer(this)};
   AbstractController* controller_;
