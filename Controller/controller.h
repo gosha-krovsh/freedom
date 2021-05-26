@@ -56,7 +56,7 @@ class Controller : public AbstractController {
   void MoveAllBotsToPoint(const Point& point);
 
   void CloseMainMenu() override;
-  void UpdateVolume() override;
+  void UpdateSound() override;
   void PlayTrack(Sound::SoundAction action,
                  int volume = constants::kInitVolume);
   void PlayTrackOnce(Sound::SoundAction action,

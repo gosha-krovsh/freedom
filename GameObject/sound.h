@@ -30,6 +30,8 @@ class Sound {
 
   void PlayTrack(SoundAction action, int volume = constants::kInitVolume);
   void PlayTrackOnce(SoundAction action, int volume = constants::kInitVolume);
+  void UpdateDurations();
+  void UpdateSettings();
 
   void Tick(int);
   void SetVolumeCoefficient(double volume_coefficient);
@@ -46,17 +48,7 @@ class Sound {
 
   double volume_coefficient_ = 1;
   std::vector<Track> tracks_;
-  std::vector<std::pair<QString, int>> song_names_and_durations_{
-    {"qrc:background.mp3", constants::kInfinity},
-    {"qrc:wall_attack.mp3", Settings::GetDurationOfShaking()},
-    {"qrc:wall_attack.mp3", Settings::GetAttackCooldown()},
-    {"qrc:door_open.mp3", Settings::GetDefaultSoundDuration()},
-    {"qrc:chest_open.mp3", Settings::GetDefaultSoundDuration()},
-    {"qrc:take_item.mp3", Settings::GetDefaultSoundDuration()},
-    {"qrc:talking.mp3", 0},
-    {"qrc:use_item.mp3", Settings::GetDefaultSoundDuration()},
-    {"qrc:button_click.mp3", 0},
-  };
+  std::vector<std::pair<QString, int>> song_names_and_durations_;
 };
 
 #endif  // GAMEOBJECT_SOUND_H_

@@ -441,13 +441,16 @@ void Controller::StartQuest(int id) {
 }
 
 void Controller::InteractWithDoor() {
-  Door* door = static_cast<Door*> (GetNearestOfTwoObjects(
+  Door* door = static_cast<Door*>(GetNearestOfTwoObjects(
       FindNearestObjectWithType(Object::Type::kDoor_225),
-      FindNearestObjectWithType(Object::Type::kDoor_315));
+      FindNearestObjectWithType(Object::Type::kDoor_315)));
   if (door) {
-    // TODO: only when state changed
-    PlayTrack(Sound::kOpenDoor);
+    bool state_before = door->IsOpened();
     door->Interact(model_->GetHero());
+    bool state_after = door->IsOpened();
+    if (state_before != state_after) {
+      PlayTrack(Sound::kOpenDoor);
+    }
   }
 }
 
@@ -470,9 +473,8 @@ void Controller::CloseMainMenu() {
   view_->CloseMainMenu();
 }
 
-void Controller::UpdateVolume() {
-  model_->GetSound().SetVolumeCoefficient(
-      static_cast<double>(Settings::kVolume) / constants::kInitVolume);
+void Controller::UpdateSound() {
+  model_->GetSound().UpdateSettings();
 }
 
 void Controller::TryToOpenDoor(const Bot& bot) {

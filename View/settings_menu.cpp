@@ -79,7 +79,7 @@ void SettingsMenu::ConnectButtons() {
   });
   connect(submit_button_, &QPushButton::pressed, this, [this]() {
     SaveData();
-    controller_->UpdateVolume();
+    controller_->UpdateSound();
     hide();
     controller_->PlayTrackOnce(Sound::kButtonClick);
   });

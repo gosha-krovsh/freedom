@@ -1,6 +1,7 @@
 #include "sound.h"
 
 Sound::Sound() {
+  UpdateSettings();
   PlayTrack(kBackground);
 }
 
@@ -65,4 +66,24 @@ void Sound::ResumeAllTracks() {
   for (int i = 1; i < tracks_.size(); ++i) {
     tracks_[i].player->play();
   }
+}
+
+void Sound::UpdateDurations() {
+  song_names_and_durations_ = {
+      {"qrc:background.mp3", constants::kInfinity},
+      {"qrc:wall_attack.mp3", Settings::GetDurationOfShaking()},
+      {"qrc:wall_attack.mp3", Settings::GetAttackCooldown()},
+      {"qrc:door_open.mp3", Settings::GetDefaultSoundDuration()},
+      {"qrc:chest_open.mp3", Settings::GetDefaultSoundDuration()},
+      {"qrc:take_item.mp3", Settings::GetDefaultSoundDuration()},
+      {"qrc:talking.mp3", 0},
+      {"qrc:use_item.mp3", Settings::GetDefaultSoundDuration()},
+      {"qrc:button_click.mp3", 0},
+  };
+}
+
+void Sound::UpdateSettings() {
+  UpdateDurations();
+  SetVolumeCoefficient(static_cast<double>(Settings::kVolume) /
+                                           constants::kInitVolume);
 }

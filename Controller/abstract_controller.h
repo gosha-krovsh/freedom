@@ -39,7 +39,7 @@ class AbstractController {
   virtual std::shared_ptr<Storage> GetInteractableStorage() = 0;
 
   virtual void CloseMainMenu() = 0;
-  virtual void UpdateVolume() = 0;
+  virtual void UpdateSound() = 0;
   virtual void PlayTrack(Sound::SoundAction action,
                          int volume = constants::kInitVolume) = 0;
   virtual void PlayTrackOnce(Sound::SoundAction action,

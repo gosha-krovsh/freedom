@@ -15,7 +15,7 @@ namespace constants {
   const int kInitDurationOfOneAnimationFrame = 14;
   const int kInitDurationOfShaking = 10;
   const int kInitAttackCooldown = 40;
-  const int kInitDefaultSoundDuration = 40;
+  const int kInitDefaultSoundDuration = 30;
 
   const int kNumberOfViewDirections = 8;
   const double kEps = 1e-7;
