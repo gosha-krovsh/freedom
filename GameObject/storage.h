@@ -18,6 +18,7 @@ class Storage {
   Item RemoveItem(int index);
 
   bool IsValidIndex(int index) const;
+  bool HasLessItems(int amount);
   std::vector<Item> GetItems() const;
 
  protected:

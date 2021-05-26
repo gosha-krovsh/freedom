@@ -13,10 +13,17 @@ Controller::Controller()
   model_->SetBots(std::move(data_controller_->ParseBots()));
   model_->SetConversations(std::move(data_controller_->ParseConversations()));
   model_->SetQuests(std::move(data_controller_->ParseQuests()));
-
   model_->SetCreatureStorage(
       std::move(data_controller_->ParseCreatureStorage()));
+
   view_->AssignHeroStorage();
+
+  // Temp code, will be deleted at merge
+  model_->GetHero().GetClothingStorage()->PutItem(Item(
+      Item::Type::kPrisonerRoba,
+      "prisonerroba",
+      model_->GetImage("prisonerroba")));
+  view_->GetBarPack()->GetClothingBar()->UpdateIcons();
 
   view_->Show();
 }
@@ -52,12 +59,17 @@ void Controller::Tick() {
     view_->ItemDialogEvent();
   }
 
+  view_->UpdateStatusBar();
+
   ++current_tick_;
 }
 
 std::shared_ptr<Storage> Controller::GetInteractableStorage() {
-  auto obj = GetNearestOfTwoObjects(FindNearestStorableObject(),
-                                    FindNearestDestroyedBot().get());
+  auto bot = FindNearestDestroyedBot().get();
+  auto obj = GetNearestOfTwoObjects(FindNearestStorableObject(), bot);
+  if (!view_->IsItemDialogOpen() && (obj != bot)) {
+    PlayTrack(Sound::kOpenChest);
+  }
   return obj ? obj->GetStorage() : nullptr;
 }
 
@@ -65,23 +77,6 @@ Object* Controller::FindNearestStorableObject() {
   return FindIfNearestObject([](Object* block) {
     return block->IsStorable();
   });
-}
-
-void Controller::ProcessFighting(Creature* attacker, Creature* victim, int* i) {
-  if (attacker->IsAbleToAttack() &&
-      !victim->IsDestroyed() && !attacker->IsDestroyed()) {
-    model_->GetSound().PlayTrack(Sound::kFight, Settings::GetAttackCooldown());
-    victim->DecreaseHP(attacker->GetAttack());
-    attacker->RefreshAttackCooldown();
-
-    if (victim->IsDestroyed()) {
-      attacker->StopFighting();
-      model_->DeleteFightingPairWithIndex(*i);
-      --*i;
-    } else {
-      victim->Shake(victim->GetCoordinates() - attacker->GetCoordinates());
-    }
-  }
 }
 
 void Controller::ProcessPoliceSupervision() {
@@ -103,10 +98,10 @@ void Controller::ProcessPoliceSupervision() {
   auto hero_coords = model_->GetHero().GetCoordinates();
 
   for (const auto& bot : model_->GetBots()) {
-    if (bot->GetBotType() == Bot::Type::kPolice) {
+    if (bot->GetBotType() == Bot::Type::kPolice && !bot->IsDestroyed()) {
       double dist = bot->GetCoordinates().DistanceFrom(hero_coords);
       if (dist < constants::kAttackRadius) {
-        model_->CreateFightingPair(&model_->GetHero(), bot.get());
+        model_->CreateFightingPairIfNotExists(&model_->GetHero(), bot.get());
         bot->SetTargets({});
         continue;
       } else if (dist < constants::kPoliceIllegalDetectionRadius) {
@@ -140,12 +135,22 @@ void Controller::ProcessPoliceSupervision() {
 }
 
 void Controller::ProcessFighting() {
-  for (int i = 0; i < model_->GetNumberOfFightingPairs(); ++i) {
-    auto fighting_pair = model_->GetFightingPairWithIndex(i);
-    auto first = fighting_pair.first;
-    auto second = fighting_pair.second;
-    ProcessFighting(first, second, &i);
-    ProcessFighting(second, first, &i);
+  for (const auto& pair : model_->GetFightingPairs()) {
+    ProcessFighting(pair.first, pair.second);
+    ProcessFighting(pair.second, pair.first);
+  }
+  model_->DeleteFinishedFightingPairs();
+}
+
+void Controller::ProcessFighting(Creature* attacker, Creature* victim) {
+  if (!attacker->IsAbleToAttack() || victim->IsDestroyed()) {
+    return;
+  }
+  PlayTrack(Sound::kFight);
+  victim->DecreaseHP(attacker->GetAttack());
+  attacker->RefreshAttackCooldown();
+  if (!victim->IsDestroyed()) {
+    victim->Shake(victim->GetCoordinates() - attacker->GetCoordinates());
   }
 }
 
@@ -210,14 +215,13 @@ void Controller::HeroAttack() {
 
   auto nearest_bot = FindNearestAliveBotInRadius(constants::kAttackRadius);
   if (nearest_bot) {
-    model_->CreateFightingPair(&hero, nearest_bot.get());
+    model_->CreateFightingPairIfNotExists(&hero, nearest_bot.get());
     return;
   }
 
   auto nearest_wall = FindNearestObjectWithType(Object::Type::kWall);
   if (nearest_wall) {
-    model_->GetSound().PlayTrack(Sound::kWallAttack,
-                                 Settings::GetDurationOfShaking());
+    PlayTrack(Sound::kWallAttack);
     nearest_wall->Interact(hero);
     hero.RefreshAttackCooldown();
   }
@@ -379,12 +383,16 @@ void Controller::UpdateHeroMovingDirection() {
 }
 
 void Controller::OnItemPress(int bar_id, int index) {
-  std::pair<ItemBar*, ItemBar*> source_dest = view_->GetSrcDestBars(bar_id);
-  if (source_dest.first != nullptr && source_dest.second != nullptr) {
+  std::pair<ItemBar*, ItemBar*> source_dest = view_->GetSrcDestBars(bar_id,
+                                                                    index);
+  if (source_dest.first != nullptr && source_dest.second != nullptr &&
+     (source_dest.second->GetStorage()->HasLessItems(
+         source_dest.second->GetMaxItemCount()))) {
     MoveItem(index, source_dest.first->GetStorage(),
              source_dest.second->GetStorage());
     source_dest.first->UpdateIcons();
     source_dest.second->UpdateIcons();
+    PlayTrack(Sound::kTakeItem);
   }
 }
 
@@ -457,12 +465,16 @@ void Controller::StartQuest(int id) {
 }
 
 void Controller::InteractWithDoor() {
-  Door* door = static_cast<Door*> (GetNearestOfTwoObjects(
+  Door* door = static_cast<Door*>(GetNearestOfTwoObjects(
       FindNearestObjectWithType(Object::Type::kDoor_225),
       FindNearestObjectWithType(Object::Type::kDoor_315)));
-
-  if (door != nullptr) {
+  if (door) {
+    bool state_before = door->IsOpened();
     door->Interact(model_->GetHero());
+    bool state_after = door->IsOpened();
+    if (state_before != state_after) {
+      PlayTrack(Sound::kOpenDoor);
+    }
   }
 }
 
@@ -485,9 +497,22 @@ void Controller::CloseMainMenu() {
   view_->CloseMainMenu();
 }
 
-void Controller::UpdateVolume() {
-  model_->GetSound().SetVolumeCoefficient(
-      static_cast<double>(Settings::kVolume) / constants::kInitVolume);
+void Controller::UpdateSound() {
+  model_->GetSound().UpdateSettings();
+}
+
+
+void Controller::DeleteQuestFromList(const QString& quest_name) {
+  view_->GetQuestTaskList()->DeleteQuest(quest_name);
+}
+
+void Controller::AddQuestToList(const QString& quest_name,
+                                const std::vector<QString>& node_strings) {
+  view_->AddQuestToTaskList(quest_name, node_strings);
+}
+
+void Controller::UpdateQuestList(const QString& quest_name, int index) {
+  view_->UpdateQuestTaskList(quest_name, index);
 }
 
 void Controller::TryToOpenDoor(const Bot& bot) {
@@ -507,4 +532,12 @@ void Controller::TryToOpenDoor(const Bot& bot) {
       }
     }
   }
+}
+
+void Controller::PlayTrack(Sound::SoundAction action, int volume) {
+  model_->GetSound().PlayTrack(action, volume);
+}
+
+void Controller::PlayTrackOnce(Sound::SoundAction action, int volume) {
+  model_->GetSound().PlayTrackOnce(action, volume);
 }

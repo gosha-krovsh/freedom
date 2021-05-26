@@ -22,9 +22,16 @@ class Sound {
     kOpenChest = 4,
     kTakeItem = 5,
     kTalking = 6,
+    kUseItem = 7,
+    kButtonClick = 8,
   };
 
+  Sound();
+
   void PlayTrack(SoundAction action, int volume = constants::kInitVolume);
+  void PlayTrackOnce(SoundAction action, int volume = constants::kInitVolume);
+  void UpdateDurations();
+  void UpdateSettings();
 
   void Tick(int);
   void SetVolumeCoefficient(double volume_coefficient);

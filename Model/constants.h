@@ -15,6 +15,7 @@ namespace constants {
   const int kInitDurationOfOneAnimationFrame = 14;
   const int kInitDurationOfShaking = 10;
   const int kInitAttackCooldown = 40;
+  const int kInitDefaultSoundDuration = 30;
 
   const int kNumberOfViewDirections = 8;
   const double kEps = 1e-7;
@@ -22,7 +23,7 @@ namespace constants {
   const double kMaxBlockOffset = 0.15;
   const int kHP = 100;
   const int kBlockHP = kHP * 5;
-  const int kPoliceHP = kHP * 10;
+  const int kPoliceHP = kHP * 2;  // Temp, was kHP * 10
   const double kPoliceIllegalDetectionRadius = 4.;
   const double kStepForSearchingWall = 0.25;
   const int kAttack = 25;
@@ -72,13 +73,24 @@ namespace constants {
   const double kHeightConversationWindowMultiplier = 0.3;
 
   const int kTicksInMinute = 75;
+  const double kXQuestTaskListWindowMultiplier = 0.74;
+  const double kYQuestTaskListWindowMultiplier = 0.03;
+  const double kWidthQuestTaskListWindowMultiplier = 0.25;
+  const double kHeightQuestTaskListWindowMultiplier = 0.4;
 
   // ItemBar constants
   const int kMaxElementsInItemBar = 7;
   const int kBarPackDefaultCenteredX = kWindowWidth / 2;
   const int kBarPackDefaultY = 3 * kWindowHeight / 5;
-  const int kBarPackDefaultWidth = kWindowWidth / 2;
+  const int kBarPackDefaultWidth = 9 * kWindowWidth / 14;
   const int kBarPackDefaultHeight = 2 * kWindowHeight / 5;
+
+  // StatusBar constants
+  const int kStatusBarDefaultCenteredX = 100 * kWindowWidth / 850;
+  const int kStatusBarDefaultY = kWindowHeight / 25;
+  const int kStatusBarDefaultWidth = 160 * kWindowWidth / 850;
+  const int kStatusBarDefaultHeight = 100 * kWindowHeight / 500;
+  const int kStatusBarIconSize = 40;
 
   const int kCoeffitientForSpaceBetweenButtons = 25;
   const double kCoeffitientForIconSize = 0.8;

@@ -41,6 +41,9 @@ Creature::Creature(const Point& coords, const QString& name, int hp) :
                                         image_name + "_run_2"});
     }
   }
+  storage_ = std::make_shared<Storage>();
+  gun_storage_ = std::make_shared<Storage>();
+  clothing_storage_ = std::make_shared<Storage>();
 }
 const QString& Creature::GetName() const {
   return name_;
@@ -58,7 +61,7 @@ void Creature::Tick(int current_tick) {
   // Temp code.
   // TODO: In the future, there will be separate cell in inventory for clothes.
   clothes_name_ = "";
-  for (const auto& item : storage_->GetItems()) {
+  for (const auto& item : clothing_storage_->GetItems()) {
     if (item.GetType() == Item::Type::kPrisonerRoba) {
       clothes_name_ = constants::kPrisonerClothesName;
       break;
@@ -109,6 +112,7 @@ void Creature::NormalizeSpeedVector(const Point& speed_vector) {
   SetSpeedVector(new_speed);
   UpdateViewDirection();
 }
+
 bool Creature::IsAbleToAttack() const {
   return attack_cooldown_ == 0 && !IsDestroyed();
 }

@@ -1,8 +1,6 @@
 #include "hero.h"
 Hero::Hero(const Point& coords)
-  : Creature(coords, "Hero", constants::kHP) {
-  storage_ = std::make_shared<Storage>();
-}
+  : Creature(coords, "Hero", constants::kHP) {}
 
 void Hero::Tick(int current_tick) {
   Creature::Tick(current_tick);
@@ -58,4 +56,8 @@ void Hero::Respawn() {
   Creature::Respawn();
   StopFighting();
   SetCoordinates({constants::kHeroSpawnX, constants::kHeroSpawnY, 1});
+}
+
+void Hero::SetStorage(std::shared_ptr<Storage>&& storage) {
+  storage_ = std::move(storage);
 }

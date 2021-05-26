@@ -39,18 +39,33 @@ void Model::SetCreatureStorage(std::map<QString,
   }
 }
 
-void Model::CreateFightingPair(Creature* first, Creature* second) {
+void Model::CreateFightingPairIfNotExists(Creature* first, Creature* second) {
+  for (const auto& pair : fighting_pairs_) {
+    if ((pair.first == first && pair.second == second) ||
+        (pair.first == second && pair.second == first)) {
+      return;
+    }
+  }
   first->StartFighting();
   second->StartFighting();
   fighting_pairs_.emplace_back(first, second);
 }
 
-std::pair<Creature*, Creature*> Model::GetFightingPairWithIndex(int index) {
-  return fighting_pairs_.at(index);
+void Model::DeleteFinishedFightingPairs() {
+  for (int i = 0; i < fighting_pairs_.size(); ++i) {
+    if (fighting_pairs_[i].first->IsDestroyed() ||
+        fighting_pairs_[i].second->IsDestroyed()) {
+      fighting_pairs_[i].first->StopFighting();
+      fighting_pairs_[i].second->StopFighting();
+      fighting_pairs_.erase(fighting_pairs_.begin() + i);
+      --i;
+    }
+  }
 }
 
-int Model::GetNumberOfFightingPairs() const {
-  return fighting_pairs_.size();
+const std::vector<std::pair<Creature*, Creature*>>&
+    Model::GetFightingPairs() const {
+  return fighting_pairs_;
 }
 
 const GameMap& Model::GetMap() const {
@@ -123,10 +138,6 @@ const std::vector<Quest>& Model::GetCurrentQuests() const {
 
 std::vector<Quest>& Model::GetCurrentQuests() {
   return current_quests_;
-}
-
-void Model::DeleteFightingPairWithIndex(int index) {
-  fighting_pairs_.erase(fighting_pairs_.begin() + index);
 }
 
 const Quest& Model::GetCurrentQuestById(int id) const {

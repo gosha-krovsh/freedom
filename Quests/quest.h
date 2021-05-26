@@ -15,12 +15,16 @@ class Quest {
         const std::vector<QuestNode>& quest_nodes,
         const std::vector<Action>& start_actions,
         const std::vector<Action>& finish_actions);
+
   int GetId() const;
   QString GetName() const;
   const QuestNode* GetCurrentQuestNode() const;
-  void MoveToNextQuestNode();
+  int GetCurrentQuestNodeIndex() const;
+  std::vector<QString> GetQuestNodesNames() const;
   std::vector<Action> GetStartActions() const;
   std::vector<Action> GetFinishActions() const;
+
+  void MoveToNextQuestNode();
 
  private:
   int id_;

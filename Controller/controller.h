@@ -56,10 +56,21 @@ class Controller : public AbstractController {
 
   std::shared_ptr<Storage> GetInteractableStorage() override;
 
+  void DeleteQuestFromList(const QString& quest_name) override;
+
+  void UpdateQuestList(const QString& quest_name, int index) override;
+
+  void AddQuestToList(const QString& quest_name,
+                      const std::vector<QString>& node_strings) override;
+
   void MoveAllBotsToPoint(const Point& point);
 
   void CloseMainMenu() override;
-  void UpdateVolume() override;
+  void UpdateSound() override;
+  void PlayTrack(Sound::SoundAction action,
+                 int volume = constants::kInitVolume);
+  void PlayTrackOnce(Sound::SoundAction action,
+                     int volume = constants::kInitVolume);
 
  private:
   struct ControlKeyStates {

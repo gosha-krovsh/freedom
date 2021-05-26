@@ -24,3 +24,7 @@ int Settings::GetAttackCooldown() {
 double Settings::GetFPSCoefficient() {
   return (static_cast<double>(kFPS) / constants::kInitFPS);
 }
+
+int Settings::GetDefaultSoundDuration() {
+  return constants::kInitDefaultSoundDuration * GetFPSCoefficient();
+}

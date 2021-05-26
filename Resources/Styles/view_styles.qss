@@ -1,0 +1,13 @@
+QWidget#status_bar {
+  background-color: rgba(255, 0, 0, 0.2);
+  border-radius: 5px;
+  margin: 0;
+  padding: 0;
+}
+
+QLabel#middle_label {
+  text-align: center;
+  color: whitesmoke;
+  font-size: 48px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}

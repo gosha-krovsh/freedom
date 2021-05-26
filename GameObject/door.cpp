@@ -73,3 +73,7 @@ Door::State Door::GetState() const {
 bool Door::IsOpened() const {
   return is_opened_;
 }
+
+void Door::SetOpenable(bool is_opened) {
+  is_opened_ = is_opened;
+}

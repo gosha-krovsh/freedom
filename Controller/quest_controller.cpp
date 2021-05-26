@@ -7,14 +7,18 @@ QuestController::QuestController(AbstractController* controller,
 
 void QuestController::StartQuest(int id) {
   model_->AddCurrentQuest(id);
-  controller_->ExecuteActions(model_->GetCurrentQuestById(id).
-                                      GetStartActions());
+
+  Quest quest = model_->GetCurrentQuestById(id);
+  controller_->ExecuteActions(quest.GetStartActions());
+  controller_->AddQuestToList(quest.GetName(),
+                              quest.GetQuestNodesNames());
   qDebug() << "Quest started";  // message to test
 }
 
 void QuestController::FinishQuest(int id) {
   controller_->ExecuteActions(model_->GetCurrentQuestById(id).
                                       GetFinishActions());
+  controller_->DeleteQuestFromList(model_->GetCurrentQuestById(id).GetName());
   model_->EraseCurrentQuest(id);
   qDebug() << "Quest finished";  // message to test
 }
@@ -26,6 +30,8 @@ void QuestController::Tick(int) {
     if (quest_node) {
       if (CheckCondition(quest_node)) {
         current_quests[i].MoveToNextQuestNode();
+        controller_->UpdateQuestList(current_quests[i].GetName(),
+                     current_quests[i].GetCurrentQuestNodeIndex());
         qDebug() << "Quest node completed";  // message to test
       }
     } else {

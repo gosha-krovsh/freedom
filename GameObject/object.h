@@ -73,6 +73,8 @@ class Object {
   void SetZ(double z);
 
   std::shared_ptr<Storage> GetStorage();
+  std::shared_ptr<Storage> GetClothingStorage();
+  std::shared_ptr<Storage> GetGunStorage();
 
   bool IsTouchable() const;
   bool IsStorable() const;
@@ -89,6 +91,8 @@ class Object {
   Type type_{Type::kNone};
 
   std::shared_ptr<Storage> storage_ = nullptr;
+  std::shared_ptr<Storage> clothing_storage_ = nullptr;
+  std::shared_ptr<Storage> gun_storage_ = nullptr;
 
  private:
   Point coordinates_;

@@ -33,10 +33,9 @@ class Model {
   void SetQuests(std::vector<Quest>&&);
   void SetCreatureStorage(std::map<QString, std::shared_ptr<Storage>>&& items);
 
-  void CreateFightingPair(Creature* first, Creature* second);
-  void DeleteFightingPairWithIndex(int index);
-  std::pair<Creature*, Creature*> GetFightingPairWithIndex(int index);
-  int GetNumberOfFightingPairs() const;
+  const std::vector<std::pair<Creature*, Creature*>>& GetFightingPairs() const;
+  void CreateFightingPairIfNotExists(Creature* first, Creature* second);
+  void DeleteFinishedFightingPairs();
 
   const GameMap& GetMap() const;
   GameMap& GetMap();

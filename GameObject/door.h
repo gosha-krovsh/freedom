@@ -17,7 +17,7 @@ class Door : public Object {
 
   Point GetDrawOffset() const override;
   bool IsOpenable() const;
-  void SetOpenable(bool openable);
+  void SetOpenable(bool is_opened);
 
   bool IsOpened() const;
 

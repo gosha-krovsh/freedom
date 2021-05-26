@@ -73,11 +73,15 @@ void SettingsMenu::paintEvent(QPaintEvent*) {
 }
 
 void SettingsMenu::ConnectButtons() {
-  connect(back_button_, &QPushButton::pressed, this, &QWidget::hide);
+  connect(back_button_, &QPushButton::pressed, this, [this]() {
+    hide();
+    controller_->PlayTrackOnce(Sound::kButtonClick);
+  });
   connect(submit_button_, &QPushButton::pressed, this, [this]() {
     SaveData();
-    controller_->UpdateVolume();
+    controller_->UpdateSound();
     hide();
+    controller_->PlayTrackOnce(Sound::kButtonClick);
   });
 }
 

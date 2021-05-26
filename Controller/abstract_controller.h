@@ -9,6 +9,7 @@
 #include "GameObject/door.h"
 #include "GameObject/storage.h"
 #include "Conversations/conversation.h"
+#include "GameObject/sound.h"
 
 class AbstractController {
  public:
@@ -43,8 +44,17 @@ class AbstractController {
   virtual void BuildPath(const std::shared_ptr<Bot>& bot,
                          const Point& finish) = 0;
 
+  virtual void UpdateQuestList(const QString& quest_name, int index) = 0;
+  virtual void AddQuestToList(const QString& quest_name,
+                              const std::vector<QString>& node_strings) = 0;
+  virtual void DeleteQuestFromList(const QString& quest_name) = 0;
+
   virtual void CloseMainMenu() = 0;
-  virtual void UpdateVolume() = 0;
+  virtual void UpdateSound() = 0;
+  virtual void PlayTrack(Sound::SoundAction action,
+                         int volume = constants::kInitVolume) = 0;
+  virtual void PlayTrackOnce(Sound::SoundAction action,
+                             int volume = constants::kInitVolume) = 0;
 
  private:
   virtual void MoveItem(int index,

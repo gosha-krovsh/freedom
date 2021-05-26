@@ -23,6 +23,10 @@ const QuestNode* Quest::GetCurrentQuestNode() const {
   return &quest_nodes_[current_node_index_];
 }
 
+int Quest::GetCurrentQuestNodeIndex() const {
+  return current_node_index_;
+}
+
 void Quest::MoveToNextQuestNode() {
   ++current_node_index_;
 }
@@ -33,4 +37,12 @@ std::vector<Action> Quest::GetStartActions() const {
 
 std::vector<Action> Quest::GetFinishActions() const {
   return finish_actions_;
+}
+
+std::vector<QString> Quest::GetQuestNodesNames() const {
+  std::vector<QString> result;
+  for (const auto& quest_node : quest_nodes_) {
+    result.emplace_back(quest_node.GetName());
+  }
+  return result;
 }
