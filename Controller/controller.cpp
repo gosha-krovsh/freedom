@@ -36,7 +36,6 @@ void Controller::Tick() {
   if (current_tick_ % constants::kTicksInMinute == 0 &&
       current_tick_ != 0) {
     model_->GetTime().AddMinutes(1);
-    qDebug() << QString::fromStdString(model_->GetTime().ToString());
     actions_controller_->Tick(current_tick_);
   }
 

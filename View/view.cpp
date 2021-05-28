@@ -92,7 +92,7 @@ void View::StartConversation(
     const std::shared_ptr<Conversation>& conversation) {
   if (conversation) {
     StopTickTimer();
-    conversation_window_ = std::make_unique<ConversationWindow>(
+    conversation_window_ = new ConversationWindow(
         *conversation, controller_, this);
     InterruptAllInput();
     resizeEvent(nullptr);
@@ -235,12 +235,14 @@ void View::InterruptAllInput() {
 }
 
 void View::CloseConversationWindow() {
+  conversation_window_->deleteLater();
   conversation_window_ = nullptr;
   item_bar_pack_->show();
   StartTickTimer();
 }
 
 void View::CloseMainMenu() {
+  main_menu_->deleteLater();
   main_menu_ = nullptr;
   status_bar_->show();
   time_label_->show();
@@ -350,7 +352,7 @@ void View::SetLocation(const QString& location_str) {
 }
 
 void View::ShowMainMenu() {
-  main_menu_ = std::make_unique<MainMenu>(controller_, this);
+  main_menu_ = new MainMenu(controller_, this);
   item_bar_pack_->hide();
   status_bar_->hide();
   time_label_->hide();

@@ -91,8 +91,8 @@ class View : public QMainWindow {
   QLabel* time_label_{new QLabel(game_widget_.get())};
   QLabel* location_label_{new QLabel(game_widget_.get())};
 
-  std::unique_ptr<ConversationWindow> conversation_window_{nullptr};
-  std::unique_ptr<MainMenu> main_menu_{nullptr};
+  ConversationWindow* conversation_window_{nullptr};
+  MainMenu* main_menu_{nullptr};
 };
 
 #endif  // VIEW_VIEW_H_
