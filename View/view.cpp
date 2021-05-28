@@ -254,7 +254,6 @@ void View::CloseMainMenu() {
 }
 
 std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id, int index) {
-  qDebug() << item_bar_pack_->GetItemBar(id)->GetStorage()->GetItems().size();
   switch (id) {
     case 0: {
       return std::make_pair(item_bar_pack_->GetHeroBar(),

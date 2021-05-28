@@ -144,6 +144,7 @@ void Controller::ProcessPoliceSupervision() {
 void Controller::ProcessFighting() {
   for (const auto& pair : model_->GetFightingPairs()) {
     ProcessFighting(pair.first, pair.second);
+    ProcessFighting(pair.second, pair.first);
   }
   model_->DeleteFinishedFightingPairs();
 }
@@ -420,6 +421,7 @@ void Controller::OpenEyes() {
 
 void Controller::CloseEyes() {
   view_->HideGame();
+  model_->GetSound().RemoveAllTracks();
   model_->GetSound().PlayTrack(Sound::kIntro);
 }
 
@@ -552,4 +554,8 @@ void Controller::PlayTrack(Sound::SoundAction action, int volume) {
 
 void Controller::PlayTrackOnce(Sound::SoundAction action, int volume) {
   model_->GetSound().PlayTrackOnce(action, volume);
+}
+
+void Controller::ShowMainMenu() {
+  view_->ShowMainMenu();
 }

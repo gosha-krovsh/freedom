@@ -19,11 +19,10 @@ void QuestController::FinishQuest(int id) {
   const Quest* quest = model_->GetCurrentQuestById(id);
   if (quest) {
     controller_->ExecuteActions(quest->GetFinishActions());
+    quest = model_->GetCurrentQuestById(id);  // iterator invalidate if not this
     controller_->DeleteQuestFromList(quest->GetName());
     model_->EraseCurrentQuest(id);
     qDebug() << "Quest finished";  // message to test
-  } else {
-    qDebug() << "HERE";
   }
 }
 
@@ -39,8 +38,6 @@ void QuestController::Tick(int) {
         qDebug() << "Quest node completed";  // message to test
       }
     } else {
-      qDebug() << current_quests[i].GetName();
-      // TODO fix crash after 3rd quest here
       FinishQuest(current_quests[i].GetId());
       --i;
     }

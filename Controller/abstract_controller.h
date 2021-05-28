@@ -51,6 +51,7 @@ class AbstractController {
                               const std::vector<QString>& node_strings) = 0;
   virtual void DeleteQuestFromList(const QString& quest_name) = 0;
 
+  virtual void ShowMainMenu() = 0;
   virtual void CloseMainMenu() = 0;
   virtual void UpdateSound() = 0;
   virtual void PlayTrack(Sound::SoundAction action,

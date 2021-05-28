@@ -66,6 +66,7 @@ class Controller : public AbstractController {
 
   void MoveAllBotsToPoint(const Point& point);
 
+  void ShowMainMenu() override;
   void CloseMainMenu() override;
   void UpdateSound() override;
   void PlayTrack(Sound::SoundAction action,
