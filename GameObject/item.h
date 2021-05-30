@@ -8,10 +8,13 @@
 #include <utility>
 #include <memory>
 
+#include "Model/constants.h"
+
 class Item {
  public:
   enum class Type {
     kApple,
+    kBrick,
     kSoap,
     kPrisonerRoba,
     kPoliceRoba,
@@ -23,6 +26,8 @@ class Item {
   const std::weak_ptr<QPixmap>& GetImage() const;
   QString GetName() const;
   Type GetType() const;
+
+  static QString GetNameByType(Type type);
 
   bool IsUsable() const;
 

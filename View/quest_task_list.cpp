@@ -69,8 +69,6 @@ void QuestTaskList::SetQuestString(const QString& quest_name,
 }
 
 void QuestTaskList::DeleteQuest(const QString& quest) {
-  quest_string_.erase(quest);
-
   QLabel* quest_label = quest_labels_.at(quest).first;
   delete quest_label;
 
@@ -79,6 +77,7 @@ void QuestTaskList::DeleteQuest(const QString& quest) {
   }
   quest_labels_.erase(quest);
 
+  quest_string_.erase(quest);
   if (quest_string_.empty()) {
     hide();
   }

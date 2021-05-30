@@ -72,6 +72,7 @@ class Object {
   void SetY(double y);
   void SetZ(double z);
 
+  bool HasItem(const Item::Type& item_type) const;
   std::shared_ptr<Storage> GetStorage();
   std::shared_ptr<Storage> GetClothingStorage();
   std::shared_ptr<Storage> GetGunStorage();

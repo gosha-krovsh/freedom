@@ -15,7 +15,7 @@
 class Sound {
  public:
   enum SoundAction {
-    kBackground = 0,
+    kIntro = 0,
     kWallAttack = 1,
     kFight = 2,
     kOpenDoor = 3,
@@ -35,6 +35,7 @@ class Sound {
 
   void Tick(int);
   void SetVolumeCoefficient(double volume_coefficient);
+  void RemoveAllTracks();
   void PauseAllTracks();
   void ResumeAllTracks();
 

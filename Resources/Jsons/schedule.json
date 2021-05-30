@@ -1,5 +1,45 @@
 [
-  [10, 0, [
-    "Move(-1,11,11,1)"
+  [8, 20, [
+    "LockDoor(38,16,1)",
+    "SetBotConversation(Starec,0)",
+    "SetBotConversation(Igor,7)",
+    "SetBotConversation(Rob,8)",
+    "SetBotConversation(Hero,14)",
+    "StartConversation(Hero)"
+  ]],
+  [8, 40, [
+    "UnlockDoor(38,16,1)",
+    "SetTarget(German,28,28,1)",
+    "SetTarget(Rob,22,16,1)",
+    "SetTarget(Starec,21,13,1)",
+    "SetTarget(Igor,21,12,1)",
+    "SetTarget(Ivan,21,14,1)",
+    "SetTarget(Petr,22,12,1)",
+    "SetTarget(Slava,23,12,1)",
+    "SetTarget(Danik,23,13,1)",
+    "SetTarget(Denis,23,14,1)"
+  ]],
+  [8, 56, [
+    "SetTarget(Starec,21,14,1)",
+    "SetTarget(Igor,21,13,1)",
+    "SetTarget(Ivan,21,15,1)",
+    "SetTarget(Petr,22,13,1)",
+    "SetTarget(Slava,23,13,1)",
+    "SetTarget(Danik,23,14,1)",
+    "SetTarget(Denis,23,15,1)",
+    "SetTarget(German,27,22,1)"
+  ]],
+  [9, 0, [
+    "FinishQuest(1)",
+    "StartQuest(2)",
+    "SetTarget(German,28,22,1)",
+    "SetTarget(Rob,28,36,1)",
+    "SetTarget(Starec,24,41,1)",
+    "SetTarget(Igor,26,41,1)",
+    "SetTarget(Ivan,28,41,1)",
+    "SetTarget(Petr,30,41,1)",
+    "SetTarget(Slava,32,41,1)",
+    "SetTarget(Danik,32,39,1)",
+    "SetTarget(Denis,32,37,1)"
   ]]
 ]

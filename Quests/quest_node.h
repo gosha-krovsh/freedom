@@ -9,7 +9,9 @@
 class QuestNode {
  public:
   enum class Type {
-    kMoveToDestination
+    kMoveToDestination,
+    kTakeItem,
+    kKill
   };
 
  public:

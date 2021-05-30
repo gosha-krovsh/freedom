@@ -1,9 +1,21 @@
 #include "conversation.h"
 
-Conversation::Conversation(int id, const std::vector<Node>& nodes) :
-    id_(id), nodes_(nodes) {
+Conversation::Conversation(int id, const std::vector<Node>& nodes) : id_(id) {
+  SetNodes(nodes);
+}
+
+void Conversation::SetNodes(const std::vector<Node>& nodes) {
   if (nodes.empty()) {
     qDebug() << "Conversation must contain at least 1 node";
+  }
+  int max_id = std::max_element(nodes.begin(), nodes.end(),
+                                [](const Node& lhs, const Node& rhs) {
+    return lhs.id < rhs.id;
+  })->id;
+
+  nodes_ = std::vector<Node>(max_id + 1);
+  for (auto& node : nodes) {
+    nodes_[node.id] = node;
   }
 }
 

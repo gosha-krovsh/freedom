@@ -12,8 +12,19 @@ class Action {
   enum ActionType {
     kWrongArg,
     kMove,
+    kAddItemToStorage,
+    kAddItemToBot,
     kStartQuest,
+    kFinishQuest,
+    kOpenEyes,
+    kCloseEyes,
+    kStartConversation,
     kSetBotConversation,
+    kStartFight,
+    kLockDoor,
+    kUnlockDoor,
+    kSetTarget,
+    kReplayIfNotFinished,
   };
 
   Action(const QString& name, const std::vector<QString>& parameters);

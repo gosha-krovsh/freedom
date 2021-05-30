@@ -39,6 +39,10 @@ class View : public QMainWindow {
   // and there is an object that can store something nearby
   void ItemDialogEvent();
   bool IsItemDialogOpen() const;
+  void StartConversation(const std::shared_ptr<Conversation>& conversation);
+  void ShowGame();
+  void HideGame();
+  void ShowMainMenu();
 
   // After storage is parsed from json it should be reassigned to hero
   void AssignHeroStorage();
@@ -68,8 +72,6 @@ class View : public QMainWindow {
   bool IsInputBlocked() const;
   void InterruptAllInput();
 
-  void ShowMainMenu();
-
   void SetHealth(int health);
   void SetAttack(int attack);
   void SetTime(const Time& time);
@@ -89,8 +91,8 @@ class View : public QMainWindow {
   QLabel* time_label_{new QLabel(game_widget_.get())};
   QLabel* location_label_{new QLabel(game_widget_.get())};
 
-  std::unique_ptr<ConversationWindow> conversation_window_{nullptr};
-  std::unique_ptr<MainMenu> main_menu_{nullptr};
+  ConversationWindow* conversation_window_{nullptr};
+  MainMenu* main_menu_{nullptr};
 };
 
 #endif  // VIEW_VIEW_H_

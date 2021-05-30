@@ -19,13 +19,12 @@ namespace constants {
 
   const int kNumberOfViewDirections = 8;
   const double kEps = 1e-7;
-  const int kSizeOfBlock = 220;
   const double kMaxBlockOffset = 0.15;
   const int kHP = 100;
   const int kBlockHP = kHP * 5;
-  const int kPoliceHP = kHP * 2;  // Temp, was kHP * 10
+  const int kPoliceHP = kHP * 10;
   const double kPoliceIllegalDetectionRadius = 4.;
-  const double kStepForSearchingWall = 0.5;
+  const double kStepForSearchingWall = 0.25;
   const int kAttack = 25;
   const double kAttackRadius = 0.65;
   const double kStartConversationRadius = 1.75;
@@ -37,8 +36,8 @@ namespace constants {
                                             kPoliceClothesName};
 
   const double kDoorOpenOffset = -0.4;
-  const int kHeroSpawnX = 11;
-  const int kHeroSpawnY = 11;
+  const int kHeroSpawnX = 35;
+  const int kHeroSpawnY = 14;
 
   // To avoid going through the closed door.
   const double kDoorInteractingDistanceCoefficient = 0.9;
@@ -72,12 +71,11 @@ namespace constants {
   const double kWidthConversationWindowMultiplier = 0.5;
   const double kHeightConversationWindowMultiplier = 0.3;
 
+  const int kTicksInMinute = 75;
   const double kXQuestTaskListWindowMultiplier = 0.74;
   const double kYQuestTaskListWindowMultiplier = 0.03;
   const double kWidthQuestTaskListWindowMultiplier = 0.25;
   const double kHeightQuestTaskListWindowMultiplier = 0.4;
-
-  const int kTicksInMinute = 75;
 
   // ItemBar constants
   const int kMaxElementsInItemBar = 7;

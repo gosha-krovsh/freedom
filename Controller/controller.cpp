@@ -17,14 +17,6 @@ Controller::Controller()
       std::move(data_controller_->ParseCreatureStorage()));
 
   view_->AssignHeroStorage();
-
-  // Temp code, will be deleted at merge
-  model_->GetHero().GetClothingStorage()->PutItem(Item(
-      Item::Type::kPrisonerRoba,
-      "prisonerroba",
-      model_->GetImage("prisonerroba")));
-  view_->GetBarPack()->GetClothingBar()->UpdateIcons();
-
   view_->Show();
 }
 
@@ -61,6 +53,22 @@ void Controller::Tick() {
   view_->UpdateStatusBar();
 
   ++current_tick_;
+}
+
+void Controller::ReplayIfNotFinished(int quest_id, const Time& time) {
+  if (model_->GetTime() >= time &&
+      model_->GetCurrentQuestById(quest_id) != nullptr) {
+    Replay();
+  }
+}
+
+void Controller::Replay() {
+  view_->ShowMainMenu();
+  for (const auto& quest : model_->GetCurrentQuests()) {
+    DeleteQuestFromList(quest->GetName());
+  }
+  model_->Replay();
+  view_->AssignHeroStorage();
 }
 
 std::shared_ptr<Storage> Controller::GetInteractableStorage() {
@@ -110,15 +118,15 @@ void Controller::ProcessPoliceSupervision() {
 
         // Point for searching wall
         Point p = hero_coords;
-        auto step = (hero_coords - bot->GetCoordinates()).Normalized() *
+        auto step = (-hero_coords + bot->GetCoordinates()).Normalized() *
                      constants::kStepForSearchingWall;
 
         bool overlapping_field_of_view = false;
-        while (dist < constants::kStepForSearchingWall) {
+        while (dist > constants::kStepForSearchingWall) {
           auto block = model_->GetMap().GetBlock(p);
           if (block && block->IsTouchable()) {
             overlapping_field_of_view = true;
-            continue;
+            break;
           }
           p += step;
           dist -= constants::kStepForSearchingWall;
@@ -407,7 +415,21 @@ void Controller::MoveItem(int index,
   }
 }
 
-std::shared_ptr<Conversation> Controller::StartConversation() {
+void Controller::OpenEyes() {
+  view_->ShowGame();
+}
+
+void Controller::CloseEyes() {
+  view_->HideGame();
+  model_->GetSound().RemoveAllTracks();
+  model_->GetSound().PlayTrack(Sound::kIntro);
+}
+
+void Controller::StartConversation(const Creature* creature) {
+  view_->StartConversation(creature->GetCurrentConversation());
+}
+
+std::shared_ptr<Conversation> Controller::GetNearestConversation() {
   auto bot = FindNearestAliveBotInRadius(constants::kStartConversationRadius);
   if (!bot) {
     return nullptr;
@@ -449,7 +471,11 @@ void Controller::ExecuteActions(const std::vector<Action>& actions) {
 }
 
 void Controller::StartQuest(int id) {
-  quest_controller_->StartQuest(0);
+  quest_controller_->StartQuest(id);
+}
+
+void Controller::FinishQuest(int id) {
+  quest_controller_->FinishQuest(id);
 }
 
 void Controller::InteractWithDoor() {
@@ -528,4 +554,8 @@ void Controller::PlayTrack(Sound::SoundAction action, int volume) {
 
 void Controller::PlayTrackOnce(Sound::SoundAction action, int volume) {
   model_->GetSound().PlayTrackOnce(action, volume);
+}
+
+void Controller::ShowMainMenu() {
+  view_->ShowMainMenu();
 }

@@ -2,7 +2,6 @@
 
 Sound::Sound() {
   UpdateSettings();
-  PlayTrack(kBackground);
 }
 
 void Sound::PlayTrack(SoundAction action, int volume) {
@@ -54,23 +53,26 @@ void Sound::SetVolumeCoefficient(double volume_coefficient) {
   }
 }
 
+void Sound::RemoveAllTracks() {
+  PauseAllTracks();
+  tracks_.clear();
+}
+
 void Sound::PauseAllTracks() {
-  // The first track is always Background
-  for (int i = 1; i < tracks_.size(); ++i) {
+  for (int i = 0; i < tracks_.size(); ++i) {
     tracks_[i].player->pause();
   }
 }
 
 void Sound::ResumeAllTracks() {
-  // The first track is always Background
-  for (int i = 1; i < tracks_.size(); ++i) {
+  for (int i = 0; i < tracks_.size(); ++i) {
     tracks_[i].player->play();
   }
 }
 
 void Sound::UpdateDurations() {
   song_names_and_durations_ = {
-      {"qrc:background.mp3", constants::kInfinity},
+      {"qrc:intro.mp3", constants::kInfinity},
       {"qrc:wall_attack.mp3", Settings::GetDurationOfShaking()},
       {"qrc:wall_attack.mp3", Settings::GetAttackCooldown()},
       {"qrc:door_open.mp3", Settings::GetDefaultSoundDuration()},

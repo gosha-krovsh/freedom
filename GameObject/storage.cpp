@@ -18,11 +18,7 @@ Item Storage::RemoveItem(int index) {
 }
 
 bool Storage::IsValidIndex(int index) const {
-  if (index < 0) {
-    qDebug() << QIODevice::tr("Storage index is below 0, index = ") << index;
-    return false;
-  }
-  return index < items_.size();
+  return (index >= 0 && index < items_.size());
 }
 
 std::vector<Item> Storage::GetItems() const {
@@ -37,4 +33,13 @@ void Storage::PutItems(const std::vector<Item>& items) {
 
 bool Storage::HasLessItems(int amount) {
   return items_.size() < amount;
+}
+
+bool Storage::HasItem(const Item::Type& item_type) const {
+  for (const auto& item : items_) {
+    if (item.GetType() == item_type) {
+      return true;
+    }
+  }
+  return false;
 }

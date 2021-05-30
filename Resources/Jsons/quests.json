@@ -1,17 +1,66 @@
 [
   {
     "Id": 0,
-    "Name": "MyQuestName",
+    "Name": "Оденься",
     "OnStart": [
-      "Move(-1,15,15,1)"
+      "AddItemToStorage(34,11,1,3)"
     ],
     "Nodes": [
-      ["MyQuestNodeName1", "MoveToDestination(15, 14, 1)"],
-      ["MyQuestNodeName2", "MoveToDestination(15, 15, 1)"]
+      ["Найти свою робу", "TakeItem(3)"]
     ],
     "OnFinish": [
-      "Move(-1,12,12,1)",
-      "SetBotConversation(Rob,1)"
+      "SetBotConversation(Starec,3)"
+    ]
+  },
+  {
+    "Id": 1,
+    "Name": "Построение",
+    "OnStart": [],
+    "Nodes": [
+      ["Прийти на построение", "MoveToDestination(0,0,0)"]
+    ],
+    "OnFinish": [
+      "SetBotConversation(Starec,13)",
+      "StartConversation(Starec)"
+    ]
+  },
+  {
+    "Id": 2,
+    "Name": "Завтрак",
+    "OnStart": [],
+    "Nodes": [
+      ["Прийти в столовую", "MoveToDestination(28,36,1)"]
+    ],
+    "OnFinish": [
+      "StartQuest(3)"
+    ]
+  },
+  {
+    "Id": 3,
+    "Name": "Уйти из столовой",
+    "OnStart": [],
+    "Nodes": [
+      ["Уйти", "MoveToDestination(28,36,1)"]
+    ],
+    "OnFinish": [
+      "SetBotConversation(Rob,12)",
+      "StartConversation(Rob)"
+    ]
+  },
+  {
+    "Id": 4,
+    "Name": "Очнуться в камере",
+    "OnStart": [],
+    "Nodes": [
+      ["Очнуться", "MoveToDestination(35,14,1)"]
+    ],
+    "OnFinish": [
+      "Move(Starec,36,14,1)",
+      "SetTarget(Starec,36,14,1)",
+      "CloseEyes()",
+      "SetBotConversation(Starec,10)",
+      "SetBotConversation(Hero,15)",
+      "StartConversation(Hero)"
     ]
   }
 ]

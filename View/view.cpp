@@ -29,9 +29,17 @@ void View::Show() {
   setCentralWidget(game_widget_.get());
   connect(timer_, &QTimer::timeout, this, &View::TimerEvent);
 
+  game_widget_->hide();
+  model_->GetSound().PlayTrack(Sound::kIntro);
   show();
   item_bar_pack_->show();
   ShowMainMenu();
+}
+void View::ShowGame() {
+  game_widget_->show();
+}
+void View::HideGame() {
+  game_widget_->hide();
 }
 
 void View::SetUi() {
@@ -80,6 +88,18 @@ void View::TimerEvent() {
   game_widget_->repaint();
 }
 
+void View::StartConversation(
+    const std::shared_ptr<Conversation>& conversation) {
+  if (conversation) {
+    StopTickTimer();
+    conversation_window_ = new ConversationWindow(
+        *conversation, controller_, this);
+    InterruptAllInput();
+    resizeEvent(nullptr);
+    item_bar_pack_->hide();
+  }
+}
+
 void View::keyPressEvent(QKeyEvent* event) {
   if (IsInputBlocked()) {
     return;
@@ -91,16 +111,7 @@ void View::keyPressEvent(QKeyEvent* event) {
       break;
     }
     case Qt::Key_Q: {
-      auto conversation = controller_->StartConversation();
-      if (conversation) {
-        StopTickTimer();
-        conversation_window_ = std::make_unique<ConversationWindow>(
-            *conversation, controller_, this);
-        InterruptAllInput();
-        resizeEvent(nullptr);
-        item_bar_pack_->hide();
-        controller_->PlayTrackOnce(Sound::kTalking);
-      }
+      StartConversation(controller_->GetNearestConversation());
       break;
     }
     case Qt::Key_Up:
@@ -224,12 +235,14 @@ void View::InterruptAllInput() {
 }
 
 void View::CloseConversationWindow() {
+  conversation_window_->deleteLater();
   conversation_window_ = nullptr;
   item_bar_pack_->show();
   StartTickTimer();
 }
 
 void View::CloseMainMenu() {
+  main_menu_->deleteLater();
   main_menu_ = nullptr;
   status_bar_->show();
   time_label_->show();
@@ -247,29 +260,25 @@ std::pair<ItemBar*, ItemBar*> View::GetSrcDestBars(int id, int index) {
                             item_bar_pack_->GetObjectBar());
     }
     case 1: {
-      std::shared_ptr<Storage> storage =
-          item_bar_pack_->GetItemBar(id)->GetStorage();
-      if (storage->IsValidIndex(index) &&
-          storage->GetItems().at(index).GetType()
-          == Item::Type::kPrisonerRoba ||
-          storage->GetItems().at(index).GetType()
-          == Item::Type::kPoliceRoba) {
-        controller_->OnItemPress(
-            static_cast<int>(BarPack::BarType::kClothinBar), 0);
+      auto storage = item_bar_pack_->GetItemBar(id)->GetStorage();
+      if (storage->IsValidIndex(index)) {
+        auto item_type = storage->GetItems().at(index).GetType();
+        if (item_type == Item::Type::kPrisonerRoba ||
+            item_type == Item::Type::kPoliceRoba) {
+          controller_->OnItemPress(
+              static_cast<int>(BarPack::BarType::kClothinBar), 0);
 
-        return std::make_pair(item_bar_pack_->GetObjectBar(),
-                              item_bar_pack_->GetClothingBar());
+          return std::make_pair(item_bar_pack_->GetObjectBar(),
+                                item_bar_pack_->GetClothingBar());
+        }
+        if (item_type == Item::Type::kKnife) {
+          controller_->OnItemPress(
+              static_cast<int>(BarPack::BarType::kWeaponBar), 0);
+
+          return std::make_pair(item_bar_pack_->GetObjectBar(),
+                                item_bar_pack_->GetWeaponBar());
+        }
       }
-      if (storage->IsValidIndex(index) &&
-          storage->GetItems().at(index).GetType()
-              == Item::Type::kKnife) {
-        controller_->OnItemPress(
-            static_cast<int>(BarPack::BarType::kWeaponBar), 0);
-
-        return std::make_pair(item_bar_pack_->GetObjectBar(),
-                              item_bar_pack_->GetWeaponBar());
-      }
-
       return std::make_pair(item_bar_pack_->GetObjectBar(),
                             item_bar_pack_->GetHeroBar());
     }
@@ -342,7 +351,7 @@ void View::SetLocation(const QString& location_str) {
 }
 
 void View::ShowMainMenu() {
-  main_menu_ = std::make_unique<MainMenu>(controller_, this);
+  main_menu_ = new MainMenu(controller_, this);
   item_bar_pack_->hide();
   status_bar_->hide();
   time_label_->hide();

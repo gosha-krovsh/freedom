@@ -31,9 +31,13 @@ class Controller : public AbstractController {
   void ExecuteAction(const Action& action) override;
   void ExecuteActions(const std::vector<Action>& actions) override;
   void StartQuest(int id) override;
+  void FinishQuest(int id) override;
 
   void HeroAttack() override;
-  std::shared_ptr<Conversation> StartConversation() override;
+  void OpenEyes() override;
+  void CloseEyes() override;
+  std::shared_ptr<Conversation> GetNearestConversation() override;
+  void StartConversation(const Creature* creature) override;
   void FinishConversation() override;
 
   void SetControlUpKeyState(bool state) override;
@@ -62,12 +66,13 @@ class Controller : public AbstractController {
 
   void MoveAllBotsToPoint(const Point& point);
 
+  void ShowMainMenu() override;
   void CloseMainMenu() override;
   void UpdateSound() override;
   void PlayTrack(Sound::SoundAction action,
-                 int volume = constants::kInitVolume);
+                 int volume = constants::kInitVolume) override;
   void PlayTrackOnce(Sound::SoundAction action,
-                     int volume = constants::kInitVolume);
+                     int volume = constants::kInitVolume) override;
 
  private:
   struct ControlKeyStates {
@@ -87,7 +92,7 @@ class Controller : public AbstractController {
   void ProcessPoliceSupervision();
   void ProcessFighting();
   void ProcessFighting(Creature* attacker, Creature* victim);
-  void BuildPath(const std::shared_ptr<Bot>& bot, const Point& finish);
+  void BuildPath(const std::shared_ptr<Bot>& bot, const Point& finish) override;
 
   std::vector<Point> CollectPath(const Point& finish,
                                  const std::unordered_map<Point, Point,
@@ -100,6 +105,9 @@ class Controller : public AbstractController {
       const std::function<bool(const std::shared_ptr<Bot>&)>& predicate);
   std::shared_ptr<Bot> FindNearestDestroyedBot();
   std::shared_ptr<Bot> FindNearestAliveBotInRadius(double radius);
+
+  void ReplayIfNotFinished(int quest_id, const Time& time) override;
+  void Replay();
 
  private:
   std::shared_ptr<Model> model_;

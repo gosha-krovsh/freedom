@@ -71,6 +71,15 @@ void GameWidget::paintEvent(QPaintEvent*) {
             }
             current_bot->Draw(&painter);
             painter.setOpacity(1);
+            QFont font = painter.font();
+            font.setPointSize(30);
+            painter.setFont(font);
+            auto text_coords = current_bot->GetCoordinates();
+            int x = static_cast<int>((text_coords.GetIsometricX() + 0.5) *
+                (Settings::kBlockSize / 2.));
+            int y = static_cast<int>((text_coords.GetIsometricY() + 0.4) *
+                (Settings::kBlockSize / 2.));
+            painter.drawText(x, y, current_bot->GetName());
           }
         }
 

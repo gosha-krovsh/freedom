@@ -21,6 +21,8 @@ class Door : public Object {
 
   bool IsOpened() const;
 
+  void Lock();
+  void Unlock();
 
  private:
   State GetState() const;

@@ -20,6 +20,7 @@ class Storage {
   bool IsValidIndex(int index) const;
   bool HasLessItems(int amount);
   std::vector<Item> GetItems() const;
+  bool HasItem(const Item::Type& item_type) const;
 
  protected:
   std::vector<Item> items_;

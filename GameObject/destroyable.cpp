@@ -11,7 +11,7 @@ bool Destroyable::IsDestroyed() const {
 }
 
 void Destroyable::Respawn() {
-  hp_ = max_hp_;
+  hp_ = max_hp_ / 2;
 }
 
 void Destroyable::IncreaseHP(int hp) {
