@@ -10,7 +10,7 @@
     "Knife" : 5
   },
   "map-items" : [
-    [[34, 15, 1], ["Apple", "Apple", "Soap", "Knife"]]
+    [[34, 15, 1], ["Apple", "Apple", "Soap"]]
   ],
   "creature-items" : [
     ["Hero", ["Apple"]],

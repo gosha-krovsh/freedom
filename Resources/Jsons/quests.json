@@ -17,7 +17,7 @@
     "Name": "Построение",
     "OnStart": [],
     "Nodes": [
-      ["Прийти на построение", "MoveToDestination(22,13,1)"]
+      ["Прийти на построение", "MoveToDestination(0,0,0)"]
     ],
     "OnFinish": [
       "SetBotConversation(Starec,13)",
