@@ -19,7 +19,7 @@
     "SetTarget(Danik,23,13,1)",
     "SetTarget(Denis,23,14,1)"
   ]],
-  [8, 49, [
+  [8, 56, [
     "SetTarget(Starec,21,14,1)",
     "SetTarget(Igor,21,13,1)",
     "SetTarget(Ivan,21,15,1)",
@@ -29,7 +29,7 @@
     "SetTarget(Denis,23,15,1)",
     "SetTarget(German,27,22,1)"
   ]],
-  [8, 50, [
+  [9, 0, [
     "FinishQuest(1)",
     "StartQuest(2)",
     "SetTarget(German,28,22,1)",
