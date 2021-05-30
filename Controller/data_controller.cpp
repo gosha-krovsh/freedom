@@ -301,8 +301,7 @@ std::vector<std::shared_ptr<Quest>> DataController::ParseQuests() {
         j_quest_obj["Name"].toString(),
         ParseQuestNodes(j_quest_obj["Nodes"].toArray()),
         ParseActions(j_quest_obj["OnStart"].toArray()),
-        ParseActions(j_quest_obj["OnFinish"].toArray())
-    ));
+        ParseActions(j_quest_obj["OnFinish"].toArray())));
   }
   return quests;
 }
