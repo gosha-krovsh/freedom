@@ -65,7 +65,7 @@ void Controller::ReplayIfNotFinished(int quest_id, const Time& time) {
 void Controller::Replay() {
   view_->ShowMainMenu();
   for (const auto& quest : model_->GetCurrentQuests()) {
-    DeleteQuestFromList(quest.GetName());
+    DeleteQuestFromList(quest->GetName());
   }
   model_->Replay();
   view_->AssignHeroStorage();

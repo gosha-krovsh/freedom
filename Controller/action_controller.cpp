@@ -105,6 +105,7 @@ void ActionController::Tick(int) {
 void ActionController::SetTarget(const QString& name, const Point& coords) {
   controller_->BuildPath(model_->GetBotByName(name), coords);
 }
+
 void ActionController::Move(const QString& name, const Point& place) {
   if (name == "Hero") {
     model_->GetHero().SetCoordinates(place);

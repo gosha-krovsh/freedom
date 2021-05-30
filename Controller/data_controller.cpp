@@ -287,20 +287,22 @@ DataController::ParseConversations() {
 //      ]
 //   }
 // ]
-std::vector<Quest> DataController::ParseQuests() {
+std::vector<std::shared_ptr<Quest>> DataController::ParseQuests() {
   QFile file(":quests.json");
   file.open(QIODevice::ReadOnly | QIODevice::Text);
 
   QJsonArray j_quests = QJsonDocument::fromJson(file.readAll()).array();
-  std::vector<Quest> quests;
+  std::vector<std::shared_ptr<Quest>> quests;
   quests.reserve(j_quests.size());
   for (const auto& j_quest : j_quests) {
     QJsonObject j_quest_obj = j_quest.toObject();
-    quests.emplace_back(j_quest_obj["Id"].toInt(),
-                        j_quest_obj["Name"].toString(),
-                        ParseQuestNodes(j_quest_obj["Nodes"].toArray()),
-                        ParseActions(j_quest_obj["OnStart"].toArray()),
-                        ParseActions(j_quest_obj["OnFinish"].toArray()));
+    quests.emplace_back(std::make_shared<Quest>(
+        j_quest_obj["Id"].toInt(),
+        j_quest_obj["Name"].toString(),
+        ParseQuestNodes(j_quest_obj["Nodes"].toArray()),
+        ParseActions(j_quest_obj["OnStart"].toArray()),
+        ParseActions(j_quest_obj["OnFinish"].toArray())
+    ));
   }
   return quests;
 }

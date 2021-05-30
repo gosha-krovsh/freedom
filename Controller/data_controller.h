@@ -32,7 +32,7 @@ class DataController {
   std::vector<std::shared_ptr<Bot>> ParseBots();
   std::vector<std::shared_ptr<Conversation>> ParseConversations();
   std::map<QString, std::shared_ptr<Storage>> ParseCreatureStorage();
-  std::vector<Quest> ParseQuests();
+  std::vector<std::shared_ptr<Quest>> ParseQuests();
 
  private:
   // This method used in ParseGameMap to put Storage into Chests

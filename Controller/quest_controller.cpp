@@ -6,20 +6,21 @@ QuestController::QuestController(AbstractController* controller,
                                  model_(model) {}
 
 void QuestController::StartQuest(int id) {
-  model_->AddCurrentQuest(id);
-
-  const Quest* quest = model_->GetCurrentQuestById(id);
-  controller_->ExecuteActions(quest->GetStartActions());
-  controller_->AddQuestToList(quest->GetName(),
-                              quest->GetQuestNodesNames());
-  qDebug() << "Quest started";  // message to test
+  auto quest = model_->GetCurrentQuestById(id);
+  if (!quest) {
+    model_->AddCurrentQuest(id);
+    auto quest = model_->GetCurrentQuestById(id);
+    controller_->ExecuteActions(quest->GetStartActions());
+    controller_->AddQuestToList(quest->GetName(),
+                                quest->GetQuestNodesNames());
+    qDebug() << "Quest started";  // message to test
+  }
 }
 
 void QuestController::FinishQuest(int id) {
-  const Quest* quest = model_->GetCurrentQuestById(id);
+  auto quest = model_->GetCurrentQuestById(id);
   if (quest) {
     controller_->ExecuteActions(quest->GetFinishActions());
-    quest = model_->GetCurrentQuestById(id);  // iterator invalidate if not this
     controller_->DeleteQuestFromList(quest->GetName());
     model_->EraseCurrentQuest(id);
     qDebug() << "Quest finished";  // message to test
@@ -29,16 +30,16 @@ void QuestController::FinishQuest(int id) {
 void QuestController::Tick(int) {
   auto& current_quests = model_->GetCurrentQuests();
   for (int i = 0; i < current_quests.size(); ++i) {
-    auto quest_node = current_quests[i].GetCurrentQuestNode();
+    auto quest_node = current_quests[i]->GetCurrentQuestNode();
     if (quest_node) {
       if (CheckCondition(quest_node)) {
-        current_quests[i].MoveToNextQuestNode();
-        controller_->UpdateQuestList(current_quests[i].GetName(),
-                     current_quests[i].GetCurrentQuestNodeIndex());
+        current_quests[i]->MoveToNextQuestNode();
+        controller_->UpdateQuestList(current_quests[i]->GetName(),
+                     current_quests[i]->GetCurrentQuestNodeIndex());
         qDebug() << "Quest node completed";  // message to test
       }
     } else {
-      FinishQuest(current_quests[i].GetId());
+      FinishQuest(current_quests[i]->GetId());
       --i;
     }
   }

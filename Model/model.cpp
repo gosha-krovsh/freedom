@@ -11,13 +11,9 @@ void Model::SetSchedule(std::unique_ptr<Schedule>&& schedule) {
 void Model::SetConversations(
     std::vector<std::shared_ptr<Conversation>>&& conversations) {
   conversations_ = std::move(conversations);
-  hero_.SetCurrentConversation(conversations_[14]);
-  GetBotByName("Starec")->SetCurrentConversation(conversations_[0]);
-  GetBotByName("Igor")->SetCurrentConversation(conversations_[7]);
-  GetBotByName("Rob")->SetCurrentConversation(conversations_[8]);
 }
 
-void Model::SetQuests(std::vector<Quest>&& quests) {
+void Model::SetQuests(std::vector<std::shared_ptr<Quest>>&& quests) {
   quests_ = std::move(quests);
 }
 
@@ -125,36 +121,41 @@ std::weak_ptr<QPixmap> Model::GetImage(const QString& name) {
   return image_manager_.GetImage(name);
 }
 
-const Quest& Model::GetQuestById(int id) const {
-  if (id < 0 || id >= quests_.size()) {
+std::shared_ptr<Quest> Model::GetQuestById(int id) const {
+  auto it = std::find_if(quests_.begin(), quests_.end(),
+                         [id](const std::shared_ptr<Quest>& quest) {
+                           return (quest->GetId() == id);
+                         });
+  if (it == current_quests_.end()) {
     qDebug() << "Invalid quest id";
+    return nullptr;
   }
-  return quests_[id];
+  return *it;
 }
 
-const std::vector<Quest>& Model::GetCurrentQuests() const {
+const std::vector<std::shared_ptr<Quest>>&  Model::GetCurrentQuests() const {
   return current_quests_;
 }
 
-std::vector<Quest>& Model::GetCurrentQuests() {
+std::vector<std::shared_ptr<Quest>>& Model::GetCurrentQuests() {
   return current_quests_;
 }
 
-const Quest* Model::GetCurrentQuestById(int id) const {
+std::shared_ptr<Quest> Model::GetCurrentQuestById(int id) const {
   auto it = std::find_if(current_quests_.begin(), current_quests_.end(),
-                         [id](const Quest& quest) {
-                           return (quest.GetId() == id);
+                         [id](const std::shared_ptr<Quest>& quest) {
+                           return (quest->GetId() == id);
                          });
   if (it == current_quests_.end()) {
     return nullptr;
   }
-  return &(*it);
+  return *it;
 }
 
 void Model::EraseCurrentQuest(int id) {
   auto it = std::find_if(current_quests_.begin(), current_quests_.end(),
-                         [id](const Quest& quest) {
-                           return (quest.GetId() == id);
+                         [id](const std::shared_ptr<Quest>& quest) {
+                           return (quest->GetId() == id);
                          });
   if (it == current_quests_.end()) {
     qDebug() << "Invalid quest id";

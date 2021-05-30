@@ -20,7 +20,8 @@
       ["Прийти на построение", "MoveToDestination(22,13,1)"]
     ],
     "OnFinish": [
-      "SetBotConversation(Starec,13)"
+      "SetBotConversation(Starec,13)",
+      "StartConversation(Starec)"
     ]
   },
   {
@@ -54,9 +55,9 @@
       ["Очнуться", "MoveToDestination(35,14,1)"]
     ],
     "OnFinish": [
-      "CloseEyes()",
       "Move(Starec,36,14,1)",
       "SetTarget(Starec,36,14,1)",
+      "CloseEyes()",
       "SetBotConversation(Starec,10)",
       "SetBotConversation(Hero,15)",
       "StartConversation(Hero)"
