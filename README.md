@@ -29,15 +29,14 @@ cellmates and guards, complete quests, explore locations and become the
 first among equals!
 
 ## Technologies
-* The system of __quests and dialogues__ allows you to create very flexible storylines.
-* GUI and rendering of game objects are implemented using standard Qt tools for drawing in combination with __OpenGL__.
-* All animation, appearance of game objects and characters were developed at
-_MagicaVoxel_.
+* The system of __quests and dialogues__ allows you to create flexible storylines.
+* GUI and rendering of game objects are implemented using standard __Qt tools__ for drawing in combination with __OpenGL__.
+* All animation, texture of game objects and characters were developed at _MagicaVoxel_.
 * Special native methods and logic were implemented to work with __isometric graphics__.
-* The architecture of the application is based on the pattern __MVC__ (Model-View-Controller).
-* The `resources.qrc` file was used for resource management, and `.json` files were used for data storage and __serialization/deserialization__ systems. Usage of `json-`s significantly increased the speed of the development and speed of filling the game with various content (quests, dialogues, etc.).
-* А __flexible animation system__ of game objects allows you to animate objects by absolutely any state.
-* __Bots and various types of interactions__ with them: _fighting, patrolling, pursuiting of the hero, route building, dialogues, looting things.
+* The architecture of the application is based on the __MVC__ pattern (Model-View-Controller).
+* The `resources.qrc` file was used for resource management, and `.json` files were used to store data and __serialize/deserialize__ game objects. Usage of `json-`s significantly increased the development speed and content (quests, dialogues, etc.) filling rate.
+* А __flexible animation system__ allows you to use absolutely any state parameter to animate objects.
+* __Bots and various types of interactions__ with them: _fighting, patrolling, pursuiting of the hero, route building, dialogues, looting things_.
 
 ## Installation
 To install the game, you need to download the archive located in the folder
