@@ -1,10 +1,10 @@
 # Freedom
 
+[Russian version of README](README-ru.md)
+
 ![](Resources/ReadmeImages/readme_screen1.png)
 
-Freedom - игра, разработанная нами (см. [Авторы](#Авторы)) на языке С++ с 
-использованием фреймворка QT. Основной целью проекта является освоение навыков 
-командной работы и разработки проектов с использованием __C++/QT__.
+Freedom is the game developed in C++ with the help of Qt framework. The main goal of the project is to master skills of teamwork, project development and programming in __C++/Qt__.
 
 ---
 <br>
@@ -14,51 +14,41 @@ Freedom - игра, разработанная нами (см. [Авторы](#�
 ![](Resources/ReadmeImages/readme_screen3.png)
 ![](Resources/ReadmeImages/readme_screen4.png)
 
-## Содержание
+## Content
 
-* [Сюжет](#Сюжет)
-* [Технологии](#Технологии)
-* [Установка](#Установка)
-* [Авторы](#Авторы)
+* [Plot](#Plot)
+* [Technology](#Technology)
+* [Installation](#Installation)
+* [Authors](#Authors)
 
-## Сюжет
-После изнурительной драки за яблоко с охранником тюрьмы вы просыпаетесь в 
-своей камере и понимаете, что жить так больше нет сил и бежать нужно любой 
-ценой. К счастью, в этой тюрьме у вас будет такая возможность. Всего-то нужно 
-сломать толстые стены или убить всех охранников. Разговаривайте со своими 
-сокамерниками и надзирателями, выполняйте квесты, исследуйте локации и станьте 
-первым среди равных!
+## Plot
+After a grueling fight for an apple with a prison guard, you wake up in
+your cell and realize that you no longer have the strength to live like this anymore and you need to escape no matter what it costs. Fortunately, in this prison you will have such an opportunity. All you need to
+do is break down the thick walls or kill all the guards. Talk to your
+cellmates and guards, complete quests, explore locations and become the
+first among equals!
 
-## Технологии
-* Созданная система __квестов и диалогов__ позволяет создавать очень гибкие 
-  сюжетные линии.
-* Графический интерфейс и отрисовка игровых объектов реализована при помощи 
-  стандартных наборов для рисования QT в комбинации с __OpenGL__.
-* Вся анимация, внешний вид игровых объектов и персонажей разрабатывались при 
-  помощи _MagicaVoxel_.
-* Игра использует __изометрическую графику__, для которой были реализованы 
-  собственные специальные методы рисования объектов.
-* Архитектура приложения основана на паттерне __MVC__ (Model-View-Controller).
-* Для менеджера ресурсов был использован ресурсный файл `resources.qrc`, а для 
-  хранения данных файлы формата `.json`. За счёт использования `json-`ов 
-  значительно увеличилась скорость разработки и наполнения игры различным 
-  контентом (квестами, диалогами и т.д.).
-* Создана __гибкая система анимаций__ игровых объектов, позволяющая анимировать 
-  объекты по совершенно любым состояниям.
-* Наличие __ботов и различных видов логических взаимодействий__ с ними: драка, 
-  наблюдение и преследование героя, построение пути, диалоги, лутание вещей 
-  после смерти ботов.
+## Technologies
+* The system of __quests and dialogues__ allows you to create flexible storylines.
+* GUI and rendering of game objects are implemented using standard __Qt tools__ for drawing in combination with __OpenGL__.
+* All animation, texture of game objects and characters were developed at _MagicaVoxel_.
+* Special native methods and logic were implemented to work with __isometric graphics__.
+* The architecture of the application is based on the __MVC__ pattern (Model-View-Controller).
+* The `resources.qrc` file was used for resource management, and `.json` files were used to store data and __serialize/deserialize__ game objects. Usage of `json-`s significantly increased the development speed and content (quests, dialogues, etc.) filling rate.
+* А __flexible animation system__ allows you to use absolutely any state parameter to animate objects.
+* __Bots and various types of interactions__ with them: _fighting, patrolling, pursuiting of the hero, route building, dialogues, looting things_.
 
-## Установка
-Для установки игры вам необходимо скачать архив, расположенный в папке 
-`Releases`, распаковать его и запустить исполняемый файл `Freedom.exe`. 
-На данный момент наша игра доступна для ОС Windows, Linux и MacOS.
+## Installation
+To install the game, you need to download the archive located in the folder
+`Releases`, unpack it and run the executable file `Freedom.exe`.
+At the moment, our game is available for Windows, Linux and MacOS.
 
-## Авторы
-**Арсений Тылецкий**
+## Authors
 
-**Егор Желткевич**
+**[Arseniy Tyletskiy](https://github.com/ArseniyTy)**
 
-**Георгий Кровш**
+**[Egor Zheltkevich](https://github.com/HydeHunter2)**
 
-**Максим Лицкевич**
+**[George Krovsh](https://github.com/gosha-krovsh)**
+
+**[Maxim Litskevich](https://github.com/Zzzabiyaka)**
